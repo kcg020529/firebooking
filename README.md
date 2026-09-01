@@ -32,7 +32,7 @@
 
 | 항목 | 선택 | 이유 |
 |---|---|---|
-| 프레임워크 | Next.js (App Router), JavaScript | `middleware.js`로 전수 로깅이 공짜 |
+| 프레임워크 | Next.js (App Router), JavaScript | 프론트와 백엔드가 한 프로젝트. 라우트 래퍼로 API 전수 로깅 |
 | 인증 | Supabase Auth + RLS | 권한을 DB 레벨에서 강제 |
 | DB | Supabase (Postgres) | 무료. 로그 테이블 조회를 대시보드에서 그대로 |
 | 배포 | Vercel | push하면 자동 배포. LLM 키를 서버에 숨기는 유일한 방법 |
