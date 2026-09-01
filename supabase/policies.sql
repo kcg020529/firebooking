@@ -13,10 +13,12 @@
 --     아래 정책은 anon(= sb_publishable_ 키)과 로그인 사용자에게만 적용된다.
 --     → 즉 "브라우저에서 직접 DB를 찌를 때" 무엇이 막히는지를 정의한다.
 --
---  2. RLS가 SELECT를 막으면 에러가 아니라 빈 배열([])이 돌아온다.
---     시연 5번에서 "DB가 거절한다"를 보여줄 때 403을 기대하면 안 된다.
---     막혔다는 증거는 "행이 0개"다.
---     반면 INSERT/UPDATE/DELETE가 막히면 401/403 에러가 뜬다.
+--  2. 거절의 형태가 두 가지다. 시연 때 구분해서 보여줘야 한다.
+--       · GRANT 자체가 없으면  → 401 "permission denied for table ..."
+--       · GRANT 는 있고 RLS 가 행을 거르면 → 200 + 빈 배열 []
+--     즉 로그인 사용자가 보안 로그를 조회하면 에러가 아니라 []가 온다.
+--     403을 기대하면 "안 막힌 거 아니냐"고 오해한다. 막혔다는 증거는 "행이 0개"다.
+--     (INSERT/UPDATE/DELETE 가 막히면 그때는 401/403 에러가 뜬다)
 --
 -- ============================================================
 
@@ -38,7 +40,37 @@ alter table public.chat_logs       enable row level security;
 
 
 -- ────────────────────────────────────────────────────────────
---  2. 공개 읽기 — courses · slots
+--  2. 테이블 권한 (GRANT) — RLS 앞에 있는 첫 번째 관문
+--
+--  Postgres 접근 제어는 두 겹이다.
+--    ① GRANT — 테이블 단위. "이 역할이 이 테이블을 건드릴 수 있는가"
+--    ② RLS   — 행 단위.     "그중 어떤 행을 볼 수 있는가"
+--  ①이 없으면 ②까지 가보지도 못하고 401 permission denied 로 끊긴다.
+--
+--  프로젝트 생성 때 "Automatically expose new tables"를 껐기 때문에
+--  새 테이블에는 GRANT 가 자동으로 붙지 않는다. 여기서 명시적으로 준다.
+--  ⚠️ 앞으로 테이블을 추가하면 이 블록에도 한 줄 추가해야 한다.
+-- ────────────────────────────────────────────────────────────
+
+-- 공개 목록 — 비로그인도 읽는다
+grant select on public.courses to anon, authenticated;
+grant select on public.slots   to anon, authenticated;
+
+-- 로그인 사용자에게만 테이블을 열고, 실제로 보이는 행은 RLS 가 고른다.
+-- anon 에게는 GRANT 를 주지 않아 401 로 끊는다.
+grant select on public.bookings        to authenticated;
+grant select on public.profiles        to authenticated;
+grant select on public.api_logs        to authenticated;
+grant select on public.audit_logs      to authenticated;
+grant select on public.security_events to authenticated;
+grant select on public.chat_logs       to authenticated;
+
+-- INSERT · UPDATE · DELETE 는 어느 역할에도 주지 않는다.
+-- 쓰기는 전부 서버(service_role)를 거친다.
+
+
+-- ────────────────────────────────────────────────────────────
+--  3. 공개 읽기 — courses · slots
 --  골프장 목록과 예약 가능 시간은 로그인 없이도 봐야 한다.
 --  쓰기 정책은 만들지 않는다 → 서버(service_role)만 쓸 수 있다.
 -- ────────────────────────────────────────────────────────────
@@ -59,7 +91,7 @@ create policy slots_public_read
 
 
 -- ────────────────────────────────────────────────────────────
---  3. bookings — 원본 PII가 있는 테이블
+--  4. bookings — 원본 PII가 있는 테이블
 --
 --  anon: 아무것도 못 읽는다. 정책이 없으므로 완전 차단.
 --        비로그인 예약 조회는 서버가 예약번호·전화번호를 대조한 뒤
@@ -88,7 +120,7 @@ create policy bookings_staff_read
 
 
 -- ────────────────────────────────────────────────────────────
---  4. profiles — 역할 정보
+--  5. profiles — 역할 정보
 --  자기 행은 읽을 수 있고, staff/admin 은 전부 읽는다.
 --
 --  ⚠️ 역할 변경(UPDATE) 정책은 일부러 만들지 않았다.
@@ -112,7 +144,7 @@ create policy profiles_staff_read
 
 
 -- ────────────────────────────────────────────────────────────
---  5. 보안 로그 4종 — staff/admin 만 읽기
+--  6. 보안 로그 4종 — staff/admin 만 읽기
 --
 --  일반 user 계정으로 이 테이블들을 직접 조회하면 빈 배열이 온다.
 --  시연 5번("권한 외 접근")에서 보여줄 지점.
@@ -152,7 +184,7 @@ create policy chat_logs_staff_read
 
 
 -- ────────────────────────────────────────────────────────────
---  6. 함수 실행 권한
+--  7. 함수 실행 권한
 --
 --  create_booking() 은 security definer 라 RLS를 우회한다.
 --  브라우저가 직접 호출할 수 있으면 서버의 검증
