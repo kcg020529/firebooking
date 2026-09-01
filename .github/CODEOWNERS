@@ -6,7 +6,7 @@
 
 # ── A · 인증 · 감사 · 백엔드 ─────────────────
 /supabase/                  @kcg020529
-/middleware.js              @kcg020529
+/proxy.js                   @kcg020529
 /lib/bookings.js            @kcg020529
 /lib/supabase.js            @kcg020529
 /lib/security/rules.js      @kcg020529

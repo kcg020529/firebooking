@@ -142,7 +142,7 @@ git push
 
 ```
 firebooking/
-├─ middleware.js              ← S3 전수 로깅 · rate limit
+├─ proxy.js                   ← 요청 ID · rate limit (Next.js 16 의 구 middleware)
 ├─ app/
 │  ├─ layout.js               ← ChatWidget 삽입 (공용 파일)
 │  ├─ page.js
@@ -176,7 +176,7 @@ firebooking/
 | 폴더 | 소문자 케밥 | `admin/security/`, `book/[slotId]/` |
 | React 컴포넌트 파일 | PascalCase`.js` | `CourseCard.js`, `ChatWidget.js` |
 | 그 외 모듈 | camelCase`.js` | `bookings.js`, `pii.js`, `injection.js` |
-| Next.js 예약 파일 | 프레임워크 고정 | `page.js`, `route.js`, `layout.js`, `middleware.js` |
+| Next.js 예약 파일 | 프레임워크 고정 | `page.js`, `route.js`, `layout.js`, `proxy.js` |
 | SQL | 소문자 케밥 | `schema.sql`, `policies.sql` |
 | 문서 | 대문자 스네이크 | `CONVENTIONS.md`, `SECURITY.md` |
 
@@ -280,7 +280,7 @@ LEAK_*    유출            LEAK_SECRET
 - **매일 저녁 15분 스탠드업.** 각자 세 줄: 어제 한 것 / 오늘 할 것 / 막힌 것
 - **30분 룰.** 30분 막히면 혼자 붙잡지 말고 단톡에 던진다. 셋 다 모르면 뒤 티어로 미룬다
 - **API 계약이 바뀌면 즉시 공지** + `CLAUDE.md` 수정. 이게 통합 사고를 막는 방어선이다
-- 공용 파일(`app/layout.js`, `middleware.js`)을 건드리기 전에 단톡에 말한다
+- 공용 파일(`app/layout.js`, `proxy.js`)을 건드리기 전에 단톡에 말한다
 
 ---
 

@@ -52,6 +52,20 @@ alter table public.chat_logs       enable row level security;
 --  ⚠️ 앞으로 테이블을 추가하면 이 블록에도 한 줄 추가해야 한다.
 -- ────────────────────────────────────────────────────────────
 
+-- 서버(service_role) — 전체 권한
+-- ⚠️ service_role 은 RLS 는 우회하지만 테이블 GRANT 는 우회하지 못한다.
+--    "Automatically expose new tables" 를 껐기 때문에 service_role 에도
+--    권한이 자동으로 붙지 않는다. 이걸 빼먹으면 서버가 자기 DB 를 못 읽는다.
+grant usage on schema public to service_role;
+grant all privileges on all tables    in schema public to service_role;
+grant all privileges on all sequences in schema public to service_role;
+
+-- 앞으로 만들 테이블에도 자동으로 붙도록 기본 권한을 설정한다.
+alter default privileges in schema public
+  grant all privileges on tables to service_role;
+alter default privileges in schema public
+  grant all privileges on sequences to service_role;
+
 -- 공개 목록 — 비로그인도 읽는다
 grant select on public.courses to anon, authenticated;
 grant select on public.slots   to anon, authenticated;
@@ -201,6 +215,11 @@ revoke execute on function public.create_booking(uuid, text, text, text, int, te
   from public;
 revoke execute on function public.create_booking(uuid, text, text, text, int, text, text, uuid)
   from anon, authenticated;
+
+-- PUBLIC 에서 회수하면 service_role 이 상속받던 권한까지 같이 사라진다.
+-- 서버는 이 함수를 불러야 하므로 명시적으로 다시 준다.
+grant execute on function public.create_booking(uuid, text, text, text, int, text, text, uuid)
+  to service_role;
 
 -- 역할 조회 헬퍼는 자기 역할만 반환하므로 열어둔다 (정책 내부에서 쓰인다).
 grant execute on function public.current_user_role() to anon, authenticated;
