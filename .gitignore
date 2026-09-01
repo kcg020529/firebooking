@@ -1,0 +1,43 @@
+# ── 환경변수 · 비밀 ─────────────────────────
+# 절대 커밋 금지. 키가 커밋되면 폐기하고 재발급해야 한다.
+.env
+.env.*
+!.env.example
+
+# ── 의존성 ─────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ── Next.js 빌드 산출물 ────────────────────
+.next/
+out/
+build/
+dist/
+next-env.d.ts
+
+# ── Vercel ─────────────────────────────────
+.vercel
+
+# ── 테스트 · 커버리지 ──────────────────────
+coverage/
+*.lcov
+
+# ── 로그 ───────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── 에디터 · OS ────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Supabase 로컬 ──────────────────────────
+supabase/.branches
+supabase/.temp

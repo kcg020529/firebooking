@@ -1,0 +1,33 @@
+# 파일별 담당자. 해당 경로가 바뀐 PR에 자동으로 리뷰어가 붙는다.
+# docs/CONVENTIONS.md 7절 "담당자 잠금" 규칙의 실행 장치.
+
+# 기본 — 아무나 리뷰 가능
+*                           @kcg020529 @maybe2dream-create @DongHoon-L
+
+# ── A · 인증 · 감사 · 백엔드 ─────────────────
+/supabase/                  @kcg020529
+/middleware.js              @kcg020529
+/lib/bookings.js            @kcg020529
+/lib/supabase.js            @kcg020529
+/lib/security/rules.js      @kcg020529
+/lib/security/audit.js      @kcg020529
+/lib/security/report.js     @kcg020529
+/app/api/                   @kcg020529
+
+# ── B · 프론트 · 대시보드 ────────────────────
+/components/                @maybe2dream-create
+/app/admin/                 @maybe2dream-create
+/app/book/                  @maybe2dream-create
+/app/courses/               @maybe2dream-create
+
+# ── C · 챗봇 · LLM 보안 ──────────────────────
+/lib/security/pii.js        @DongHoon-L
+/lib/security/injection.js  @DongHoon-L
+/lib/ai/                    @DongHoon-L
+/app/api/chat/              @DongHoon-L
+/components/chat/           @DongHoon-L
+
+# ── 공용 — 건드리기 전 단톡 ──────────────────
+/app/layout.js              @kcg020529 @maybe2dream-create @DongHoon-L
+/CLAUDE.md                  @kcg020529 @maybe2dream-create @DongHoon-L
+/docs/                      @kcg020529 @maybe2dream-create @DongHoon-L
