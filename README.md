@@ -4,6 +4,8 @@
 
 **배포**: https://firebooking-chi.vercel.app (Vercel 계정은 kcg020529 단독 소유 — [docs/DECISIONS.md](docs/DECISIONS.md) 참고)
 
+> ⚠️ 이 저장소는 **public**이다. Vercel Hobby 플랜이 프라이빗 저장소에서는 소유자 아닌 사람의 push를 배포 차단하기 때문에 public으로 전환했다. **`.env.local`은 절대 커밋하지 않는다** — `.gitignore`가 막고 있지만 실수로 우회하지 않도록 항상 확인한다.
+
 #### 필드골프·스크린골프 예약 사이트를 만들고, **그 사이트가 뿜어내는 로그로 PII 마스킹 · 프롬프트 인젝션 탐지 · API 모니터링 · 접근 감사를 구현한다.**
 #### 예약 기능은 그릇이고, 보안이 메인.
 ---

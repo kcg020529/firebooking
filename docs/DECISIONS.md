@@ -33,6 +33,7 @@
 | # | 정할 것 | 선택지 | 정함 |
 |---|---|---|---|
 | 1 | **Vercel 계정 소유자** | kcg020529 단독 소유(개인 Hobby 계정). B·C는 Vercel 계정 불필요 — 배포 URL은 공개, 로그·env는 필요할 때만 A가 공유 | ✅ kcg020529 |
+| 1-1 | **GitHub 저장소 공개 여부** | Hobby 플랜은 **프라이빗** 저장소에서 소유자 아닌 사람의 push를 배포 차단함(C의 `feat/llm-security` 브랜치가 "Deployment Blocked"로 막혔던 원인). **public**으로 전환해 해결 — Hobby에서도 public 저장소는 컨트리뷰터 프리뷰 배포를 지원함. 전환 전 전체 git 히스토리를 실제 키 패턴으로 스캔해 유출 0건 확인 | ✅ public 전환 완료 |
 | 2 | **Supabase 프로젝트 소유자** | 위와 같은 사람으로 통일하는 게 편함 | ☐ |
 | 3 | **Anthropic 크레딧 결제자** | $5. 한 명이 결제하고 나머지가 각출 | ☐ |
 | 4 | **GitHub 브랜치 보호 규칙 켤 사람** | 저장소 소유자([@kcg020529](https://github.com/kcg020529))만 가능. Settings → Branches → main 보호 | ☐ |
