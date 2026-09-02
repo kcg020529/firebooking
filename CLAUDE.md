@@ -34,12 +34,18 @@
 | GET | `/api/courses` | `?type=field` | `[{ id, name, type, imageUrl, ... }]` |
 | GET | `/api/courses/:id` | `?date=` | `{ ...course, slots: [...] }` |
 | POST | `/api/bookings` | `{ slotId, name, phone, partySize, memo, source }` | `{ ok, bookingCode }` |
-| GET | `/api/bookings/lookup` | `?code=` 또는 `?name=&phone=` | `[{ bookingCode, course, date, time }]` |
+| GET | `/api/bookings/lookup` | `?code=` **+** `?phone=` (둘 다 필수) | `{ ok, bookings: [{ bookingCode, courseName, courseType, date, time, partySize, memo }] }` |
 | POST | `/api/chat` | `{ sessionId, messages: [...] }` | `{ reply, quickReplies?, bookingCode? }` |
 | GET | `/api/admin/events` | `?severity=&category=&from=&to=` | `[{ id, ts, ruleId, category, severity, evidence }]` |
 | GET | `/api/admin/audit` | `?actorId=&from=&to=` | `[{ id, ts, actorId, action, result }]` |
 
 `source`는 `'form'` 또는 `'chat'`. 발표용 통계에 쓰이므로 반드시 채운다.
+
+**예약 조회는 예약번호와 전화번호를 둘 다 대조한다.** 예약번호만으로 열어두면
+`GB-` + 5글자를 대입해 남의 예약에서 이름·전화번호를 긁어갈 수 있다.
+이름+전화번호 조합도 남의 정보를 넣으면 통과하므로 쓰지 않는다.
+**응답에는 이름·전화번호를 넣지 않는다** — 조회로 새로 알아낼 수 있는 정보가 없어야 한다.
+실패는 `audit_logs`에 `deny`로 남고, 반복되면 `ANO_CODE_ENUM`이 뜬다.
 
 ---
 
@@ -98,10 +104,14 @@ LEAK_SECRET
 ```js
 search_slots    { type?, courseId?, date, partySize }   // 결과에 골프장 정보 포함
 create_booking  { slotId, name, phone, partySize, memo? }
-lookup_booking  { code?, name?, phone? }                // ★ 본인 것만 — 서버가 세션 소유 확인
+lookup_booking  { code, phone }                         // ★ 둘 다 필수 — 서버가 대조
 ```
 
-`lookup_booking`을 그냥 열어두면 챗봇에게 남의 전화번호를 대서 타인 예약을 조회할 수 있다. **모델을 설득하는 게 아니라 서버가 대조**한다.
+`lookup_booking`을 예약번호만으로 열어두면 챗봇에게 번호를 대서 타인 예약을 조회할 수 있다.
+**모델을 설득하는 게 아니라 서버가 대조**한다 — tool 은 `lib/bookings.js`의 `lookupBookings()`를
+그대로 호출하고, 그 함수가 예약번호와 전화번호를 함께 검사한다. tool 쪽에 별도 조회 로직을 만들지 않는다.
+
+tool 결과에도 이름·전화번호가 들어가지 않는다. 모델에게 넘기지 않으면 모델이 흘릴 수도 없다.
 
 ---
 
