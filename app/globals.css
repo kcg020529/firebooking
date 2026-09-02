@@ -3,11 +3,35 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* 브랜드 색 (골프 예약 사이트 메인 컬러) */
+  --brand: #16a34a;
+  --brand-foreground: #ffffff;
+
+  /* 심각도 색 체계 — CLAUDE.md 규칙: info / warn / critical 세 가지뿐 */
+  --info: #2563eb;
+  --warn: #d97706;
+  --critical: #dc2626;
+
+  /* 공통 UI 색 */
+  --muted: #f5f5f4;
+  --muted-foreground: #6b7280;
+  --border: #e5e7eb;
+  --card: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-info: var(--info);
+  --color-warn: var(--warn);
+  --color-critical: var(--critical);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -16,11 +40,19 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --muted: #1c1c1c;
+    --muted-foreground: #9ca3af;
+    --border: #27272a;
+    --card: #111111;
+    --brand: #22c55e;
+    --info: #3b82f6;
+    --warn: #f59e0b;
+    --critical: #ef4444;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
