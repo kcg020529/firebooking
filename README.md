@@ -4,6 +4,8 @@
 
 **배포**: https://firebooking-chi.vercel.app (Vercel 계정은 kcg020529 단독 소유 — [docs/DECISIONS.md](docs/DECISIONS.md) 참고)
 
+> ⚠️ 이 저장소는 **public**이다. Vercel Hobby 플랜이 프라이빗 저장소에서는 소유자 아닌 사람의 push를 배포 차단하기 때문에 public으로 전환했다. **`.env.local`은 절대 커밋하지 않는다** — `.gitignore`가 막고 있지만 실수로 우회하지 않도록 항상 확인한다.
+
 #### 필드골프·스크린골프 예약 사이트를 만들고, **그 사이트가 뿜어내는 로그로 PII 마스킹 · 프롬프트 인젝션 탐지 · API 모니터링 · 접근 감사를 구현한다.**
 #### 예약 기능은 그릇이고, 보안이 메인.
 ---
@@ -32,7 +34,7 @@
 
 | 항목 | 선택 | 이유 |
 |---|---|---|
-| 프레임워크 | Next.js (App Router), JavaScript | `middleware.js`로 전수 로깅이 공짜 |
+| 프레임워크 | Next.js (App Router), JavaScript | 프론트와 백엔드가 한 프로젝트. 라우트 래퍼로 API 전수 로깅 |
 | 인증 | Supabase Auth + RLS | 권한을 DB 레벨에서 강제 |
 | DB | Supabase (Postgres) | 무료. 로그 테이블 조회를 대시보드에서 그대로 |
 | 배포 | Vercel | push하면 자동 배포. LLM 키를 서버에 숨기는 유일한 방법 |

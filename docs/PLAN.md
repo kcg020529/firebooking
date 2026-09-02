@@ -37,7 +37,7 @@
 | 알림 체계 | critical 발생 시 대시보드 배너 |
 | 감사 리포트 | 기간 선택 → 탐지 건수·유형별·Top IP |
 | 이상 탐지 규칙 추가 | 스캘핑 · brute force. 규칙 배열에 항목 추가 수준 |
-| Rate limit | middleware에 조건 추가 |
+| Rate limit | `proxy.js`에 조건 추가 |
 | 지역·가격 필터 · `/courses` 분리 | 예약 쪽 완성도 |
 
 ### Tier 2 — 여유 있으면 (Day 9 오후)
@@ -56,7 +56,7 @@
 
 - **오전** — GitHub 저장소 + 3명 초대(완료), `npx create-next-app@latest`(JS · Tailwind · App Router), Vercel 연결, **첫 배포 확인**
 - **오전** — Supabase 프로젝트 + Auth 켜기, Anthropic 키 발급 + $5 크레딧
-- **오후** — A가 **8개 테이블 + RLS 정책** 실행. `middleware.js` 최소 버전으로 `api_logs`에 행이 쌓이는 것까지 확인
+- **오후** — A가 **8개 테이블 + RLS 정책** 실행. `withApiLog()` 래퍼로 `api_logs`에 행이 쌓이는 것까지 확인
 - **오후** — [docs/DECISIONS.md](DECISIONS.md) 2번 표를 다 채운다. 보안 4축 담당 확정
 
 > **GATE — Day 1 저녁**
