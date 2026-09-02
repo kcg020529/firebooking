@@ -100,7 +100,13 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 
 ## S3 — API 모니터링 · 알림
 
-`middleware.js`가 모든 `/api/*` 요청을 `api_logs`에 남긴다.
+`lib/security/apiLog.js` 의 `withApiLog()` 래퍼가 모든 `/api/*` 요청을 `api_logs`에 남긴다.
+
+> **왜 `proxy.js`(구 `middleware.js`)가 아닌가**
+> Next.js 의 proxy 는 요청이 라우트 핸들러에 도달하기 *전*에 실행되고 핸들러가 만든 응답을
+> 되돌려받지 못한다. 그래서 거기서는 `status`·`duration_ms` 를 알 수 없고 응답 본문 유출
+> 검사도 못 한다. 핸들러를 감싸야 셋 다 정확히 기록된다.
+> 대신 "감싸는 걸 깜빡하면 로그가 안 남는다"는 약점이 생기므로 PR 체크리스트에서 강제한다.
 
 기록 항목: `method` · `path` · `status` · `duration_ms` · `actor_id` · `ip_hash` · `user_agent`
 
