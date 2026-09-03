@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const TYPE_LABEL = { field: "필드", screen: "스크린" };
@@ -93,14 +94,12 @@ export default function Home() {
 
         {!isLoading &&
           courses.map((course) => (
-            <div
+            <Link
               key={course.id}
-              className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+              href={`/courses/${course.id}`}
+              className="overflow-hidden rounded-xl border border-border bg-card shadow-sm transition hover:shadow-md"
             >
               {course.imageUrl ? (
-                // next/image 대신 <img> 를 쓴 이유: 외부 도메인을 쓰려면
-                // next.config 에 remotePatterns 를 등록해야 하는데,
-                // 시드 이미지 출처가 바뀔 수 있어 설정을 묶어두지 않았다.
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={course.imageUrl}
@@ -117,7 +116,7 @@ export default function Home() {
                 <p className="mt-1 text-sm text-muted-foreground">{course.region}</p>
                 <p className="mt-2 text-xs text-muted-foreground">{course.description}</p>
               </div>
-            </div>
+            </Link>
           ))}
       </section>
 
