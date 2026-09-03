@@ -1,6 +1,7 @@
 import { createChatService } from "../../../lib/ai/chatService.js";
 import { createClaudeGenerator } from "../../../lib/ai/claude.js";
 import { createChatToolDependencies } from "../../../lib/ai/toolDependencies.js";
+import { getCurrentUser } from "../../../lib/auth.js";
 import { withApiLog } from "../../../lib/security/apiLog.js";
 import {
   AUDIT_ACTIONS,
@@ -11,8 +12,9 @@ import {
   recordSecurityEvents,
 } from "../../../lib/security/chatLog.js";
 import { getClientIp, hashIp } from "../../../lib/security/hash.js";
+import { detectCodeEnumeration } from "../../../lib/security/rules.js";
 
-function recordBookingAudit(request, { input, result }) {
+function recordBookingAudit(request, { input, result }, user) {
   recordAudit(request, {
     action: AUDIT_ACTIONS.BOOKING_CREATE,
     result: result.ok ? "allow" : "deny",
@@ -22,12 +24,34 @@ function recordBookingAudit(request, { input, result }) {
       : typeof input.slotId === "string"
         ? input.slotId
         : null,
+    actorId: user?.id ?? null,
+    actorRole: user?.role,
   });
 }
 
-function createRequestChatService(request) {
+function recordLookupAudit(request, { result }, user, ipHash) {
+  recordAudit(request, {
+    action: AUDIT_ACTIONS.BOOKING_LOOKUP,
+    result: result.ok ? "allow" : "deny",
+    targetType: "booking",
+    targetId: result.ok ? result.bookings?.[0]?.bookingCode ?? null : null,
+    actorId: user?.id ?? null,
+    actorRole: user?.role,
+  });
+
+  if (!result.ok) {
+    detectCodeEnumeration({
+      ipHash,
+      actorId: user?.id ?? null,
+      action: AUDIT_ACTIONS.BOOKING_LOOKUP,
+    });
+  }
+}
+
+function createRequestChatService(request, user, ipHash) {
   const toolDependencies = createChatToolDependencies({
-    onBookingResult: (entry) => recordBookingAudit(request, entry),
+    onBookingResult: (entry) => recordBookingAudit(request, entry, user),
+    onLookupResult: (entry) => recordLookupAudit(request, entry, user, ipHash),
   });
 
   return createChatService({
@@ -37,11 +61,13 @@ function createRequestChatService(request) {
   });
 }
 
-function recordChatAudit(request, { result }) {
+function recordChatAudit(request, { result, user = null }) {
   recordAudit(request, {
     action: AUDIT_ACTIONS.CHAT_MESSAGE,
     result,
     targetType: "chat_session",
+    actorId: user?.id ?? null,
+    actorRole: user?.role,
   });
 }
 
@@ -59,15 +85,25 @@ async function handlePost(request) {
   }
 
   const clientIp = getClientIp(request);
-  const handleChat = createRequestChatService(request);
+  const ipHash = clientIp ? hashIp(clientIp) : null;
+  let user = null;
+  try {
+    user = await getCurrentUser();
+  } catch {
+    // 인증 조회 실패는 비로그인 요청으로 처리하되 보안 검사는 계속한다.
+  }
+
+  const handleChat = createRequestChatService(request, user, ipHash);
   const result = await handleChat({
     sessionId: body?.sessionId,
     messages: body?.messages,
-    ipHash: clientIp ? hashIp(clientIp) : null,
+    actorId: user?.id ?? null,
+    ipHash,
   });
 
   recordChatAudit(request, {
     result: result.ok && !result.blocked ? "allow" : "deny",
+    user,
   });
 
   const { status, ...payload } = result;

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { createBooking } from '@/lib/bookings';
+import { getCurrentUser } from '@/lib/auth';
 
 /**
  * POST /api/bookings
@@ -24,6 +25,10 @@ export const POST = withApiLog(async (request) => {
     );
   }
 
+  // 로그인 상태면 예약을 계정에 묶는다. 비로그인 예약도 그대로 허용한다
+  // (bookings.user_id 는 nullable). 예약번호로만 조회하게 된다.
+  const user = await getCurrentUser();
+
   const result = await createBooking({
     slotId: body.slotId,
     name: body.name,
@@ -31,12 +36,15 @@ export const POST = withApiLog(async (request) => {
     partySize: body.partySize,
     memo: body.memo,
     source: body.source ?? 'form',
+    userId: user?.id ?? null,
   });
 
   if (!result.ok) {
     recordAudit(request, {
       action: AUDIT_ACTIONS.BOOKING_CREATE,
       result: 'deny',
+      actorId: user?.id ?? null,
+      actorRole: user?.role,
       targetType: 'slot',
       targetId: typeof body.slotId === 'string' ? body.slotId : null,
     });
@@ -47,6 +55,8 @@ export const POST = withApiLog(async (request) => {
   recordAudit(request, {
     action: AUDIT_ACTIONS.BOOKING_CREATE,
     result: 'allow',
+    actorId: user?.id ?? null,
+    actorRole: user?.role,
     targetType: 'booking',
     // ★ 예약번호만 남긴다. 이름·전화번호는 감사 로그에 넣지 않는다.
     targetId: result.booking.bookingCode,

@@ -90,43 +90,44 @@ test("createBooking 실패를 tool 성공으로 포장하지 않는다", async (
   });
 });
 
-test("예약 조회에는 인증된 사용자 문맥이 반드시 필요하다", async () => {
-  const toolCall = { name: "lookup_booking", input: { code: "BK-1234" } };
+test("예약 조회에는 예약번호와 전화번호가 모두 필요하다", async () => {
+  const invalidToolCall = { name: "lookup_booking", input: { code: "BK-1234" } };
+  const toolCall = {
+    name: "lookup_booking",
+    input: { code: "BK-1234", phone: "010-1234-5678" },
+  };
   const dependencies = {
     lookupBooking: async () => ({ ok: true, bookings: [] }),
   };
 
-  assert.equal((await executeToolCall(toolCall, dependencies)).ok, false);
-  assert.equal(
-    (
-      await executeToolCall(toolCall, dependencies, {
-        sessionId: "session-1",
-        actorId: "actor-1",
-      })
-    ).ok,
-    true,
-  );
+  assert.equal((await executeToolCall(invalidToolCall, dependencies)).ok, false);
+  assert.equal((await executeToolCall(toolCall, dependencies)).ok, true);
 });
 
 test("예약 조회 결과에서 개인정보 필드를 제거한다", async () => {
   const result = await executeToolCall(
-    { name: "lookup_booking", input: { code: "BK-1234" } },
+    {
+      name: "lookup_booking",
+      input: { code: "BK-1234", phone: "010-1234-5678" },
+    },
     {
       lookupBooking: async () => ({
         ok: true,
         bookings: [
           {
             bookingCode: "BK-1234",
-            course: "한강 골프장",
+            courseName: "한강 골프장",
+            courseType: "field",
             date: "2026-09-03",
             time: "10:00",
+            partySize: 2,
+            memo: "연락처 010-9999-8888",
             name: "홍길동",
             phone: "010-1234-5678",
           },
         ],
       }),
     },
-    { sessionId: "session-1", actorId: "actor-1" },
   );
 
   assert.deepEqual(result, {
@@ -134,9 +135,11 @@ test("예약 조회 결과에서 개인정보 필드를 제거한다", async () 
     bookings: [
       {
         bookingCode: "BK-1234",
-        course: "한강 골프장",
+        courseName: "한강 골프장",
+        courseType: "field",
         date: "2026-09-03",
         time: "10:00",
+        partySize: 2,
       },
     ],
   });

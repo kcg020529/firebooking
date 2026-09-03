@@ -94,3 +94,24 @@ test("감사 콜백 실패가 성공한 예약 결과를 바꾸지 않는다", a
   assert.equal(result.ok, true);
   assert.equal(result.booking.bookingCode, "GB-SAFE1");
 });
+
+test("예약 조회는 공용 조회 함수와 결과 콜백을 함께 사용한다", async () => {
+  let lookupInput;
+  let callbackEntry;
+  const dependencies = createChatToolDependencies({
+    lookupBookingFn: async (input) => {
+      lookupInput = input;
+      return { ok: true, bookings: [{ bookingCode: "GB-ABCDE" }] };
+    },
+    onLookupResult: async (entry) => {
+      callbackEntry = entry;
+    },
+  });
+
+  const input = { code: "GB-ABCDE", phone: "010-1234-5678" };
+  const result = await dependencies.lookupBooking(input);
+
+  assert.deepEqual(lookupInput, input);
+  assert.equal(result.ok, true);
+  assert.equal(callbackEntry.result.bookings[0].bookingCode, "GB-ABCDE");
+});
