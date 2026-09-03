@@ -29,6 +29,9 @@ const ACTION_LABEL = {
   "chat.message": "챗봇 대화",
 };
 
+/** 행위자 ID 입력이 멎고 나서 조회할 때까지 기다리는 시간(ms). */
+const ACTOR_ID_DEBOUNCE_MS = 400;
+
 const RESULT_META = {
   allow: { label: "허용", text: "text-muted-foreground", dot: "bg-muted-foreground" },
   deny: { label: "거부", text: "text-critical", dot: "bg-critical" },
@@ -54,11 +57,22 @@ export default function AuditLogPage() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
+  // 입력칸에 친 값과 실제 조회에 쓰는 값을 나눈다.
+  // 이 API 는 호출될 때마다 audit_logs·api_logs 에 기록을 남기므로,
+  // 글자마다 조회하면 UUID 한 번 치는 동안 수십 건이 쌓여 정작 봐야 할
+  // deny 기록이 최근 100건 밖으로 밀려난다.
+  const [debouncedActorId, setDebouncedActorId] = useState("");
+
   const [logs, setLogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [loadedAt, setLoadedAt] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedActorId(actorId.trim()), ACTOR_ID_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [actorId]);
 
   useEffect(() => {
     let isStale = false;
@@ -68,7 +82,7 @@ export default function AuditLogPage() {
       setError(null);
 
       const query = buildQuery({
-        actorId: actorId.trim(),
+        actorId: debouncedActorId,
         action,
         result,
         from: startOfDayIso(from),
@@ -82,14 +96,21 @@ export default function AuditLogPage() {
         if (isStale) return;
 
         if (!data.ok) {
+          // 실패한 채로 이전 목록을 남겨두면 지난 기록이 현재 상태처럼 읽힌다.
           setError(data.error);
+          setLogs([]);
+          setLoadedAt(null);
           return;
         }
 
         setLogs(data.logs);
         setLoadedAt(new Date());
       } catch {
-        if (!isStale) setError("감사 로그를 불러오지 못했습니다.");
+        if (!isStale) {
+          setError("감사 로그를 불러오지 못했습니다.");
+          setLogs([]);
+          setLoadedAt(null);
+        }
       } finally {
         if (!isStale) setIsLoading(false);
       }
@@ -101,7 +122,7 @@ export default function AuditLogPage() {
     return () => {
       isStale = true;
     };
-  }, [actorId, action, result, from, to, reloadKey]);
+  }, [debouncedActorId, action, result, from, to, reloadKey]);
 
   const denyCount = useMemo(
     () => logs.filter((log) => log.result === "deny").length,

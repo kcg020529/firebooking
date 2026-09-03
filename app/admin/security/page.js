@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   buildQuery,
   endOfDayIso,
@@ -38,8 +38,6 @@ const CATEGORY_LABEL = {
   authz: "권한",
   leak: "유출",
 };
-
-const SEVERITY_RANK = { info: 0, warn: 1, critical: 2 };
 
 /** 심각도 배지 — 색만으로 구분하지 않도록 항상 글자를 같이 둔다. */
 function SeverityBadge({ severity }) {
@@ -98,7 +96,12 @@ export default function SecurityDashboardPage() {
         if (isStale) return;
 
         if (!data.ok) {
+          // 실패했는데 이전 결과를 남겨두면 지난 값이 현재 상태처럼 읽힌다.
+          // 보안 화면에서 이건 그냥 틀린 정보다.
           setError(data.error);
+          setEvents([]);
+          setSummary(null);
+          setLoadedAt(null);
           return;
         }
 
@@ -106,7 +109,12 @@ export default function SecurityDashboardPage() {
         setSummary(data.summary);
         setLoadedAt(new Date());
       } catch {
-        if (!isStale) setError("보안 이벤트를 불러오지 못했습니다.");
+        if (!isStale) {
+          setError("보안 이벤트를 불러오지 못했습니다.");
+          setEvents([]);
+          setSummary(null);
+          setLoadedAt(null);
+        }
       } finally {
         if (!isStale) setIsLoading(false);
       }
@@ -120,23 +128,6 @@ export default function SecurityDashboardPage() {
       isStale = true;
     };
   }, [severity, category, from, to, reloadKey]);
-
-  /**
-   * 규칙 → 심각도. summary.byRule 은 건수만 주므로 이벤트 목록에서 끌어온다.
-   * 같은 규칙에 여러 심각도가 섞이면 높은 쪽을 쓴다.
-   */
-  const severityByRule = useMemo(() => {
-    const map = {};
-
-    for (const event of events) {
-      const current = map[event.ruleId];
-      if (!current || SEVERITY_RANK[event.severity] > SEVERITY_RANK[current]) {
-        map[event.ruleId] = event.severity;
-      }
-    }
-
-    return map;
-  }, [events]);
 
   const byRule = summary?.byRule ?? [];
   const maxRuleCount = byRule[0]?.count ?? 0;
@@ -254,11 +245,14 @@ export default function SecurityDashboardPage() {
         <section className="mt-6">
           <div className="flex items-baseline justify-between gap-3">
             <h2 className="text-lg font-semibold">현황</h2>
-            {(severity || category) && (
-              <p className="text-xs text-muted-foreground">
-                건수는 기간 전체 기준입니다. 심각도·분류 필터는 아래 목록에만 적용됩니다.
-              </p>
-            )}
+            {/*
+              summary 는 기간 안의 최근 500건까지만 집계한다 (lib/security/report.js).
+              "기간 전체"라고 쓰면 500건을 넘겼을 때 화면이 틀린 말을 하게 된다.
+            */}
+            <p className="text-xs text-muted-foreground">
+              최근 500건 기준
+              {(severity || category) && " · 심각도·분류 필터는 아래 목록에만 적용됩니다"}
+            </p>
           </div>
 
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
@@ -291,7 +285,6 @@ export default function SecurityDashboardPage() {
             ) : (
               <ul className="flex flex-col gap-3">
                 {byRule.map(({ ruleId, count }) => {
-                  const meta = SEVERITY_META[severityByRule[ruleId]];
                   const width = maxRuleCount > 0 ? (count / maxRuleCount) * 100 : 0;
 
                   return (
@@ -300,9 +293,15 @@ export default function SecurityDashboardPage() {
                         {ruleId}
                       </span>
 
+                      {/*
+                        막대는 건수만 나타낸다. 규칙별 심각도는 summary 에 없어서
+                        이벤트 목록에서 끌어와야 하는데, 그 목록은 필터·100건 상한이
+                        걸려 있어 색이 규칙 전체를 대표하지 못한다.
+                        심각도는 아래 타임라인에서 이벤트별로 정확히 보여준다.
+                      */}
                       <span className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
                         <span
-                          className={`block h-full rounded-full ${meta?.bar ?? "bg-muted-foreground"}`}
+                          className="block h-full rounded-full bg-muted-foreground"
                           style={{ width: `${width}%` }}
                         />
                       </span>
