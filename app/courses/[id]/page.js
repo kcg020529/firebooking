@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const TYPE_LABEL = { field: "필드", screen: "스크린" };
 const WEEKDAY_LABEL = ["일", "월", "화", "수", "목", "금", "토"];
@@ -43,19 +43,34 @@ function buildDateOptions() {
 
 export default function CourseDetailPage() {
   const { id } = useParams();
-  const dateOptions = useMemo(() => buildDateOptions(), []);
 
-  const [date, setDate] = useState(dateOptions[0].value);
+  const [dateOptions, setDateOptions] = useState([]);
+  const [date, setDate] = useState("");
   const [course, setCourse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // 날짜 옵션은 마운트된 뒤 브라우저의 시계를 읽어 계산한다.
+  // 서버(SSR, UTC)와 브라우저(KST)에서 각각 new Date() 를 부르면
+  // 자정~오전 9시 사이엔 "오늘"이 하루 어긋나 하이드레이션이 깨진다.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
+    const options = buildDateOptions();
+    setDateOptions(options);
+    setDate(options[0].value);
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  useEffect(() => {
+    if (!date) return;
+
     let isStale = false;
 
     async function fetchCourse() {
       setIsLoading(true);
       setError(null);
+      // 이전 코스/날짜의 결과가 로딩 중이나 실패 시에도 남아있지 않도록 먼저 비운다.
+      setCourse(null);
 
       try {
         const res = await fetch(`/api/courses/${id}?date=${date}`);
