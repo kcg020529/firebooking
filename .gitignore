@@ -41,4 +41,6 @@ desktop.ini
 # ── Supabase 로컬 ──────────────────────────
 supabase/.branches
 supabase/.temp
+
+# ── 사용자 개인 ──────────────────────────
 docs/FOR-B.md
