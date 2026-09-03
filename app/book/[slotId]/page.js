@@ -4,13 +4,9 @@ import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { formatDateLabel, formatTimeLabel } from "@/lib/dateLabel";
+import { MAX_PARTY_SIZE, NAME_MAX_LENGTH, MEMO_MAX_LENGTH } from "@/lib/bookingLimits";
 
 const TYPE_LABEL = { field: "필드", screen: "스크린" };
-
-/** lib/bookings.js 의 검증과 같은 상한. 서버가 최종 판단이고 여기서는 미리 막기만 한다. */
-const MAX_PARTY_SIZE = 4;
-const NAME_MAX_LENGTH = 20;
-const MEMO_MAX_LENGTH = 200;
 
 function BookForm() {
   const router = useRouter();
@@ -69,8 +65,11 @@ function BookForm() {
 
         setCourse(data.course);
         setSlot(found);
-      } catch {
-        if (!isStale) setLoadError("예약 정보를 불러오지 못했습니다.");
+      } catch (err) {
+        if (!isStale) {
+          console.error("[book] 슬롯 조회 실패:", err);
+          setLoadError("예약 정보를 불러오지 못했습니다.");
+        }
       } finally {
         if (!isStale) setIsLoading(false);
       }
@@ -150,7 +149,24 @@ function BookForm() {
   }
 
   // 정원이 4명이어도 남은 자리가 2개면 2명까지만 고를 수 있어야 한다.
-  const maxSelectable = Math.min(MAX_PARTY_SIZE, slot.available);
+  // available 이 0 이하로 내려가면(막판 마감) 선택지가 없어야 하므로 0으로 바닥을 둔다.
+  const maxSelectable = Math.max(0, Math.min(MAX_PARTY_SIZE, slot.available));
+
+  if (maxSelectable === 0) {
+    return (
+      <div className="mx-auto w-full max-w-md text-center">
+        <p role="alert" className="text-sm text-critical">
+          아쉽게도 방금 마감되었습니다. 다른 시간을 선택해주세요.
+        </p>
+        <Link
+          href={`/courses/${courseId}`}
+          className="mt-4 inline-block text-sm font-medium text-brand underline underline-offset-2"
+        >
+          시간 다시 선택하기
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto w-full max-w-md">
