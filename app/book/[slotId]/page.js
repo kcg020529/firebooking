@@ -3,25 +3,14 @@
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { formatDateLabel, formatTimeLabel } from "@/lib/dateLabel";
 
 const TYPE_LABEL = { field: "필드", screen: "스크린" };
-const WEEKDAY_LABEL = ["일", "월", "화", "수", "목", "금", "토"];
 
 /** lib/bookings.js 의 검증과 같은 상한. 서버가 최종 판단이고 여기서는 미리 막기만 한다. */
 const MAX_PARTY_SIZE = 4;
 const NAME_MAX_LENGTH = 20;
 const MEMO_MAX_LENGTH = 200;
-
-/**
- * 'YYYY-MM-DD' → '9월 4일 (금)'.
- * new Date('2026-09-04') 는 UTC 자정으로 해석돼 시간대에 따라 요일이 밀린다.
- * 숫자를 직접 넘겨 로컬 날짜로 만든다.
- */
-function formatDateLabel(value) {
-  const [year, month, day] = value.split("-").map(Number);
-  const date = new Date(year, month - 1, day);
-  return `${month}월 ${day}일 (${WEEKDAY_LABEL[date.getDay()]})`;
-}
 
 function BookForm() {
   const router = useRouter();
@@ -122,7 +111,9 @@ function BookForm() {
       }
 
       // 응답에는 예약번호만 온다. 이름·전화번호는 되돌려주지 않는 설계다.
-      router.push(`/booking/${data.bookingCode}`);
+      // 완료 화면이 무엇을 예약했는지 보여줄 수 있도록 PII 가 아닌 값만 넘긴다.
+      const summary = new URLSearchParams({ courseId, date, slotId });
+      router.push(`/booking/${data.bookingCode}?${summary}`);
     } catch {
       setSubmitError("예약을 완료하지 못했습니다. 잠시 후 다시 시도해주세요.");
       setIsSubmitting(false);
@@ -180,7 +171,7 @@ function BookForm() {
         </div>
 
         <p className="mt-3 text-sm">
-          {formatDateLabel(slot.date)} {slot.time.slice(0, 5)}
+          {formatDateLabel(slot.date)} {formatTimeLabel(slot.time)}
         </p>
         <p className="mt-1 text-sm text-muted-foreground">
           1인 {slot.price.toLocaleString("ko-KR")}원 · {slot.available}자리 남음
