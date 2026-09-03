@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const TYPE_LABEL = { field: "필드", screen: "스크린" };
+import { TYPE_LABEL } from "@/lib/courseType";
 
 export default function LookupPage() {
   const [code, setCode] = useState("");

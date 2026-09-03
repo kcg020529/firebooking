@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { formatDateLabel, formatTimeLabel } from "@/lib/dateLabel";
-
-const TYPE_LABEL = { field: "필드", screen: "스크린" };
+import { TYPE_LABEL } from "@/lib/courseType";
+import { useSlot } from "@/lib/useSlot";
 
 /** 복사했다는 표시를 띄워두는 시간(ms). */
 const COPIED_NOTICE_MS = 2000;
@@ -20,41 +20,13 @@ function BookingComplete() {
   const date = searchParams.get("date");
   const slotId = searchParams.get("slotId");
 
-  const [course, setCourse] = useState(null);
-  const [slot, setSlot] = useState(null);
   const [isCopied, setIsCopied] = useState(false);
 
   // 예약 내용은 예약번호만으로 조회하지 않는다. 조회 API 가 전화번호를 함께
   // 요구하는 이유(예약번호 대입으로 남의 예약을 긁는 것)를 여기서 우회하면 안 된다.
   // 여기서는 방금 예약한 사람이 들고 온 courseId·date 로 슬롯을 다시 읽을 뿐이다.
-  useEffect(() => {
-    if (!courseId || !date || !slotId) return;
-
-    let isStale = false;
-
-    async function fetchSlot() {
-      try {
-        const res = await fetch(`/api/courses/${courseId}?date=${date}`);
-        const data = await res.json();
-
-        if (isStale || !data.ok) return;
-
-        const found = data.course.slots.find((s) => s.id === slotId);
-        if (!found) return;
-
-        setCourse(data.course);
-        setSlot(found);
-      } catch {
-        // 요약을 못 불러와도 예약번호는 보여줘야 한다. 조용히 넘긴다.
-      }
-    }
-
-    fetchSlot();
-
-    return () => {
-      isStale = true;
-    };
-  }, [courseId, date, slotId]);
+  // 요약을 못 불러와도 예약번호는 보여줘야 하므로 로딩·에러는 쓰지 않는다.
+  const { course, slot } = useSlot({ courseId, date, slotId });
 
   useEffect(() => {
     if (!isCopied) return;

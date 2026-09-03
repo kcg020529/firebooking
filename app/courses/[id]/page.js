@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const TYPE_LABEL = { field: "필드", screen: "스크린" };
-const WEEKDAY_LABEL = ["일", "월", "화", "수", "목", "금", "토"];
+import { TYPE_LABEL } from "@/lib/courseType";
+import { WEEKDAY_LABEL } from "@/lib/dateLabel";
 
 // 시드 슬롯은 오늘+1 ~ 오늘+14 에만 있다.
 // 그 밖의 날짜는 무조건 빈 목록이라, 고를 수 있는 날짜 자체를 이 범위로 막는다.

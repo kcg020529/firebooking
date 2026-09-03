@@ -3,11 +3,10 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { listMyBookings } from "@/lib/bookings";
 import LogoutButton from "@/components/LogoutButton";
+import { TYPE_LABEL } from "@/lib/courseType";
 
 /** 로그인 상태에 따라 내용이 달라지므로 캐시하지 않는다. */
 export const dynamic = "force-dynamic";
-
-const TYPE_LABEL = { field: "필드", screen: "스크린" };
 
 function formatDateTime(date, time) {
   // DB 는 date/time 을 문자열로 준다. 그대로 조립해 보여준다.

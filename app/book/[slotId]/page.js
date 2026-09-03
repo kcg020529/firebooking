@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { formatDateLabel, formatTimeLabel } from "@/lib/dateLabel";
 import { MAX_PARTY_SIZE, NAME_MAX_LENGTH, MEMO_MAX_LENGTH } from "@/lib/bookingLimits";
-
-const TYPE_LABEL = { field: "필드", screen: "스크린" };
+import { TYPE_LABEL } from "@/lib/courseType";
+import { useSlot } from "@/lib/useSlot";
 
 function BookForm() {
   const router = useRouter();
@@ -18,10 +18,7 @@ function BookForm() {
   const courseId = searchParams.get("courseId");
   const date = searchParams.get("date");
 
-  const [course, setCourse] = useState(null);
-  const [slot, setSlot] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadError, setLoadError] = useState(null);
+  const { course, slot, isLoading, error: loadError } = useSlot({ courseId, date, slotId });
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -37,53 +34,12 @@ function BookForm() {
       ? "예약 정보가 올바르지 않습니다. 목록에서 시간을 다시 선택해주세요."
       : null;
 
-  useEffect(() => {
-    if (!courseId || !date) return;
-
-    let isStale = false;
-
-    async function fetchSlot() {
-      setIsLoading(true);
-      setLoadError(null);
-
-      try {
-        const res = await fetch(`/api/courses/${courseId}?date=${date}`);
-        const data = await res.json();
-
-        if (isStale) return;
-
-        if (!data.ok) {
-          setLoadError(data.error);
-          return;
-        }
-
-        const found = data.course.slots.find((s) => s.id === slotId);
-        if (!found) {
-          setLoadError("선택하신 시간을 찾을 수 없습니다. 목록에서 다시 선택해주세요.");
-          return;
-        }
-
-        setCourse(data.course);
-        setSlot(found);
-      } catch (err) {
-        if (!isStale) {
-          console.error("[book] 슬롯 조회 실패:", err);
-          setLoadError("예약 정보를 불러오지 못했습니다.");
-        }
-      } finally {
-        if (!isStale) setIsLoading(false);
-      }
-    }
-
-    fetchSlot();
-
-    return () => {
-      isStale = true;
-    };
-  }, [courseId, date, slotId]);
-
   async function handleSubmit(e) {
     e.preventDefault();
+    // 버튼의 disabled 는 리렌더가 반영되기 전까지의 틈을 못 막는다.
+    // Enter 키로 폼을 제출하면 버튼 클릭을 거치지 않아 disabled 도 우회된다.
+    if (isSubmitting) return;
+
     setSubmitError(null);
     setIsSubmitting(true);
 
