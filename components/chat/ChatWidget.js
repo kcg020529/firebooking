@@ -8,6 +8,11 @@ const INITIAL_MESSAGES = [
     content: "안녕하세요. 골프장 검색과 예약을 도와드릴게요.",
   },
 ];
+const DEFAULT_QUICK_REPLIES = [
+  "필드 골프장 찾아줘",
+  "스크린 골프장 찾아줘",
+  "예약 가능한 시간 볼게요",
+];
 
 function createSessionId() {
   const saved = sessionStorage.getItem("firebooking-chat-session");
@@ -27,6 +32,7 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [quickReplies, setQuickReplies] = useState(DEFAULT_QUICK_REPLIES);
 
   async function sendMessage(content) {
     const trimmedContent = content.trim();
@@ -44,6 +50,7 @@ export default function ChatWidget() {
     setMessages(displayedMessages);
     setInput("");
     setIsSending(true);
+    setQuickReplies([]);
 
     try {
       const response = await fetch("/api/chat", {
@@ -59,6 +66,11 @@ export default function ChatWidget() {
           : data.error || "응답을 받지 못했어요. 잠시 후 다시 시도해 주세요.",
       };
       setMessages((current) => [...current, assistantMessage].slice(-20));
+      setQuickReplies(
+        data.ok && Array.isArray(data.quickReplies)
+          ? data.quickReplies.slice(0, 4)
+          : DEFAULT_QUICK_REPLIES,
+      );
     } catch {
       setMessages((current) => [
         ...current,
@@ -67,6 +79,7 @@ export default function ChatWidget() {
           content: "챗봇에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.",
         },
       ]);
+      setQuickReplies(DEFAULT_QUICK_REPLIES);
     } finally {
       setIsSending(false);
     }
@@ -148,6 +161,21 @@ export default function ChatWidget() {
               전송
             </button>
           </form>
+          {quickReplies.length > 0 ? (
+            <div className="flex flex-wrap gap-2 border-t px-3 py-3">
+              {quickReplies.map((reply) => (
+                <button
+                  key={reply}
+                  type="button"
+                  disabled={isSending}
+                  onClick={() => void sendMessage(reply)}
+                  className="rounded-full border border-emerald-700 px-3 py-1.5 text-xs text-emerald-800 hover:bg-emerald-50 disabled:opacity-50"
+                >
+                  {reply}
+                </button>
+              ))}
+            </div>
+          ) : null}
         </section>
       ) : null}
 

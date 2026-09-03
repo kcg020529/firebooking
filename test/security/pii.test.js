@@ -50,6 +50,21 @@ test("두 글자 이름도 최소 한 글자를 가린다", () => {
   assert.equal(result.maskedText, "이름은 김*");
 });
 
+test("이름 뒤에 문장부호가 와도 이름을 마스킹한다", () => {
+  const result = detectAndMaskPii("이름은 김민, 전화는 010-1234-5678");
+
+  assert.equal(result.maskedText, "이름은 김*, 전화는 010-****-5678");
+  assert.deepEqual(
+    result.hits.map(({ ruleId }) => ruleId),
+    ["PII_PHONE", "PII_NAME"],
+  );
+});
+
+test("저는 다음의 이름은 문장부호가 있을 때만 독립 이름으로 처리한다", () => {
+  assert.equal(detectAndMaskPii("저는 홍길동, 예약할게요").maskedText, "저는 홍*동, 예약할게요");
+  assert.equal(detectAndMaskPii("저는 골프장 예약을 하고 싶어요").maskedText, "저는 골프장 예약을 하고 싶어요");
+});
+
 test("문맥 없는 일반 골프 문장은 이름으로 오탐하지 않는다", () => {
   const cases = ["스크린골프 예약할게요", "저는 골프장 예약을 하고 싶어요"];
 
