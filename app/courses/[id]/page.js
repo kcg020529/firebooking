@@ -190,10 +190,8 @@ export default function CourseDetailPage() {
               slot.available > 0 ? (
                 <Link
                   key={slot.id}
-                  // /book 화면은 사용자가 뭘 예약하는지 다시 보여줘야 하는데
-                  // slotId 만으로 슬롯을 조회하는 API 가 아직 없다.
-                  // 상세에서 이미 가진 값을 쿼리스트링으로 넘겨 A 의 API 를 기다리지 않는다.
-                  href={`/book/${slot.id}?courseId=${course.id}&date=${slot.date}`}
+                  // slotId 만으로 슬롯 상세와 코스 요약을 조회할 수 있으므로 slotId 만 넘긴다.
+                  href={`/book/${slot.id}`}
                   className="rounded-xl border border-border bg-card p-4 shadow-sm transition hover:shadow-md"
                 >
                   <span className="block text-lg font-semibold">

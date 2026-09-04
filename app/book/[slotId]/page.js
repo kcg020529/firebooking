@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { formatDateLabel, formatTimeLabel } from "@/lib/dateLabel";
 import { MAX_PARTY_SIZE, NAME_MAX_LENGTH, MEMO_MAX_LENGTH } from "@/lib/bookingLimits";
@@ -11,14 +11,8 @@ import { useSlot } from "@/lib/useSlot";
 function BookForm() {
   const router = useRouter();
   const { slotId } = useParams();
-  const searchParams = useSearchParams();
 
-  // 상세 화면이 넘겨준 값. slotId 만으로 슬롯을 조회하는 API 가 없어서
-  // 어느 골프장의 어느 날짜인지를 쿼리스트링으로 받는다.
-  const courseId = searchParams.get("courseId");
-  const date = searchParams.get("date");
-
-  const { course, slot, isLoading, error: loadError } = useSlot({ courseId, date, slotId });
+  const { course, slot, isLoading, error: loadError } = useSlot(slotId);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -27,12 +21,10 @@ function BookForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
-  // 쿼리스트링이 없으면 어느 슬롯인지 알 방법이 없다. 렌더 중에 바로 알 수 있는
-  // 값이라 effect 에서 상태로 만들지 않는다.
-  const paramError =
-    !courseId || !date
-      ? "예약 정보가 올바르지 않습니다. 목록에서 시간을 다시 선택해주세요."
-      : null;
+  const paramError = !slotId
+    ? "예약 정보가 올바르지 않습니다. 목록에서 시간을 다시 선택해주세요."
+    : null;
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -66,8 +58,8 @@ function BookForm() {
       }
 
       // 응답에는 예약번호만 온다. 이름·전화번호는 되돌려주지 않는 설계다.
-      // 완료 화면이 무엇을 예약했는지 보여줄 수 있도록 PII 가 아닌 값만 넘긴다.
-      const summary = new URLSearchParams({ courseId, date, slotId });
+      // 완료 화면이 무엇을 예약했는지 보여줄 수 있도록 slotId 만 넘긴다.
+      const summary = new URLSearchParams({ slotId });
       router.push(`/booking/${data.bookingCode}?${summary}`);
     } catch {
       setSubmitError("예약을 완료하지 못했습니다. 잠시 후 다시 시도해주세요.");
@@ -84,7 +76,7 @@ function BookForm() {
           {displayError}
         </p>
         <Link
-          href={courseId ? `/courses/${courseId}` : "/"}
+          href={course ? `/courses/${course.id}` : "/"}
           className="mt-4 inline-block text-sm font-medium text-brand underline underline-offset-2"
         >
           시간 다시 선택하기
@@ -115,7 +107,7 @@ function BookForm() {
           아쉽게도 방금 마감되었습니다. 다른 시간을 선택해주세요.
         </p>
         <Link
-          href={`/courses/${courseId}`}
+          href={course ? `/courses/${course.id}` : "/"}
           className="mt-4 inline-block text-sm font-medium text-brand underline underline-offset-2"
         >
           시간 다시 선택하기
@@ -127,7 +119,7 @@ function BookForm() {
   return (
     <div className="mx-auto w-full max-w-md">
       <Link
-        href={`/courses/${courseId}`}
+        href={course ? `/courses/${course.id}` : "/"}
         className="text-sm text-muted-foreground transition hover:opacity-80"
       >
         ← 시간 다시 선택

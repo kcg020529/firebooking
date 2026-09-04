@@ -16,17 +16,16 @@ function BookingComplete() {
 
   // 무엇을 예약했는지 다시 보여주기 위한 값. 예약 폼이 넘겨준다.
   // ★ 이름·전화번호는 넘기지 않는다 — URL 은 브라우저 기록과 Referer 헤더에 남는다.
-  const courseId = searchParams.get("courseId");
-  const date = searchParams.get("date");
   const slotId = searchParams.get("slotId");
 
   const [isCopied, setIsCopied] = useState(false);
 
   // 예약 내용은 예약번호만으로 조회하지 않는다. 조회 API 가 전화번호를 함께
   // 요구하는 이유(예약번호 대입으로 남의 예약을 긁는 것)를 여기서 우회하면 안 된다.
-  // 여기서는 방금 예약한 사람이 들고 온 courseId·date 로 슬롯을 다시 읽을 뿐이다.
+  // 여기서는 방금 예약한 사람이 들고 온 slotId 로 슬롯을 다시 읽을 뿐이다.
   // 요약을 못 불러와도 예약번호는 보여줘야 하므로 로딩·에러는 쓰지 않는다.
-  const { course, slot } = useSlot({ courseId, date, slotId });
+  const { course, slot } = useSlot(slotId);
+
 
   useEffect(() => {
     if (!isCopied) return;
