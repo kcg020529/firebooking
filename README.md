@@ -38,7 +38,7 @@
 | 인증 | Supabase Auth + RLS | 권한을 DB 레벨에서 강제 |
 | DB | Supabase (Postgres) | 무료. 로그 테이블 조회를 대시보드에서 그대로 |
 | 배포 | Vercel | push하면 자동 배포. LLM 키를 서버에 숨기는 유일한 방법 |
-| LLM | Claude API `claude-haiku-4-5-20251001` | 싸고 빠르고 tool use 지원 |
+| LLM | DeepSeek API `deepseek-v4-flash` | 빠른 응답과 tool call 지원 |
 | 스타일 | Tailwind CSS | 별도 CSS 파일 관리 없음 |
 
 > 키는 반드시 서버에 있어야 한다. GitHub에서 협업하는 방식은 그대로고, 배포되는 곳만 Vercel이다.
@@ -86,7 +86,7 @@ Day 1 세팅 순서는 [docs/PLAN.md](docs/PLAN.md)의 Day 1 항목
 NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...     # Auth용. 노출돼도 되는 키
 SUPABASE_SERVICE_ROLE_KEY=eyJ...         # 서버 전용. 절대 NEXT_PUBLIC_ 금지
-ANTHROPIC_API_KEY=sk-ant-...             # 서버 전용
+DEEPSEEK_API_KEY=                        # 서버 전용, 실제 값은 .env.local에만 입력
 IP_HASH_SALT=...                         # IP 해시용 솔트
 ```
 

@@ -10,7 +10,7 @@
 골프 예약 사이트(필드·스크린) + 로그 보안 서비스. 보안 수업 3인 팀, 2주.
 예약 기능은 그릇이고 평가 대상은 **PII 마스킹 · 프롬프트 인젝션 탐지 · API 모니터링 · 접근 감사**다.
 
-스택: Next.js App Router (JavaScript) · Tailwind · Supabase(Postgres + Auth + RLS) · Vercel · Claude API `claude-haiku-4-5-20251001`
+스택: Next.js App Router (JavaScript) · Tailwind · Supabase(Postgres + Auth + RLS) · Vercel · DeepSeek API `deepseek-v4-flash`
 
 ---
 
@@ -18,7 +18,7 @@
 
 1. **`createBooking()` 단일 진입점** — 수동 폼과 챗봇이 `lib/bookings.js`의 같은 함수를 쓴다. 예약 생성 로직을 두 벌 만들지 않는다.
 2. **챗봇은 DB를 직접 건드리지 않는다** — 서버가 제공하는 tool만 호출하고, 검증·저장은 전부 서버가 한다.
-3. **키는 서버에만** — `ANTHROPIC_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`에 `NEXT_PUBLIC_` 접두사를 붙이지 않는다.
+3. **키는 서버에만** — `DEEPSEEK_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`에 `NEXT_PUBLIC_` 접두사를 붙이지 않는다.
 4. **로그에 원문 PII 금지** — 원본 PII가 저장되는 곳은 `bookings` 테이블 하나뿐. `chat_logs`·`security_events`에는 마스킹본만.
 5. **보안 로직은 `lib/security/`에만** — 라우트에 정규식을 흩뿌리지 않는다.
 6. **DB는 snake_case, JS는 camelCase** — 변환은 `lib/` 안의 DB 접근 함수에서 한 번만.

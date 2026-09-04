@@ -1,5 +1,5 @@
 import { createChatService } from "../../../lib/ai/chatService.js";
-import { createClaudeGenerator } from "../../../lib/ai/claude.js";
+import { createDeepSeekGenerator } from "../../../lib/ai/deepseek.js";
 import { createChatToolDependencies } from "../../../lib/ai/toolDependencies.js";
 import { getCurrentUser } from "../../../lib/auth.js";
 import { withApiLog } from "../../../lib/security/apiLog.js";
@@ -55,7 +55,7 @@ function createRequestChatService(request, user, ipHash) {
   });
 
   return createChatService({
-    generateReply: createClaudeGenerator(toolDependencies),
+    generateReply: createDeepSeekGenerator(toolDependencies),
     recordChatLog,
     recordSecurityEvents,
   });

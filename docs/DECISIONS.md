@@ -11,7 +11,7 @@
 | 배포 | **Vercel** (GitHub Pages 아님) | Pages는 정적 전용이라 LLM API 키를 숨길 수 없음. 브라우저에서 키가 그대로 털림 |
 | 프레임워크 | Next.js App Router, **JavaScript** | 프론트+백엔드 한 프로젝트. TypeScript는 스택 경험 없는 팀에 에러 벽 |
 | DB · 인증 | Supabase (Postgres + Auth + RLS) | 무료. 권한을 DB 레벨에서 강제할 수 있어 보안 과제와 궁합이 좋음 |
-| LLM | `claude-haiku-4-5-20251001` | 싸고 빠르고 tool use 지원 |
+| LLM | `deepseek-v4-flash` | 빠른 응답과 tool call 지원, 서버 전용 키 사용 |
 | 스타일 | Tailwind CSS | 별도 CSS 파일 관리 없음 |
 | 기간 | 평일 10일 (2주) | — |
 | 보안:예약 비중 | **반반** | 보안 수업이지만 예약 사이트도 완성도 있게 |
@@ -35,7 +35,7 @@
 | 1 | **Vercel 계정 소유자** | kcg020529 단독 소유(개인 Hobby 계정). B·C는 Vercel 계정 불필요 — 배포 URL은 공개, 로그·env는 필요할 때만 A가 공유 | ✅ kcg020529 |
 | 1-1 | **GitHub 저장소 공개 여부** | Hobby 플랜은 **프라이빗** 저장소에서 소유자 아닌 사람의 push를 배포 차단함(C의 `feat/llm-security` 브랜치가 "Deployment Blocked"로 막혔던 원인). **public**으로 전환해 해결 — Hobby에서도 public 저장소는 컨트리뷰터 프리뷰 배포를 지원함. 전환 전 전체 git 히스토리를 실제 키 패턴으로 스캔해 유출 0건 확인 | ✅ public 전환 완료 |
 | 2 | **Supabase 프로젝트 소유자** | 위와 같은 사람으로 통일하는 게 편함 | ☐ |
-| 3 | **Anthropic 크레딧 결제자** | $5. 한 명이 결제하고 나머지가 각출 | ☐ |
+| 3 | **DeepSeek 크레딧 결제자** | 한 명이 결제하고 나머지가 각출 | ☐ |
 | 4 | **GitHub 브랜치 보호 규칙 켤 사람** | 저장소 소유자([@kcg020529](https://github.com/kcg020529))만 가능. Settings → Branches → main 보호 | ☐ |
 
 ### 협업 방식
