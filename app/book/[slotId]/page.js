@@ -25,7 +25,6 @@ function BookForm() {
     ? "예약 정보가 올바르지 않습니다. 목록에서 시간을 다시 선택해주세요."
     : null;
 
-
   async function handleSubmit(e) {
     e.preventDefault();
     // 버튼의 disabled 는 리렌더가 반영되기 전까지의 틈을 못 막는다.

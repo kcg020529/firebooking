@@ -10,7 +10,7 @@ import {
 import { createBooking, lookupBookings, listMyBookings } from "../lib/bookings.js";
 import { isValidSlotId } from "../lib/slotId.js";
 import { getSlot } from "../lib/courses.js";
-import { createGetSlotHandler } from "../app/api/slots/[slotId]/route.js";
+import { createGetSlotHandler } from "../lib/slotHandler.js";
 
 function createFakeSupabase({ data = null, error = null } = {}) {
   return {
@@ -161,6 +161,7 @@ test("listMyBookings: userId 가 없으면 빈 배열을 반환한다", async ()
   assert.deepEqual(resultEmpty, []);
 });
 
+
 test("isValidSlotId: 올바른 UUID를 통과시키고 비정상 입력을 거절한다", () => {
   assert.equal(isValidSlotId("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d"), true);
   assert.equal(isValidSlotId("E9F0D14B-2F3A-4A5C-9C7D-8E9F0A1B2C3D"), true);
@@ -190,7 +191,7 @@ test("getSlot: 정상 슬롯과 코스 정보를 매핑하고 available을 계�
     },
   });
 
-  const slot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", fakeClient);
+  const slot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: fakeClient });
   assert.equal(slot.id, "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d");
   assert.equal(slot.date, "2026-09-10");
   assert.equal(slot.time, "08:00:00");
@@ -218,7 +219,7 @@ test("getSlot: courses가 배열로 반환되어도 첫 번째 코스 요약으�
     },
   });
 
-  const slot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", fakeClient);
+  const slot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: fakeClient });
   assert.deepEqual(slot.course, {
     id: "c1",
     name: "한양CC",
@@ -239,7 +240,7 @@ test("getSlot: capacity와 booked 값에 따라 available(남은 자리)을 정�
       courses: { id: "c1", name: "한양CC", type: "field" },
     },
   });
-  const fullSlot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", fullClient);
+  const fullSlot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: fullClient });
   assert.equal(fullSlot.available, 0);
 
   const emptyClient = createFakeSupabase({
@@ -253,17 +254,17 @@ test("getSlot: capacity와 booked 값에 따라 available(남은 자리)을 정�
       courses: { id: "c1", name: "한양CC", type: "field" },
     },
   });
-  const emptySlot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", emptyClient);
+  const emptySlot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: emptyClient });
   assert.equal(emptySlot.available, 4);
 });
 
 test("getSlot: 데이터가 없으면 null을 반환한다", async () => {
   const notFoundClient = createFakeSupabase({ data: null });
-  const result = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", notFoundClient);
+  const result = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: notFoundClient });
   assert.equal(result, null);
 
-  assert.equal(await getSlot(null, notFoundClient), null);
-  assert.equal(await getSlot("", notFoundClient), null);
+  assert.equal(await getSlot(null, { client: notFoundClient }), null);
+  assert.equal(await getSlot("", { client: notFoundClient }), null);
 });
 
 test("getSlot: Supabase 에러 발생 시 예외를 던진다", async () => {
@@ -271,7 +272,7 @@ test("getSlot: Supabase 에러 발생 시 예외를 던진다", async () => {
     error: new Error("Postgres query failed"),
   });
   await assert.rejects(
-    () => getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", errorClient),
+    () => getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: errorClient }),
     /Postgres query failed/
   );
 });
