@@ -115,3 +115,44 @@ test("예약 조회는 공용 조회 함수와 결과 콜백을 함께 사용한
   assert.equal(result.ok, true);
   assert.equal(callbackEntry.result.bookings[0].bookingCode, "GB-ABCDE");
 });
+
+test("9월 5일 필드 3명 요청 시 가용 인원(available >= 3)을 만족하는 필드 슬롯을 반환한다", async () => {
+  const dependencies = createChatToolDependencies({
+    listCoursesFn: async ({ type }) =>
+      COURSES.filter((course) => !type || course.type === type),
+    getCourseFn: async (id, { date }) => {
+      if (id === "course-1") {
+        return {
+          id: "course-1",
+          name: "한강 골프장",
+          type: "field",
+          region: "서울",
+          slots: [
+            {
+              id: "course-1-slot-1",
+              date,
+              time: "10:00",
+              price: 50000,
+              capacity: 4,
+              available: 4,
+            },
+          ],
+        };
+      }
+      return null;
+    },
+  });
+
+  const result = await dependencies.searchSlots({
+    type: "field",
+    date: "2026-09-05",
+    partySize: 3,
+  });
+
+  assert.equal(result.slots.length, 1);
+  assert.equal(result.slots[0].id, "course-1-slot-1");
+  assert.equal(result.slots[0].date, "2026-09-05");
+  assert.equal(result.slots[0].available, 4);
+  assert.equal(result.slots[0].type, "field");
+});
+
