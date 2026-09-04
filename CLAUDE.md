@@ -33,6 +33,7 @@
 |---|---|---|---|
 | GET | `/api/courses` | `?type=field` | `[{ id, name, type, imageUrl, ... }]` |
 | GET | `/api/courses/:id` | `?date=` | `{ ...course, slots: [...] }` |
+| GET | `/api/slots/:slotId` | | `{ ok, slot: { ...slot, course }, course }` |
 | POST | `/api/bookings` | `{ slotId, name, phone, partySize, memo, source }` | `{ ok, bookingCode }` |
 | GET | `/api/bookings/lookup` | `?code=` **+** `?phone=` (둘 다 필수) | `{ ok, bookings: [{ bookingCode, courseName, courseType, date, time, partySize, memo }] }` |
 | POST | `/api/chat` | `{ sessionId, messages: [...] }` | `{ reply, quickReplies?, bookingCode? }` |
