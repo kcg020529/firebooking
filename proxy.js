@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
+import { isProtectedPagePath } from '@/lib/security/authPaths';
 
 /**
  * 모든 요청의 공통 처리.
@@ -11,7 +12,7 @@ import { createServerClient } from '@supabase/ssr';
  * → 실제 로깅은 lib/security/apiLog.js 의 withApiLog() 래퍼가 담당한다.
  *
  * proxy 가 맡는 일:
- *   1. 로그인 세션 토큰 갱신 — 안 하면 서버 컴포넌트가 만료된 토큰을 보게 된다
+ *   1. 보호 화면의 로그인 세션 토큰 갱신 — 공개 화면은 브라우저가 표시만 담당한다
  *   2. 요청 상관 ID 부여 — 나중에 로그끼리 이어붙일 때 쓴다
  *   3. 현재 경로를 헤더로 전달 — 서버 컴포넌트는 자기 URL 을 알 수 없다
  *   4. Tier 1 의 rate limit (ANO_RATE) 이 들어올 자리
@@ -30,7 +31,13 @@ export default async function proxy(request) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (url && anonKey) {
+  const path = request.nextUrl.pathname;
+  const isProtectedPage = isProtectedPagePath(path);
+
+  // 공개 페이지의 헤더 표시는 브라우저 세션으로 처리한다.
+  // 원격 토큰 검증·갱신은 보호 페이지에서만 수행하고,
+  // API 권한은 각 Route Handler가 자신의 서버 경계에서 검증한다.
+  if (isProtectedPage && url && anonKey) {
     const supabase = createServerClient(url, anonKey, {
       cookies: {
         getAll() {
