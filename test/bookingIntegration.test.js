@@ -8,8 +8,36 @@ import {
   MEMO_MAX_LENGTH,
 } from "../lib/bookingLimits.js";
 import { createBooking, lookupBookings, listMyBookings } from "../lib/bookings.js";
+import { isValidSlotId } from "../lib/slotId.js";
+import { getSlot } from "../lib/courses.js";
+import { createGetSlotHandler } from "../lib/slotHandler.js";
 
-const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function createFakeSupabase({ data = null, error = null } = {}) {
+  const client = {
+    _selectFields: null,
+    from(table) {
+      assert.equal(table, "slots");
+      return {
+        select(fields) {
+          assert.ok(typeof fields === "string");
+          client._selectFields = fields;
+          return {
+            eq(field, value) {
+              assert.equal(field, "id");
+              assert.ok(typeof value === "string");
+              return {
+                async maybeSingle() {
+                  return { data, error };
+                },
+              };
+            },
+          };
+        },
+      };
+    },
+  };
+  return client;
+}
 
 test("예약 입력값 상한 상수가 올바르게 정의되어 있다", () => {
   assert.equal(MIN_PARTY_SIZE, 1);
@@ -136,154 +164,682 @@ test("listMyBookings: userId 가 없으면 빈 배열을 반환한다", async ()
   assert.deepEqual(resultEmpty, []);
 });
 
-test("slotId UUID 검증 로직이 비정상 입력을 거절한다", () => {
-  assert.equal(UUID_PATTERN.test("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d"), true);
-  assert.equal(UUID_PATTERN.test("invalid-uuid"), false);
-  assert.equal(UUID_PATTERN.test(""), false);
-  assert.equal(UUID_PATTERN.test("../../../etc/passwd"), false);
-  assert.equal(UUID_PATTERN.test("' OR '1'='1"), false);
+function createFakeBookingSupabase({
+  bookingsData = [],
+  bookingsError = null,
+  rpcHandler = null,
+} = {}) {
+  const eqCalls = [];
+  const rpcCalls = [];
+  const orderCalls = [];
+
+  const client = {
+    _eqCalls: eqCalls,
+    _rpcCalls: rpcCalls,
+    _orderCalls: orderCalls,
+    _selectFields: null,
+    from(table) {
+      assert.equal(table, "bookings");
+      return {
+        select(fields) {
+          assert.ok(typeof fields === "string");
+          client._selectFields = fields;
+          const queryBuilder = {
+            eq(field, value) {
+              eqCalls.push({ field, value });
+              return queryBuilder;
+            },
+            limit(count) {
+              assert.equal(count, 1);
+              return queryBuilder;
+            },
+            order(column, options) {
+              orderCalls.push({ column, options });
+              return queryBuilder;
+            },
+            then(resolve, reject) {
+              return Promise.resolve({ data: bookingsData, error: bookingsError }).then(resolve, reject);
+            },
+          };
+          return queryBuilder;
+        },
+      };
+    },
+    async rpc(fnName, params) {
+      rpcCalls.push({ fnName, params });
+      if (rpcHandler) {
+        return rpcHandler(fnName, params, rpcCalls.length);
+      }
+      return { data: null, error: null };
+    },
+  };
+  return client;
+}
+
+test("listMyBookings: user_id 로만 .eq() 조회하고 결과에서 name/phone 을 배제한다", async () => {
+  const mockBookingRow = {
+    booking_code: "GB-MY001",
+    party_size: 4,
+    memo: "가족 라운딩",
+    source: "form",
+    created_at: "2026-09-04T09:00:00Z",
+    name: "홍길동",
+    phone: "010-1234-5678",
+    slots: {
+      date: "2026-09-12",
+      time: "07:00:00",
+      price: 200000,
+      courses: {
+        name: "한양CC",
+        type: "field",
+      },
+    },
+  };
+
+  const client = createFakeBookingSupabase({
+    bookingsData: [mockBookingRow],
+  });
+
+  const bookings = await listMyBookings("user-123", { client });
+
+  assert.equal(bookings.length, 1);
+  assert.equal(client._eqCalls.length, 1);
+  assert.deepEqual(client._eqCalls[0], {
+    field: "user_id",
+    value: "user-123",
+  });
+
+  assert.equal(client._orderCalls.length, 1);
+  assert.deepEqual(client._orderCalls[0], {
+    column: "created_at",
+    options: { ascending: false },
+  });
+
+  const summary = bookings[0];
+  assert.equal("name" in summary, false);
+  assert.equal("phone" in summary, false);
+  assert.equal(summary.bookingCode, "GB-MY001");
+  assert.equal(summary.partySize, 4);
+  assert.equal(summary.courseName, "한양CC");
 });
 
-test("통합 흐름 검증: 홈 → 코스 → 날짜 → 슬롯 → 폼 → 예약완료 → 조회 → 내 예약", () => {
-  // 1. 홈: 코스 목록
-  const mockCourses = [
-    { id: "c1", name: "한양CC", type: "field", region: "경기" },
-    { id: "c2", name: "강남스크린", type: "screen", region: "서울" },
-  ];
-  const fieldCourses = mockCourses.filter((c) => c.type === "field");
-  assert.equal(fieldCourses.length, 1);
-  assert.equal(fieldCourses[0].name, "한양CC");
-
-  // 2. 코스 상세 + 날짜별 슬롯
-  const mockSlot = {
-    id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
-    courseId: "c1",
-    date: "2026-09-10",
-    time: "08:00:00",
-    price: 150000,
-    capacity: 4,
-    booked: 1,
+test("lookupBookings: booking_code와 phone을 둘 다 .eq()로 조회하고 결과에서 name/phone을 배제한다", async () => {
+  const mockBookingRow = {
+    booking_code: "GB-ABCDE",
+    party_size: 2,
+    memo: "창가 자리",
+    source: "form",
+    created_at: "2026-09-04T10:00:00Z",
+    name: "홍길동",
+    phone: "010-1234-5678",
+    slots: {
+      date: "2026-09-10",
+      time: "08:00:00",
+      price: 150000,
+      courses: {
+        name: "한양CC",
+        type: "field",
+      },
+    },
   };
-  const availableSlots = [{
-    ...mockSlot,
-    available: mockSlot.capacity - mockSlot.booked,
-  }];
-  assert.equal(availableSlots[0].available, 3);
 
-  // 3. GET /api/slots/:slotId 응답 형식
-  const slotResponse = {
-    ok: true,
-    slot: {
-      id: mockSlot.id,
-      date: mockSlot.date,
-      time: mockSlot.time,
-      price: mockSlot.price,
-      capacity: mockSlot.capacity,
-      booked: mockSlot.booked,
-      available: mockSlot.capacity - mockSlot.booked,
-      course: {
+  const successClient = createFakeBookingSupabase({
+    bookingsData: [mockBookingRow],
+  });
+
+  const successResult = await lookupBookings(
+    { code: "gb-abcde", phone: "010-1234-5678" },
+    { client: successClient }
+  );
+
+  assert.equal(successResult.ok, true);
+  assert.equal(successResult.bookings.length, 1);
+
+  // Assert both predicates were queried regardless of order
+  assert.equal(successClient._eqCalls.length, 2);
+  const codePredicate = successClient._eqCalls.find((c) => c.field === "booking_code");
+  const phonePredicate = successClient._eqCalls.find((c) => c.field === "phone");
+  assert.deepEqual(codePredicate, {
+    field: "booking_code",
+    value: "GB-ABCDE",
+  });
+  assert.deepEqual(phonePredicate, {
+    field: "phone",
+    value: "010-1234-5678",
+  });
+
+  // Assert PII exclusion
+  const summary = successResult.bookings[0];
+  assert.equal("name" in summary, false);
+  assert.equal("phone" in summary, false);
+  assert.equal(summary.bookingCode, "GB-ABCDE");
+  assert.equal(summary.partySize, 2);
+  assert.equal(summary.memo, "창가 자리");
+  assert.equal(summary.courseName, "한양CC");
+
+  // No-match case
+  const noMatchClient = createFakeBookingSupabase({
+    bookingsData: [],
+  });
+  const noMatchResult = await lookupBookings(
+    { code: "GB-ABCDE", phone: "010-1234-5678" },
+    { client: noMatchClient }
+  );
+  assert.equal(noMatchResult.ok, false);
+  assert.equal(
+    noMatchResult.error,
+    "일치하는 예약이 없습니다. 예약번호와 전화번호를 확인해주세요."
+  );
+  assert.equal(noMatchClient._eqCalls.length, 2);
+  const noMatchCodePredicate = noMatchClient._eqCalls.find((c) => c.field === "booking_code");
+  const noMatchPhonePredicate = noMatchClient._eqCalls.find((c) => c.field === "phone");
+  assert.deepEqual(noMatchCodePredicate, {
+    field: "booking_code",
+    value: "GB-ABCDE",
+  });
+  assert.deepEqual(noMatchPhonePredicate, {
+    field: "phone",
+    value: "010-1234-5678",
+  });
+});
+
+test("normalizePhone: 10자리 및 11자리 번호의 다양한 입력 형식을 표준 정규화 형식으로 일치시킨다", async () => {
+  const formats11 = ["01012345678", "010-1234-5678", "010.1234.5678"];
+  for (const phone of formats11) {
+    const client = createFakeBookingSupabase({ bookingsData: [] });
+    await lookupBookings({ code: "GB-ABCDE", phone }, { client });
+    const phonePredicate = client._eqCalls.find((c) => c.field === "phone");
+    assert.ok(phonePredicate, `phone predicate missing for ${phone}`);
+    assert.equal(
+      phonePredicate.value,
+      "010-1234-5678",
+      `11자리 ${phone} 정규화 불일치`
+    );
+  }
+
+  const formats10 = ["0111234567", "011-123-4567", "011.123.4567"];
+  for (const phone of formats10) {
+    const client = createFakeBookingSupabase({ bookingsData: [] });
+    await lookupBookings({ code: "GB-ABCDE", phone }, { client });
+    const phonePredicate = client._eqCalls.find((c) => c.field === "phone");
+    assert.ok(phonePredicate, `phone predicate missing for ${phone}`);
+    assert.equal(
+      phonePredicate.value,
+      "011-123-4567",
+      `10자리 ${phone} 정규화 불일치`
+    );
+  }
+});
+
+test("createBooking: 정상 예약 생성 시 RPC 호출 인자 전달 및 반환값 camelCase 매핑을 보장한다", async () => {
+  const mockRow = {
+    id: "booking-uuid-1",
+    booking_code: "GB-ABC12",
+    slot_id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+    name: "홍길동",
+    phone: "010-1234-5678",
+    party_size: 3,
+    memo: "요청사항",
+    source: "form",
+    created_at: "2026-09-04T12:00:00Z",
+  };
+
+  const client = createFakeBookingSupabase({
+    rpcHandler: (fnName) => {
+      assert.equal(fnName, "create_booking");
+      return { data: [mockRow], error: null };
+    },
+  });
+
+  const result = await createBooking(
+    {
+      slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      name: " 홍길동 ",
+      phone: "010-1234-5678",
+      partySize: 3,
+      memo: " 요청사항 ",
+      source: "form",
+      userId: "user-456",
+    },
+    { client }
+  );
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.booking, {
+    id: "booking-uuid-1",
+    bookingCode: "GB-ABC12",
+    slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+    name: "홍길동",
+    phone: "010-1234-5678",
+    partySize: 3,
+    memo: "요청사항",
+    source: "form",
+    createdAt: "2026-09-04T12:00:00Z",
+  });
+
+  assert.equal(client._rpcCalls.length, 1);
+  const rpcCall = client._rpcCalls[0];
+  assert.equal(rpcCall.params.p_slot_id, "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d");
+  assert.equal(rpcCall.params.p_name, "홍길동");
+  assert.equal(rpcCall.params.p_phone, "010-1234-5678");
+  assert.equal(rpcCall.params.p_party_size, 3);
+  assert.equal(rpcCall.params.p_memo, "요청사항");
+  assert.equal(rpcCall.params.p_source, "form");
+  assert.equal(rpcCall.params.p_user_id, "user-456");
+  assert.match(rpcCall.params.p_booking_code, /^GB-[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{5}$/);
+
+  // Test source passthrough for chat
+  const chatClient = createFakeBookingSupabase({
+    rpcHandler: () => ({
+      data: [{ ...mockRow, source: "chat" }],
+      error: null,
+    }),
+  });
+  const chatResult = await createBooking(
+    {
+      slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      name: "홍길동",
+      phone: "010-1234-5678",
+      partySize: 2,
+      source: "chat",
+    },
+    { client: chatClient }
+  );
+  assert.equal(chatResult.ok, true);
+  assert.equal(chatResult.booking.source, "chat");
+  assert.equal(chatClient._rpcCalls[0].params.p_source, "chat");
+});
+
+test("toKoreanError: RPC 에러 코드별 한국어 메시지 매핑 및 미식별 에러 시 DB 원본 메시지 은닉을 검증한다", async () => {
+  const errorCases = [
+    {
+      dbMessage: "ERROR: CAPACITY_EXCEEDED remaining seats insufficient",
+      expected: "선택하신 시간의 남은 자리가 부족합니다. 다른 시간을 골라주세요.",
+    },
+    {
+      dbMessage: "ERROR: SLOT_NOT_FOUND slot id does not exist",
+      expected: "선택하신 시간을 찾을 수 없습니다. 목록에서 다시 선택해주세요.",
+    },
+    {
+      dbMessage: "ERROR: INVALID_PARTY_SIZE party size out of bounds",
+      expected: "인원 수가 올바르지 않습니다.",
+    },
+    {
+      dbMessage: "ERROR: MISSING_NAME name is required",
+      expected: "이름을 입력해주세요.",
+    },
+    {
+      dbMessage: "ERROR: MISSING_PHONE phone is required",
+      expected: "전화번호를 입력해주세요.",
+    },
+  ];
+
+  for (const { dbMessage, expected } of errorCases) {
+    const client = createFakeBookingSupabase({
+      rpcHandler: () => ({
+        data: null,
+        error: { message: dbMessage },
+      }),
+    });
+    const result = await createBooking(
+      {
+        slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+        name: "홍길동",
+        phone: "010-1234-5678",
+        partySize: 2,
+        source: "form",
+      },
+      { client }
+    );
+    assert.equal(result.ok, false);
+    assert.equal(result.error, expected);
+  }
+
+  // Unrecognized DB error: must not leak raw schema/table/column names
+  const rawDbMessage =
+    "duplicate key value violates unique constraint bookings_pkey on table bookings column id";
+  const clientGeneric = createFakeBookingSupabase({
+    rpcHandler: () => ({
+      data: null,
+      error: { message: rawDbMessage },
+    }),
+  });
+  const genericResult = await createBooking(
+    {
+      slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      name: "홍길동",
+      phone: "010-1234-5678",
+      partySize: 2,
+      source: "form",
+    },
+    { client: clientGeneric }
+  );
+
+  assert.equal(genericResult.ok, false);
+  assert.equal(
+    genericResult.error,
+    "예약을 처리하지 못했습니다. 잠시 후 다시 시도해주세요."
+  );
+  assert.equal(genericResult.error.includes("duplicate key"), false);
+  assert.equal(genericResult.error.includes("bookings"), false);
+  assert.equal(genericResult.error.includes("column id"), false);
+});
+
+test("createBooking: 예약번호 충돌(23505) 발생 시 재시도하고, 한도 초과 시 에러를 반환한다", async () => {
+  const mockRow = {
+    id: "booking-uuid-retry",
+    booking_code: "GB-RETR3",
+    slot_id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+    name: "홍길동",
+    phone: "010-1234-5678",
+    party_size: 2,
+    source: "form",
+    created_at: "2026-09-04T12:00:00Z",
+  };
+
+  // Case 1: 2 collisions then success on 3rd attempt
+  let attempts = 0;
+  const retrySuccessClient = createFakeBookingSupabase({
+    rpcHandler: () => {
+      attempts += 1;
+      if (attempts < 3) {
+        return {
+          data: null,
+          error: {
+            code: "23505",
+            message: "duplicate key value violates unique constraint booking_code",
+          },
+        };
+      }
+      return { data: [mockRow], error: null };
+    },
+  });
+
+  const retryResult = await createBooking(
+    {
+      slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      name: "홍길동",
+      phone: "010-1234-5678",
+      partySize: 2,
+      source: "form",
+    },
+    { client: retrySuccessClient }
+  );
+
+  assert.equal(retryResult.ok, true);
+  assert.equal(attempts, 3);
+  assert.equal(retrySuccessClient._rpcCalls.length, 3);
+  // Ensure each retry generated a booking code
+  const codes = retrySuccessClient._rpcCalls.map((c) => c.params.p_booking_code);
+  assert.equal(codes.length, 3);
+
+  // Case 2: Always collide -> reaches CODE_RETRY_LIMIT (5)
+  let limitAttempts = 0;
+  const alwaysCollideClient = createFakeBookingSupabase({
+    rpcHandler: () => {
+      limitAttempts += 1;
+      return {
+        data: null,
+        error: {
+          code: "23505",
+          message: "duplicate key value violates unique constraint booking_code",
+        },
+      };
+    },
+  });
+
+  const limitResult = await createBooking(
+    {
+      slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      name: "홍길동",
+      phone: "010-1234-5678",
+      partySize: 2,
+      source: "form",
+    },
+    { client: alwaysCollideClient }
+  );
+
+  assert.equal(limitResult.ok, false);
+  assert.equal(limitAttempts, 5);
+  assert.equal(alwaysCollideClient._rpcCalls.length, 5);
+  assert.equal(
+    limitResult.error,
+    "예약번호 발급에 실패했습니다. 다시 시도해주세요."
+  );
+});
+
+test("isValidSlotId: 올바른 UUID를 통과시키고 비정상 입력을 거절한다", () => {
+  assert.equal(isValidSlotId("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d"), true);
+  assert.equal(isValidSlotId("E9F0D14B-2F3A-4A5C-9C7D-8E9F0A1B2C3D"), true);
+  assert.equal(isValidSlotId("invalid-uuid"), false);
+  assert.equal(isValidSlotId(""), false);
+  assert.equal(isValidSlotId(null), false);
+  assert.equal(isValidSlotId(undefined), false);
+  assert.equal(isValidSlotId(12345), false);
+  assert.equal(isValidSlotId("../../../etc/passwd"), false);
+  assert.equal(isValidSlotId("' OR '1'='1"), false);
+});
+
+test("getSlot: 슬롯 조회 시 코스의 민감 컬럼(phone/address 등)을 요청하지 않는다", async () => {
+  const client = createFakeSupabase({
+    data: {
+      id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      date: "2026-09-10",
+      time: "08:00:00",
+      price: 150000,
+      capacity: 4,
+      booked: 1,
+      courses: { id: "c1", name: "한양CC", type: "field" },
+    },
+  });
+
+  await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client });
+
+  assert.ok(client._selectFields, "selectFields should be captured");
+
+  // courses ( ... ) 안에서 실제로 요청한 컬럼만 뽑아 비교한다.
+  const courseColumns = client._selectFields
+    .match(/courses\s*\(([^)]*)\)/)[1]
+    .split(",")
+    .map((c) => c.trim());
+
+  assert.deepEqual(courseColumns, ["id", "name", "type"]);
+});
+
+test("getSlot: 정상 슬롯과 코스 정보를 매핑하고 available을 계산한다", async () => {
+  const fakeClient = createFakeSupabase({
+    data: {
+      id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      date: "2026-09-10",
+      time: "08:00:00",
+      price: 150000,
+      capacity: 4,
+      booked: 1,
+      courses: {
         id: "c1",
         name: "한양CC",
         type: "field",
       },
     },
+  });
+
+  const slot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: fakeClient });
+  assert.equal(slot.id, "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d");
+  assert.equal(slot.date, "2026-09-10");
+  assert.equal(slot.time, "08:00:00");
+  assert.equal(slot.price, 150000);
+  assert.equal(slot.capacity, 4);
+  assert.equal(slot.booked, 1);
+  assert.equal(slot.available, 3);
+  assert.deepEqual(slot.course, {
+    id: "c1",
+    name: "한양CC",
+    type: "field",
+  });
+});
+
+test("getSlot: courses가 배열로 반환되어도 첫 번째 코스 요약으로 안전하게 매핑한다", async () => {
+  const fakeClient = createFakeSupabase({
+    data: {
+      id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      date: "2026-09-10",
+      time: "08:00:00",
+      price: 150000,
+      capacity: 4,
+      booked: 2,
+      courses: [{ id: "c1", name: "한양CC", type: "field" }],
+    },
+  });
+
+  const slot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: fakeClient });
+  assert.deepEqual(slot.course, {
+    id: "c1",
+    name: "한양CC",
+    type: "field",
+  });
+  assert.equal(slot.available, 2);
+});
+
+test("getSlot: capacity와 booked 값에 따라 available(남은 자리)을 정확히 계산한다", async () => {
+  const fullClient = createFakeSupabase({
+    data: {
+      id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      date: "2026-09-10",
+      time: "08:00:00",
+      price: 150000,
+      capacity: 4,
+      booked: 4,
+      courses: { id: "c1", name: "한양CC", type: "field" },
+    },
+  });
+  const fullSlot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: fullClient });
+  assert.equal(fullSlot.available, 0);
+
+  const emptyClient = createFakeSupabase({
+    data: {
+      id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      date: "2026-09-10",
+      time: "08:00:00",
+      price: 150000,
+      capacity: 4,
+      booked: 0,
+      courses: { id: "c1", name: "한양CC", type: "field" },
+    },
+  });
+  const emptySlot = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: emptyClient });
+  assert.equal(emptySlot.available, 4);
+});
+
+test("getSlot: 데이터가 없으면 null을 반환한다", async () => {
+  const notFoundClient = createFakeSupabase({ data: null });
+  const result = await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: notFoundClient });
+  assert.equal(result, null);
+
+  assert.equal(await getSlot(null, { client: notFoundClient }), null);
+  assert.equal(await getSlot("", { client: notFoundClient }), null);
+});
+
+test("getSlot: Supabase 에러 발생 시 예외를 던진다", async () => {
+  const errorClient = createFakeSupabase({
+    error: new Error("Postgres query failed"),
+  });
+  await assert.rejects(
+    () => getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client: errorClient }),
+    /Postgres query failed/
+  );
+});
+
+test("GET /api/slots/:slotId: 잘못된 UUID 요청에 400 상태코드와 에러를 반환한다", async () => {
+  const handler = createGetSlotHandler();
+  const req = new Request("http://localhost/api/slots/not-a-valid-uuid");
+  const res = await handler(req, {
+    params: Promise.resolve({ slotId: "not-a-valid-uuid" }),
+  });
+
+  assert.equal(res.status, 400);
+  const data = await res.json();
+  assert.equal(data.ok, false);
+  assert.equal(data.error, "유효하지 않은 슬롯 ID입니다.");
+});
+
+test("GET /api/slots/:slotId: 존재하지 않는 슬롯 조회 시 404를 반환한다", async () => {
+  const handler = createGetSlotHandler({
+    getSlotFn: async () => null,
+  });
+  const validId = "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d";
+  const req = new Request(`http://localhost/api/slots/${validId}`);
+  const res = await handler(req, {
+    params: Promise.resolve({ slotId: validId }),
+  });
+
+  assert.equal(res.status, 404);
+  const data = await res.json();
+  assert.equal(data.ok, false);
+  assert.equal(data.error, "선택하신 시간을 찾을 수 없습니다.");
+});
+
+test("GET /api/slots/:slotId: 슬롯 조회 성공 시 200과 UI에 필요한 요약 정보만 반환한다", async () => {
+  const mockSlot = {
+    id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+    date: "2026-09-10",
+    time: "08:00:00",
+    price: 150000,
+    capacity: 4,
+    booked: 1,
+    available: 3,
     course: {
       id: "c1",
       name: "한양CC",
       type: "field",
     },
   };
-  assert.equal(slotResponse.ok, true);
-  assert.equal(slotResponse.slot.id, mockSlot.id);
-  assert.equal(slotResponse.course.name, "한양CC");
-  assert.equal("phone" in slotResponse.course, false); // 민감정보 미노출
 
-  // 4. 수동 폼 예약 생성: bookings.source = "form" 및 booked 증가
-  const bookingInput = {
-    slotId: mockSlot.id,
-    name: "홍길동",
-    phone: "010-1234-5678",
-    partySize: 2,
-    memo: "카트 준비 부탁드립니다.",
-    source: "form",
-  };
-  assert.equal(bookingInput.source, "form");
-  const updatedBooked = mockSlot.booked + bookingInput.partySize;
-  assert.equal(updatedBooked, 3);
-  assert.ok(updatedBooked <= mockSlot.capacity);
+  const handler = createGetSlotHandler({
+    getSlotFn: async () => mockSlot,
+  });
 
-  const createdBooking = {
-    id: "b1",
-    bookingCode: "GB-7K9M2",
-    slotId: mockSlot.id,
-    name: bookingInput.name,
-    phone: "010-1234-5678",
-    partySize: bookingInput.partySize,
-    memo: bookingInput.memo,
-    source: bookingInput.source,
-    createdAt: new Date().toISOString(),
-  };
-  assert.match(createdBooking.bookingCode, /^GB-[2-9A-HJ-NP-Z]{5}$/);
-  assert.equal(createdBooking.source, "form");
+  const req = new Request(`http://localhost/api/slots/${mockSlot.id}`);
+  const res = await handler(req, {
+    params: Promise.resolve({ slotId: mockSlot.id }),
+  });
 
-  // 5. 비로그인 조회: 예약번호와 전화번호 일치 시 성공, 불일치/누락 시 실패
-  function mockLookup({ code, phone }) {
-    if (!code || !phone) {
-      return { ok: false, error: "예약번호와 전화번호를 모두 입력해주세요." };
-    }
-    if (code === createdBooking.bookingCode && phone === createdBooking.phone) {
-      return {
-        ok: true,
-        bookings: [
-          {
-            bookingCode: createdBooking.bookingCode,
-            partySize: createdBooking.partySize,
-            memo: createdBooking.memo,
-            source: createdBooking.source,
-            createdAt: createdBooking.createdAt,
-            date: mockSlot.date,
-            time: mockSlot.time,
-            price: mockSlot.price,
-            courseName: "한양CC",
-            courseType: "field",
-          },
-        ],
-      };
-    }
-    return { ok: false, error: "일치하는 예약이 없습니다. 예약번호와 전화번호를 확인해주세요." };
-  }
-
-  // 성공 케이스
-  const lookupSuccess = mockLookup({ code: "GB-7K9M2", phone: "010-1234-5678" });
-  assert.equal(lookupSuccess.ok, true);
-  assert.equal(lookupSuccess.bookings.length, 1);
-  assert.equal("name" in lookupSuccess.bookings[0], false); // PII 제외
-  assert.equal("phone" in lookupSuccess.bookings[0], false); // PII 제외
-
-  // 실패 케이스
-  assert.equal(mockLookup({ code: "GB-7K9M2" }).ok, false);
-  assert.equal(mockLookup({ phone: "010-1234-5678" }).ok, false);
-  assert.equal(mockLookup({ code: "GB-WRONG", phone: "010-1234-5678" }).ok, false);
-
-  // 6. 로그인 사용자 예약 조회 (/my)
-  const userId = "user-uuid-123";
-  const userBookings = [
-    { ...createdBooking, userId },
-    { id: "b2", bookingCode: "GB-OLDER", userId: "other-user", createdAt: "2026-09-01" },
-  ];
-  const myList = userBookings.filter((b) => b.userId === userId);
-  assert.equal(myList.length, 1);
-  assert.equal(myList[0].bookingCode, "GB-7K9M2");
-
-  // 7. 감사 로그 및 API 로깅 검증
-  const auditEntry = {
-    action: "booking.create",
-    result: "allow",
-    targetType: "booking",
-    targetId: createdBooking.bookingCode,
-    actorRole: "guest",
-  };
-  assert.equal(auditEntry.action, "booking.create");
-  assert.equal(auditEntry.targetId, "GB-7K9M2"); // 예약번호만 남기고 이름/전화번호 없음
+  assert.equal(res.status, 200);
+  const data = await res.json();
+  assert.equal(data.ok, true);
+  assert.deepEqual(data.slot, mockSlot);
+  assert.deepEqual(data.course, {
+    id: "c1",
+    name: "한양CC",
+    type: "field",
+  });
 });
 
+test("GET /api/slots/:slotId: DB 실패 시 500 상태코드와 사용자 친화적 에러를 반환한다", async () => {
+  const handler = createGetSlotHandler({
+    getSlotFn: async () => {
+      throw new Error("Internal database timeout");
+    },
+  });
+
+  const validId = "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d";
+  const req = new Request(`http://localhost/api/slots/${validId}`);
+  const res = await handler(req, {
+    params: Promise.resolve({ slotId: validId }),
+  });
+
+  assert.equal(res.status, 500);
+  const data = await res.json();
+  assert.equal(data.ok, false);
+  assert.equal(data.error, "슬롯 정보를 불러오지 못했습니다.");
+});
+
+test(
+  "실제 Supabase 스모크 테스트 (환경변수 설정 시에만 수동/배포 QA용으로 실행)",
+  {
+    skip: !process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.NEXT_PUBLIC_SUPABASE_URL,
+  },
+  async () => {
+    const result = await getSlot("00000000-0000-0000-0000-000000000000");
+    assert.equal(result, null);
+  }
+);
