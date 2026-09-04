@@ -1,20 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createAuthBrowserClient } from "@/lib/supabaseAuth";
 
 export default function LogoutButton() {
-  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
 
   async function handleLogout() {
     setIsPending(true);
     const supabase = createAuthBrowserClient();
     await supabase.auth.signOut();
-    // 서버 컴포넌트가 세션 없어진 걸 알도록 갱신한다.
-    router.refresh();
-    router.push("/");
+    // 뒤로 가기로 인증된 화면을 다시 보지 않도록 새 문서로 교체한다.
+    window.location.replace("/");
   }
 
   return (

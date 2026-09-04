@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createAuthBrowserClient } from "@/lib/supabaseAuth";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -31,9 +29,8 @@ export default function LoginPage() {
       return;
     }
 
-    // 서버 컴포넌트가 새 세션 쿠키를 읽도록 갱신한다.
-    router.refresh();
-    router.push("/my");
+    // 새 문서 요청으로 이동해야 보호 페이지와 헤더가 같은 최신 쿠키를 읽는다.
+    window.location.replace("/my");
   }
 
   return (
