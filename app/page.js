@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-const TYPE_LABEL = { field: "필드", screen: "스크린" };
+import { TYPE_LABEL } from "@/lib/courseType";
 
 export default function Home() {
   const [type, setType] = useState("field");
