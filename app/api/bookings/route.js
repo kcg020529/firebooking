@@ -13,7 +13,7 @@ import { createBooking } from '@/lib/bookings';
  * 검증·정원 확인은 전부 lib/bookings.js 의 createBooking() 이 한다.
  * 챗봇 tool 도 같은 함수를 부르므로 두 경로의 규칙이 절대 갈라지지 않는다.
  */
-export const POST = withApiLog(async (request, { getUser }) => {
+export const POST = withApiLog(async (request, { getUser, getUserId }) => {
   let body;
   try {
     body = await request.json();
@@ -26,7 +26,10 @@ export const POST = withApiLog(async (request, { getUser }) => {
 
   // 로그인 상태면 예약을 계정에 묶는다. 비로그인 예약도 그대로 허용한다
   // (bookings.user_id 는 nullable). 예약번호로만 조회하게 된다.
-  const user = await getUser();
+  //
+  // 여기서 필요한 건 id 뿐이라 역할까지 조회하지 않는다. 감사 로그의
+  // 역할은 응답을 보낸 뒤에 채운다(resolveActorRole).
+  const userId = await getUserId();
 
   const result = await createBooking({
     slotId: body.slotId,
@@ -35,15 +38,15 @@ export const POST = withApiLog(async (request, { getUser }) => {
     partySize: body.partySize,
     memo: body.memo,
     source: body.source ?? 'form',
-    userId: user?.id ?? null,
+    userId,
   });
 
   if (!result.ok) {
     recordAudit(request, {
       action: AUDIT_ACTIONS.BOOKING_CREATE,
       result: 'deny',
-      actorId: user?.id ?? null,
-      actorRole: user?.role,
+      actorId: userId,
+      resolveActorRole: async () => (await getUser())?.role,
       targetType: 'slot',
       targetId: typeof body.slotId === 'string' ? body.slotId : null,
     });
@@ -54,8 +57,8 @@ export const POST = withApiLog(async (request, { getUser }) => {
   recordAudit(request, {
     action: AUDIT_ACTIONS.BOOKING_CREATE,
     result: 'allow',
-    actorId: user?.id ?? null,
-    actorRole: user?.role,
+    actorId: userId,
+    resolveActorRole: async () => (await getUser())?.role,
     targetType: 'booking',
     // ★ 예약번호만 남긴다. 이름·전화번호는 감사 로그에 넣지 않는다.
     targetId: result.booking.bookingCode,
