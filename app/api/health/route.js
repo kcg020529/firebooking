@@ -16,7 +16,7 @@ export const GET = withApiLog(async () => {
     supabaseUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
     supabaseAnonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
     supabaseServiceKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-    anthropicKey: Boolean(process.env.ANTHROPIC_API_KEY),
+    deepseekKey: Boolean(process.env.DEEPSEEK_API_KEY),
     ipHashSalt: Boolean(process.env.IP_HASH_SALT),
   };
 
