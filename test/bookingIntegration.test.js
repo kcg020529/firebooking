@@ -13,12 +13,14 @@ import { getSlot } from "../lib/courses.js";
 import { createGetSlotHandler } from "../lib/slotHandler.js";
 
 function createFakeSupabase({ data = null, error = null } = {}) {
-  return {
+  const client = {
+    _selectFields: null,
     from(table) {
       assert.equal(table, "slots");
       return {
         select(fields) {
           assert.ok(typeof fields === "string");
+          client._selectFields = fields;
           return {
             eq(field, value) {
               assert.equal(field, "id");
@@ -34,6 +36,7 @@ function createFakeSupabase({ data = null, error = null } = {}) {
       };
     },
   };
+  return client;
 }
 
 test("예약 입력값 상한 상수가 올바르게 정의되어 있다", () => {
@@ -168,15 +171,19 @@ function createFakeBookingSupabase({
 } = {}) {
   const eqCalls = [];
   const rpcCalls = [];
+  const orderCalls = [];
 
   const client = {
     _eqCalls: eqCalls,
     _rpcCalls: rpcCalls,
+    _orderCalls: orderCalls,
+    _selectFields: null,
     from(table) {
       assert.equal(table, "bookings");
       return {
         select(fields) {
           assert.ok(typeof fields === "string");
+          client._selectFields = fields;
           const queryBuilder = {
             eq(field, value) {
               eqCalls.push({ field, value });
@@ -184,7 +191,14 @@ function createFakeBookingSupabase({
             },
             limit(count) {
               assert.equal(count, 1);
-              return Promise.resolve({ data: bookingsData, error: bookingsError });
+              return queryBuilder;
+            },
+            order(column, options) {
+              orderCalls.push({ column, options });
+              return queryBuilder;
+            },
+            then(resolve, reject) {
+              return Promise.resolve({ data: bookingsData, error: bookingsError }).then(resolve, reject);
             },
           };
           return queryBuilder;
@@ -201,6 +215,53 @@ function createFakeBookingSupabase({
   };
   return client;
 }
+
+test("listMyBookings: user_id 로만 .eq() 조회하고 결과에서 name/phone 을 배제한다", async () => {
+  const mockBookingRow = {
+    booking_code: "GB-MY001",
+    party_size: 4,
+    memo: "가족 라운딩",
+    source: "form",
+    created_at: "2026-09-04T09:00:00Z",
+    name: "홍길동",
+    phone: "010-1234-5678",
+    slots: {
+      date: "2026-09-12",
+      time: "07:00:00",
+      price: 200000,
+      courses: {
+        name: "한양CC",
+        type: "field",
+      },
+    },
+  };
+
+  const client = createFakeBookingSupabase({
+    bookingsData: [mockBookingRow],
+  });
+
+  const bookings = await listMyBookings("user-123", { client });
+
+  assert.equal(bookings.length, 1);
+  assert.equal(client._eqCalls.length, 1);
+  assert.deepEqual(client._eqCalls[0], {
+    field: "user_id",
+    value: "user-123",
+  });
+
+  assert.equal(client._orderCalls.length, 1);
+  assert.deepEqual(client._orderCalls[0], {
+    column: "created_at",
+    options: { ascending: false },
+  });
+
+  const summary = bookings[0];
+  assert.equal("name" in summary, false);
+  assert.equal("phone" in summary, false);
+  assert.equal(summary.bookingCode, "GB-MY001");
+  assert.equal(summary.partySize, 4);
+  assert.equal(summary.courseName, "한양CC");
+});
 
 test("lookupBookings: booking_code와 phone을 둘 다 .eq()로 조회하고 결과에서 name/phone을 배제한다", async () => {
   const mockBookingRow = {
@@ -234,13 +295,15 @@ test("lookupBookings: booking_code와 phone을 둘 다 .eq()로 조회하고 결
   assert.equal(successResult.ok, true);
   assert.equal(successResult.bookings.length, 1);
 
-  // Assert both predicates were queried
+  // Assert both predicates were queried regardless of order
   assert.equal(successClient._eqCalls.length, 2);
-  assert.deepEqual(successClient._eqCalls[0], {
+  const codePredicate = successClient._eqCalls.find((c) => c.field === "booking_code");
+  const phonePredicate = successClient._eqCalls.find((c) => c.field === "phone");
+  assert.deepEqual(codePredicate, {
     field: "booking_code",
     value: "GB-ABCDE",
   });
-  assert.deepEqual(successClient._eqCalls[1], {
+  assert.deepEqual(phonePredicate, {
     field: "phone",
     value: "010-1234-5678",
   });
@@ -268,11 +331,13 @@ test("lookupBookings: booking_code와 phone을 둘 다 .eq()로 조회하고 결
     "일치하는 예약이 없습니다. 예약번호와 전화번호를 확인해주세요."
   );
   assert.equal(noMatchClient._eqCalls.length, 2);
-  assert.deepEqual(noMatchClient._eqCalls[0], {
+  const noMatchCodePredicate = noMatchClient._eqCalls.find((c) => c.field === "booking_code");
+  const noMatchPhonePredicate = noMatchClient._eqCalls.find((c) => c.field === "phone");
+  assert.deepEqual(noMatchCodePredicate, {
     field: "booking_code",
     value: "GB-ABCDE",
   });
-  assert.deepEqual(noMatchClient._eqCalls[1], {
+  assert.deepEqual(noMatchPhonePredicate, {
     field: "phone",
     value: "010-1234-5678",
   });
@@ -553,6 +618,32 @@ test("isValidSlotId: 올바른 UUID를 통과시키고 비정상 입력을 거�
   assert.equal(isValidSlotId(12345), false);
   assert.equal(isValidSlotId("../../../etc/passwd"), false);
   assert.equal(isValidSlotId("' OR '1'='1"), false);
+});
+
+test("getSlot: 슬롯 조회 시 코스의 민감 컬럼(phone/address 등)을 요청하지 않는다", async () => {
+  const client = createFakeSupabase({
+    data: {
+      id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      date: "2026-09-10",
+      time: "08:00:00",
+      price: 150000,
+      capacity: 4,
+      booked: 1,
+      courses: { id: "c1", name: "한양CC", type: "field" },
+    },
+  });
+
+  await getSlot("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d", { client });
+
+  assert.ok(client._selectFields, "selectFields should be captured");
+
+  // courses ( ... ) 안에서 실제로 요청한 컬럼만 뽑아 비교한다.
+  const courseColumns = client._selectFields
+    .match(/courses\s*\(([^)]*)\)/)[1]
+    .split(",")
+    .map((c) => c.trim());
+
+  assert.deepEqual(courseColumns, ["id", "name", "type"]);
 });
 
 test("getSlot: 정상 슬롯과 코스 정보를 매핑하고 available을 계산한다", async () => {
