@@ -1,7 +1,6 @@
 import { createChatService } from "../../../lib/ai/chatService.js";
 import { createDeepSeekGenerator } from "../../../lib/ai/deepseek.js";
 import { createChatToolDependencies } from "../../../lib/ai/toolDependencies.js";
-import { getCurrentUser } from "../../../lib/auth.js";
 import { withApiLog } from "../../../lib/security/apiLog.js";
 import {
   AUDIT_ACTIONS,
@@ -14,7 +13,7 @@ import {
 import { getClientIp, hashIp } from "../../../lib/security/hash.js";
 import { detectCodeEnumeration } from "../../../lib/security/rules.js";
 
-function recordBookingAudit(request, { input, result }, user) {
+function recordBookingAudit(request, { input, result }, actor) {
   recordAudit(request, {
     action: AUDIT_ACTIONS.BOOKING_CREATE,
     result: result.ok ? "allow" : "deny",
@@ -24,34 +23,34 @@ function recordBookingAudit(request, { input, result }, user) {
       : typeof input.slotId === "string"
         ? input.slotId
         : null,
-    actorId: user?.id ?? null,
-    actorRole: user?.role,
+    actorId: actor.userId,
+    resolveActorRole: actor.resolveRole,
   });
 }
 
-function recordLookupAudit(request, { result }, user, ipHash) {
+function recordLookupAudit(request, { result }, actor, ipHash) {
   recordAudit(request, {
     action: AUDIT_ACTIONS.BOOKING_LOOKUP,
     result: result.ok ? "allow" : "deny",
     targetType: "booking",
     targetId: result.ok ? result.bookings?.[0]?.bookingCode ?? null : null,
-    actorId: user?.id ?? null,
-    actorRole: user?.role,
+    actorId: actor.userId,
+    resolveActorRole: actor.resolveRole,
   });
 
   if (!result.ok) {
     detectCodeEnumeration({
       ipHash,
-      actorId: user?.id ?? null,
+      actorId: actor.userId,
       action: AUDIT_ACTIONS.BOOKING_LOOKUP,
     });
   }
 }
 
-function createRequestChatService(request, user, ipHash) {
+function createRequestChatService(request, actor, ipHash) {
   const toolDependencies = createChatToolDependencies({
-    onBookingResult: (entry) => recordBookingAudit(request, entry, user),
-    onLookupResult: (entry) => recordLookupAudit(request, entry, user, ipHash),
+    onBookingResult: (entry) => recordBookingAudit(request, entry, actor),
+    onLookupResult: (entry) => recordLookupAudit(request, entry, actor, ipHash),
   });
 
   return createChatService({
@@ -61,17 +60,17 @@ function createRequestChatService(request, user, ipHash) {
   });
 }
 
-function recordChatAudit(request, { result, user = null }) {
+function recordChatAudit(request, { result, actor = null }) {
   recordAudit(request, {
     action: AUDIT_ACTIONS.CHAT_MESSAGE,
     result,
     targetType: "chat_session",
-    actorId: user?.id ?? null,
-    actorRole: user?.role,
+    actorId: actor?.userId ?? null,
+    resolveActorRole: actor?.resolveRole,
   });
 }
 
-async function handlePost(request) {
+async function handlePost(request, { getUser, getUserId }) {
   let body;
 
   try {
@@ -86,24 +85,26 @@ async function handlePost(request) {
 
   const clientIp = getClientIp(request);
   const ipHash = clientIp ? hashIp(clientIp) : null;
-  let user = null;
-  try {
-    user = await getCurrentUser();
-  } catch {
-    // 인증 조회 실패는 비로그인 요청으로 처리하되 보안 검사는 계속한다.
-  }
 
-  const handleChat = createRequestChatService(request, user, ipHash);
+  // 챗봇은 역할로 갈리는 기능이 없다. 기록용 id 만 응답 전에 확정하고,
+  // 감사 로그의 역할은 응답 이후에 채운다.
+  // 조회 실패는 비로그인으로 처리하되 보안 검사는 그대로 진행한다.
+  const actor = {
+    userId: await getUserId(),
+    resolveRole: async () => (await getUser())?.role,
+  };
+
+  const handleChat = createRequestChatService(request, actor, ipHash);
   const result = await handleChat({
     sessionId: body?.sessionId,
     messages: body?.messages,
-    actorId: user?.id ?? null,
+    actorId: actor.userId,
     ipHash,
   });
 
   recordChatAudit(request, {
     result: result.ok && !result.blocked ? "allow" : "deny",
-    user,
+    actor,
   });
 
   const { status, ...payload } = result;
