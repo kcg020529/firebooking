@@ -21,6 +21,7 @@
 | 브랜치 전략 | `main` + 기능 브랜치 (develop 없음) | 2주짜리에 3명이면 develop은 오버헤드 |
 | 역할 B | [@maybe2dream-create](https://github.com/maybe2dream-create) — 프론트 · 대시보드 | |
 | 역할 C | [@DongHoon-L](https://github.com/DongHoon-L) — 챗봇 · LLM 보안 | |
+| 배포 리전 | **서울(icn1)** 고정 — `vercel.json` | Supabase 프로젝트가 서울에 있다. 리전을 안 정하면 함수가 먼 곳에서 떠서 요청마다 왕복 지연이 붙는다. `api_logs.duration_ms` 기준 `/api/admin/events` 가 1.2~2.0초, `/api/courses` 가 361ms였다 (같은 쿼리가 로컬에선 20~60ms) |
 
 ---
 
