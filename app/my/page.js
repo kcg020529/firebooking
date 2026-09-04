@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { listMyBookings } from "@/lib/bookings";
-import LogoutButton from "@/components/LogoutButton";
 import { TYPE_LABEL } from "@/lib/courseType";
 
 /** 로그인 상태에 따라 내용이 달라지므로 캐시하지 않는다. */
@@ -24,15 +23,12 @@ export default async function MyPage() {
   return (
     <main className="flex-1 px-6 py-12">
       <div className="mx-auto w-full max-w-3xl">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold">내 예약</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {user.displayName ?? user.email}
-              <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-xs">{user.role}</span>
-            </p>
-          </div>
-          <LogoutButton />
+        <div>
+          <h1 className="text-2xl font-bold">내 예약</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {user.displayName ?? user.email}
+            <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-xs">{user.role}</span>
+          </p>
         </div>
 
         {bookings.length === 0 ? (
