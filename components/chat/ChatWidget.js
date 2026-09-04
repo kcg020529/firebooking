@@ -14,6 +14,23 @@ const DEFAULT_QUICK_REPLIES = [
   "예약 가능한 시간 볼게요",
 ];
 
+/** 챗봇 트리거 버튼을 골프공처럼 보이게 하는 딤플 질감(입체감용 하이라이트 포함). */
+const GOLF_BALL_TEXTURE = [
+  "radial-gradient(circle at 32% 26%, rgba(255,255,255,0.95), transparent 55%)",
+  "radial-gradient(circle at 30% 26%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 52% 20%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 72% 30%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 20% 46%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 44% 46%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 66% 48%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 84% 44%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 30% 66%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 52% 68%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 72% 66%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 42% 84%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+  "radial-gradient(circle at 62% 84%, rgba(0,0,0,0.12) 1.6px, transparent 1.7px)",
+].join(", ");
+
 function createSessionId() {
   const saved = sessionStorage.getItem("firebooking-chat-session");
 
@@ -179,15 +196,25 @@ export default function ChatWidget() {
         </section>
       ) : null}
 
-      <button
-        type="button"
-        onClick={handleToggle}
-        className="rounded-full bg-emerald-800 px-5 py-3 font-medium text-white shadow-lg hover:bg-emerald-700"
-        aria-expanded={isOpen}
-        aria-label={isOpen ? "챗봇 닫기" : "예약 챗봇 열기"}
-      >
-        {isOpen ? "닫기" : "예약 문의"}
-      </button>
+      <div className="group relative">
+        <span
+          className="pointer-events-none absolute right-[calc(100%+0.75rem)] top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-emerald-900 px-4 py-2 text-sm font-medium text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100"
+        >
+          {isOpen ? "닫기" : "예약 도와드릴까요?"}
+        </span>
+
+        <button
+          type="button"
+          onClick={handleToggle}
+          aria-expanded={isOpen}
+          aria-label={isOpen ? "챗봇 닫기" : "예약 챗봇 열기"}
+          className="h-14 w-14 rounded-full ring-4 ring-emerald-500/30 shadow-[0_0_28px_rgba(16,163,74,0.55)] transition hover:shadow-[0_0_36px_rgba(16,163,74,0.8)]"
+          style={{
+            backgroundColor: "#f2f2ef",
+            backgroundImage: GOLF_BALL_TEXTURE,
+          }}
+        />
+      </div>
     </div>
   );
 }
