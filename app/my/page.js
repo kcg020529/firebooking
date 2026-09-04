@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth";
+import { getAuthUser, getUserProfile } from "@/lib/auth";
 import { listMyBookings } from "@/lib/bookings";
 import { TYPE_LABEL } from "@/lib/courseType";
 
@@ -13,12 +13,23 @@ function formatDateTime(date, time) {
 }
 
 export default async function MyPage() {
-  const user = await getCurrentUser();
-  if (!user) {
+  // 토큰 검증만 먼저 한다. 여기서 통과해야 아래 조회가 의미가 있다.
+  const authUser = await getAuthUser();
+  if (!authUser) {
     redirect("/login");
   }
 
-  const bookings = await listMyBookings(user.id);
+  // 역할(표시용)과 예약 목록은 서로를 기다릴 이유가 없다. 같이 던진다.
+  const [profile, bookings] = await Promise.all([
+    getUserProfile(authUser.id),
+    listMyBookings(authUser.id),
+  ]);
+
+  const user = {
+    ...authUser,
+    role: profile.role,
+    displayName: profile.displayName,
+  };
 
   return (
     <main className="flex-1 px-6 py-12">
