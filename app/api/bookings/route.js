@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { createBooking } from '@/lib/bookings';
-import { getCurrentUser } from '@/lib/auth';
 
 /**
  * POST /api/bookings
@@ -14,7 +13,7 @@ import { getCurrentUser } from '@/lib/auth';
  * 검증·정원 확인은 전부 lib/bookings.js 의 createBooking() 이 한다.
  * 챗봇 tool 도 같은 함수를 부르므로 두 경로의 규칙이 절대 갈라지지 않는다.
  */
-export const POST = withApiLog(async (request) => {
+export const POST = withApiLog(async (request, { getUser }) => {
   let body;
   try {
     body = await request.json();
@@ -27,7 +26,7 @@ export const POST = withApiLog(async (request) => {
 
   // 로그인 상태면 예약을 계정에 묶는다. 비로그인 예약도 그대로 허용한다
   // (bookings.user_id 는 nullable). 예약번호로만 조회하게 된다.
-  const user = await getCurrentUser();
+  const user = await getUser();
 
   const result = await createBooking({
     slotId: body.slotId,

@@ -4,7 +4,6 @@ import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { detectCodeEnumeration } from '@/lib/security/rules';
 import { getClientIp, hashIp } from '@/lib/security/hash';
 import { lookupBookings } from '@/lib/bookings';
-import { getCurrentUser } from '@/lib/auth';
 
 /**
  * GET /api/bookings/lookup?code=GB-XXXXX&phone=010-1234-5678
@@ -17,12 +16,12 @@ import { getCurrentUser } from '@/lib/auth';
  *
  * 실패는 audit_logs 에 deny 로 남고, 반복되면 ANO_CODE_ENUM 이 뜬다.
  */
-export const GET = withApiLog(async (request) => {
+export const GET = withApiLog(async (request, { getUser }) => {
   const params = new URL(request.url).searchParams;
   const code = params.get('code');
   const phone = params.get('phone');
 
-  const user = await getCurrentUser();
+  const user = await getUser();
   const ipHash = hashIp(getClientIp(request));
 
   const result = await lookupBookings({ code, phone });
