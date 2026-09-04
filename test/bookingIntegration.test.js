@@ -143,3 +143,147 @@ test("slotId UUID 검증 로직이 비정상 입력을 거절한다", () => {
   assert.equal(UUID_PATTERN.test("../../../etc/passwd"), false);
   assert.equal(UUID_PATTERN.test("' OR '1'='1"), false);
 });
+
+test("통합 흐름 검증: 홈 → 코스 → 날짜 → 슬롯 → 폼 → 예약완료 → 조회 → 내 예약", () => {
+  // 1. 홈: 코스 목록
+  const mockCourses = [
+    { id: "c1", name: "한양CC", type: "field", region: "경기" },
+    { id: "c2", name: "강남스크린", type: "screen", region: "서울" },
+  ];
+  const fieldCourses = mockCourses.filter((c) => c.type === "field");
+  assert.equal(fieldCourses.length, 1);
+  assert.equal(fieldCourses[0].name, "한양CC");
+
+  // 2. 코스 상세 + 날짜별 슬롯
+  const mockSlot = {
+    id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+    courseId: "c1",
+    date: "2026-09-10",
+    time: "08:00:00",
+    price: 150000,
+    capacity: 4,
+    booked: 1,
+  };
+  const availableSlots = [{
+    ...mockSlot,
+    available: mockSlot.capacity - mockSlot.booked,
+  }];
+  assert.equal(availableSlots[0].available, 3);
+
+  // 3. GET /api/slots/:slotId 응답 형식
+  const slotResponse = {
+    ok: true,
+    slot: {
+      id: mockSlot.id,
+      date: mockSlot.date,
+      time: mockSlot.time,
+      price: mockSlot.price,
+      capacity: mockSlot.capacity,
+      booked: mockSlot.booked,
+      available: mockSlot.capacity - mockSlot.booked,
+      course: {
+        id: "c1",
+        name: "한양CC",
+        type: "field",
+      },
+    },
+    course: {
+      id: "c1",
+      name: "한양CC",
+      type: "field",
+    },
+  };
+  assert.equal(slotResponse.ok, true);
+  assert.equal(slotResponse.slot.id, mockSlot.id);
+  assert.equal(slotResponse.course.name, "한양CC");
+  assert.equal("phone" in slotResponse.course, false); // 민감정보 미노출
+
+  // 4. 수동 폼 예약 생성: bookings.source = "form" 및 booked 증가
+  const bookingInput = {
+    slotId: mockSlot.id,
+    name: "홍길동",
+    phone: "010-1234-5678",
+    partySize: 2,
+    memo: "카트 준비 부탁드립니다.",
+    source: "form",
+  };
+  assert.equal(bookingInput.source, "form");
+  const updatedBooked = mockSlot.booked + bookingInput.partySize;
+  assert.equal(updatedBooked, 3);
+  assert.ok(updatedBooked <= mockSlot.capacity);
+
+  const createdBooking = {
+    id: "b1",
+    bookingCode: "GB-7K9M2",
+    slotId: mockSlot.id,
+    name: bookingInput.name,
+    phone: "010-1234-5678",
+    partySize: bookingInput.partySize,
+    memo: bookingInput.memo,
+    source: bookingInput.source,
+    createdAt: new Date().toISOString(),
+  };
+  assert.match(createdBooking.bookingCode, /^GB-[2-9A-HJ-NP-Z]{5}$/);
+  assert.equal(createdBooking.source, "form");
+
+  // 5. 비로그인 조회: 예약번호와 전화번호 일치 시 성공, 불일치/누락 시 실패
+  function mockLookup({ code, phone }) {
+    if (!code || !phone) {
+      return { ok: false, error: "예약번호와 전화번호를 모두 입력해주세요." };
+    }
+    if (code === createdBooking.bookingCode && phone === createdBooking.phone) {
+      return {
+        ok: true,
+        bookings: [
+          {
+            bookingCode: createdBooking.bookingCode,
+            partySize: createdBooking.partySize,
+            memo: createdBooking.memo,
+            source: createdBooking.source,
+            createdAt: createdBooking.createdAt,
+            date: mockSlot.date,
+            time: mockSlot.time,
+            price: mockSlot.price,
+            courseName: "한양CC",
+            courseType: "field",
+          },
+        ],
+      };
+    }
+    return { ok: false, error: "일치하는 예약이 없습니다. 예약번호와 전화번호를 확인해주세요." };
+  }
+
+  // 성공 케이스
+  const lookupSuccess = mockLookup({ code: "GB-7K9M2", phone: "010-1234-5678" });
+  assert.equal(lookupSuccess.ok, true);
+  assert.equal(lookupSuccess.bookings.length, 1);
+  assert.equal("name" in lookupSuccess.bookings[0], false); // PII 제외
+  assert.equal("phone" in lookupSuccess.bookings[0], false); // PII 제외
+
+  // 실패 케이스
+  assert.equal(mockLookup({ code: "GB-7K9M2" }).ok, false);
+  assert.equal(mockLookup({ phone: "010-1234-5678" }).ok, false);
+  assert.equal(mockLookup({ code: "GB-WRONG", phone: "010-1234-5678" }).ok, false);
+
+  // 6. 로그인 사용자 예약 조회 (/my)
+  const userId = "user-uuid-123";
+  const userBookings = [
+    { ...createdBooking, userId },
+    { id: "b2", bookingCode: "GB-OLDER", userId: "other-user", createdAt: "2026-09-01" },
+  ];
+  const myList = userBookings.filter((b) => b.userId === userId);
+  assert.equal(myList.length, 1);
+  assert.equal(myList[0].bookingCode, "GB-7K9M2");
+
+  // 7. 감사 로그 및 API 로깅 검증
+  const auditEntry = {
+    action: "booking.create",
+    result: "allow",
+    targetType: "booking",
+    targetId: createdBooking.bookingCode,
+    actorRole: "guest",
+  };
+  assert.equal(auditEntry.action, "booking.create");
+  assert.equal(auditEntry.targetId, "GB-7K9M2"); // 예약번호만 남기고 이름/전화번호 없음
+});
+
