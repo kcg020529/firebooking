@@ -16,8 +16,8 @@ const VALID_CATEGORY = ['pii', 'injection', 'anomaly', 'authz', 'leak'];
  * 따로 두 번 부르지 않아도 되게. 두 번 부르면 그 사이에 새 이벤트가 들어와
  * 목록과 합계가 어긋난다.
  */
-export const GET = withApiLog(async (request) => {
-  const guard = await requireStaff(request);
+export const GET = withApiLog(async (request, { getUser }) => {
+  const guard = await requireStaff(request, getUser);
   if (guard.denied) return guard.response;
 
   const params = new URL(request.url).searchParams;

@@ -14,8 +14,8 @@ const VALID_RESULT = ['allow', 'deny'];
  * result=deny 로 거르면 "권한 없이 시도한 기록"만 볼 수 있다.
  * 반복 실패가 공격 신호이므로 대시보드에서 가장 많이 쓸 필터다.
  */
-export const GET = withApiLog(async (request) => {
-  const guard = await requireStaff(request);
+export const GET = withApiLog(async (request, { getUser }) => {
+  const guard = await requireStaff(request, getUser);
   if (guard.denied) return guard.response;
 
   const params = new URL(request.url).searchParams;
