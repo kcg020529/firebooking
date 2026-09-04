@@ -151,7 +151,7 @@ export default function ChatWidget() {
               onChange={(event) => setInput(event.target.value)}
               maxLength={1000}
               placeholder="예약 내용을 입력하세요"
-              className="min-w-0 flex-1 rounded-xl border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-emerald-700"
+              className="min-w-0 flex-1 rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none placeholder:text-neutral-400 focus:border-emerald-700"
             />
             <button
               type="submit"
