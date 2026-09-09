@@ -83,6 +83,7 @@ login_attempt_limits key_hash, failed_attempts, pending_attempts, window_started
 PII_PHONE      PII_RRN       PII_CARD      PII_EMAIL     PII_NAME
 INJ_IGNORE     INJ_IGNORE_EN INJ_SYSPROMPT INJ_ROLE      INJ_TOOL   INJ_SQL   INJ_XSS
 ANO_SCALP      ANO_LOOKUP_BF ANO_CODE_ENUM ANO_RATE     ANO_LOGIN_BF
+ANO_ADMIN_PROBE
 AUTHZ_ADMIN
 LEAK_SECRET
 ```

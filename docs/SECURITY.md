@@ -79,10 +79,11 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 
 | 규칙 ID | 조건 | 윈도우 | 심각도 | 티어 |
 |---|---|---|---|---|
-| `ANO_SCALP` | 동일 세션 예약 생성 3건 이상 | 5분 | warn | T1 |
+| `ANO_SCALP` | 동일 IP 예약 생성 3건 이상 | 5분 | warn | T1 |
 | `ANO_LOOKUP_BF` | 동일 IP가 서로 다른 전화번호로 조회 10회 이상 | 10분 | critical | T1 |
 | `ANO_CODE_ENUM` | 존재하지 않는 예약번호 조회 5회 이상 (IDOR 순회) | 10분 | critical | **T0** |
 | `ANO_RATE` | 동일 IP API 호출 60회 이상 | 1분 | warn | T1 |
+| `ANO_ADMIN_PROBE` | 존재하지 않는 관리자 경로 접근 | 즉시 | warn | T1 |
 | `ANO_LOGIN_BF` | 동일 로그인 식별자·IP 조합의 비밀번호 실패 5회 | 15분 | critical | **T0** |
 | `AUTHZ_ADMIN` | `user` 역할이 `/admin` 접근 | 즉시 | critical | **T0** |
 | `LEAK_SECRET` | API 응답 본문에 `sk-ant`·`eyJ`·`service_role` 포함 | 즉시 | critical | **T0** |

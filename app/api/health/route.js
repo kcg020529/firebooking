@@ -8,31 +8,22 @@ import { createServerClient } from '@/lib/supabase';
  * Day 1 게이트의 "새로고침하면 api_logs 에 행이 늘어난다"를
  * 증명하는 데 쓴다. 이 라우트를 한 번 부를 때마다 로그가 한 줄 쌓인다.
  *
- * ⚠️ 진단 정보를 응답에 담을 때는 환경변수 값을 절대 넣지 않는다.
- *    "있다/없다"만 알려준다. 값을 내려보내면 LEAK_SECRET 이 잡는다.
+ * 운영 응답에는 환경변수 구성이나 DB 오류 원문을 넣지 않는다.
+ * 외부에는 연결 가능 여부만 공개하고 상세 원인은 서버 로그에서 확인한다.
  */
 export const GET = withApiLog(async () => {
-  const checks = {
-    supabaseUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),
-    supabaseAnonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
-    supabaseServiceKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-    deepseekKey: Boolean(process.env.DEEPSEEK_API_KEY),
-    ipHashSalt: Boolean(process.env.IP_HASH_SALT),
-  };
-
-  let database = 'unknown';
+  let database = 'unavailable';
   try {
     const supabase = createServerClient();
     const { error } = await supabase.from('courses').select('id').limit(1);
-    database = error ? `error: ${error.message}` : 'ok';
-  } catch (error) {
-    database = `error: ${error.message}`;
+    database = error ? 'unavailable' : 'ok';
+  } catch {
+    database = 'unavailable';
   }
 
   return NextResponse.json({
-    ok: true,
-    env: checks,
+    ok: database === 'ok',
     database,
     time: new Date().toISOString(),
-  });
+  }, { status: database === 'ok' ? 200 : 503 });
 });

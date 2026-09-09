@@ -343,6 +343,28 @@ test("lookupBookings: booking_code와 phone을 둘 다 .eq()로 조회하고 결
   });
 });
 
+test("lookupBookings: 메모에 섞인 개인정보를 응답 전에 마스킹한다", async () => {
+  const client = createFakeBookingSupabase({
+    bookingsData: [{
+      booking_code: "GB-SAFE1",
+      party_size: 2,
+      memo: "연락처 +82 10 1234 5678, 예약자는 김철수입니다",
+      source: "form",
+      created_at: "2026-09-04T10:00:00Z",
+      slots: { date: "2026-09-10", time: "08:00:00", price: 150000, courses: { name: "한양CC", type: "field" } },
+    }],
+  });
+
+  const result = await lookupBookings(
+    { code: "GB-SAFE1", phone: "010-1234-5678" },
+    { client },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.bookings[0].memo.includes("1234 5678"), false);
+  assert.equal(result.bookings[0].memo.includes("김철수"), false);
+});
+
 test("normalizePhone: 10자리 및 11자리 번호의 다양한 입력 형식을 표준 정규화 형식으로 일치시킨다", async () => {
   const formats11 = ["01012345678", "010-1234-5678", "010.1234.5678"];
   for (const phone of formats11) {

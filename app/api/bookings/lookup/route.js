@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
-import { detectCodeEnumeration } from '@/lib/security/rules';
-import { getClientIp, hashIp } from '@/lib/security/hash';
+import { detectCodeEnumeration, detectLookupBruteForce } from '@/lib/security/rules';
+import { getClientIp, hashIp, hashSecurityValue } from '@/lib/security/hash';
 import { lookupBookings } from '@/lib/bookings';
 
 /**
@@ -25,6 +25,9 @@ export const GET = withApiLog(async (request, { getUser, getUserId }) => {
   // 필요한 건 기록용 id 뿐이라 역할은 응답 뒤에 채운다.
   const userId = await getUserId();
   const ipHash = hashIp(getClientIp(request));
+  const phoneHash = hashSecurityValue(
+    typeof phone === 'string' ? phone.replace(/\D/g, '') : '',
+  );
 
   const result = await lookupBookings({ code, phone });
 
@@ -36,14 +39,19 @@ export const GET = withApiLog(async (request, { getUser, getUserId }) => {
       resolveActorRole: async () => (await getUser())?.role,
       targetType: 'booking',
       // ★ 시도한 예약번호는 남기지 않는다. 로그가 대입 결과 목록이 되면 안 된다.
-      targetId: null,
-    });
-
-    // 실패가 쌓이면 예약번호 순회로 판정한다.
-    detectCodeEnumeration({
-      ipHash,
-      actorId: userId,
-      action: AUDIT_ACTIONS.BOOKING_LOOKUP,
+      targetId: phoneHash ? `phone:${phoneHash}` : null,
+      onRecorded: async ({ client }) => {
+        await Promise.all([
+          detectCodeEnumeration(
+            { ipHash, actorId: userId, action: AUDIT_ACTIONS.BOOKING_LOOKUP },
+            { client, schedule: (operation) => operation() },
+          ),
+          detectLookupBruteForce(
+            { ipHash, actorId: userId, action: AUDIT_ACTIONS.BOOKING_LOOKUP, phoneHash },
+            { client, schedule: (operation) => operation() },
+          ),
+        ]);
+      },
     });
 
     return NextResponse.json({ ok: false, error: result.error }, { status: 404 });

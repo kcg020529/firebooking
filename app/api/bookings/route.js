@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { createBooking } from '@/lib/bookings';
+import { detectScalping } from '@/lib/security/rules';
+import { getClientIp, hashIp } from '@/lib/security/hash';
 
 /**
  * POST /api/bookings
@@ -30,6 +32,7 @@ export const POST = withApiLog(async (request, { getUser, getUserId }) => {
   // 여기서 필요한 건 id 뿐이라 역할까지 조회하지 않는다. 감사 로그의
   // 역할은 응답을 보낸 뒤에 채운다(resolveActorRole).
   const userId = await getUserId();
+  const ipHash = hashIp(getClientIp(request));
 
   const result = await createBooking({
     slotId: body.slotId,
@@ -62,6 +65,10 @@ export const POST = withApiLog(async (request, { getUser, getUserId }) => {
     targetType: 'booking',
     // ★ 예약번호만 남긴다. 이름·전화번호는 감사 로그에 넣지 않는다.
     targetId: result.booking.bookingCode,
+    onRecorded: ({ client }) => detectScalping(
+      { ipHash, actorId: userId, action: AUDIT_ACTIONS.BOOKING_CREATE },
+      { client, schedule: (operation) => operation() },
+    ),
   });
 
   // 응답에도 PII 를 되돌려주지 않는다. 예약번호만 있으면 조회가 된다.
