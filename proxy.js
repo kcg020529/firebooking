@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { isProtectedPagePath } from '@/lib/security/authPaths';
+import {
+  createSessionTimeoutToken,
+  getSessionTimeoutCookieOptions,
+  isSessionTimeoutTokenValid,
+  SESSION_TIMEOUT_COOKIE,
+} from '@/lib/security/sessionTimeout';
 
 /**
  * 모든 요청의 공통 처리.
@@ -38,22 +44,53 @@ export default async function proxy(request) {
   // 원격 토큰 검증·갱신은 보호 페이지에서만 수행하고,
   // API 권한은 각 Route Handler가 자신의 서버 경계에서 검증한다.
   if (isProtectedPage && url && anonKey) {
+    const cookiesToSet = [];
     const supabase = createServerClient(url, anonKey, {
       cookies: {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-          response = NextResponse.next({ request: { headers: requestHeaders } });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          );
+        setAll(nextCookies) {
+          nextCookies.forEach((cookie) => {
+            request.cookies.set(cookie.name, cookie.value);
+            cookiesToSet.push(cookie);
+          });
         },
       },
     });
 
-    await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+      const timeoutToken = request.cookies.get(SESSION_TIMEOUT_COOKIE)?.value;
+      if (!isSessionTimeoutTokenValid(timeoutToken, user.id)) {
+        await supabase.auth.signOut({ scope: 'local' });
+
+        const loginUrl = new URL('/login', request.url);
+        loginUrl.searchParams.set('reason', 'session_expired');
+        response = NextResponse.redirect(loginUrl);
+        cookiesToSet.forEach(({ name, value, options }) =>
+          response.cookies.set(name, value, options)
+        );
+        response.cookies.delete(SESSION_TIMEOUT_COOKIE);
+        return response;
+      }
+
+      response = NextResponse.next({ request: { headers: requestHeaders } });
+      cookiesToSet.forEach(({ name, value, options }) =>
+        response.cookies.set(name, value, options)
+      );
+      response.cookies.set(
+        SESSION_TIMEOUT_COOKIE,
+        createSessionTimeoutToken(user.id),
+        getSessionTimeoutCookieOptions()
+      );
+    } else if (cookiesToSet.length > 0) {
+      response = NextResponse.next({ request: { headers: requestHeaders } });
+      cookiesToSet.forEach(({ name, value, options }) =>
+        response.cookies.set(name, value, options)
+      );
+    }
   }
 
   // TODO(A, Tier 1): ANO_RATE — 동일 IP 가 1분에 60회를 넘으면 429.

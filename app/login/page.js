@@ -1,30 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
-import { createAuthBrowserClient } from "@/lib/supabaseAuth";
+import { useSearchParams } from "next/navigation";
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const sessionExpired = searchParams.get("reason") === "session_expired";
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
 
-    const supabase = createAuthBrowserClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    let response;
+    try {
+      response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+    } catch {
+      setError("로그인 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.");
+      setIsSubmitting(false);
+      return;
+    }
 
-    if (signInError) {
-      // Supabase 원문은 영어이고, 계정 존재 여부를 드러내지 않도록
-      // 아이디 틀림/비번 틀림을 구분하지 않는다.
-      setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+    const data = await response.json().catch(() => null);
+    if (!response.ok || !data?.ok) {
+      const remaining = Number.isInteger(data?.remainingAttempts)
+        ? ` (남은 시도 ${data.remainingAttempts}회)`
+        : "";
+      setError(`${data?.error ?? "로그인에 실패했습니다."}${remaining}`);
       setIsSubmitting(false);
       return;
     }
@@ -66,9 +78,9 @@ export default function LoginPage() {
             />
           </label>
 
-          {error && (
+          {(error || sessionExpired) && (
             <p role="alert" className="text-sm text-critical">
-              {error}
+              {error ?? "30분 동안 활동이 없어 세션이 만료되었습니다. 다시 로그인해 주세요."}
             </p>
           )}
 
@@ -89,5 +101,13 @@ export default function LoginPage() {
         </p>
       </div>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<main className="flex-1 px-6 py-16" />}>
+      <LoginForm />
+    </Suspense>
   );
 }
