@@ -56,11 +56,11 @@
 
 - **오전** — GitHub 저장소 + 3명 초대(완료), `npx create-next-app@latest`(JS · Tailwind · App Router), Vercel 연결, **첫 배포 확인**
 - **오전** — Supabase 프로젝트 + Auth 켜기, DeepSeek 키 발급 + 크레딧 충전
-- **오후** — A가 **8개 테이블 + RLS 정책** 실행. `withApiLog()` 래퍼로 `api_logs`에 행이 쌓이는 것까지 확인
+- **오후** — A가 **9개 테이블 + RLS 정책** 실행. `withApiLog()` 래퍼로 `api_logs`에 행이 쌓이는 것까지 확인
 - **오후** — [docs/DECISIONS.md](DECISIONS.md) 2번 표를 다 채운다. 보안 4축 담당 확정
 
 > **GATE — Day 1 저녁**
-> 배포 URL이 열린다 · 테이블 8개 + RLS가 켜져 있다 · **새로고침하면 `api_logs`에 행이 늘어난다**
+> 배포 URL이 열린다 · 테이블 9개 + RLS가 켜져 있다 · **새로고침하면 `api_logs`에 행이 늘어난다**
 > 마지막 항목이 핵심이다. 로그가 쌓이기 시작해야 나머지 9일이 성립한다.
 > 못 넘겼으면 Day 2 오전을 여기에 쓴다.
 

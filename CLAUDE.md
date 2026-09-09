@@ -52,7 +52,7 @@
 
 ## DB 스키마
 
-서비스 3 + 보안 5 = 8 테이블. 전문은 `supabase/schema.sql`.
+서비스 3 + 보안 6 = 9 테이블. 전문은 `supabase/schema.sql`.
 
 ```
 courses          id, name, type('field'|'screen'), region, address, phone, image_url, description
@@ -67,9 +67,11 @@ audit_logs       id, ts, actor_id, actor_role, action, target_type, target_id,
 security_events  id, ts, rule_id, category('pii'|'injection'|'anomaly'|'authz'|'leak'),
                  severity('info'|'warn'|'critical'), actor_id, ip_hash, evidence, handled
 chat_logs        id, ts, session_id, role, content_masked, pii_hits    ★ 원문 저장 금지
+login_attempt_limits key_hash, failed_attempts, pending_attempts, window_started_at,
+                     locked_until, updated_at             ★ 이메일·IP 원문 저장 금지
 ```
 
-**8개 테이블 전부 RLS를 켠다.** 클라이언트는 `courses`·`slots`만 읽기 허용, 나머지는 서버(`SERVICE_ROLE_KEY`) 경유. 보안 테이블 조회 정책은 `role in ('staff','admin')`.
+**9개 테이블 전부 RLS를 켠다.** 클라이언트는 `courses`·`slots`만 읽기 허용, 나머지는 서버(`SERVICE_ROLE_KEY`) 경유. 보안 테이블 조회 정책은 `role in ('staff','admin')`. `login_attempt_limits`는 정책을 만들지 않아 브라우저 접근을 전부 막는다.
 
 ---
 
@@ -80,7 +82,7 @@ chat_logs        id, ts, session_id, role, content_masked, pii_hits    ★ 원�
 ```
 PII_PHONE      PII_RRN       PII_CARD      PII_EMAIL     PII_NAME
 INJ_IGNORE     INJ_IGNORE_EN INJ_SYSPROMPT INJ_ROLE      INJ_TOOL   INJ_SQL   INJ_XSS
-ANO_SCALP      ANO_LOOKUP_BF ANO_CODE_ENUM ANO_RATE
+ANO_SCALP      ANO_LOOKUP_BF ANO_CODE_ENUM ANO_RATE     ANO_LOGIN_BF
 AUTHZ_ADMIN
 LEAK_SECRET
 ```

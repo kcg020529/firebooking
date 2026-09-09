@@ -83,6 +83,7 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 | `ANO_LOOKUP_BF` | 동일 IP가 서로 다른 전화번호로 조회 10회 이상 | 10분 | critical | T1 |
 | `ANO_CODE_ENUM` | 존재하지 않는 예약번호 조회 5회 이상 (IDOR 순회) | 10분 | critical | **T0** |
 | `ANO_RATE` | 동일 IP API 호출 60회 이상 | 1분 | warn | T1 |
+| `ANO_LOGIN_BF` | 동일 로그인 식별자·IP 조합의 비밀번호 실패 5회 | 15분 | critical | **T0** |
 | `AUTHZ_ADMIN` | `user` 역할이 `/admin` 접근 | 즉시 | critical | **T0** |
 | `LEAK_SECRET` | API 응답 본문에 `sk-ant`·`eyJ`·`service_role` 포함 | 즉시 | critical | **T0** |
 
@@ -138,7 +139,7 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 
 ### RLS — 이 과제에서 가장 중요한 설정
 
-- **8개 테이블 전부 RLS를 켠다.** 켜지 않으면 anon 키로 로그 테이블이 통째로 읽힌다. 보안 과제에서 이건 그 자체로 감점 사유다
+- **9개 테이블 전부 RLS를 켠다.** 켜지 않으면 anon 키로 로그 테이블이 통째로 읽힌다. 보안 과제에서 이건 그 자체로 감점 사유다
 - 클라이언트 직접 읽기 허용: `courses` · `slots`만
 - 보안 테이블 조회 정책: `role in ('staff','admin')`
 - **앱에서 화면만 가리는 게 아니라 DB가 거절하는 것**을 발표에서 보여준다
@@ -150,6 +151,16 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 `action` 이름 규칙: `booking.create`, `booking.lookup`, `admin.view`, `auth.login` — **`대상.동작`** 형태로 통일한다.
 
 새 API 라우트를 만들면 **반드시** 감사 기록을 넣는다. 이건 선택이 아니다.
+
+### 로그인 대입 방어 · 세션 타임아웃
+
+- 로그인은 `/api/auth/login` 한 경로로 받고, 비밀번호 검증 전에 DB에서 시도 자리를 원자적으로 예약한다.
+- 같은 이메일·IP 조합에서 15분 동안 비밀번호가 5회 틀리면 15분 잠근다. 이메일과 IP 원문은 저장하지 않고 HMAC 키만 저장한다.
+- 정상 로그인은 실패 횟수를 초기화한다. 공급자 장애나 429는 비밀번호 실패로 세지 않아 장애가 계정 잠금으로 번지지 않게 한다.
+- `/my`, `/admin`과 서버 권한 검사는 서명된 HttpOnly 쿠키로 30분 비활성 타임아웃을 강제한다. 보호 화면을 사용할 때만 활동 시간이 갱신된다.
+- CAPTCHA는 Supabase Auth의 hCaptcha 또는 Cloudflare Turnstile 보호를 켜고 로그인 요청에 `captchaToken`을 전달해야 한다. 공급자 설정 전에는 UI만 추가하지 않는다.
+
+> 한계: 앱의 5회 제한은 우리 `/api/auth/login` 경로를 보호한다. 공개 Supabase Auth URL을 직접 호출하는 자동화까지 막으려면 Supabase Dashboard의 CAPTCHA와 Auth rate limit을 함께 켜야 한다.
 
 ---
 

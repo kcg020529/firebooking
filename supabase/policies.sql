@@ -24,7 +24,7 @@
 
 
 -- ────────────────────────────────────────────────────────────
---  1. 8개 테이블 전부 RLS 활성화
+--  1. 9개 테이블 전부 RLS 활성화
 --  정책을 하나도 안 만들면 그 테이블은 anon에게 완전 차단된다.
 --  "열려있다가 까먹고 못 막는 것"보다 "막혀있다가 필요한 만큼 여는 것"이 안전하다.
 -- ────────────────────────────────────────────────────────────
@@ -37,6 +37,7 @@ alter table public.api_logs        enable row level security;
 alter table public.audit_logs      enable row level security;
 alter table public.security_events enable row level security;
 alter table public.chat_logs       enable row level security;
+alter table public.login_attempt_limits enable row level security;
 
 
 -- ────────────────────────────────────────────────────────────
@@ -78,6 +79,9 @@ grant select on public.api_logs        to authenticated;
 grant select on public.audit_logs      to authenticated;
 grant select on public.security_events to authenticated;
 grant select on public.chat_logs       to authenticated;
+
+-- login_attempt_limits 는 정책도 GRANT도 주지 않는다.
+-- HMAC 키와 잠금 상태는 service_role 서버만 접근한다.
 
 -- INSERT · UPDATE · DELETE 는 어느 역할에도 주지 않는다.
 -- 쓰기는 전부 서버(service_role)를 거친다.
@@ -221,6 +225,14 @@ revoke execute on function public.create_booking(uuid, text, text, text, int, te
 grant execute on function public.create_booking(uuid, text, text, text, int, text, text, uuid)
   to service_role;
 
+revoke execute on function public.reserve_login_attempt(text, int, int) from public;
+revoke execute on function public.reserve_login_attempt(text, int, int) from anon, authenticated;
+grant execute on function public.reserve_login_attempt(text, int, int) to service_role;
+
+revoke execute on function public.finish_login_attempt(text, text, int, int) from public;
+revoke execute on function public.finish_login_attempt(text, text, int, int) from anon, authenticated;
+grant execute on function public.finish_login_attempt(text, text, int, int) to service_role;
+
 -- 역할 조회 헬퍼는 자기 역할만 반환하므로 열어둔다 (정책 내부에서 쓰인다).
 grant execute on function public.current_user_role() to anon, authenticated;
 grant execute on function public.is_staff()          to anon, authenticated;
@@ -231,7 +243,7 @@ grant execute on function public.is_admin()          to anon, authenticated;
 --  검증 — 실행 후 아래를 돌려 결과를 확인한다.
 -- ============================================================
 
--- (1) 8개 테이블 모두 rowsecurity = true 여야 한다.
+-- (1) 9개 테이블 모두 rowsecurity = true 여야 한다.
 --
 -- select tablename, rowsecurity
 -- from pg_tables
