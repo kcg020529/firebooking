@@ -21,7 +21,7 @@ import {
  *   1. 보호 화면의 로그인 세션 토큰 갱신 — 공개 화면은 브라우저가 표시만 담당한다
  *   2. 요청 상관 ID 부여 — 나중에 로그끼리 이어붙일 때 쓴다
  *   3. 현재 경로를 헤더로 전달 — 서버 컴포넌트는 자기 URL 을 알 수 없다
- *   4. Tier 1 의 rate limit (ANO_RATE) 이 들어올 자리
+ *   4. API rate limit은 응답 로깅과 같은 lib/security/apiLog.js에서 처리
  */
 export default async function proxy(request) {
   const requestHeaders = new Headers(request.headers);
@@ -92,9 +92,6 @@ export default async function proxy(request) {
       );
     }
   }
-
-  // TODO(A, Tier 1): ANO_RATE — 동일 IP 가 1분에 60회를 넘으면 429.
-  //   임계값은 lib/security/rules.js 에 선언하고 여기서 가져다 쓴다.
 
   return response;
 }

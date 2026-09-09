@@ -10,8 +10,12 @@ import {
   recordChatLog,
   recordSecurityEvents,
 } from "../../../lib/security/chatLog.js";
-import { getClientIp, hashIp } from "../../../lib/security/hash.js";
-import { detectCodeEnumeration } from "../../../lib/security/rules.js";
+import { getClientIp, hashIp, hashSecurityValue } from "../../../lib/security/hash.js";
+import {
+  detectCodeEnumeration,
+  detectLookupBruteForce,
+  detectScalping,
+} from "../../../lib/security/rules.js";
 
 function recordBookingAudit(request, { input, result }, actor) {
   recordAudit(request, {
@@ -25,26 +29,58 @@ function recordBookingAudit(request, { input, result }, actor) {
         : null,
     actorId: actor.userId,
     resolveActorRole: actor.resolveRole,
+    ...(result.ok
+      ? {
+          onRecorded: ({ client }) => detectScalping(
+            {
+              ipHash: hashIp(getClientIp(request)),
+              actorId: actor.userId,
+              action: AUDIT_ACTIONS.BOOKING_CREATE,
+            },
+            { client, schedule: (operation) => operation() },
+          ),
+        }
+      : {}),
   });
 }
 
-function recordLookupAudit(request, { result }, actor, ipHash) {
+function recordLookupAudit(request, { input, result }, actor, ipHash) {
+  const phoneHash = hashSecurityValue(
+    typeof input?.phone === "string" ? input.phone.replace(/\D/g, "") : "",
+  );
   recordAudit(request, {
     action: AUDIT_ACTIONS.BOOKING_LOOKUP,
     result: result.ok ? "allow" : "deny",
     targetType: "booking",
-    targetId: result.ok ? result.bookings?.[0]?.bookingCode ?? null : null,
+    targetId: result.ok
+      ? result.bookings?.[0]?.bookingCode ?? null
+      : phoneHash
+        ? `phone:${phoneHash}`
+        : null,
     actorId: actor.userId,
     resolveActorRole: actor.resolveRole,
+    ...(!result.ok
+      ? {
+          onRecorded: async ({ client }) => {
+            await Promise.all([
+              detectCodeEnumeration(
+                { ipHash, actorId: actor.userId, action: AUDIT_ACTIONS.BOOKING_LOOKUP },
+                { client, schedule: (operation) => operation() },
+              ),
+              detectLookupBruteForce(
+                {
+                  ipHash,
+                  actorId: actor.userId,
+                  action: AUDIT_ACTIONS.BOOKING_LOOKUP,
+                  phoneHash,
+                },
+                { client, schedule: (operation) => operation() },
+              ),
+            ]);
+          },
+        }
+      : {}),
   });
-
-  if (!result.ok) {
-    detectCodeEnumeration({
-      ipHash,
-      actorId: actor.userId,
-      action: AUDIT_ACTIONS.BOOKING_LOOKUP,
-    });
-  }
 }
 
 function createRequestChatService(request, actor, ipHash) {
