@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   buildQuery,
@@ -10,11 +9,14 @@ import {
   shortHash,
   startOfDayIso,
 } from "@/lib/adminFormat";
+import { useAdminResource } from "../useAdminResource";
+import DashboardControls from "../DashboardControls";
 
 /**
  * 감사 로그 — 누가 · 언제 · 무엇을 했고 허용/거부됐는지.
  *
  * 권한 검사는 app/admin/layout.js 담당이다. 여기서 또 하지 않는다.
+ * 조회·5초 자동 갱신은 useAdminResource 훅이 맡는다.
  *
  * deny 를 눈에 띄게 두는 게 이 화면의 핵심이다. 한 건의 거부는 오타지만
  * 같은 행위자가 짧은 시간에 반복해서 거부되면 공격 신호다.
@@ -33,8 +35,8 @@ const ACTION_LABEL = {
 const ACTOR_ID_DEBOUNCE_MS = 400;
 
 const RESULT_META = {
-  allow: { label: "허용", text: "text-muted-foreground", dot: "bg-muted-foreground" },
-  deny: { label: "거부", text: "text-critical", dot: "bg-critical" },
+  allow: { label: "허용", pill: "bg-muted text-muted-foreground", dot: "bg-muted-foreground" },
+  deny: { label: "거부", pill: "bg-critical/10 text-critical", dot: "bg-critical" },
 };
 
 /** 결과 배지 — 색만으로 구분하지 않도록 항상 글자를 같이 둔다. */
@@ -43,8 +45,10 @@ function ResultBadge({ result }) {
   if (!meta) return <span className="text-xs text-muted-foreground">{result}</span>;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${meta.text}`}>
-      <span className={`h-2 w-2 shrink-0 rounded-full ${meta.dot}`} aria-hidden="true" />
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${meta.pill}`}
+    >
+      <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${meta.dot}`} aria-hidden="true" />
       {meta.label}
     </span>
   );
@@ -64,65 +68,30 @@ export default function AuditLogPage() {
   const [debouncedActorId, setDebouncedActorId] = useState("");
 
   const [logs, setLogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [loadedAt, setLoadedAt] = useState(null);
-  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedActorId(actorId.trim()), ACTOR_ID_DEBOUNCE_MS);
     return () => clearTimeout(timer);
   }, [actorId]);
 
-  useEffect(() => {
-    let isStale = false;
+  // 필터(디바운스된 행위자 ID 포함)가 바뀌면 url 이 바뀌고, 훅이 다시 조회한다.
+  const url = useMemo(() => {
+    const query = buildQuery({
+      actorId: debouncedActorId,
+      action,
+      result,
+      from: startOfDayIso(from),
+      to: endOfDayIso(to),
+    });
+    return `/api/admin/audit?${query}`;
+  }, [debouncedActorId, action, result, from, to]);
 
-    async function fetchLogs() {
-      setIsLoading(true);
-      setError(null);
-
-      const query = buildQuery({
-        actorId: debouncedActorId,
-        action,
-        result,
-        from: startOfDayIso(from),
-        to: endOfDayIso(to),
-      });
-
-      try {
-        const res = await fetch(`/api/admin/audit?${query}`);
-        const data = await res.json();
-
-        if (isStale) return;
-
-        if (!data.ok) {
-          // 실패한 채로 이전 목록을 남겨두면 지난 기록이 현재 상태처럼 읽힌다.
-          setError(data.error);
-          setLogs([]);
-          setLoadedAt(null);
-          return;
-        }
-
-        setLogs(data.logs);
-        setLoadedAt(new Date());
-      } catch {
-        if (!isStale) {
-          setError("감사 로그를 불러오지 못했습니다.");
-          setLogs([]);
-          setLoadedAt(null);
-        }
-      } finally {
-        if (!isStale) setIsLoading(false);
-      }
-    }
-
-    fetchLogs();
-
-    // 필터를 빠르게 바꿨을 때 이전 응답이 나중에 도착해 화면을 덮는 것을 막는다.
-    return () => {
-      isStale = true;
-    };
-  }, [debouncedActorId, action, result, from, to, reloadKey]);
+  const { isLoading, isRefreshing, error, loadedAt, autoRefresh, setAutoRefresh, refresh } =
+    useAdminResource(url, {
+      onData: (data) => setLogs(data.logs),
+      onReset: () => setLogs([]),
+      errorMessage: "감사 로그를 불러오지 못했습니다.",
+    });
 
   const denyCount = useMemo(
     () => logs.filter((log) => log.result === "deny").length,
@@ -134,11 +103,7 @@ export default function AuditLogPage() {
   return (
     <main className="flex-1 px-6 py-10">
       <div className="mx-auto w-full max-w-6xl">
-        <Link href="/admin" className="text-sm text-muted-foreground transition hover:opacity-80">
-          ← 관리자
-        </Link>
-
-        <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
+        <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold">감사 로그</h1>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -146,21 +111,13 @@ export default function AuditLogPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            {loadedAt && (
-              <span className="text-xs text-muted-foreground">
-                {formatTimestamp(loadedAt)} 기준
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={() => setReloadKey((key) => key + 1)}
-              disabled={isLoading}
-              className="rounded-lg border border-border px-3 py-1.5 text-sm transition hover:opacity-80 disabled:opacity-50"
-            >
-              새로고침
-            </button>
-          </div>
+          <DashboardControls
+            loadedAt={loadedAt}
+            isRefreshing={isRefreshing}
+            autoRefresh={autoRefresh}
+            onToggleAuto={() => setAutoRefresh((on) => !on)}
+            onRefresh={refresh}
+          />
         </div>
 
         {/* 필터 */}
@@ -243,7 +200,7 @@ export default function AuditLogPage() {
         </section>
 
         {error && (
-          <p className="mt-6 rounded-xl border border-critical/40 bg-card p-4 text-sm text-critical">
+          <p className="mt-6 rounded-xl border border-critical/40 bg-critical/5 p-4 text-sm text-critical">
             {error}
           </p>
         )}
@@ -254,7 +211,9 @@ export default function AuditLogPage() {
             {isLoading ? "불러오는 중" : `${logs.length}건 표시`}
           </span>
           {!isLoading && denyCount > 0 && (
-            <span className="font-medium text-critical">거부 {denyCount}건</span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-critical/10 px-2 py-0.5 font-medium text-critical">
+              거부 {denyCount}건
+            </span>
           )}
           {!isLoading && result !== "deny" && denyCount > 0 && (
             <button
@@ -270,7 +229,7 @@ export default function AuditLogPage() {
         {/* 로그 테이블 */}
         <div className="mt-3 overflow-x-auto rounded-xl border border-border bg-card">
           <table className="w-full min-w-[56rem] text-left text-sm">
-            <thead className="border-b border-border text-xs text-muted-foreground">
+            <thead className="border-b border-border bg-muted/40 text-xs text-muted-foreground">
               <tr>
                 <th className="px-4 py-3 font-medium">시각</th>
                 <th className="px-4 py-3 font-medium">행위자</th>
@@ -297,8 +256,8 @@ export default function AuditLogPage() {
                   <tr
                     key={log.id}
                     // 거부는 줄 전체를 옅게 물들여서 표를 훑을 때 바로 눈에 들어오게 한다.
-                    className={`border-b border-border last:border-0 ${
-                      log.result === "deny" ? "bg-critical/5" : ""
+                    className={`border-b border-border transition-colors last:border-0 ${
+                      log.result === "deny" ? "bg-critical/5" : "hover:bg-muted/40"
                     }`}
                   >
                     <td
