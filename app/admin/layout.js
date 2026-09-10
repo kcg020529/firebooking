@@ -62,5 +62,47 @@ export default async function AdminLayout({ children }) {
 
   await recordAdminAccess({ path, user });
 
-  return <>{children}</>;
+  return <AdminShell path={path}>{children}</AdminShell>;
+}
+
+/** staff/admin 전용 공통 셸 — 상단 탭으로 대시보드 간 이동을 통일한다. */
+const ADMIN_TABS = [
+  { href: "/admin", label: "홈", exact: true },
+  { href: "/admin/security", label: "보안 대시보드" },
+  { href: "/admin/audit", label: "감사 로그" },
+];
+
+function AdminShell({ path, children }) {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <nav className="border-b border-border bg-card">
+        <div className="mx-auto flex w-full max-w-6xl items-center gap-1 px-6">
+          {ADMIN_TABS.map((tab) => {
+            const isActive = tab.exact ? path === tab.href : path.startsWith(tab.href);
+            return (
+              <Link
+                key={tab.href}
+                href={tab.href}
+                aria-current={isActive ? "page" : undefined}
+                className={`-mb-px border-b-2 px-3 py-3 text-sm transition ${
+                  isActive
+                    ? "border-brand font-medium text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {tab.label}
+              </Link>
+            );
+          })}
+          <Link
+            href="/"
+            className="ml-auto px-3 py-3 text-sm text-muted-foreground transition hover:text-foreground"
+          >
+            사이트로 ↗
+          </Link>
+        </div>
+      </nav>
+      {children}
+    </div>
+  );
 }

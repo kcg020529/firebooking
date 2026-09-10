@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   buildQuery,
   endOfDayIso,
@@ -10,12 +9,16 @@ import {
   shortHash,
   startOfDayIso,
 } from "@/lib/adminFormat";
+import { useAdminResource } from "../useAdminResource";
+import DashboardControls from "../DashboardControls";
 
 /**
  * 보안 대시보드 — 탐지 이벤트 타임라인 · 심각도별 건수 · 규칙별 히트.
  *
  * 권한 검사는 app/admin/layout.js 가 이미 했다. 이 페이지가 렌더된다는 것
  * 자체가 staff/admin 이라는 뜻이므로 여기서 또 확인하지 않는다.
+ *
+ * 조회·5초 자동 갱신은 useAdminResource 훅이 맡는다(app/admin/useAdminResource.js).
  *
  * ⚠️ evidence 는 공격자가 넣은 문자열이 그대로 들어올 수 있는 필드다.
  *    반드시 텍스트로만 렌더한다 (dangerouslySetInnerHTML 금지).
@@ -25,10 +28,12 @@ import {
 /** 심각도는 info / warn / critical 세 가지뿐. 네 번째를 만들지 않는다. */
 const SEVERITY_ORDER = ["critical", "warn", "info"];
 
+// 화면 표시는 상/중/하. 내부 값(security_events.severity)·API 는 info/warn/critical 로 유지한다.
+// critical=상, warn=중, info=하 로 1:1 매핑한다.
 const SEVERITY_META = {
-  critical: { label: "긴급", text: "text-critical", bar: "bg-critical", ring: "border-critical/40" },
-  warn: { label: "주의", text: "text-warn", bar: "bg-warn", ring: "border-warn/40" },
-  info: { label: "정보", text: "text-info", bar: "bg-info", ring: "border-info/40" },
+  critical: { label: "상", text: "text-critical", bar: "bg-critical", pill: "bg-critical/10 text-critical" },
+  warn: { label: "중", text: "text-warn", bar: "bg-warn", pill: "bg-warn/10 text-warn" },
+  info: { label: "하", text: "text-info", bar: "bg-info", pill: "bg-info/10 text-info" },
 };
 
 const CATEGORY_LABEL = {
@@ -45,22 +50,30 @@ function SeverityBadge({ severity }) {
   if (!meta) return <span className="text-xs text-muted-foreground">{severity}</span>;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${meta.text}`}>
-      <span className={`h-2 w-2 shrink-0 rounded-full ${meta.bar}`} aria-hidden="true" />
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${meta.pill}`}
+    >
+      <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${meta.bar}`} aria-hidden="true" />
       {meta.label}
     </span>
   );
 }
 
-function StatTile({ label, value, tone = "text-foreground", hint }) {
+function StatTile({ label, value, tone = "text-foreground", accent = "border-border", hint }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div className={`rounded-xl border-l-4 ${accent} border-y border-r border-border bg-card p-4`}>
       <p className="text-xs text-muted-foreground">{label}</p>
       <p className={`mt-1 text-2xl font-bold tabular-nums ${tone}`}>{value}</p>
       {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
     </div>
   );
 }
+
+const SEVERITY_ACCENT = {
+  critical: "border-l-critical",
+  warn: "border-l-warn",
+  info: "border-l-info",
+};
 
 export default function SecurityDashboardPage() {
   const [severity, setSeverity] = useState("");
@@ -70,64 +83,30 @@ export default function SecurityDashboardPage() {
 
   const [events, setEvents] = useState([]);
   const [summary, setSummary] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [loadedAt, setLoadedAt] = useState(null);
-  const [reloadKey, setReloadKey] = useState(0);
 
-  useEffect(() => {
-    let isStale = false;
+  // 필터가 바뀌면 url 이 바뀌고, 훅이 이를 감지해 다시 조회한다.
+  const url = useMemo(() => {
+    const query = buildQuery({
+      severity,
+      category,
+      from: startOfDayIso(from),
+      to: endOfDayIso(to),
+    });
+    return `/api/admin/events?${query}`;
+  }, [severity, category, from, to]);
 
-    async function fetchEvents() {
-      setIsLoading(true);
-      setError(null);
-
-      const query = buildQuery({
-        severity,
-        category,
-        from: startOfDayIso(from),
-        to: endOfDayIso(to),
-      });
-
-      try {
-        const res = await fetch(`/api/admin/events?${query}`);
-        const data = await res.json();
-
-        if (isStale) return;
-
-        if (!data.ok) {
-          // 실패했는데 이전 결과를 남겨두면 지난 값이 현재 상태처럼 읽힌다.
-          // 보안 화면에서 이건 그냥 틀린 정보다.
-          setError(data.error);
-          setEvents([]);
-          setSummary(null);
-          setLoadedAt(null);
-          return;
-        }
-
+  const { isLoading, isRefreshing, error, loadedAt, autoRefresh, setAutoRefresh, refresh } =
+    useAdminResource(url, {
+      onData: (data) => {
         setEvents(data.events);
         setSummary(data.summary);
-        setLoadedAt(new Date());
-      } catch {
-        if (!isStale) {
-          setError("보안 이벤트를 불러오지 못했습니다.");
-          setEvents([]);
-          setSummary(null);
-          setLoadedAt(null);
-        }
-      } finally {
-        if (!isStale) setIsLoading(false);
-      }
-    }
-
-    fetchEvents();
-
-    // 필터를 빠르게 바꾸면 먼저 보낸 응답이 나중에 도착할 수 있다.
-    // 그 응답으로 화면을 덮어쓰지 않도록 무효 처리한다.
-    return () => {
-      isStale = true;
-    };
-  }, [severity, category, from, to, reloadKey]);
+      },
+      onReset: () => {
+        setEvents([]);
+        setSummary(null);
+      },
+      errorMessage: "보안 이벤트를 불러오지 못했습니다.",
+    });
 
   const byRule = summary?.byRule ?? [];
   const maxRuleCount = byRule[0]?.count ?? 0;
@@ -136,11 +115,7 @@ export default function SecurityDashboardPage() {
   return (
     <main className="flex-1 px-6 py-10">
       <div className="mx-auto w-full max-w-6xl">
-        <Link href="/admin" className="text-sm text-muted-foreground transition hover:opacity-80">
-          ← 관리자
-        </Link>
-
-        <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
+        <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold">보안 대시보드</h1>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -148,21 +123,13 @@ export default function SecurityDashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            {loadedAt && (
-              <span className="text-xs text-muted-foreground">
-                {formatTimestamp(loadedAt)} 기준
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={() => setReloadKey((key) => key + 1)}
-              disabled={isLoading}
-              className="rounded-lg border border-border px-3 py-1.5 text-sm transition hover:opacity-80 disabled:opacity-50"
-            >
-              새로고침
-            </button>
-          </div>
+          <DashboardControls
+            loadedAt={loadedAt}
+            isRefreshing={isRefreshing}
+            autoRefresh={autoRefresh}
+            onToggleAuto={() => setAutoRefresh((on) => !on)}
+            onRefresh={refresh}
+          />
         </div>
 
         {/* 필터 */}
@@ -236,7 +203,7 @@ export default function SecurityDashboardPage() {
         </section>
 
         {error && (
-          <p className="mt-6 rounded-xl border border-critical/40 bg-card p-4 text-sm text-critical">
+          <p className="mt-6 rounded-xl border border-critical/40 bg-critical/5 p-4 text-sm text-critical">
             {error}
           </p>
         )}
@@ -263,6 +230,7 @@ export default function SecurityDashboardPage() {
                 label={`${SEVERITY_META[value].label} (${value})`}
                 value={summary?.bySeverity?.[value] ?? "-"}
                 tone={SEVERITY_META[value].text}
+                accent={SEVERITY_ACCENT[value]}
               />
             ))}
             <StatTile
@@ -301,7 +269,7 @@ export default function SecurityDashboardPage() {
                       */}
                       <span className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
                         <span
-                          className="block h-full rounded-full bg-muted-foreground"
+                          className="block h-full rounded-full bg-brand/70"
                           style={{ width: `${width}%` }}
                         />
                       </span>
@@ -321,7 +289,7 @@ export default function SecurityDashboardPage() {
 
           <div className="mt-3 overflow-x-auto rounded-xl border border-border bg-card">
             <table className="w-full min-w-[52rem] text-left text-sm">
-              <thead className="border-b border-border text-xs text-muted-foreground">
+              <thead className="border-b border-border bg-muted/40 text-xs text-muted-foreground">
                 <tr>
                   <th className="px-4 py-3 font-medium">시각</th>
                   <th className="px-4 py-3 font-medium">심각도</th>
@@ -345,7 +313,10 @@ export default function SecurityDashboardPage() {
 
                 {!isLoading &&
                   events.map((event) => (
-                    <tr key={event.id} className="border-b border-border last:border-0">
+                    <tr
+                      key={event.id}
+                      className="border-b border-border transition-colors last:border-0 hover:bg-muted/40"
+                    >
                       <td
                         className="whitespace-nowrap px-4 py-3 tabular-nums text-muted-foreground"
                         title={formatFullTimestamp(event.ts)}
@@ -370,7 +341,7 @@ export default function SecurityDashboardPage() {
                         {event.handled ? (
                           <span className="text-muted-foreground">처리됨</span>
                         ) : (
-                          <span className="font-medium">미처리</span>
+                          <span className="font-medium text-warn">미처리</span>
                         )}
                       </td>
                     </tr>
