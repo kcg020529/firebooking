@@ -51,6 +51,8 @@ export default function CourseDetailPage() {
   const [reviewError, setReviewError] = useState(null);
   const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(true);
+  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [editingReview, setEditingReview] = useState({ rating: 5, difficulty: "medium", content: "" });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -145,6 +147,24 @@ export default function CourseDetailPage() {
     }
   }
 
+  async function handleReviewUpdate(reviewId) {
+    const response = await fetch(`/api/courses/${id}/reviews/${reviewId}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editingReview) });
+    const data = await response.json();
+    if (!response.ok || !data.ok) { setReviewError(data.error ?? "리뷰를 수정하지 못했습니다."); return; }
+    const refreshed = await fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then((res) => res.json());
+    if (refreshed.ok) setReviews(refreshed);
+    setEditingReviewId(null);
+  }
+
+  async function handleReviewDelete(reviewId) {
+    if (!window.confirm("리뷰를 삭제할까요?")) return;
+    const response = await fetch(`/api/courses/${id}/reviews/${reviewId}`, { method: "DELETE" });
+    const data = await response.json();
+    if (!response.ok || !data.ok) { setReviewError(data.error ?? "리뷰를 삭제하지 못했습니다."); return; }
+    const refreshed = await fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then((res) => res.json());
+    if (refreshed.ok) setReviews(refreshed);
+  }
+
   const slots = course?.slots ?? [];
 
   return (
@@ -221,6 +241,8 @@ export default function CourseDetailPage() {
             <article key={review.id} className="rounded-xl border border-border bg-card p-4">
               <div className="flex justify-between text-sm"><span>★ {review.rating} <button type="button" onClick={async () => { const response = await fetch(`/api/courses/${id}/reviews/${review.id}/like`, { method: "POST" }); if (response.ok) { const refreshed = await fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then((res) => res.json()); if (refreshed.ok) setReviews(refreshed); } }}>♡ {review.likeCount ?? 0}</button></span><span className="text-muted-foreground">난이도 {review.difficultyLabel}</span></div>
               <p className="mt-2 text-sm">{review.content}</p>
+              {review.isOwner && <div className="mt-3 flex gap-2 text-xs"><button type="button" onClick={() => { setEditingReviewId(review.id); setEditingReview({ rating: review.rating, difficulty: review.difficulty, content: review.content }); }}>수정</button><button type="button" onClick={() => handleReviewDelete(review.id)}>삭제</button></div>}
+              {editingReviewId === review.id && <div className="mt-3 flex gap-2"><select value={editingReview.rating} onChange={(e) => setEditingReview({ ...editingReview, rating: Number(e.target.value) })}>{[5, 4, 3, 2, 1].map((value) => <option key={value} value={value}>{value}점</option>)}</select><select value={editingReview.difficulty} onChange={(e) => setEditingReview({ ...editingReview, difficulty: e.target.value })}><option value="easy">쉬움</option><option value="medium">보통</option><option value="hard">어려움</option></select><input value={editingReview.content} onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })} /><button type="button" onClick={() => handleReviewUpdate(review.id)}>저장</button><button type="button" onClick={() => setEditingReviewId(null)}>취소</button></div>}
             </article>
           ))}
         </div>

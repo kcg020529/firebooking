@@ -113,8 +113,9 @@ export default function Home() {
               <div className="p-4">
                 <h3 className="font-semibold">{course.name}</h3>
                 <p className="mt-1 text-sm" aria-label="평균 별점">★ {course.averageRating || 0} ({course.reviewCount || 0})</p>
-                <div className="mt-2 flex items-center gap-1" aria-label={`난이도 ${course.difficulty ?? "정보 없음"}`}>
+                <div className="mt-2 flex items-center gap-2" aria-label={`난이도 ${course.difficulty ?? "정보 없음"}`}>
                   {[0, 1, 2].map((index) => <span key={index} className={`h-1.5 flex-1 rounded ${course.difficulty && index <= ["easy", "medium", "hard"].indexOf(course.difficulty) ? "bg-brand" : "bg-muted"}`} />)}
+                  <span className="text-xs text-muted-foreground">{({ easy: "쉬움", medium: "보통", hard: "어려움" }[course.difficulty] ?? "난이도 정보 없음")}</span>
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">{course.region}</p>
                 <p className="mt-2 text-xs text-muted-foreground">{course.description}</p>

@@ -79,6 +79,7 @@ test('리뷰 전용 마스킹은 PII만 가리고 일반 문장은 유지한다'
   const result = sanitizeReviewContent('코스가 정말 좋았고 연락처는 010-1234-5678입니다.');
   assert.equal(result.maskedText.includes('010-1234-5678'), false);
   assert.equal(result.maskedText.includes('코스가 정말 좋았고'), true);
+  assert.equal(sanitizeReviewContent('어려워요').maskedText, '어려워요');
 });
 
 test('좋아요 순으로 상위 3개와 나머지 페이지를 나눈다', () => {

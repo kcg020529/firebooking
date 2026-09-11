@@ -19,8 +19,8 @@ export const GET = withApiLog(async (request, { params }) => {
   const { id } = await params;
 
   try {
-    const result = await listCourseReviews(id);
     const user = await getAuthUser();
+    const result = await listCourseReviews(id, { viewerId: user?.id ?? null });
     const canReview = user
       ? (await canReviewCourse(id, user.id)) && !(await hasUserReviewedCourse(id, user.id))
       : false;
