@@ -224,7 +224,7 @@ export default function CourseDetailPage() {
       {course?.type === "field" && <CourseMap courseName={course.name} />}
 
       {/* 리뷰와 체감 난이도 */}
-      <section className="w-full px-6 pb-8">
+      <section className="w-full px-6 py-8">
         <div className="mx-auto max-w-5xl">
         <div className="flex items-baseline justify-between gap-4">
           <h2 className="text-lg font-semibold">리뷰</h2>
