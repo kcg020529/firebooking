@@ -177,7 +177,7 @@ export default function CourseDetailPage() {
   const slots = course?.slots ?? [];
 
   return (
-    <main className="flex-1">
+    <main className="flex flex-1 flex-col">
       <div className="mx-auto max-w-5xl px-6 py-6">
         <Link
           href="/"
@@ -219,7 +219,7 @@ export default function CourseDetailPage() {
       )}
 
       {/* 리뷰와 체감 난이도 */}
-      <section className="mx-auto max-w-5xl px-6 pb-8">
+      <section className="order-last mx-auto max-w-5xl px-6 pb-8">
         <div className="flex items-baseline justify-between gap-4">
           <h2 className="text-lg font-semibold">리뷰</h2>
           {reviews.summary?.count > 0 && (
