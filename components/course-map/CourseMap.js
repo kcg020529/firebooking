@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 
-// 프리미엄 항공 야디지북 18홀 마스터플랜 데이터
+// 18홀 코스 마스터플랜 및 텔레메트리 데이터
 const HOLES = [
   {
     number: 1,
@@ -15,6 +15,9 @@ const HOLES = [
     elevation: "완만한 내리막 -3m",
     hazards: ["우측 페어웨이 벙커", "좌측 가드 벙커"],
     tip: "클럽하우스에서 출발하는 첫 홀입니다. 오른쪽 벙커 좌측으로 티샷을 보내면 세컨드 공략 각도가 가장 이상적입니다.",
+    recommendClub: "1W (230m) → 8I (145m)",
+    landingWidth: "46m (넓음)",
+    fairwayAccuracy: "88%",
     teeBox: { x: 415, y: 275 },
     landing: { x: 350, y: 330 },
     green: { x: 282, y: 382 },
@@ -39,6 +42,9 @@ const HOLES = [
     elevation: "평지 +1m",
     hazards: ["전면 웨스트 레이크", "그린 우측 벙커"],
     tip: "호수를 넘겨야 하는 파 3 홀입니다. 맞바람이 잦으므로 한 클럽 여유 있게 잡고 그린 중앙을 직접 공략하세요.",
+    recommendClub: "6I (155m 핀 직접 공략)",
+    landingWidth: "그린 폭 28m",
+    fairwayAccuracy: "74%",
     teeBox: { x: 242, y: 418 },
     landing: { x: 198, y: 432 },
     green: { x: 154, y: 446 },
@@ -62,6 +68,9 @@ const HOLES = [
     elevation: "완만한 오르막 +6m",
     hazards: ["1차 랜딩존 우측 벙커", "2차 랜딩존 좌측 숲", "그린사이드 팟 벙커"],
     tip: "서쪽 외곽을 따라 북쪽으로 뻗은 롱홀입니다. 무리한 2온보다는 안전한 3온 레이업 전략이 스코어를 지킵니다.",
+    recommendClub: "1W (225m) → 3W (210m) → PW (75m)",
+    landingWidth: "38m (도그레그 주의)",
+    fairwayAccuracy: "68%",
     teeBox: { x: 104, y: 436 },
     landing: { x: 80, y: 330 },
     landing2: { x: 92, y: 225 },
@@ -87,6 +96,9 @@ const HOLES = [
     elevation: "평지 -1m",
     hazards: ["좌측 숲속 OB", "랜딩존 좌측 크로스 벙커"],
     tip: "북쪽 숲을 감싸 안고 오른쪽으로 부드럽게 꺾이는 도그레그 홀입니다. 드라이버는 페어웨이 중앙 우측을 노리세요.",
+    recommendClub: "3W (210m) → 9I (135m)",
+    landingWidth: "44m (적정)",
+    fairwayAccuracy: "82%",
     teeBox: { x: 136, y: 106 },
     landing: { x: 216, y: 82 },
     green: { x: 292, y: 76 },
@@ -110,6 +122,9 @@ const HOLES = [
     elevation: "급경사 오르막 +9m",
     hazards: ["우측 깊은 벙커밭", "2단 경사 언듈레이션 그린"],
     tip: "핸디캡 1번의 난이도 높은 홀입니다. 오르막 경사가 심하므로 세컨드 샷 시 1~2클럽 길게 보고 핀 아래를 타겟으로 잡으세요.",
+    recommendClub: "1W (230m) → 6I (160m 오르막)",
+    landingWidth: "32m (슬로프 주의)",
+    fairwayAccuracy: "64%",
     teeBox: { x: 316, y: 92 },
     landing: { x: 366, y: 142 },
     green: { x: 406, y: 196 },
@@ -134,6 +149,9 @@ const HOLES = [
     elevation: "내리막 -4m",
     hazards: ["그린 앞 듀얼 팟 벙커"],
     tip: "거리는 짧지만 숲에 둘러싸여 그린 주변 여유 공간이 적습니다. 핀을 직접 노리는 정교한 아이언 샷이 요구됩니다.",
+    recommendClub: "8I (135m 내리막)",
+    landingWidth: "그린 폭 24m",
+    fairwayAccuracy: "78%",
     teeBox: { x: 416, y: 106 },
     landing: { x: 388, y: 80 },
     green: { x: 364, y: 56 },
@@ -157,6 +175,9 @@ const HOLES = [
     elevation: "완만한 내리막 -5m",
     hazards: ["중앙 좌측 연못", "페어웨이 가로지르는 크릭"],
     tip: "웨스트 레이크 방향으로 완만하게 내려가는 S자 도그레그 홀입니다. 세컨드 샷에서 연못 앞 안전지대에 끊어가는 것이 현명합니다.",
+    recommendClub: "1W (220m) → 5W (190m) → 52° (85m)",
+    landingWidth: "36m (연못 경계)",
+    fairwayAccuracy: "70%",
     teeBox: { x: 336, y: 176 },
     landing: { x: 274, y: 216 },
     landing2: { x: 208, y: 262 },
@@ -181,6 +202,9 @@ const HOLES = [
     elevation: "평지 +0m",
     hazards: ["우측 센트럴 레이크", "좌측 벙커"],
     tip: "호수를 오른쪽에 끼고 도는 홀입니다. 슬라이스 시 워터 해저드에 빠지기 쉬우므로 페어웨이 중앙 약간 왼쪽을 타겟팅하세요.",
+    recommendClub: "1W (220m) → 7I (145m)",
+    landingWidth: "40m (중앙 우측)",
+    fairwayAccuracy: "80%",
     teeBox: { x: 186, y: 346 },
     landing: { x: 252, y: 342 },
     green: { x: 316, y: 316 },
@@ -204,6 +228,9 @@ const HOLES = [
     elevation: "완만한 오르막 +4m",
     hazards: ["그린 앞 가드 벙커 2개"],
     tip: "전반을 마무리하며 클럽하우스를 마주보고 치는 홀입니다. 티샷 랜딩존이 넓어 과감한 드라이버 공략이 가능합니다.",
+    recommendClub: "1W (225m) → PW (110m 오르막)",
+    landingWidth: "48m (넓음)",
+    fairwayAccuracy: "90%",
     teeBox: { x: 332, y: 292 },
     landing: { x: 386, y: 262 },
     green: { x: 432, y: 242 },
@@ -227,6 +254,9 @@ const HOLES = [
     elevation: "평지 +1m",
     hazards: ["우측 페어웨이 벙커", "그린 뒤 내리막 숲"],
     tip: "후반 인코스 시작 홀입니다. 넓고 평탄한 페어웨이지만 우측 벙커를 피해야 세컨드에서 그린 전체를 편안하게 볼 수 있습니다.",
+    recommendClub: "1W (230m) → 8I (140m)",
+    landingWidth: "45m (평탄)",
+    fairwayAccuracy: "86%",
     teeBox: { x: 546, y: 256 },
     landing: { x: 616, y: 282 },
     green: { x: 682, y: 306 },
@@ -250,6 +280,9 @@ const HOLES = [
     elevation: "오르막 +7m",
     hazards: ["1차 랜딩존 좌측 벙커", "우측 OB 구역"],
     tip: "동쪽 외곽을 따라 길게 뻗은 가장 긴 롱홀입니다. 장타보다 티샷과 세컨드 샷의 안정적인 방향성이 파 세이브의 열쇠입니다.",
+    recommendClub: "1W (235m) → 3W (215m) → 56° (75m)",
+    landingWidth: "34m (외곽 벙커)",
+    fairwayAccuracy: "65%",
     teeBox: { x: 702, y: 322 },
     landing: { x: 776, y: 346 },
     landing2: { x: 846, y: 306 },
@@ -274,6 +307,9 @@ const HOLES = [
     elevation: "계곡 내리막 -6m",
     hazards: ["이스트 레이크 연못 넘기기", "그린 앞 샌드 트랩"],
     tip: "계곡과 호수를 넘겨야 하는 아름다운 시그니처 파 3입니다. 계곡풍이 핀을 향해 불어오므로 넉넉한 번호 선택이 안전합니다.",
+    recommendClub: "5I (165m 맞바람 대비)",
+    landingWidth: "그린 폭 26m",
+    fairwayAccuracy: "72%",
     teeBox: { x: 896, y: 206 },
     landing: { x: 884, y: 160 },
     green: { x: 876, y: 122 },
@@ -297,6 +333,9 @@ const HOLES = [
     elevation: "평지 +2m",
     hazards: ["낙하지점 양쪽 벙커", "깊은 러프"],
     tip: "북동쪽 능선을 따라 서쪽으로 치고 나가는 전장이 긴 파 4 홀입니다. 티샷 낙하지점 양쪽 벙커 사이를 정확하게 노려야 합니다.",
+    recommendClub: "1W (235m) → 6I (165m)",
+    landingWidth: "35m (크로스 벙커)",
+    fairwayAccuracy: "69%",
     teeBox: { x: 852, y: 96 },
     landing: { x: 772, y: 76 },
     green: { x: 692, y: 72 },
@@ -320,6 +359,9 @@ const HOLES = [
     elevation: "내리막 -3m",
     hazards: ["코너 우측 도그레그 벙커", "그린 우측 급경사"],
     tip: "남서쪽으로 꺾이는 짧은 도그레그 홀입니다. 무리하게 가로지르기보다는 200m 전후 우드나 유틸리티 티샷이 안정적인 버디 기회를 줍니다.",
+    recommendClub: "5W (200m 코너 공략) → 9I (130m)",
+    landingWidth: "42m (코너 턴)",
+    fairwayAccuracy: "79%",
     teeBox: { x: 672, y: 66 },
     landing: { x: 612, y: 96 },
     green: { x: 566, y: 146 },
@@ -343,6 +385,9 @@ const HOLES = [
     elevation: "내리막 -2m",
     hazards: ["그린 3면을 감싼 샌드 벙커"],
     tip: "그린이 3개의 벙커로 철저하게 보호받고 있습니다. 그린 앞뒤 단차가 커서 핀보다 살짝 짧게 올리는 것이 안전한 2퍼트 공략입니다.",
+    recommendClub: "9I (138m 벙커 캐리)",
+    landingWidth: "그린 폭 25m",
+    fairwayAccuracy: "75%",
     teeBox: { x: 586, y: 166 },
     landing: { x: 610, y: 188 },
     green: { x: 636, y: 212 },
@@ -367,6 +412,9 @@ const HOLES = [
     elevation: "내리막 -7m",
     hazards: ["우측 센트럴 레이크 수역", "세컨드 낙하지점 벙커"],
     tip: "오른편 호수를 감싸며 남쪽으로 시원하게 내려오는 파 5입니다. 우측 해저드를 경계하며 페어웨이 좌측 능선을 적극 활용하세요.",
+    recommendClub: "1W (230m) → 4U (195m) → 52° (80m)",
+    landingWidth: "37m (워터 해저드)",
+    fairwayAccuracy: "66%",
     teeBox: { x: 706, y: 216 },
     landing: { x: 772, y: 252 },
     landing2: { x: 746, y: 346 },
@@ -391,6 +439,9 @@ const HOLES = [
     elevation: "평지 +0m",
     hazards: ["남측 거대 호수 해저드", "그린 앞 세컨드 벙커"],
     tip: "남쪽 호수 수면을 따라 서쪽으로 진행하는 까다로운 미들홀입니다. 슬라이스 바람이 자주 불므로 타겟을 좌측 페어웨이로 설정하세요.",
+    recommendClub: "1W (225m) → 7I (150m)",
+    landingWidth: "38m (호수 바람)",
+    fairwayAccuracy: "73%",
     teeBox: { x: 676, y: 456 },
     landing: { x: 606, y: 472 },
     green: { x: 532, y: 456 },
@@ -414,6 +465,9 @@ const HOLES = [
     elevation: "완만한 오르막 +5m",
     hazards: ["센트럴 레이크 폰드", "그린 좌우 갤러리 벙커"],
     tip: "센트럴 호수를 지나 클럽하우스 정면 그린으로 복귀하는 드라마틱한 최종 피니시 홀입니다. 핀 앞쪽 둔덕을 감안해 넉넉한 세컨드 샷을 추천합니다.",
+    recommendClub: "1W (220m) → 8I (135m 피니시)",
+    landingWidth: "43m (클럽하우스 뷰)",
+    fairwayAccuracy: "85%",
     teeBox: { x: 506, y: 446 },
     landing: { x: 486, y: 376 },
     green: { x: 476, y: 296 },
@@ -466,7 +520,6 @@ const TREE_GROVES = [
   { x: 45, y: 380, r: 24 },
   { x: 35, y: 280, r: 26 },
   { x: 45, y: 180, r: 25 },
-  // 코스 내부 완충 숲
   { x: 260, y: 155, r: 18 },
   { x: 285, y: 145, r: 16 },
   { x: 340, y: 255, r: 15 },
@@ -482,6 +535,8 @@ const TREE_GROVES = [
 ];
 
 export default function CourseMap({ courseName = "그린힐스 파크 컨트리클럽" }) {
+  // styleMode: "drone" (방향 B: 모던 드론 HUD 뷰 - 기본값), "yardage" (방향 A: 클래식 야디지북 마스터플랜)
+  const [styleMode, setStyleMode] = useState("drone");
   const [courseSide, setCourseSide] = useState("all");
   const [selectedHoleNumber, setSelectedHoleNumber] = useState(1);
   const [hoveredHoleNumber, setHoveredHoleNumber] = useState(null);
@@ -503,19 +558,27 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
     if (side === "in" && selectedHoleNumber < 10) setSelectedHoleNumber(10);
   }
 
+  const isDrone = styleMode === "drone";
+
   return (
     <section
       className="mx-auto max-w-6xl px-4 py-8 sm:px-6"
       aria-labelledby="course-map-heading"
     >
       {/* 카드 쉘 */}
-      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-        {/* 상단 헤더: 타이틀 & 세련된 Segmented Control */}
-        <header className="flex flex-col gap-4 border-b border-border p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-colors duration-300">
+        {/* 상단 헤더: 타이틀 & 스타일 모드 전환 & 구간 필터 */}
+        <header className="flex flex-col gap-4 border-b border-border p-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center rounded-md bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wider text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-400">
-                COURSE YARDAGE GUIDE
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-[11px] font-bold tracking-wider transition-colors ${
+                  isDrone
+                    ? "bg-cyan-500/15 text-cyan-600 dark:bg-cyan-400/15 dark:text-cyan-300"
+                    : "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-400/10 dark:text-emerald-400"
+                }`}
+              >
+                {isDrone ? "MODERN DRONE HUD (B)" : "CLASSIC YARDAGE (A)"}
               </span>
               <span className="text-xs text-muted-foreground">· 18H / PAR 72</span>
             </div>
@@ -526,53 +589,106 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
               2D 인터랙티브 코스맵
             </h2>
             <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">
-              위에서 내려다본 공식 야디지북 배치도입니다. 홀을 선택해 코스 동선과 공략 포인트를 확인하세요.
+              {isDrone
+                ? "하이테크 모던 드론 뷰와 스마트 텔레메트리(비거리·랜딩폭·추천클럽) 분석을 제공합니다."
+                : "위에서 내려다본 공식 야디지북 배치도입니다. 홀을 선택해 동선과 공략을 확인하세요."}
             </p>
           </div>
 
-          {/* Segmented Control */}
-          <div
-            role="radiogroup"
-            aria-label="코스 구간 필터"
-            className="flex items-center rounded-xl bg-muted p-1 text-xs font-semibold"
-          >
-            {[
-              { id: "all", label: "전체 18H" },
-              { id: "out", label: "OUT 1–9" },
-              { id: "in", label: "IN 10–18" },
-            ].map(({ id, label }) => {
-              const active = courseSide === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  role="radio"
-                  aria-checked={active}
-                  onClick={() => handleSideChange(id)}
-                  className={`relative rounded-lg px-3.5 py-1.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
-                    active
-                      ? "bg-card text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {label}
-                </button>
-              );
-            })}
+          {/* 우측 컨트롤 바: 디자인 스타일 스위처(B vs A) & 코스 구간 필터 */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* 디자인 스타일 스위처 (A / B 비교) */}
+            <div
+              className="flex items-center rounded-xl bg-muted p-1 text-xs font-semibold"
+              role="group"
+              aria-label="지도 디자인 스타일 선택"
+            >
+              <button
+                type="button"
+                onClick={() => setStyleMode("drone")}
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition-all ${
+                  isDrone
+                    ? "bg-cyan-600 text-white shadow-sm dark:bg-cyan-500 dark:text-black"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                aria-pressed={isDrone}
+              >
+                <span>⚡ 모던 드론 (B)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setStyleMode("yardage")}
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition-all ${
+                  !isDrone
+                    ? "bg-emerald-700 text-white shadow-sm dark:bg-emerald-600"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                aria-pressed={!isDrone}
+              >
+                <span>🌿 클래식 (A)</span>
+              </button>
+            </div>
+
+            {/* 코스 구간 필터 Segmented Control */}
+            <div
+              role="radiogroup"
+              aria-label="코스 구간 필터"
+              className="flex items-center rounded-xl bg-muted p-1 text-xs font-semibold"
+            >
+              {[
+                { id: "all", label: "전체 18H" },
+                { id: "out", label: "OUT 1–9" },
+                { id: "in", label: "IN 10–18" },
+              ].map(({ id, label }) => {
+                const active = courseSide === id;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    onClick={() => handleSideChange(id)}
+                    className={`relative rounded-lg px-3 py-1.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${
+                      active
+                        ? "bg-card text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </header>
 
         {/* 메인 뷰: 데스크톱 지도 70% + 야디지 패널 30% / 모바일 상하 배치 */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] xl:grid-cols-[1fr_360px]">
           {/* 좌측: 인터랙티브 항공 SVG 맵 컨테이너 */}
-          <div className="relative flex flex-col justify-between overflow-hidden bg-[#223926] p-2 sm:p-4">
+          <div
+            className={`relative flex flex-col justify-between overflow-hidden p-2 transition-colors duration-500 sm:p-4 ${
+              isDrone ? "bg-[#091118]" : "bg-[#223926]"
+            }`}
+          >
             {/* 상단 오버레이 안내 뱃지 */}
             <div className="pointer-events-none absolute left-4 top-4 z-10 flex flex-wrap items-center gap-2">
-              <span className="rounded-md bg-black/60 px-2.5 py-1 text-[11px] font-medium text-emerald-200 backdrop-blur-md">
+              <span
+                className={`rounded-md px-2.5 py-1 text-[11px] font-semibold backdrop-blur-md ${
+                  isDrone
+                    ? "border border-cyan-500/30 bg-black/75 text-cyan-300"
+                    : "bg-black/60 text-emerald-200"
+                }`}
+              >
                 {courseName}
               </span>
-              <span className="rounded-md bg-black/40 px-2 py-1 text-[10px] text-zinc-300 backdrop-blur-md">
-                가상 코스 마스터플랜
+              <span
+                className={`rounded-md px-2 py-1 text-[10px] backdrop-blur-md ${
+                  isDrone
+                    ? "border border-cyan-500/20 bg-cyan-950/40 text-cyan-400 font-mono"
+                    : "bg-black/40 text-zinc-300"
+                }`}
+              >
+                {isDrone ? "SENSOR: 4K TOP-DOWN · LAT 37°28'N" : "가상 코스 마스터플랜"}
               </span>
             </div>
 
@@ -583,49 +699,87 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                   viewBox="0 0 1000 620"
                   className="h-auto w-full"
                   role="img"
-                  aria-label={`${courseName} 18홀 2D 항공 코스맵`}
+                  aria-label={`${courseName} 18홀 ${isDrone ? "모던 드론 HUD" : "2D 항공"} 코스맵`}
                 >
                   <defs>
-                    {/* 잔디 베이스 및 러프 톤 */}
+                    {/* [모던 드론 HUD B 스타일 전용 Defs] */}
+                    <linearGradient id="droneDarkBase" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#0b131c" />
+                      <stop offset="50%" stopColor="#101c27" />
+                      <stop offset="100%" stopColor="#081018" />
+                    </linearGradient>
+
+                    <linearGradient id="droneFairwayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#0f766e" />
+                      <stop offset="100%" stopColor="#064e3b" />
+                    </linearGradient>
+
+                    <linearGradient id="droneFairwaySelected" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#10b981" />
+                      <stop offset="100%" stopColor="#059669" />
+                    </linearGradient>
+
+                    <linearGradient id="droneWaterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#0284c7" />
+                      <stop offset="50%" stopColor="#0369a1" />
+                      <stop offset="100%" stopColor="#082f49" />
+                    </linearGradient>
+
+                    <linearGradient id="droneBunkerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#e2d9c2" />
+                      <stop offset="100%" stopColor="#c5baa0" />
+                    </linearGradient>
+
+                    <filter id="droneNeonGlow" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur" />
+                      <feFlood floodColor="#38bdf8" floodOpacity="0.85" result="color" />
+                      <feComposite in2="blur" operator="in" result="shadow" />
+                      <feMerge>
+                        <feMergeNode in="shadow" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+
+                    <pattern id="droneRadarGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+                      <line x1="0" y1="30" x2="60" y2="30" stroke="#38bdf8" strokeWidth="0.5" strokeOpacity="0.08" />
+                      <line x1="30" y1="0" x2="30" y2="60" stroke="#38bdf8" strokeWidth="0.5" strokeOpacity="0.08" />
+                      <circle cx="30" cy="30" r="1.5" fill="#38bdf8" fillOpacity="0.25" />
+                    </pattern>
+
+                    {/* [클래식 야디지북 A 스타일 전용 Defs] */}
                     <linearGradient id="roughGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#2c4b32" />
                       <stop offset="50%" stopColor="#25422b" />
                       <stop offset="100%" stopColor="#1f3623" />
                     </linearGradient>
 
-                    {/* 페어웨이 잔디 그라데이션 */}
                     <linearGradient id="fairwayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#82b753" />
                       <stop offset="100%" stopColor="#679a3c" />
                     </linearGradient>
 
-                    {/* 선택된 페어웨이 발광 그라데이션 */}
                     <linearGradient id="selectedFairwayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#a3e665" />
                       <stop offset="100%" stopColor="#76b83f" />
                     </linearGradient>
 
-                    {/* 호수/해저드 워터 그라데이션 */}
                     <linearGradient id="waterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#3d82a6" />
                       <stop offset="50%" stopColor="#286280" />
                       <stop offset="100%" stopColor="#194860" />
                     </linearGradient>
 
-                    {/* 샌드 벙커 그라데이션 */}
                     <linearGradient id="bunkerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#f3e8d0" />
                       <stop offset="100%" stopColor="#d9c7a2" />
                     </linearGradient>
 
-                    {/* 수목 잎새 음영 */}
                     <radialGradient id="treeShade" cx="35%" cy="35%" r="65%">
                       <stop offset="0%" stopColor="#2c5132" />
                       <stop offset="70%" stopColor="#19351d" />
                       <stop offset="100%" stopColor="#0f2212" />
                     </radialGradient>
 
-                    {/* 선택 홀 강조용 부드러운 글로우 필터 */}
                     <filter id="fairwayGlow" x="-20%" y="-20%" width="140%" height="140%">
                       <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur" />
                       <feFlood floodColor="#ffd54f" floodOpacity="0.75" result="color" />
@@ -640,7 +794,6 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                       <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000000" floodOpacity="0.5" />
                     </filter>
 
-                    {/* 지형 등고선 텍스처 패턴 */}
                     <pattern id="contourPattern" width="120" height="80" patternUnits="userSpaceOnUse">
                       <path
                         d="M -20 40 Q 30 10, 80 50 T 180 30"
@@ -659,111 +812,110 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                     </pattern>
                   </defs>
 
-                  {/* 1. 베이스 지형 & 등고선 텍스처 */}
-                  <rect width="1000" height="620" rx="16" fill="url(#roughGrad)" />
-                  <rect width="1000" height="620" rx="16" fill="url(#contourPattern)" />
+                  {/* 1. 베이스 지형 & 그리드/등고선 */}
+                  <rect
+                    width="1000"
+                    height="620"
+                    rx="16"
+                    fill={isDrone ? "url(#droneDarkBase)" : "url(#roughGrad)"}
+                  />
+                  <rect
+                    width="1000"
+                    height="620"
+                    rx="16"
+                    fill={isDrone ? "url(#droneRadarGrid)" : "url(#contourPattern)"}
+                  />
+
+                  {/* B 모던 드론 뷰 전용: 레이더 동심원 및 HUD 코너 가이드 */}
+                  {isDrone && (
+                    <g id="drone-hud-decorations" pointerEvents="none" opacity="0.45">
+                      <circle cx="500" cy="310" r="280" fill="none" stroke="#38bdf8" strokeWidth="0.8" strokeDasharray="4 8" />
+                      <circle cx="500" cy="310" r="160" fill="none" stroke="#38bdf8" strokeWidth="0.8" strokeDasharray="2 6" />
+                      <line x1="500" y1="20" x2="500" y2="40" stroke="#38bdf8" strokeWidth="1.5" />
+                      <line x1="500" y1="580" x2="500" y2="600" stroke="#38bdf8" strokeWidth="1.5" />
+                      <line x1="20" y1="310" x2="40" y2="310" stroke="#38bdf8" strokeWidth="1.5" />
+                      <line x1="960" y1="310" x2="980" y2="310" stroke="#38bdf8" strokeWidth="1.5" />
+                      <text x="500" y="32" textAnchor="middle" fill="#38bdf8" fontSize="9" fontFamily="monospace">N 360°</text>
+                    </g>
+                  )}
 
                   {/* 2. 대자연 호수 (Water Hazards) */}
                   <g id="water-hazards">
                     {/* 센트럴 레이크 */}
                     <path
                       d="M 400 340 C 450 310 520 325 570 355 C 600 395 565 440 500 435 C 445 430 385 390 400 340 Z"
-                      fill="url(#waterGrad)"
-                      stroke="#4ea3cc"
-                      strokeWidth="2"
-                      strokeOpacity="0.4"
+                      fill={isDrone ? "url(#droneWaterGrad)" : "url(#waterGrad)"}
+                      stroke={isDrone ? "#38bdf8" : "#4ea3cc"}
+                      strokeWidth={isDrone ? "2.5" : "2"}
+                      strokeOpacity={isDrone ? "0.7" : "0.4"}
                     />
-                    <path
-                      d="M 430 350 C 470 330 520 340 545 365"
-                      fill="none"
-                      stroke="#ffffff"
-                      strokeWidth="1.5"
-                      strokeOpacity="0.25"
-                      strokeDasharray="8 12"
-                    />
+                    {isDrone && (
+                      <path
+                        d="M 425 355 C 465 335 515 345 540 370"
+                        fill="none"
+                        stroke="#7dd3fc"
+                        strokeWidth="1.5"
+                        strokeDasharray="4 8"
+                        strokeOpacity="0.7"
+                      />
+                    )}
 
-                    {/* 웨스트 레이크 (2번 홀 & 7번 홀) */}
+                    {/* 웨스트 레이크 */}
                     <path
                       d="M 135 395 C 185 375 235 405 225 455 C 205 490 145 495 115 455 C 100 420 115 398 135 395 Z"
-                      fill="url(#waterGrad)"
-                      stroke="#4ea3cc"
-                      strokeWidth="2"
-                      strokeOpacity="0.4"
-                    />
-                    <path
-                      d="M 145 415 C 175 400 205 420 195 450"
-                      fill="none"
-                      stroke="#ffffff"
-                      strokeWidth="1.5"
-                      strokeOpacity="0.2"
+                      fill={isDrone ? "url(#droneWaterGrad)" : "url(#waterGrad)"}
+                      stroke={isDrone ? "#38bdf8" : "#4ea3cc"}
+                      strokeWidth={isDrone ? "2.5" : "2"}
+                      strokeOpacity={isDrone ? "0.7" : "0.4"}
                     />
 
-                    {/* 이스트 밸리 레이크 (12번 파3 전면) */}
+                    {/* 이스트 밸리 레이크 */}
                     <path
                       d="M 790 190 C 850 165 915 185 895 240 C 875 285 815 270 775 235 C 765 205 775 195 790 190 Z"
-                      fill="url(#waterGrad)"
-                      stroke="#4ea3cc"
-                      strokeWidth="2"
-                      strokeOpacity="0.4"
+                      fill={isDrone ? "url(#droneWaterGrad)" : "url(#waterGrad)"}
+                      stroke={isDrone ? "#38bdf8" : "#4ea3cc"}
+                      strokeWidth={isDrone ? "2.5" : "2"}
+                      strokeOpacity={isDrone ? "0.7" : "0.4"}
                     />
 
                     {/* 7번 홀 미니 크릭 폰드 */}
                     <path
                       d="M 245 235 C 275 225 290 248 280 272 C 262 288 238 278 232 258 C 230 242 240 236 245 235 Z"
-                      fill="url(#waterGrad)"
-                      stroke="#4ea3cc"
+                      fill={isDrone ? "url(#droneWaterGrad)" : "url(#waterGrad)"}
+                      stroke={isDrone ? "#38bdf8" : "#4ea3cc"}
                       strokeWidth="1.5"
-                      strokeOpacity="0.35"
+                      strokeOpacity="0.5"
                     />
                   </g>
 
                   {/* 3. 카트 도로망 (Cart Paths) */}
-                  <g id="cart-paths" opacity="0.6">
-                    {/* 서측 OUT 코스 카트 순환 도로 */}
+                  <g id="cart-paths" opacity={isDrone ? "0.45" : "0.6"}>
                     <path
                       d="M 445 285 C 380 300 320 350 250 410 C 190 435 125 435 95 380 C 70 300 80 200 115 115 C 160 85 240 60 310 65 C 360 80 415 95 435 130"
                       fill="none"
-                      stroke="#e5dfd2"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M 445 285 C 380 300 320 350 250 410 C 190 435 125 435 95 380 C 70 300 80 200 115 115 C 160 85 240 60 310 65 C 360 80 415 95 435 130"
-                      fill="none"
-                      stroke="#9e9788"
-                      strokeWidth="0.8"
-                      strokeDasharray="4 6"
-                    />
-
-                    {/* 동측 IN 코스 카트 순환 도로 */}
-                    <path
-                      d="M 525 285 C 590 305 670 325 730 350 C 800 365 870 340 890 280 C 910 210 890 140 840 85 C 770 55 690 55 620 85 C 575 115 540 160 525 210"
-                      fill="none"
-                      stroke="#e5dfd2"
-                      strokeWidth="3"
+                      stroke={isDrone ? "#475569" : "#e5dfd2"}
+                      strokeWidth={isDrone ? "2" : "3"}
                       strokeLinecap="round"
                     />
                     <path
                       d="M 525 285 C 590 305 670 325 730 350 C 800 365 870 340 890 280 C 910 210 890 140 840 85 C 770 55 690 55 620 85 C 575 115 540 160 525 210"
                       fill="none"
-                      stroke="#9e9788"
-                      strokeWidth="0.8"
-                      strokeDasharray="4 6"
+                      stroke={isDrone ? "#475569" : "#e5dfd2"}
+                      strokeWidth={isDrone ? "2" : "3"}
+                      strokeLinecap="round"
                     />
                   </g>
 
                   {/* 4. 클럽하우스 & 스타팅 파빌리온 */}
                   <g id="clubhouse" transform="translate(450, 235)">
-                    {/* 퍼팅 연습 그린 2곳 */}
-                    <ellipse cx="-20" cy="40" rx="18" ry="12" fill="#9de06c" stroke="#487834" strokeWidth="1.5" />
+                    <ellipse cx="-20" cy="40" rx="18" ry="12" fill={isDrone ? "#0d9488" : "#9de06c"} stroke={isDrone ? "#2dd4bf" : "#487834"} strokeWidth="1.5" />
                     <circle cx="-20" cy="40" r="2" fill="#faf7e8" />
-                    <ellipse cx="90" cy="40" rx="18" ry="12" fill="#9de06c" stroke="#487834" strokeWidth="1.5" />
+                    <ellipse cx="90" cy="40" rx="18" ry="12" fill={isDrone ? "#0d9488" : "#9de06c"} stroke={isDrone ? "#2dd4bf" : "#487834"} strokeWidth="1.5" />
                     <circle cx="90" cy="40" r="2" fill="#faf7e8" />
 
-                    {/* 클럽하우스 광장 테라스 */}
-                    <rect x="0" y="0" width="70" height="42" rx="6" fill="#4a463d" />
-                    <polygon points="0,0 35,-15 70,0" fill="#7a543b" />
-                    <rect x="8" y="8" width="54" height="26" rx="3" fill="#cfc7b4" />
+                    <rect x="0" y="0" width="70" height="42" rx="6" fill={isDrone ? "#1e293b" : "#4a463d"} stroke={isDrone ? "#38bdf8" : "none"} strokeWidth="1" />
+                    <polygon points="0,0 35,-15 70,0" fill={isDrone ? "#0f172a" : "#7a543b"} />
+                    <rect x="8" y="8" width="54" height="26" rx="3" fill={isDrone ? "#0f172a" : "#cfc7b4"} />
                     <text
                       x="35"
                       y="24"
@@ -771,22 +923,24 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                       fontSize="8"
                       fontWeight="800"
                       letterSpacing="0.1em"
-                      fill="#2f2d26"
+                      fill={isDrone ? "#38bdf8" : "#2f2d26"}
                     >
-                      CLUB HOUSE
+                      {isDrone ? "HQ CENTER" : "CLUB HOUSE"}
                     </text>
                   </g>
 
                   {/* 5. 숲 수목 군락 (Tree Groves) */}
-                  <g id="tree-groves" opacity="0.9">
+                  <g id="tree-groves" opacity={isDrone ? "0.7" : "0.9"}>
                     {TREE_GROVES.map((tree, idx) => (
                       <circle
                         key={idx}
                         cx={tree.x}
                         cy={tree.y}
                         r={tree.r}
-                        fill="url(#treeShade)"
-                        opacity="0.88"
+                        fill={isDrone ? "#041a14" : "url(#treeShade)"}
+                        stroke={isDrone ? "#064e3b" : "none"}
+                        strokeWidth={isDrone ? "0.75" : "0"}
+                        opacity={isDrone ? "0.9" : "0.88"}
                       />
                     ))}
                   </g>
@@ -798,16 +952,17 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                       const isHovered = hole.number === hoveredHoleNumber;
                       const isVisible = visibleHoles.some((h) => h.number === hole.number);
 
-                      // 선택되지 않은 홀은 은은하게 뮤트 (사라지지 않음)
                       const holeOpacity = isVisible
                         ? isSelected
                           ? 1
                           : hoveredHoleNumber && !isHovered
-                          ? 0.35
+                          ? 0.32
                           : selectedHoleNumber && !isSelected
-                          ? 0.42
+                          ? isDrone
+                            ? 0.38
+                            : 0.42
                           : 0.85
-                        : 0.12;
+                        : 0.1;
 
                       return (
                         <g
@@ -819,9 +974,23 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                           {/* (1) 페어웨이 (유기적인 도그레그 베지에 폴리곤) */}
                           <path
                             d={hole.fairwayPath}
-                            fill={isSelected ? "url(#selectedFairwayGrad)" : "url(#fairwayGrad)"}
+                            fill={
+                              isDrone
+                                ? isSelected
+                                  ? "url(#droneFairwaySelected)"
+                                  : "url(#droneFairwayGrad)"
+                                : isSelected
+                                ? "url(#selectedFairwayGrad)"
+                                : "url(#fairwayGrad)"
+                            }
                             stroke={
-                              isSelected
+                              isDrone
+                                ? isSelected
+                                  ? "#38bdf8"
+                                  : isHovered
+                                  ? "#2dd4bf"
+                                  : "#0d9488"
+                                : isSelected
                                 ? "#ffd54f"
                                 : isHovered
                                 ? "#d4e157"
@@ -829,7 +998,13 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                             }
                             strokeWidth={isSelected ? 3.5 : isHovered ? 2.5 : 1.5}
                             strokeLinejoin="round"
-                            filter={isSelected ? "url(#fairwayGlow)" : undefined}
+                            filter={
+                              isSelected
+                                ? isDrone
+                                  ? "url(#droneNeonGlow)"
+                                  : "url(#fairwayGlow)"
+                                : undefined
+                            }
                             className="cursor-pointer transition-all duration-200"
                             onClick={() => setSelectedHoleNumber(hole.number)}
                             onMouseEnter={() => setHoveredHoleNumber(hole.number)}
@@ -841,8 +1016,8 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                             <path
                               key={bIdx}
                               d={bunkerPath}
-                              fill="url(#bunkerGrad)"
-                              stroke="#a89571"
+                              fill={isDrone ? "url(#droneBunkerGrad)" : "url(#bunkerGrad)"}
+                              stroke={isDrone ? "#94a3b8" : "#a89571"}
                               strokeWidth="1"
                               className="pointer-events-none"
                             />
@@ -859,53 +1034,64 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                               width="12"
                               height="8"
                               rx="2"
-                              fill="#385e2b"
-                              stroke="#8ec06c"
+                              fill={isDrone ? "#0f172a" : "#385e2b"}
+                              stroke={isDrone ? "#38bdf8" : "#8ec06c"}
                               strokeWidth="1"
                             />
                             <circle cx="-2.5" cy="0" r="1.2" fill="#ffffff" />
-                            <circle cx="2.5" cy="0" r="1.2" fill="#2563eb" />
+                            <circle cx="2.5" cy="0" r="1.2" fill={isDrone ? "#38bdf8" : "#2563eb"} />
                           </g>
 
                           {/* (4) 퍼팅 그린 (Putting Green) */}
                           <path
                             d={hole.greenPath}
-                            fill="#a4e76c"
-                            stroke="#366524"
+                            fill={isDrone ? "#34d399" : "#a4e76c"}
+                            stroke={isDrone ? "#10b981" : "#366524"}
                             strokeWidth="2"
                             className="pointer-events-none"
                           />
 
-                          {/* (5) 선택된 홀 전용: 정밀 샷 궤적선 (Shot Trajectory) & 랜딩 포인트 */}
+                          {/* (5) 선택된 홀 전용: 정밀 샷 궤적선 (Shot Trajectory / Laser Tracer) */}
                           {isSelected && (
                             <g className="pointer-events-none">
-                              {/* 샷 궤적 대시 라인 */}
+                              {/* 샷 궤적 라인 */}
                               <path
                                 d={hole.shotTrajectory}
                                 fill="none"
-                                stroke="#ffd54f"
-                                strokeWidth="3"
-                                strokeDasharray="6 6"
+                                stroke={isDrone ? "#38bdf8" : "#ffd54f"}
+                                strokeWidth={isDrone ? 3.5 : 3}
+                                strokeDasharray={isDrone ? "8 4" : "6 6"}
                                 strokeLinecap="round"
                                 opacity="0.95"
                               />
 
-                              {/* 1차 랜딩 타겟 링 */}
+                              {/* 1차 랜딩 타겟 링 & 레이더 HUD */}
                               <circle
                                 cx={hole.landing.x}
                                 cy={hole.landing.y}
-                                r="9"
+                                r={isDrone ? 12 : 9}
                                 fill="none"
-                                stroke="#ffd54f"
+                                stroke={isDrone ? "#38bdf8" : "#ffd54f"}
                                 strokeWidth="1.5"
-                                opacity="0.8"
+                                strokeDasharray={isDrone ? "3 3" : "none"}
+                                opacity="0.85"
                               />
                               <circle
                                 cx={hole.landing.x}
                                 cy={hole.landing.y}
-                                r="3"
-                                fill="#ffd54f"
+                                r="3.5"
+                                fill={isDrone ? "#38bdf8" : "#ffd54f"}
                               />
+
+                              {/* B 모던 드론 HUD 전용: 레이더 타겟 마커 텍스트 */}
+                              {isDrone && (
+                                <g transform={`translate(${hole.landing.x + 10}, ${hole.landing.y - 10})`}>
+                                  <rect x="0" y="0" width="62" height="15" rx="3" fill="#0284c7" fillOpacity="0.85" />
+                                  <text x="31" y="11" textAnchor="middle" fontSize="8" fontWeight="800" fill="#ffffff" fontFamily="monospace">
+                                    CARRY 225M
+                                  </text>
+                                </g>
+                              )}
 
                               {/* 2차 랜딩 타겟 (파5 홀) */}
                               {hole.landing2 && (
@@ -913,18 +1099,27 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                                   <circle
                                     cx={hole.landing2.x}
                                     cy={hole.landing2.y}
-                                    r="9"
+                                    r={isDrone ? 12 : 9}
                                     fill="none"
-                                    stroke="#ffd54f"
+                                    stroke={isDrone ? "#38bdf8" : "#ffd54f"}
                                     strokeWidth="1.5"
-                                    opacity="0.8"
+                                    strokeDasharray={isDrone ? "3 3" : "none"}
+                                    opacity="0.85"
                                   />
                                   <circle
                                     cx={hole.landing2.x}
                                     cy={hole.landing2.y}
-                                    r="3"
-                                    fill="#ffd54f"
+                                    r="3.5"
+                                    fill={isDrone ? "#38bdf8" : "#ffd54f"}
                                   />
+                                  {isDrone && (
+                                    <g transform={`translate(${hole.landing2.x + 10}, ${hole.landing2.y - 10})`}>
+                                      <rect x="0" y="0" width="58" height="15" rx="3" fill="#0f766e" fillOpacity="0.85" />
+                                      <text x="29" y="11" textAnchor="middle" fontSize="8" fontWeight="800" fill="#ffffff" fontFamily="monospace">
+                                        LAYUP 210M
+                                      </text>
+                                    </g>
+                                  )}
                                 </>
                               )}
                             </g>
@@ -933,11 +1128,14 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                           {/* (6) 깃대와 핀 플래그 (Pin Flag) */}
                           <g transform={`translate(${hole.pin.x}, ${hole.pin.y})`} className="pointer-events-none">
                             <line x1="0" y1="0" x2="0" y2="-12" stroke="#ffffff" strokeWidth="1.5" />
-                            <polygon points="0,-12 8,-9 0,-6" fill={isSelected ? "#ff334b" : "#e11d48"} />
+                            <polygon
+                              points="0,-12 8,-9 0,-6"
+                              fill={isDrone ? (isSelected ? "#38bdf8" : "#0284c7") : (isSelected ? "#ff334b" : "#e11d48")}
+                            />
                             <circle cx="0" cy="0" r="2.2" fill="#111827" />
                           </g>
 
-                          {/* (7) 홀 번호 야디지 뱃지 버튼 */}
+                          {/* (7) 홀 번호 뱃지 버튼 */}
                           <g
                             transform={`translate(${hole.badge.x}, ${hole.badge.y})`}
                             onClick={() => setSelectedHoleNumber(hole.number)}
@@ -954,25 +1152,37 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                             aria-label={`${hole.number}번 홀, 파 ${hole.par}, ${hole.distance}미터, 핸디캡 ${hole.handicap}`}
                             aria-pressed={isSelected}
                             className="cursor-pointer outline-none focus-visible:scale-125"
-                            filter="url(#badgeGlow)"
+                            filter={!isDrone ? "url(#badgeGlow)" : undefined}
                           >
                             <circle
                               r={isSelected ? 14 : 12}
                               fill={
-                                isSelected
+                                isDrone
+                                  ? isSelected
+                                    ? "#0284c7"
+                                    : isHovered
+                                    ? "#0f766e"
+                                    : "#0f172a"
+                                  : isSelected
                                   ? "#183b23"
                                   : isHovered
                                   ? "#2a5435"
                                   : "#ffffff"
                               }
                               stroke={
-                                isSelected
+                                isDrone
+                                  ? isSelected
+                                    ? "#38bdf8"
+                                    : isHovered
+                                    ? "#2dd4bf"
+                                    : "#334155"
+                                  : isSelected
                                   ? "#ffd54f"
                                   : isHovered
                                   ? "#82b753"
                                   : "#1f4329"
                               }
-                              strokeWidth={isSelected ? 3 : 2}
+                              strokeWidth={isSelected ? 3 : 1.5}
                               className="transition-all duration-200"
                             />
                             <text
@@ -980,7 +1190,19 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                               dominantBaseline="central"
                               fontSize={isSelected ? "11" : "10"}
                               fontWeight="800"
-                              fill={isSelected ? "#ffffff" : isHovered ? "#ffffff" : "#183b23"}
+                              fill={
+                                isDrone
+                                  ? isSelected
+                                    ? "#ffffff"
+                                    : isHovered
+                                    ? "#ffffff"
+                                    : "#94a3b8"
+                                  : isSelected
+                                  ? "#ffffff"
+                                  : isHovered
+                                  ? "#ffffff"
+                                  : "#183b23"
+                              }
                             >
                               {hole.number}
                             </text>
@@ -994,22 +1216,28 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
             </div>
 
             {/* 하단 범례 (Legend) */}
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-black/40 px-3.5 py-2.5 text-xs text-zinc-200 backdrop-blur-md">
+            <div
+              className={`mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-xs backdrop-blur-md ${
+                isDrone
+                  ? "border border-cyan-500/20 bg-black/60 text-slate-200"
+                  : "bg-black/40 text-zinc-200"
+              }`}
+            >
               <div className="flex flex-wrap items-center gap-4">
                 <span className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-4 rounded-sm bg-[#82b753]" /> 페어웨이
+                  <span className={`h-2.5 w-4 rounded-sm ${isDrone ? "bg-[#10b981]" : "bg-[#82b753]"}`} /> 페어웨이
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-3 rounded-full bg-[#a4e76c]" /> 그린
+                  <span className={`h-2.5 w-3 rounded-full ${isDrone ? "bg-[#34d399]" : "bg-[#a4e76c]"}`} /> 그린
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-3.5 rounded-sm bg-[#3d82a6]" /> 워터 해저드
+                  <span className={`h-2.5 w-3.5 rounded-sm ${isDrone ? "bg-[#0284c7]" : "bg-[#3d82a6]"}`} /> 워터 해저드
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-3 rounded-full bg-[#f3e8d0]" /> 벙커
+                  <span className={`h-2.5 w-3 rounded-full ${isDrone ? "bg-[#e2d9c2]" : "bg-[#f3e8d0]"}`} /> 벙커
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="h-0.5 w-3.5 border-t-2 border-dashed border-[#ffd54f]" /> 공략선
+                  <span className={`h-0.5 w-3.5 border-t-2 border-dashed ${isDrone ? "border-[#38bdf8]" : "border-[#ffd54f]"}`} /> 공략선
                 </span>
               </div>
               <span className="text-[11px] text-zinc-400">
@@ -1018,7 +1246,7 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
             </div>
           </div>
 
-          {/* 우측: 정돈된 야디지북 정보 패널 */}
+          {/* 우측: 정돈된 스마트 텔레메트리 / 야디지북 정보 패널 */}
           <aside
             className="flex flex-col justify-between border-t border-border bg-card p-5 lg:border-l lg:border-t-0 sm:p-6"
             aria-live="polite"
@@ -1028,8 +1256,8 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      HOLE
+                    <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      {isDrone ? "FLIGHT TELEMETRY" : "HOLE"}
                     </span>
                     <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground">
                       {selectedHole.side.toUpperCase()} COURSE
@@ -1040,7 +1268,13 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-1.5">
-                  <span className="rounded-full bg-brand px-3.5 py-1 text-sm font-bold text-brand-foreground shadow-sm">
+                  <span
+                    className={`rounded-full px-3.5 py-1 text-sm font-bold shadow-sm ${
+                      isDrone
+                        ? "bg-cyan-600 text-white dark:bg-cyan-500 dark:text-black"
+                        : "bg-brand text-brand-foreground"
+                    }`}
+                  >
                     PAR {selectedHole.par}
                   </span>
                   <span className="text-xs font-medium text-muted-foreground">
@@ -1076,6 +1310,24 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                 </div>
               </dl>
 
+              {/* B 모던 드론 HUD 전용: 스마트 텔레메트리 추천 박스 */}
+              {isDrone && (
+                <div className="mt-3.5 space-y-2 rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-3 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-muted-foreground">🏌️ 권장 클럽 루트</span>
+                    <span className="font-bold text-cyan-500 dark:text-cyan-400">
+                      {selectedHole.recommendClub}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-muted-foreground">🎯 랜딩존 폭 / 안정도</span>
+                    <span className="font-bold text-foreground">
+                      {selectedHole.landingWidth} ({selectedHole.fairwayAccuracy})
+                    </span>
+                  </div>
+                </div>
+              )}
+
               {/* 주의 위험 요소 (Hazards) */}
               <div className="mt-4">
                 <p className="text-xs font-semibold text-muted-foreground">주요 위험 요소</p>
@@ -1091,10 +1343,20 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                 </div>
               </div>
 
-              {/* 야디지 캐디 공략 팁 */}
-              <div className="mt-5 rounded-xl border border-brand/20 bg-brand/5 p-3.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-brand">
-                  <span>⛳ 캐디 코스 가이드</span>
+              {/* 공략 가이드 */}
+              <div
+                className={`mt-4 rounded-xl border p-3.5 ${
+                  isDrone
+                    ? "border-cyan-500/20 bg-cyan-500/5"
+                    : "border-brand/20 bg-brand/5"
+                }`}
+              >
+                <div
+                  className={`flex items-center gap-1.5 text-xs font-bold ${
+                    isDrone ? "text-cyan-600 dark:text-cyan-400" : "text-brand"
+                  }`}
+                >
+                  <span>{isDrone ? "⚡ 텍티컬 전술 브리핑" : "⛳ 캐디 코스 가이드"}</span>
                 </div>
                 <p className="mt-1.5 text-xs leading-relaxed text-foreground/90 sm:text-sm">
                   {selectedHole.tip}
@@ -1126,7 +1388,9 @@ export default function CourseMap({ courseName = "그린힐스 파크 컨트리�
                       aria-pressed={isCurrent}
                       className={`relative flex aspect-square items-center justify-center rounded-lg text-xs font-bold transition-all ${
                         isCurrent
-                          ? "bg-brand text-brand-foreground shadow-sm ring-2 ring-brand/40"
+                          ? isDrone
+                            ? "bg-cyan-600 text-white shadow-sm ring-2 ring-cyan-500/50 dark:bg-cyan-500 dark:text-black"
+                            : "bg-brand text-brand-foreground shadow-sm ring-2 ring-brand/40"
                           : isInSide
                           ? "bg-muted text-foreground hover:bg-accent"
                           : "bg-muted/40 text-muted-foreground/40 hover:bg-muted"
