@@ -1,0 +1,54 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "supabase/migrations/20260909000000_auth_login_limits.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 173,
+      "nonEmptyLines": 153,
+      "definitions": [
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "failed_attempts",
+            "pending_attempts",
+            "window_started_at",
+            "locked_until",
+            "updated_at"
+          ],
+          "startLine": 2,
+          "endLine": 9
+        },
+        {
+          "name": "idx_login_limits_updated",
+          "kind": "index",
+          "fields": [],
+          "startLine": 11,
+          "endLine": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 2
+      }
+    }
+  ]
+}

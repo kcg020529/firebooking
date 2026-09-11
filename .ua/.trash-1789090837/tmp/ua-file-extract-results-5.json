@@ -1,0 +1,832 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 6,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "lib/security/loginProtection.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 92,
+      "nonEmptyLines": 79,
+      "functions": [
+        {
+          "name": "getSecuritySecret",
+          "startLine": 11,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "createLoginLimitKey",
+          "startLine": 18,
+          "endLine": 24,
+          "params": [
+            "email",
+            "ipHash"
+          ]
+        },
+        {
+          "name": "parseRpcResult",
+          "startLine": 26,
+          "endLine": 31,
+          "params": [
+            "data",
+            "operation"
+          ]
+        },
+        {
+          "name": "reserveLoginAttempt",
+          "startLine": 34,
+          "endLine": 44,
+          "params": [
+            "keyHash"
+          ]
+        },
+        {
+          "name": "finishLoginAttempt",
+          "startLine": 47,
+          "endLine": 62,
+          "params": [
+            "keyHash",
+            "outcome"
+          ]
+        },
+        {
+          "name": "isCredentialFailure",
+          "startLine": 65,
+          "endLine": 68,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "recordLoginLock",
+          "startLine": 71,
+          "endLine": 92,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LOGIN_MAX_ATTEMPTS",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "LOGIN_WINDOW_SECONDS",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "LOGIN_LOCK_SECONDS",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "createLoginLimitKey",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "reserveLoginAttempt",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "finishLoginAttempt",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "isCredentialFailure",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "recordLoginLock",
+          "line": 71,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createLoginLimitKey",
+          "callee": "email.trim().toLowerCase",
+          "lineNumber": 20
+        },
+        {
+          "caller": "createLoginLimitKey",
+          "callee": "email.trim",
+          "lineNumber": 20
+        },
+        {
+          "caller": "createLoginLimitKey",
+          "callee": "createHmac('sha256', getSecuritySecret())\r\n    .update(`login-limit:${normalizedEmail}:${ipHash ?? 'unknown'}`)\r\n    .digest",
+          "lineNumber": 21
+        },
+        {
+          "caller": "createLoginLimitKey",
+          "callee": "createHmac('sha256', getSecuritySecret())\r\n    .update",
+          "lineNumber": 21
+        },
+        {
+          "caller": "createLoginLimitKey",
+          "callee": "createHmac",
+          "lineNumber": 21
+        },
+        {
+          "caller": "createLoginLimitKey",
+          "callee": "getSecuritySecret",
+          "lineNumber": 21
+        },
+        {
+          "caller": "reserveLoginAttempt",
+          "callee": "createServerClient",
+          "lineNumber": 34
+        },
+        {
+          "caller": "reserveLoginAttempt",
+          "callee": "client.rpc",
+          "lineNumber": 36
+        },
+        {
+          "caller": "reserveLoginAttempt",
+          "callee": "parseRpcResult",
+          "lineNumber": 43
+        },
+        {
+          "caller": "finishLoginAttempt",
+          "callee": "createServerClient",
+          "lineNumber": 50
+        },
+        {
+          "caller": "finishLoginAttempt",
+          "callee": "client.rpc",
+          "lineNumber": 53
+        },
+        {
+          "caller": "finishLoginAttempt",
+          "callee": "parseRpcResult",
+          "lineNumber": 61
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "createServerClient",
+          "lineNumber": 71
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "new Date(Date.now() - LOGIN_WINDOW_SECONDS * 1000).toISOString",
+          "lineNumber": 72
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "Date.now",
+          "lineNumber": 72
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "client\r\n    .from('security_events')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq('rule_id', LOGIN_RULE.id)\r\n    .eq('ip_hash', ipHash)\r\n    .gte",
+          "lineNumber": 73
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "client\r\n    .from('security_events')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq('rule_id', LOGIN_RULE.id)\r\n    .eq",
+          "lineNumber": 73
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "client\r\n    .from('security_events')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq",
+          "lineNumber": 73
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "client\r\n    .from('security_events')\r\n    .select",
+          "lineNumber": 73
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "client\r\n    .from",
+          "lineNumber": 73
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "client.from('security_events').insert",
+          "lineNumber": 83
+        },
+        {
+          "caller": "recordLoginLock",
+          "callee": "client.from",
+          "lineNumber": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 8,
+        "functionCount": 7,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/rules.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 215,
+      "nonEmptyLines": 189,
+      "functions": [
+        {
+          "name": "countRecentDenies",
+          "startLine": 24,
+          "endLine": 40,
+          "params": [
+            "supabase"
+          ]
+        },
+        {
+          "name": "hasRecentEvent",
+          "startLine": 42,
+          "endLine": 50,
+          "params": [
+            "supabase"
+          ]
+        },
+        {
+          "name": "insertAnomalyOnce",
+          "startLine": 52,
+          "endLine": 64,
+          "params": [
+            "supabase"
+          ]
+        },
+        {
+          "name": "checkApiRateLimit",
+          "startLine": 67,
+          "endLine": 95,
+          "params": []
+        },
+        {
+          "name": "detectCodeEnumeration",
+          "startLine": 108,
+          "endLine": 138,
+          "params": []
+        },
+        {
+          "name": "detectScalping",
+          "startLine": 141,
+          "endLine": 173,
+          "params": []
+        },
+        {
+          "name": "detectLookupBruteForce",
+          "startLine": 176,
+          "endLine": 215,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ANOMALY_RULES",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "checkApiRateLimit",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "detectCodeEnumeration",
+          "line": 108,
+          "isDefault": false
+        },
+        {
+          "name": "detectScalping",
+          "line": 141,
+          "isDefault": false
+        },
+        {
+          "name": "detectLookupBruteForce",
+          "line": 176,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "countRecentDenies",
+          "callee": "new Date(Date.now() - windowMinutes * 60_000).toISOString",
+          "lineNumber": 25
+        },
+        {
+          "caller": "countRecentDenies",
+          "callee": "Date.now",
+          "lineNumber": 25
+        },
+        {
+          "caller": "countRecentDenies",
+          "callee": "supabase\r\n    .from('audit_logs')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq('ip_hash', ipHash)\r\n    .eq('action', action)\r\n    .eq('result', 'deny')\r\n    .gte",
+          "lineNumber": 27
+        },
+        {
+          "caller": "countRecentDenies",
+          "callee": "supabase\r\n    .from('audit_logs')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq('ip_hash', ipHash)\r\n    .eq('action', action)\r\n    .eq",
+          "lineNumber": 27
+        },
+        {
+          "caller": "countRecentDenies",
+          "callee": "supabase\r\n    .from('audit_logs')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq('ip_hash', ipHash)\r\n    .eq",
+          "lineNumber": 27
+        },
+        {
+          "caller": "countRecentDenies",
+          "callee": "supabase\r\n    .from('audit_logs')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq",
+          "lineNumber": 27
+        },
+        {
+          "caller": "countRecentDenies",
+          "callee": "supabase\r\n    .from('audit_logs')\r\n    .select",
+          "lineNumber": 27
+        },
+        {
+          "caller": "countRecentDenies",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 27
+        },
+        {
+          "caller": "countRecentDenies",
+          "callee": "console.error",
+          "lineNumber": 36
+        },
+        {
+          "caller": "hasRecentEvent",
+          "callee": "supabase\r\n    .from('security_events')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq('rule_id', ruleId)\r\n    .eq('ip_hash', ipHash)\r\n    .gte",
+          "lineNumber": 43
+        },
+        {
+          "caller": "hasRecentEvent",
+          "callee": "supabase\r\n    .from('security_events')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq('rule_id', ruleId)\r\n    .eq",
+          "lineNumber": 43
+        },
+        {
+          "caller": "hasRecentEvent",
+          "callee": "supabase\r\n    .from('security_events')\r\n    .select('id', { count: 'exact', head: true })\r\n    .eq",
+          "lineNumber": 43
+        },
+        {
+          "caller": "hasRecentEvent",
+          "callee": "supabase\r\n    .from('security_events')\r\n    .select",
+          "lineNumber": 43
+        },
+        {
+          "caller": "hasRecentEvent",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 43
+        },
+        {
+          "caller": "insertAnomalyOnce",
+          "callee": "new Date(Date.now() - rule.windowMinutes * 60_000).toISOString",
+          "lineNumber": 53
+        },
+        {
+          "caller": "insertAnomalyOnce",
+          "callee": "Date.now",
+          "lineNumber": 53
+        },
+        {
+          "caller": "insertAnomalyOnce",
+          "callee": "hasRecentEvent",
+          "lineNumber": 54
+        },
+        {
+          "caller": "insertAnomalyOnce",
+          "callee": "supabase.from('security_events').insert",
+          "lineNumber": 56
+        },
+        {
+          "caller": "insertAnomalyOnce",
+          "callee": "supabase.from",
+          "lineNumber": 56
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "new Date(Date.now() - rule.windowMinutes * 60_000).toISOString",
+          "lineNumber": 71
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "Date.now",
+          "lineNumber": 71
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "createServerClient",
+          "lineNumber": 74
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "supabase\r\n      .from('api_logs')\r\n      .select('id', { count: 'exact', head: true })\r\n      .eq('ip_hash', ipHash)\r\n      .gte",
+          "lineNumber": 75
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "supabase\r\n      .from('api_logs')\r\n      .select('id', { count: 'exact', head: true })\r\n      .eq",
+          "lineNumber": 75
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "supabase\r\n      .from('api_logs')\r\n      .select",
+          "lineNumber": 75
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "supabase\r\n      .from",
+          "lineNumber": 75
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "insertAnomalyOnce",
+          "lineNumber": 84
+        },
+        {
+          "caller": "checkApiRateLimit",
+          "callee": "console.error",
+          "lineNumber": 92
+        },
+        {
+          "caller": "detectCodeEnumeration",
+          "callee": "schedule",
+          "lineNumber": 116
+        },
+        {
+          "caller": "detectCodeEnumeration",
+          "callee": "createServerClient",
+          "lineNumber": 118
+        },
+        {
+          "caller": "detectCodeEnumeration",
+          "callee": "countRecentDenies",
+          "lineNumber": 120
+        },
+        {
+          "caller": "detectCodeEnumeration",
+          "callee": "insertAnomalyOnce",
+          "lineNumber": 128
+        },
+        {
+          "caller": "detectCodeEnumeration",
+          "callee": "console.error",
+          "lineNumber": 135
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "schedule",
+          "lineNumber": 148
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "createServerClient",
+          "lineNumber": 150
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "new Date(Date.now() - rule.windowMinutes * 60_000).toISOString",
+          "lineNumber": 151
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "Date.now",
+          "lineNumber": 151
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('id', { count: 'exact', head: true })\r\n        .eq('ip_hash', ipHash)\r\n        .eq('action', action)\r\n        .eq('result', 'allow')\r\n        .gte",
+          "lineNumber": 152
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('id', { count: 'exact', head: true })\r\n        .eq('ip_hash', ipHash)\r\n        .eq('action', action)\r\n        .eq",
+          "lineNumber": 152
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('id', { count: 'exact', head: true })\r\n        .eq('ip_hash', ipHash)\r\n        .eq",
+          "lineNumber": 152
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('id', { count: 'exact', head: true })\r\n        .eq",
+          "lineNumber": 152
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select",
+          "lineNumber": 152
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "supabase\r\n        .from",
+          "lineNumber": 152
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "insertAnomalyOnce",
+          "lineNumber": 163
+        },
+        {
+          "caller": "detectScalping",
+          "callee": "console.error",
+          "lineNumber": 170
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "schedule",
+          "lineNumber": 183
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "createServerClient",
+          "lineNumber": 185
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "new Date(Date.now() - rule.windowMinutes * 60_000).toISOString",
+          "lineNumber": 186
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "Date.now",
+          "lineNumber": 186
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('target_id')\r\n        .eq('ip_hash', ipHash)\r\n        .eq('action', action)\r\n        .eq('result', 'deny')\r\n        .gte('ts', since)\r\n        .limit",
+          "lineNumber": 187
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('target_id')\r\n        .eq('ip_hash', ipHash)\r\n        .eq('action', action)\r\n        .eq('result', 'deny')\r\n        .gte",
+          "lineNumber": 187
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('target_id')\r\n        .eq('ip_hash', ipHash)\r\n        .eq('action', action)\r\n        .eq",
+          "lineNumber": 187
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('target_id')\r\n        .eq('ip_hash', ipHash)\r\n        .eq",
+          "lineNumber": 187
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select('target_id')\r\n        .eq",
+          "lineNumber": 187
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "supabase\r\n        .from('audit_logs')\r\n        .select",
+          "lineNumber": 187
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "supabase\r\n        .from",
+          "lineNumber": 187
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "(data ?? [])\r\n          .map(({ target_id: targetId }) => targetId)\r\n          .filter",
+          "lineNumber": 198
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "(data ?? [])\r\n          .map",
+          "lineNumber": 198
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "targetId.startsWith",
+          "lineNumber": 200
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "fingerprints.add",
+          "lineNumber": 202
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "insertAnomalyOnce",
+          "lineNumber": 205
+        },
+        {
+          "caller": "detectLookupBruteForce",
+          "callee": "console.error",
+          "lineNumber": 212
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 7,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/securityConfig.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 44,
+      "exports": [
+        {
+          "name": "ANOMALY_RULES",
+          "line": 2,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/supabase.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "createServerClient",
+          "startLine": 13,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "createBrowserClient",
+          "startLine": 31,
+          "endLine": 41,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "createServerClient",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "createBrowserClient",
+          "line": 31,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createServerClient",
+          "callee": "createClient",
+          "lineNumber": 22
+        },
+        {
+          "caller": "createBrowserClient",
+          "callee": "createClient",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/loginProtection.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "withSecuritySecret",
+          "startLine": 12,
+          "endLine": 21,
+          "params": [
+            "run"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "withSecuritySecret",
+          "callee": "run",
+          "lineNumber": 16
+        },
+        {
+          "caller": "rpc",
+          "callee": "calls.push",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/rules.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 156,
+      "nonEmptyLines": 137,
+      "functions": [
+        {
+          "name": "createRateLimitClient",
+          "startLine": 12,
+          "endLine": 39,
+          "params": []
+        },
+        {
+          "name": "createAnomalyClient",
+          "startLine": 41,
+          "endLine": 78,
+          "params": []
+        },
+        {
+          "name": "runScheduled",
+          "startLine": 80,
+          "endLine": 84,
+          "params": [
+            "invoke"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "then",
+          "callee": "Promise.resolve(result).then",
+          "lineNumber": 27
+        },
+        {
+          "caller": "then",
+          "callee": "Promise.resolve",
+          "lineNumber": 27
+        },
+        {
+          "caller": "insert",
+          "callee": "inserts.push",
+          "lineNumber": 33
+        },
+        {
+          "caller": "select",
+          "callee": "auditTargets.map",
+          "lineNumber": 56
+        },
+        {
+          "caller": "then",
+          "callee": "Promise.resolve(result).then",
+          "lineNumber": 66
+        },
+        {
+          "caller": "then",
+          "callee": "Promise.resolve",
+          "lineNumber": 66
+        },
+        {
+          "caller": "insert",
+          "callee": "inserts.push",
+          "lineNumber": 72
+        },
+        {
+          "caller": "runScheduled",
+          "callee": "invoke",
+          "lineNumber": 82
+        },
+        {
+          "caller": "runScheduled",
+          "callee": "operation",
+          "lineNumber": 82
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    }
+  ]
+}

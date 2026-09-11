@@ -1,0 +1,55 @@
+{
+    "projectRoot":  "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+    "batchFiles":  [
+                       {
+                           "path":  "lib/ai/chatService.js",
+                           "language":  "javascript",
+                           "sizeLines":  169,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "lib/security/chatGuard.js",
+                           "language":  "javascript",
+                           "sizeLines":  76,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "lib/security/injection.js",
+                           "language":  "javascript",
+                           "sizeLines":  81,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "test/ai/chatService.test.js",
+                           "language":  "javascript",
+                           "sizeLines":  92,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "test/security/injection.test.js",
+                           "language":  "javascript",
+                           "sizeLines":  100,
+                           "fileCategory":  "code"
+                       }
+                   ],
+    "batchImportData":  {
+                            "lib/ai/chatService.js":  [
+                                                          "lib/security/chatGuard.js",
+                                                          "lib/security/outputGuard.js",
+                                                          "lib/security/pii.js"
+                                                      ],
+                            "lib/security/chatGuard.js":  [
+                                                              "lib/security/injection.js"
+                                                          ],
+                            "lib/security/injection.js":  [
+
+                                                          ],
+                            "test/ai/chatService.test.js":  [
+                                                                "lib/ai/chatService.js"
+                                                            ],
+                            "test/security/injection.test.js":  [
+                                                                    "lib/security/chatGuard.js",
+                                                                    "lib/security/injection.js"
+                                                                ]
+                        }
+}

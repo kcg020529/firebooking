@@ -1,0 +1,981 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "lib/ai/toolDependencies.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 102,
+      "nonEmptyLines": 88,
+      "functions": [
+        {
+          "name": "toCourseSummary",
+          "startLine": 4,
+          "endLine": 11,
+          "params": [
+            "course"
+          ]
+        },
+        {
+          "name": "toSearchSlot",
+          "startLine": 13,
+          "endLine": 26,
+          "params": [
+            "course",
+            "slot"
+          ]
+        },
+        {
+          "name": "createChatToolDependencies",
+          "startLine": 28,
+          "endLine": 102,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "createChatToolDependencies",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "searchSlots",
+          "callee": "getCourseFn",
+          "lineNumber": 40
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "listCoursesFn",
+          "lineNumber": 43
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "summaries.map",
+          "lineNumber": 47
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "(\r\n        await Promise.all(\r\n          summaries.map((course) => getCourseFn(course.id, { date })),\r\n        )\r\n      ).filter",
+          "lineNumber": 52
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "Promise.all",
+          "lineNumber": 53
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "summaries.map",
+          "lineNumber": 54
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "getCourseFn",
+          "lineNumber": 54
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "courses.map",
+          "lineNumber": 60
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "courses.flatMap",
+          "lineNumber": 61
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "course.slots\r\n          .filter((slot) => slot.available >= partySize)\r\n          .map",
+          "lineNumber": 62
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "course.slots\r\n          .filter",
+          "lineNumber": 62
+        },
+        {
+          "caller": "searchSlots",
+          "callee": "toSearchSlot",
+          "lineNumber": 64
+        },
+        {
+          "caller": "createChatBooking",
+          "callee": "createBookingFn",
+          "lineNumber": 70
+        },
+        {
+          "caller": "createChatBooking",
+          "callee": "onBookingResult",
+          "lineNumber": 74
+        },
+        {
+          "caller": "createChatBooking",
+          "callee": "console.error",
+          "lineNumber": 76
+        },
+        {
+          "caller": "lookupChatBooking",
+          "callee": "lookupBookingFn",
+          "lineNumber": 84
+        },
+        {
+          "caller": "lookupChatBooking",
+          "callee": "onLookupResult",
+          "lineNumber": 88
+        },
+        {
+          "caller": "lookupChatBooking",
+          "callee": "console.error",
+          "lineNumber": 90
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/bookingLimits.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 11,
+      "exports": [
+        {
+          "name": "MIN_PARTY_SIZE",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "MAX_PARTY_SIZE",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "NAME_MAX_LENGTH",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "MEMO_MAX_LENGTH",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/bookings.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 305,
+      "nonEmptyLines": 266,
+      "functions": [
+        {
+          "name": "generateBookingCode",
+          "startLine": 34,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "normalizePhone",
+          "startLine": 48,
+          "endLine": 54,
+          "params": [
+            "phone"
+          ]
+        },
+        {
+          "name": "validate",
+          "startLine": 62,
+          "endLine": 107,
+          "params": []
+        },
+        {
+          "name": "toKoreanError",
+          "startLine": 110,
+          "endLine": 127,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "createBooking",
+          "startLine": 140,
+          "endLine": 201,
+          "params": [
+            "input"
+          ]
+        },
+        {
+          "name": "toBookingSummary",
+          "startLine": 204,
+          "endLine": 217,
+          "params": [
+            "row"
+          ]
+        },
+        {
+          "name": "lookupBookings",
+          "startLine": 244,
+          "endLine": 277,
+          "params": []
+        },
+        {
+          "name": "listMyBookings",
+          "startLine": 288,
+          "endLine": 305,
+          "params": [
+            "userId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "createBooking",
+          "line": 140,
+          "isDefault": false
+        },
+        {
+          "name": "lookupBookings",
+          "line": 244,
+          "isDefault": false
+        },
+        {
+          "name": "listMyBookings",
+          "line": 288,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "generateBookingCode",
+          "callee": "Math.floor",
+          "lineNumber": 37
+        },
+        {
+          "caller": "generateBookingCode",
+          "callee": "Math.random",
+          "lineNumber": 37
+        },
+        {
+          "caller": "normalizePhone",
+          "callee": "phone.replace",
+          "lineNumber": 49
+        },
+        {
+          "caller": "normalizePhone",
+          "callee": "digits.slice",
+          "lineNumber": 51
+        },
+        {
+          "caller": "normalizePhone",
+          "callee": "digits.slice",
+          "lineNumber": 51
+        },
+        {
+          "caller": "normalizePhone",
+          "callee": "digits.slice",
+          "lineNumber": 51
+        },
+        {
+          "caller": "normalizePhone",
+          "callee": "digits.slice",
+          "lineNumber": 53
+        },
+        {
+          "caller": "normalizePhone",
+          "callee": "digits.slice",
+          "lineNumber": 53
+        },
+        {
+          "caller": "normalizePhone",
+          "callee": "digits.slice",
+          "lineNumber": 53
+        },
+        {
+          "caller": "validate",
+          "callee": "name.trim",
+          "lineNumber": 67
+        },
+        {
+          "caller": "validate",
+          "callee": "phone.trim",
+          "lineNumber": 75
+        },
+        {
+          "caller": "validate",
+          "callee": "PHONE_PATTERN.test",
+          "lineNumber": 79
+        },
+        {
+          "caller": "validate",
+          "callee": "Number",
+          "lineNumber": 83
+        },
+        {
+          "caller": "validate",
+          "callee": "Number.isInteger",
+          "lineNumber": 84
+        },
+        {
+          "caller": "validate",
+          "callee": "memo.trim",
+          "lineNumber": 88
+        },
+        {
+          "caller": "validate",
+          "callee": "normalizePhone",
+          "lineNumber": 101
+        },
+        {
+          "caller": "toKoreanError",
+          "callee": "message.includes",
+          "lineNumber": 111
+        },
+        {
+          "caller": "toKoreanError",
+          "callee": "message.includes",
+          "lineNumber": 114
+        },
+        {
+          "caller": "toKoreanError",
+          "callee": "message.includes",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toKoreanError",
+          "callee": "message.includes",
+          "lineNumber": 120
+        },
+        {
+          "caller": "toKoreanError",
+          "callee": "message.includes",
+          "lineNumber": 123
+        },
+        {
+          "caller": "createBooking",
+          "callee": "validate",
+          "lineNumber": 141
+        },
+        {
+          "caller": "createBooking",
+          "callee": "createServerClient",
+          "lineNumber": 146
+        },
+        {
+          "caller": "createBooking",
+          "callee": "generateBookingCode",
+          "lineNumber": 149
+        },
+        {
+          "caller": "createBooking",
+          "callee": "supabase.rpc",
+          "lineNumber": 151
+        },
+        {
+          "caller": "createBooking",
+          "callee": "Array.isArray",
+          "lineNumber": 163
+        },
+        {
+          "caller": "createBooking",
+          "callee": "message.includes",
+          "lineNumber": 183
+        },
+        {
+          "caller": "createBooking",
+          "callee": "toKoreanError",
+          "lineNumber": 188
+        },
+        {
+          "caller": "createBooking",
+          "callee": "console.error",
+          "lineNumber": 195
+        },
+        {
+          "caller": "createBooking",
+          "callee": "console.error",
+          "lineNumber": 199
+        },
+        {
+          "caller": "toBookingSummary",
+          "callee": "detectAndMaskPii",
+          "lineNumber": 208
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "code.trim().toUpperCase",
+          "lineNumber": 245
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "code.trim",
+          "lineNumber": 245
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "phone.trim",
+          "lineNumber": 246
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "PHONE_PATTERN.test",
+          "lineNumber": 252
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "createServerClient",
+          "lineNumber": 256
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "supabase\r\n    .from('bookings')\r\n    .select(BOOKING_SELECT)\r\n    .eq('booking_code', trimmedCode)\r\n    .eq('phone', normalizePhone(trimmedPhone))\r\n    .limit",
+          "lineNumber": 258
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "supabase\r\n    .from('bookings')\r\n    .select(BOOKING_SELECT)\r\n    .eq('booking_code', trimmedCode)\r\n    .eq",
+          "lineNumber": 258
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "supabase\r\n    .from('bookings')\r\n    .select(BOOKING_SELECT)\r\n    .eq",
+          "lineNumber": 258
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "supabase\r\n    .from('bookings')\r\n    .select",
+          "lineNumber": 258
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 258
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "normalizePhone",
+          "lineNumber": 262
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "console.error",
+          "lineNumber": 266
+        },
+        {
+          "caller": "lookupBookings",
+          "callee": "data.map",
+          "lineNumber": 276
+        },
+        {
+          "caller": "listMyBookings",
+          "callee": "createServerClient",
+          "lineNumber": 291
+        },
+        {
+          "caller": "listMyBookings",
+          "callee": "supabase\r\n    .from('bookings')\r\n    .select(BOOKING_SELECT)\r\n    .eq('user_id', userId)\r\n    .order",
+          "lineNumber": 293
+        },
+        {
+          "caller": "listMyBookings",
+          "callee": "supabase\r\n    .from('bookings')\r\n    .select(BOOKING_SELECT)\r\n    .eq",
+          "lineNumber": 293
+        },
+        {
+          "caller": "listMyBookings",
+          "callee": "supabase\r\n    .from('bookings')\r\n    .select",
+          "lineNumber": 293
+        },
+        {
+          "caller": "listMyBookings",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 293
+        },
+        {
+          "caller": "listMyBookings",
+          "callee": "console.error",
+          "lineNumber": 300
+        },
+        {
+          "caller": "listMyBookings",
+          "callee": "data.map",
+          "lineNumber": 304
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/courses.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 132,
+      "nonEmptyLines": 112,
+      "functions": [
+        {
+          "name": "toCourse",
+          "startLine": 9,
+          "endLine": 20,
+          "params": [
+            "row"
+          ]
+        },
+        {
+          "name": "toSlot",
+          "startLine": 22,
+          "endLine": 32,
+          "params": [
+            "row"
+          ]
+        },
+        {
+          "name": "listCourses",
+          "startLine": 38,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "getCourse",
+          "startLine": 65,
+          "endLine": 91,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "toCourseSummary",
+          "startLine": 93,
+          "endLine": 99,
+          "params": [
+            "row"
+          ]
+        },
+        {
+          "name": "getSlot",
+          "startLine": 108,
+          "endLine": 132,
+          "params": [
+            "id"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "listCourses",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "getCourse",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "getSlot",
+          "line": 108,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "listCourses",
+          "callee": "createServerClient",
+          "lineNumber": 39
+        },
+        {
+          "caller": "listCourses",
+          "callee": "supabase\r\n    .from('courses')\r\n    .select('id, name, type, region, address, phone, image_url, description')\r\n    .order",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listCourses",
+          "callee": "supabase\r\n    .from('courses')\r\n    .select",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listCourses",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listCourses",
+          "callee": "query.eq",
+          "lineNumber": 47
+        },
+        {
+          "caller": "listCourses",
+          "callee": "data.map",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getCourse",
+          "callee": "createServerClient",
+          "lineNumber": 66
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n    .from('courses')\r\n    .select('id, name, type, region, address, phone, image_url, description')\r\n    .eq('id', id)\r\n    .maybeSingle",
+          "lineNumber": 68
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n    .from('courses')\r\n    .select('id, name, type, region, address, phone, image_url, description')\r\n    .eq",
+          "lineNumber": 68
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n    .from('courses')\r\n    .select",
+          "lineNumber": 68
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 68
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n      .from('slots')\r\n      .select('id, date, time, price, capacity, booked')\r\n      .eq('course_id', id)\r\n      .eq('date', date)\r\n      .order",
+          "lineNumber": 79
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n      .from('slots')\r\n      .select('id, date, time, price, capacity, booked')\r\n      .eq('course_id', id)\r\n      .eq",
+          "lineNumber": 79
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n      .from('slots')\r\n      .select('id, date, time, price, capacity, booked')\r\n      .eq",
+          "lineNumber": 79
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n      .from('slots')\r\n      .select",
+          "lineNumber": 79
+        },
+        {
+          "caller": "getCourse",
+          "callee": "supabase\r\n      .from",
+          "lineNumber": 79
+        },
+        {
+          "caller": "getCourse",
+          "callee": "slotRows.map",
+          "lineNumber": 87
+        },
+        {
+          "caller": "getCourse",
+          "callee": "toCourse",
+          "lineNumber": 90
+        },
+        {
+          "caller": "getSlot",
+          "callee": "createServerClient",
+          "lineNumber": 111
+        },
+        {
+          "caller": "getSlot",
+          "callee": "supabase\r\n    .from('slots')\r\n    .select(`\r\n      id, date, time, price, capacity, booked,\r\n      courses ( id, name, type )\r\n    `)\r\n    .eq('id', id)\r\n    .maybeSingle",
+          "lineNumber": 113
+        },
+        {
+          "caller": "getSlot",
+          "callee": "supabase\r\n    .from('slots')\r\n    .select(`\r\n      id, date, time, price, capacity, booked,\r\n      courses ( id, name, type )\r\n    `)\r\n    .eq",
+          "lineNumber": 113
+        },
+        {
+          "caller": "getSlot",
+          "callee": "supabase\r\n    .from('slots')\r\n    .select",
+          "lineNumber": 113
+        },
+        {
+          "caller": "getSlot",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 113
+        },
+        {
+          "caller": "getSlot",
+          "callee": "Array.isArray",
+          "lineNumber": 125
+        },
+        {
+          "caller": "getSlot",
+          "callee": "toCourseSummary",
+          "lineNumber": 126
+        },
+        {
+          "caller": "getSlot",
+          "callee": "toSlot",
+          "lineNumber": 129
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/slotHandler.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "createGetSlotHandler",
+          "startLine": 15,
+          "endLine": 50,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "createGetSlotHandler",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "handleGetSlot",
+          "line": 52,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createGetSlotHandler",
+          "callee": "isValidSlotId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "createGetSlotHandler",
+          "callee": "Response.json",
+          "lineNumber": 21
+        },
+        {
+          "caller": "createGetSlotHandler",
+          "callee": "getSlotFn",
+          "lineNumber": 28
+        },
+        {
+          "caller": "createGetSlotHandler",
+          "callee": "Response.json",
+          "lineNumber": 31
+        },
+        {
+          "caller": "createGetSlotHandler",
+          "callee": "Response.json",
+          "lineNumber": 37
+        },
+        {
+          "caller": "createGetSlotHandler",
+          "callee": "console.error",
+          "lineNumber": 43
+        },
+        {
+          "caller": "createGetSlotHandler",
+          "callee": "Response.json",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/slotId.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 10,
+      "functions": [
+        {
+          "name": "isValidSlotId",
+          "startLine": 9,
+          "endLine": 11,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "isValidSlotId",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isValidSlotId",
+          "callee": "UUID_PATTERN.test",
+          "lineNumber": 10
+        },
+        {
+          "caller": "isValidSlotId",
+          "callee": "value.trim",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/ai/toolDependencies.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 158,
+      "nonEmptyLines": 136,
+      "functions": [
+        {
+          "name": "createGetCourse",
+          "startLine": 11,
+          "endLine": 31,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createGetCourse",
+          "callee": "COURSES.find",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/bookingIntegration.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 867,
+      "nonEmptyLines": 786,
+      "functions": [
+        {
+          "name": "createFakeSupabase",
+          "startLine": 15,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "createFakeBookingSupabase",
+          "startLine": 167,
+          "endLine": 217,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "assert.equal",
+          "lineNumber": 19
+        },
+        {
+          "caller": "select",
+          "callee": "assert.ok",
+          "lineNumber": 22
+        },
+        {
+          "caller": "eq",
+          "callee": "assert.equal",
+          "lineNumber": 26
+        },
+        {
+          "caller": "eq",
+          "callee": "assert.ok",
+          "lineNumber": 27
+        },
+        {
+          "caller": "from",
+          "callee": "assert.equal",
+          "lineNumber": 182
+        },
+        {
+          "caller": "select",
+          "callee": "assert.ok",
+          "lineNumber": 185
+        },
+        {
+          "caller": "eq",
+          "callee": "eqCalls.push",
+          "lineNumber": 189
+        },
+        {
+          "caller": "limit",
+          "callee": "assert.equal",
+          "lineNumber": 193
+        },
+        {
+          "caller": "order",
+          "callee": "orderCalls.push",
+          "lineNumber": 197
+        },
+        {
+          "caller": "then",
+          "callee": "Promise.resolve({ data: bookingsData, error: bookingsError }).then",
+          "lineNumber": 201
+        },
+        {
+          "caller": "then",
+          "callee": "Promise.resolve",
+          "lineNumber": 201
+        },
+        {
+          "caller": "rpc",
+          "callee": "rpcCalls.push",
+          "lineNumber": 209
+        },
+        {
+          "caller": "rpc",
+          "callee": "rpcHandler",
+          "lineNumber": 211
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 0,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

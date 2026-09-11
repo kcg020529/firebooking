@@ -1,0 +1,4536 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "8db3bfe0467444fa710c660748153abb6cc07722",
+  "generatedAt": "2026-09-11T01:40:17.224Z",
+  "files": {
+    ".env.example": {
+      "filePath": ".env.example",
+      "contentHash": "2565dd6ae452e52d6e1a67c84d794b341f0b738082fd01476ea029b12683a1db",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 20,
+      "hasStructuralAnalysis": false
+    },
+    ".github/CODEOWNERS": {
+      "filePath": ".github/CODEOWNERS",
+      "contentHash": "0ae416362b01573ef0abf53ffafc1da42712813ec12c5074a81bcab162851597",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 34,
+      "hasStructuralAnalysis": false
+    },
+    ".github/pull_request_template.md": {
+      "filePath": ".github/pull_request_template.md",
+      "contentHash": "299db809f64a83b89cb3c3fe2a3fc2c0cb8fd927b79bfb6d0fb8932fd8adff7a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": false
+    },
+    "AGENTS.md": {
+      "filePath": "AGENTS.md",
+      "contentHash": "826d1ab39992c757a5eb5570e9c56fb42cc8c53276865e8f097e87dfc36f270d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 141,
+      "hasStructuralAnalysis": false
+    },
+    "CLAUDE.md": {
+      "filePath": "CLAUDE.md",
+      "contentHash": "3eaaf2490ef5d9fc35ce8f521ef302a59e3c055f21b79907f3222d1e3522c5c2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 144,
+      "hasStructuralAnalysis": false
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "977189ff41b94efa55567cd5d7154ebc67c22c85fa2fa8e967eaf70a9e92b2c0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 102,
+      "hasStructuralAnalysis": false
+    },
+    "app/admin/DashboardControls.js": {
+      "filePath": "app/admin/DashboardControls.js",
+      "contentHash": "5d7f515c57333b0e6663286152fbef18ba407878b788811267d6639830d5a74f",
+      "functions": [
+        {
+          "name": "DashboardControls",
+          "params": [],
+          "exported": true,
+          "lineCount": 49
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@/lib/adminFormat",
+          "specifiers": [
+            "formatTimestamp"
+          ]
+        }
+      ],
+      "exports": [
+        "DashboardControls"
+      ],
+      "totalLines": 61,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/[...slug]/page.js": {
+      "filePath": "app/admin/[...slug]/page.js",
+      "contentHash": "174401d3f9945c69ec00c7910eea43fb4011d80648a246d36800e7f45a835637",
+      "functions": [
+        {
+          "name": "AdminCatchAllPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/navigation.js",
+          "specifiers": [
+            "notFound"
+          ]
+        }
+      ],
+      "exports": [
+        "AdminCatchAllPage"
+      ],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/audit/page.js": {
+      "filePath": "app/admin/audit/page.js",
+      "contentHash": "669425a0f71ddbe32209cdd0a6913263dd092b8b69f2d4d73c39e7488aaab4b5",
+      "functions": [
+        {
+          "name": "ResultBadge",
+          "params": [],
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "AuditLogPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 263
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useMemo",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/adminFormat",
+          "specifiers": [
+            "buildQuery",
+            "endOfDayIso",
+            "formatFullTimestamp",
+            "formatTimestamp",
+            "shortHash",
+            "startOfDayIso"
+          ]
+        },
+        {
+          "source": "../useAdminResource",
+          "specifiers": [
+            "useAdminResource"
+          ]
+        },
+        {
+          "source": "../DashboardControls",
+          "specifiers": [
+            "DashboardControls"
+          ]
+        }
+      ],
+      "exports": [
+        "AuditLogPage"
+      ],
+      "totalLines": 320,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/layout.js": {
+      "filePath": "app/admin/layout.js",
+      "contentHash": "b7d978b48951393a7ac738691c4dc0014ba14d36deb7c439cfd92d5b2f2d794f",
+      "functions": [
+        {
+          "name": "AdminLayout",
+          "params": [],
+          "exported": true,
+          "lineCount": 49
+        },
+        {
+          "name": "AdminShell",
+          "params": [],
+          "exported": false,
+          "lineCount": 34
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "next/headers",
+          "specifiers": [
+            "headers"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "getCurrentUser",
+            "isStaff"
+          ]
+        },
+        {
+          "source": "@/lib/security/authz",
+          "specifiers": [
+            "recordAdminAccess",
+            "recordUnauthorizedAdminAccess"
+          ]
+        }
+      ],
+      "exports": [
+        "dynamic",
+        "AdminLayout"
+      ],
+      "totalLines": 109,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/page.js": {
+      "filePath": "app/admin/page.js",
+      "contentHash": "b001997d62d991fed10e1fb7d2bbb99088ef1f55974ae22dee67746114984812",
+      "functions": [
+        {
+          "name": "AdminIndexPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 31
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        }
+      ],
+      "exports": [
+        "AdminIndexPage"
+      ],
+      "totalLines": 55,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/security/page.js": {
+      "filePath": "app/admin/security/page.js",
+      "contentHash": "8a34e39948e3bd054f728e3a2fdcd5fd06af5ef71d2143caf2bf88979f46a4e3",
+      "functions": [
+        {
+          "name": "SeverityBadge",
+          "params": [],
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "StatTile",
+          "params": [],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "SecurityDashboardPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 291
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useMemo",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/adminFormat",
+          "specifiers": [
+            "buildQuery",
+            "endOfDayIso",
+            "formatFullTimestamp",
+            "formatTimestamp",
+            "shortHash",
+            "startOfDayIso"
+          ]
+        },
+        {
+          "source": "../useAdminResource",
+          "specifiers": [
+            "useAdminResource"
+          ]
+        },
+        {
+          "source": "../DashboardControls",
+          "specifiers": [
+            "DashboardControls"
+          ]
+        }
+      ],
+      "exports": [
+        "SecurityDashboardPage"
+      ],
+      "totalLines": 369,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/useAdminResource.js": {
+      "filePath": "app/admin/useAdminResource.js",
+      "contentHash": "15519ad54359f693d67df8cb59da3ed55358cdddf8f64ac56718d856a3ea0d5d",
+      "functions": [
+        {
+          "name": "useAdminResource",
+          "params": [
+            "url"
+          ],
+          "exported": true,
+          "lineCount": 104
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback",
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        }
+      ],
+      "exports": [
+        "AUTO_REFRESH_MS",
+        "useAdminResource"
+      ],
+      "totalLines": 133,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/admin/[...path]/route.js": {
+      "filePath": "app/api/admin/[...path]/route.js",
+      "contentHash": "623f6ab2a0257afdaf48cfec4040220e5605880a62abf51160cf367c5eea915a",
+      "functions": [
+        {
+          "name": "handleUnknownAdminApi",
+          "params": [
+            "request"
+          ],
+          "exported": false,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/security/requireStaff",
+          "specifiers": [
+            "requireStaff"
+          ]
+        },
+        {
+          "source": "@/lib/security/authz",
+          "specifiers": [
+            "recordUnknownAdminPath"
+          ]
+        }
+      ],
+      "exports": [
+        "GET",
+        "HEAD",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/admin/audit/route.js": {
+      "filePath": "app/api/admin/audit/route.js",
+      "contentHash": "34072cc21bb0036adbb5eb30fe8ac42a531e19829231a7515c9705472e7a5134",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/security/requireStaff",
+          "specifiers": [
+            "requireStaff"
+          ]
+        },
+        {
+          "source": "@/lib/security/audit",
+          "specifiers": [
+            "recordAudit",
+            "AUDIT_ACTIONS"
+          ]
+        },
+        {
+          "source": "@/lib/security/report",
+          "specifiers": [
+            "listAuditLogs"
+          ]
+        }
+      ],
+      "exports": [
+        "GET"
+      ],
+      "totalLines": 59,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/admin/events/route.js": {
+      "filePath": "app/api/admin/events/route.js",
+      "contentHash": "73950876d05976afe4d65ed83a342189720e120893fc40643754007788f81085",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/security/requireStaff",
+          "specifiers": [
+            "requireStaff"
+          ]
+        },
+        {
+          "source": "@/lib/security/audit",
+          "specifiers": [
+            "recordAudit",
+            "AUDIT_ACTIONS"
+          ]
+        },
+        {
+          "source": "@/lib/security/report",
+          "specifiers": [
+            "listSecurityEvents",
+            "summarizeSecurityEvents"
+          ]
+        }
+      ],
+      "exports": [
+        "GET"
+      ],
+      "totalLines": 72,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/auth/login/route.js": {
+      "filePath": "app/api/auth/login/route.js",
+      "contentHash": "276b33b047f03c6e59891e475ca4bab6952a6bf69a2d35f9628e75a9038e12c9",
+      "functions": [
+        {
+          "name": "jsonError",
+          "params": [
+            "error",
+            "status",
+            "headers"
+          ],
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/headers",
+          "specifiers": [
+            "cookies"
+          ]
+        },
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/supabaseAuth",
+          "specifiers": [
+            "createAuthServerClient"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "getUserProfile"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/security/audit",
+          "specifiers": [
+            "recordAudit",
+            "AUDIT_ACTIONS"
+          ]
+        },
+        {
+          "source": "@/lib/security/hash",
+          "specifiers": [
+            "getClientIp",
+            "hashIp"
+          ]
+        },
+        {
+          "source": "@/lib/security/loginProtection",
+          "specifiers": [
+            "createLoginLimitKey",
+            "finishLoginAttempt",
+            "isCredentialFailure",
+            "recordLoginLock",
+            "reserveLoginAttempt"
+          ]
+        },
+        {
+          "source": "@/lib/security/sessionTimeout",
+          "specifiers": [
+            "createSessionTimeoutToken",
+            "getSessionTimeoutCookieOptions",
+            "SESSION_TIMEOUT_COOKIE"
+          ]
+        }
+      ],
+      "exports": [
+        "POST"
+      ],
+      "totalLines": 147,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/bookings/lookup/route.js": {
+      "filePath": "app/api/bookings/lookup/route.js",
+      "contentHash": "b9f6bc3caaf12521e2bb9436474b86ea7917a8cc27bd6211fdf6270e66a40659",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/security/audit",
+          "specifiers": [
+            "recordAudit",
+            "AUDIT_ACTIONS"
+          ]
+        },
+        {
+          "source": "@/lib/security/rules",
+          "specifiers": [
+            "detectCodeEnumeration",
+            "detectLookupBruteForce"
+          ]
+        },
+        {
+          "source": "@/lib/security/hash",
+          "specifiers": [
+            "getClientIp",
+            "hashIp",
+            "hashSecurityValue"
+          ]
+        },
+        {
+          "source": "@/lib/bookings",
+          "specifiers": [
+            "lookupBookings"
+          ]
+        }
+      ],
+      "exports": [
+        "GET"
+      ],
+      "totalLines": 71,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/bookings/route.js": {
+      "filePath": "app/api/bookings/route.js",
+      "contentHash": "120190838396fd8c402306a74d1b7f71e7acaa9a6248a363b7fd298c236699fd",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/security/audit",
+          "specifiers": [
+            "recordAudit",
+            "AUDIT_ACTIONS"
+          ]
+        },
+        {
+          "source": "@/lib/bookings",
+          "specifiers": [
+            "createBooking"
+          ]
+        },
+        {
+          "source": "@/lib/security/rules",
+          "specifiers": [
+            "detectScalping"
+          ]
+        },
+        {
+          "source": "@/lib/security/hash",
+          "specifiers": [
+            "getClientIp",
+            "hashIp"
+          ]
+        }
+      ],
+      "exports": [
+        "POST"
+      ],
+      "totalLines": 77,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/chat/route.js": {
+      "filePath": "app/api/chat/route.js",
+      "contentHash": "2e91b2cc11474e5135bafd3893884986fd96408a90c1d878f4fc62eb7df93cc4",
+      "functions": [
+        {
+          "name": "recordBookingAudit",
+          "params": [
+            "request",
+            "actor"
+          ],
+          "exported": false,
+          "lineCount": 26
+        },
+        {
+          "name": "recordLookupAudit",
+          "params": [
+            "request",
+            "actor",
+            "ipHash"
+          ],
+          "exported": false,
+          "lineCount": 38
+        },
+        {
+          "name": "createRequestChatService",
+          "params": [
+            "request",
+            "actor",
+            "ipHash"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "recordChatAudit",
+          "params": [
+            "request"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "handlePost",
+          "params": [
+            "request"
+          ],
+          "exported": false,
+          "lineCount": 41
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../../../lib/ai/chatService.js",
+          "specifiers": [
+            "createChatService"
+          ]
+        },
+        {
+          "source": "../../../lib/ai/deepseek.js",
+          "specifiers": [
+            "createDeepSeekGenerator"
+          ]
+        },
+        {
+          "source": "../../../lib/ai/toolDependencies.js",
+          "specifiers": [
+            "createChatToolDependencies"
+          ]
+        },
+        {
+          "source": "../../../lib/security/apiLog.js",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "../../../lib/security/audit.js",
+          "specifiers": [
+            "AUDIT_ACTIONS",
+            "recordAudit"
+          ]
+        },
+        {
+          "source": "../../../lib/security/chatLog.js",
+          "specifiers": [
+            "recordChatLog",
+            "recordSecurityEvents"
+          ]
+        },
+        {
+          "source": "../../../lib/security/hash.js",
+          "specifiers": [
+            "getClientIp",
+            "hashIp",
+            "hashSecurityValue"
+          ]
+        },
+        {
+          "source": "../../../lib/security/rules.js",
+          "specifiers": [
+            "detectCodeEnumeration",
+            "detectLookupBruteForce",
+            "detectScalping"
+          ]
+        }
+      ],
+      "exports": [
+        "POST"
+      ],
+      "totalLines": 152,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/courses/[id]/route.js": {
+      "filePath": "app/api/courses/[id]/route.js",
+      "contentHash": "5ddab1d59d00686d1d9e0680aef85a2d3780bef01a725b0b25feb60d9c9c2f4e",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/courses",
+          "specifiers": [
+            "getCourse"
+          ]
+        }
+      ],
+      "exports": [
+        "GET"
+      ],
+      "totalLines": 43,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/courses/route.js": {
+      "filePath": "app/api/courses/route.js",
+      "contentHash": "5a01ce866355676c53d8c4990afc7a98745410eb1d59135472139b43a4d26ee1",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/courses",
+          "specifiers": [
+            "listCourses"
+          ]
+        }
+      ],
+      "exports": [
+        "GET"
+      ],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/health/route.js": {
+      "filePath": "app/api/health/route.js",
+      "contentHash": "416c235bd5419228b0f6a55290cf12e71ee1b35819d095831a82a3af3e1a5864",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/supabase",
+          "specifiers": [
+            "createServerClient"
+          ]
+        }
+      ],
+      "exports": [
+        "GET"
+      ],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/slots/[slotId]/route.js": {
+      "filePath": "app/api/slots/[slotId]/route.js",
+      "contentHash": "407525be56fdd73b42d3f641dd2237b8f05a015b66202c458bdb342ea2ed9bb3",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/slotHandler",
+          "specifiers": [
+            "handleGetSlot"
+          ]
+        }
+      ],
+      "exports": [
+        "GET"
+      ],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "app/book/[slotId]/page.js": {
+      "filePath": "app/book/[slotId]/page.js",
+      "contentHash": "ca1aa5f18752ff161935f283271548519ba7af8c231253563cfa83a6233f36c5",
+      "functions": [
+        {
+          "name": "BookForm",
+          "params": [],
+          "exported": false,
+          "lineCount": 212
+        },
+        {
+          "name": "BookPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "next/navigation",
+          "specifiers": [
+            "useParams",
+            "useRouter"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "Suspense",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/dateLabel",
+          "specifiers": [
+            "formatDateLabel",
+            "formatTimeLabel"
+          ]
+        },
+        {
+          "source": "@/lib/bookingLimits",
+          "specifiers": [
+            "MAX_PARTY_SIZE",
+            "NAME_MAX_LENGTH",
+            "MEMO_MAX_LENGTH"
+          ]
+        },
+        {
+          "source": "@/lib/courseType",
+          "specifiers": [
+            "TYPE_LABEL"
+          ]
+        },
+        {
+          "source": "@/lib/useSlot",
+          "specifiers": [
+            "useSlot"
+          ]
+        }
+      ],
+      "exports": [
+        "BookPage"
+      ],
+      "totalLines": 233,
+      "hasStructuralAnalysis": true
+    },
+    "app/booking/[code]/page.js": {
+      "filePath": "app/booking/[code]/page.js",
+      "contentHash": "bfb256ee202cb6ecefb32e6c77066cea6bb9e069607a96b62d59d5238fcfe72c",
+      "functions": [
+        {
+          "name": "BookingComplete",
+          "params": [],
+          "exported": false,
+          "lineCount": 86
+        },
+        {
+          "name": "BookingCompletePage",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "next/navigation",
+          "specifiers": [
+            "useParams",
+            "useSearchParams"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "Suspense",
+            "useEffect",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/dateLabel",
+          "specifiers": [
+            "formatDateLabel",
+            "formatTimeLabel"
+          ]
+        },
+        {
+          "source": "@/lib/courseType",
+          "specifiers": [
+            "TYPE_LABEL"
+          ]
+        },
+        {
+          "source": "@/lib/useSlot",
+          "specifiers": [
+            "useSlot"
+          ]
+        }
+      ],
+      "exports": [
+        "BookingCompletePage"
+      ],
+      "totalLines": 109,
+      "hasStructuralAnalysis": true
+    },
+    "app/courses/[id]/page.js": {
+      "filePath": "app/courses/[id]/page.js",
+      "contentHash": "b813adee2350b0000db836aff7efd1e4f89c2e5f9045d1d91a9552938120ee55",
+      "functions": [
+        {
+          "name": "toDateValue",
+          "params": [
+            "date"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "buildDateOptions",
+          "params": [],
+          "exported": false,
+          "lineCount": 18
+        },
+        {
+          "name": "CourseDetailPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 193
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "next/navigation",
+          "specifiers": [
+            "useParams"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/courseType",
+          "specifiers": [
+            "TYPE_LABEL"
+          ]
+        },
+        {
+          "source": "@/lib/dateLabel",
+          "specifiers": [
+            "WEEKDAY_LABEL"
+          ]
+        }
+      ],
+      "exports": [
+        "CourseDetailPage"
+      ],
+      "totalLines": 236,
+      "hasStructuralAnalysis": true
+    },
+    "app/globals.css": {
+      "filePath": "app/globals.css",
+      "contentHash": "14b5fa25a9e70599955741758ebe1a914c8002636522dd4a73b61c92dd0e30c1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": false
+    },
+    "app/layout.js": {
+      "filePath": "app/layout.js",
+      "contentHash": "78f2ca6fe6e614f616f0451496223601ed6b27895ec9f17cde2bd332df33143d",
+      "functions": [
+        {
+          "name": "RootLayout",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/font/google",
+          "specifiers": [
+            "Geist",
+            "Geist_Mono"
+          ]
+        },
+        {
+          "source": "../components/chat/ChatWidget",
+          "specifiers": [
+            "ChatWidget"
+          ]
+        },
+        {
+          "source": "../components/SiteHeader",
+          "specifiers": [
+            "SiteHeader"
+          ]
+        },
+        {
+          "source": "./globals.css",
+          "specifiers": []
+        }
+      ],
+      "exports": [
+        "metadata",
+        "RootLayout"
+      ],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "app/login/page.js": {
+      "filePath": "app/login/page.js",
+      "contentHash": "81c814e3e6f7a69695915906ca4077576df9fc353260235ed96f5f5d3837c5ff",
+      "functions": [
+        {
+          "name": "LoginForm",
+          "params": [],
+          "exported": false,
+          "lineCount": 99
+        },
+        {
+          "name": "LoginPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "Suspense",
+            "useState"
+          ]
+        },
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "next/navigation",
+          "specifiers": [
+            "useSearchParams"
+          ]
+        }
+      ],
+      "exports": [
+        "LoginPage"
+      ],
+      "totalLines": 114,
+      "hasStructuralAnalysis": true
+    },
+    "app/lookup/page.js": {
+      "filePath": "app/lookup/page.js",
+      "contentHash": "ae945c8d6e9dc312302ac3b5f166ec489788e52550f4829b4a66fdf0f00e5aeb",
+      "functions": [
+        {
+          "name": "LookupPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 102
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/courseType",
+          "specifiers": [
+            "TYPE_LABEL"
+          ]
+        }
+      ],
+      "exports": [
+        "LookupPage"
+      ],
+      "totalLines": 108,
+      "hasStructuralAnalysis": true
+    },
+    "app/my/loading.js": {
+      "filePath": "app/my/loading.js",
+      "contentHash": "52c269a9b7b0b9e1cbd05c9a1cad163e40a5891abe9ae5370c34256037ac3ce6",
+      "functions": [
+        {
+          "name": "MyLoading",
+          "params": [],
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "MyLoading"
+      ],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "app/my/page.js": {
+      "filePath": "app/my/page.js",
+      "contentHash": "6f7aadfa368fba6bc11d5a2020f2a9663fdfb6eab97e423790364793fb0d2ab7",
+      "functions": [
+        {
+          "name": "formatDateTime",
+          "params": [
+            "date",
+            "time"
+          ],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "MyPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 68
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/navigation",
+          "specifiers": [
+            "redirect"
+          ]
+        },
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "getAuthUser",
+            "getUserProfile"
+          ]
+        },
+        {
+          "source": "@/lib/bookings",
+          "specifiers": [
+            "listMyBookings"
+          ]
+        },
+        {
+          "source": "@/lib/courseType",
+          "specifiers": [
+            "TYPE_LABEL"
+          ]
+        }
+      ],
+      "exports": [
+        "dynamic",
+        "MyPage"
+      ],
+      "totalLines": 83,
+      "hasStructuralAnalysis": true
+    },
+    "app/page.js": {
+      "filePath": "app/page.js",
+      "contentHash": "e20c33c3518854dc8a10a07165013f6d5bce11a4247f0794cd409a389b2d6e1f",
+      "functions": [
+        {
+          "name": "Home",
+          "params": [],
+          "exported": true,
+          "lineCount": 127
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/courseType",
+          "specifiers": [
+            "TYPE_LABEL"
+          ]
+        }
+      ],
+      "exports": [
+        "Home"
+      ],
+      "totalLines": 134,
+      "hasStructuralAnalysis": true
+    },
+    "app/signup/page.js": {
+      "filePath": "app/signup/page.js",
+      "contentHash": "8f4b3383b3ada1610afda9d3925f3c6378b3ee9f3d9928ee559bc7246accaab6",
+      "functions": [
+        {
+          "name": "SignupPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 125
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "@/lib/supabaseAuth",
+          "specifiers": [
+            "createAuthBrowserClient"
+          ]
+        }
+      ],
+      "exports": [
+        "SignupPage"
+      ],
+      "totalLines": 135,
+      "hasStructuralAnalysis": true
+    },
+    "components/LogoutButton.js": {
+      "filePath": "components/LogoutButton.js",
+      "contentHash": "b9a2f5e01f01a5d5342367d00e3a4bbb4f39e3b820cc73639fc2bd9f95267f5d",
+      "functions": [
+        {
+          "name": "LogoutButton",
+          "params": [],
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/supabaseAuth",
+          "specifiers": [
+            "createAuthBrowserClient"
+          ]
+        }
+      ],
+      "exports": [
+        "LogoutButton"
+      ],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "components/SiteHeader.js": {
+      "filePath": "components/SiteHeader.js",
+      "contentHash": "5f8bd21118775da671e86b1be6632730dbccdd30408dcacc40ae1d809a3bcfc6",
+      "functions": [
+        {
+          "name": "SiteHeader",
+          "params": [],
+          "exported": true,
+          "lineCount": 119
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/supabaseAuth",
+          "specifiers": [
+            "createAuthBrowserClient"
+          ]
+        },
+        {
+          "source": "@/components/LogoutButton",
+          "specifiers": [
+            "LogoutButton"
+          ]
+        }
+      ],
+      "exports": [
+        "SiteHeader"
+      ],
+      "totalLines": 132,
+      "hasStructuralAnalysis": true
+    },
+    "components/chat/ChatWidget.js": {
+      "filePath": "components/chat/ChatWidget.js",
+      "contentHash": "32b029df2eea18e77dc8a754a5ef18463ec9eb4b320d6b5b02defde6ba30e147",
+      "functions": [
+        {
+          "name": "createSessionId",
+          "params": [],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "ChatWidget",
+          "params": [],
+          "exported": true,
+          "lineCount": 165
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useRef",
+            "useState"
+          ]
+        }
+      ],
+      "exports": [
+        "ChatWidget"
+      ],
+      "totalLines": 194,
+      "hasStructuralAnalysis": true
+    },
+    "docs/ARCHITECTURE.md": {
+      "filePath": "docs/ARCHITECTURE.md",
+      "contentHash": "71ba5fa51cc242b655f4f6b12d937e502ba343b580765596ab85e2239b472c68",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 36,
+      "hasStructuralAnalysis": false
+    },
+    "docs/CONVENTIONS.md": {
+      "filePath": "docs/CONVENTIONS.md",
+      "contentHash": "3d320f59d87ade3e1990257ef2ee7339cabc33455aebd79d3df949d528c4a85f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 296,
+      "hasStructuralAnalysis": false
+    },
+    "docs/DATA_FLOW.md": {
+      "filePath": "docs/DATA_FLOW.md",
+      "contentHash": "78b6f01067d5511186f2cd9d481f0726eb14bdc720e1cf0993d08c97fe2b8e9a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 60,
+      "hasStructuralAnalysis": false
+    },
+    "docs/DECISIONS.md": {
+      "filePath": "docs/DECISIONS.md",
+      "contentHash": "dcd37f2c6cd52d6021f845350adb6640310df1170a2f7e6e7db5cb9ef42666fa",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 78,
+      "hasStructuralAnalysis": false
+    },
+    "docs/DEEPSEEK_SETUP.md": {
+      "filePath": "docs/DEEPSEEK_SETUP.md",
+      "contentHash": "2ca26dc2541b280e53c1ef6bf46c0284803054cd0b1ebde6bde4b3f16f9b02cd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 67,
+      "hasStructuralAnalysis": false
+    },
+    "docs/LLM_SECURITY_TESTS.md": {
+      "filePath": "docs/LLM_SECURITY_TESTS.md",
+      "contentHash": "6aaf2eed61004ac0eb68459a5e6c0597ec859b1b07424c9be985af4fea3418d6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 53,
+      "hasStructuralAnalysis": false
+    },
+    "docs/MENTOR_FEEDBACK_REMEDIATION.md": {
+      "filePath": "docs/MENTOR_FEEDBACK_REMEDIATION.md",
+      "contentHash": "3f1bf061383cd93d1d752ec314c820dcaf81edf6c0a4b8a6481509f255cfac66",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 184,
+      "hasStructuralAnalysis": false
+    },
+    "docs/PLAN.md": {
+      "filePath": "docs/PLAN.md",
+      "contentHash": "8d255dfc5d3700647d696ff12187174a5fed1769a50309f43f47981b67889ac2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 153,
+      "hasStructuralAnalysis": false
+    },
+    "docs/SBOM.cdx.json": {
+      "filePath": "docs/SBOM.cdx.json",
+      "contentHash": "1ee4555ee559befd57423aca541de85b41cb78f3f5e793bf3a44ca457b0ffbc9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1923,
+      "hasStructuralAnalysis": false
+    },
+    "docs/SBOM.md": {
+      "filePath": "docs/SBOM.md",
+      "contentHash": "02170a3c012d4dabaecd56ebc954893b048801bd35ca3654bd0e01352b0c7fdc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "docs/SECURITY.md": {
+      "filePath": "docs/SECURITY.md",
+      "contentHash": "163f19ecf5f0c55f870920e313e059b21ee9a6f09d6662d8da84b6ddc25deffd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 198,
+      "hasStructuralAnalysis": false
+    },
+    "docs/STACK.md": {
+      "filePath": "docs/STACK.md",
+      "contentHash": "aabddaeb631a3507e6fc1094552e5113c0c87967b63314c743a9fd1cde67c36d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 40,
+      "hasStructuralAnalysis": false
+    },
+    "eslint.config.mjs": {
+      "filePath": "eslint.config.mjs",
+      "contentHash": "9b04e705b2c72805afc79887326120db8624e07c2aabc4232edfac3f35118de4",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "eslint/config",
+          "specifiers": [
+            "defineConfig",
+            "globalIgnores"
+          ]
+        },
+        {
+          "source": "eslint-config-next/core-web-vitals",
+          "specifiers": [
+            "nextVitals"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    "jsconfig.json": {
+      "filePath": "jsconfig.json",
+      "contentHash": "36216b4763b349a39aa2834e6a4c0a2dcf338a370435c51f039d78f26c239a2c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": false
+    },
+    "lib/adminFormat.js": {
+      "filePath": "lib/adminFormat.js",
+      "contentHash": "691812d81ed3e56463649bda0e06cdae40f364a7128fe5aa322d52f579f7f985",
+      "functions": [
+        {
+          "name": "formatTimestamp",
+          "params": [
+            "ts"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "formatFullTimestamp",
+          "params": [
+            "ts"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "shortHash",
+          "params": [
+            "hash"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "startOfDayIso",
+          "params": [
+            "dateValue"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "endOfDayIso",
+          "params": [
+            "dateValue"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "buildQuery",
+          "params": [
+            "params"
+          ],
+          "exported": true,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "formatTimestamp",
+        "formatFullTimestamp",
+        "shortHash",
+        "startOfDayIso",
+        "endOfDayIso",
+        "buildQuery"
+      ],
+      "totalLines": 67,
+      "hasStructuralAnalysis": true
+    },
+    "lib/ai/chatService.js": {
+      "filePath": "lib/ai/chatService.js",
+      "contentHash": "588726b60efa0285c6ab62191e1689f1941120278bb37dc1db686103d45b7b92",
+      "functions": [
+        {
+          "name": "safelyRecord",
+          "params": [
+            "operation"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "countHits",
+          "params": [
+            "hits"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "sanitizeQuickReplies",
+          "params": [
+            "values"
+          ],
+          "exported": false,
+          "lineCount": 17
+        },
+        {
+          "name": "createChatService",
+          "params": [],
+          "exported": true,
+          "lineCount": 128
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../security/chatGuard.js",
+          "specifiers": [
+            "inspectChatMessages"
+          ]
+        },
+        {
+          "source": "../security/pii.js",
+          "specifiers": [
+            "detectAndMaskPii"
+          ]
+        },
+        {
+          "source": "../security/outputGuard.js",
+          "specifiers": [
+            "inspectAssistantOutput"
+          ]
+        }
+      ],
+      "exports": [
+        "createChatService"
+      ],
+      "totalLines": 170,
+      "hasStructuralAnalysis": true
+    },
+    "lib/ai/dateContext.js": {
+      "filePath": "lib/ai/dateContext.js",
+      "contentHash": "23b595afb83082fc7a64e3405a905b7cf5f2acc1afdc71ff160e9979ac7e8243",
+      "functions": [
+        {
+          "name": "resolveDate",
+          "params": [
+            "clock"
+          ],
+          "exported": false,
+          "lineCount": 15
+        },
+        {
+          "name": "addDaysToYmd",
+          "params": [
+            "ymdString",
+            "days"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "getDateContext",
+          "params": [
+            "clock"
+          ],
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "KST_TIMEZONE",
+        "addDaysToYmd",
+        "getDateContext"
+      ],
+      "totalLines": 44,
+      "hasStructuralAnalysis": true
+    },
+    "lib/ai/deepseek.js": {
+      "filePath": "lib/ai/deepseek.js",
+      "contentHash": "86bcb9236a3494fb7574e7bb61dd047f6ad0cb94d40364997ba91cdd74373156",
+      "functions": [
+        {
+          "name": "getApiKey",
+          "params": [],
+          "exported": false,
+          "lineCount": 16
+        },
+        {
+          "name": "parseToolInput",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "requestDeepSeek",
+          "params": [
+            "messages",
+            "fetchImpl"
+          ],
+          "exported": false,
+          "lineCount": 35
+        },
+        {
+          "name": "createDeepSeekGenerator",
+          "params": [],
+          "exported": true,
+          "lineCount": 90
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./prompt.js",
+          "specifiers": [
+            "buildChatSystemPrompt"
+          ]
+        },
+        {
+          "source": "./tools.js",
+          "specifiers": [
+            "CHAT_TOOLS",
+            "executeToolCall"
+          ]
+        }
+      ],
+      "exports": [
+        "createDeepSeekGenerator"
+      ],
+      "totalLines": 169,
+      "hasStructuralAnalysis": true
+    },
+    "lib/ai/prompt.js": {
+      "filePath": "lib/ai/prompt.js",
+      "contentHash": "90e3131a6b52a9c88df335d7c44ca3a5336fff2b0e9f2b840df09603f252a017",
+      "functions": [
+        {
+          "name": "buildChatSystemPrompt",
+          "params": [
+            "dateContextOrClock"
+          ],
+          "exported": true,
+          "lineCount": 19
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./dateContext.js",
+          "specifiers": [
+            "getDateContext"
+          ]
+        }
+      ],
+      "exports": [
+        "CHAT_SYSTEM_PROMPT",
+        "PROTECTED_PROMPT_MARKERS",
+        "buildChatSystemPrompt"
+      ],
+      "totalLines": 42,
+      "hasStructuralAnalysis": true
+    },
+    "lib/ai/toolDependencies.js": {
+      "filePath": "lib/ai/toolDependencies.js",
+      "contentHash": "9711ad096d9480b476164000e97a93937575784f25efdb9be1922f1a9b2e3921",
+      "functions": [
+        {
+          "name": "toCourseSummary",
+          "params": [
+            "course"
+          ],
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "toSearchSlot",
+          "params": [
+            "course",
+            "slot"
+          ],
+          "exported": false,
+          "lineCount": 14
+        },
+        {
+          "name": "createChatToolDependencies",
+          "params": [],
+          "exported": true,
+          "lineCount": 75
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../bookings.js",
+          "specifiers": [
+            "createBooking",
+            "lookupBookings"
+          ]
+        },
+        {
+          "source": "../courses.js",
+          "specifiers": [
+            "getCourse",
+            "listCourses"
+          ]
+        }
+      ],
+      "exports": [
+        "createChatToolDependencies"
+      ],
+      "totalLines": 103,
+      "hasStructuralAnalysis": true
+    },
+    "lib/ai/tools.js": {
+      "filePath": "lib/ai/tools.js",
+      "contentHash": "5c79bfad9fdcaf3da1312e39987eb56135ac164c46f62173da9f5582c1c425e2",
+      "functions": [
+        {
+          "name": "isPlainObject",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "hasOnlyKeys",
+          "params": [
+            "input",
+            "allowedKeys"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "isNonEmptyString",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "isPartySize",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "validateSearchSlots",
+          "params": [
+            "input"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "validateCreateBooking",
+          "params": [
+            "input"
+          ],
+          "exported": false,
+          "lineCount": 15
+        },
+        {
+          "name": "validateLookupBooking",
+          "params": [
+            "input"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "validateToolCall",
+          "params": [
+            "name",
+            "input"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "pick",
+          "params": [
+            "value",
+            "keys"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "shapeSearchResult",
+          "params": [
+            "result"
+          ],
+          "exported": false,
+          "lineCount": 26
+        },
+        {
+          "name": "shapeBookingResult",
+          "params": [
+            "result"
+          ],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "shapeLookupResult",
+          "params": [
+            "result"
+          ],
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "executeToolCall",
+          "params": [
+            "dependencies"
+          ],
+          "exported": true,
+          "lineCount": 59
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "CHAT_TOOLS",
+        "validateToolCall",
+        "executeToolCall"
+      ],
+      "totalLines": 257,
+      "hasStructuralAnalysis": true
+    },
+    "lib/auth.js": {
+      "filePath": "lib/auth.js",
+      "contentHash": "39b3f8ae7da29b0ea1f047d0eebf79d126ea1e2aa3833a46ade56be8985fcc57",
+      "functions": [
+        {
+          "name": "getAuthUser",
+          "params": [],
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "getUserProfile",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "attachRole",
+          "params": [
+            "authUser"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "getCurrentUser",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "createRequestAuth",
+          "params": [],
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "isStaff",
+          "params": [
+            "user"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "isAdmin",
+          "params": [
+            "user"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/headers",
+          "specifiers": [
+            "cookies"
+          ]
+        },
+        {
+          "source": "@/lib/supabaseAuth",
+          "specifiers": [
+            "createAuthServerClient"
+          ]
+        },
+        {
+          "source": "@/lib/supabase",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "@/lib/security/sessionTimeout",
+          "specifiers": [
+            "createSessionTimeoutToken",
+            "getSessionTimeoutCookieOptions",
+            "isSessionTimeoutTokenValid",
+            "SESSION_TIMEOUT_COOKIE"
+          ]
+        }
+      ],
+      "exports": [
+        "ROLES",
+        "getAuthUser",
+        "getUserProfile",
+        "getCurrentUser",
+        "createRequestAuth",
+        "isStaff",
+        "isAdmin"
+      ],
+      "totalLines": 160,
+      "hasStructuralAnalysis": true
+    },
+    "lib/bookingLimits.js": {
+      "filePath": "lib/bookingLimits.js",
+      "contentHash": "b897d404384dce94952dd7605028c71044dd81b5a8c97d1c80914051d1e7fb93",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "MIN_PARTY_SIZE",
+        "MAX_PARTY_SIZE",
+        "NAME_MAX_LENGTH",
+        "MEMO_MAX_LENGTH"
+      ],
+      "totalLines": 14,
+      "hasStructuralAnalysis": true
+    },
+    "lib/bookings.js": {
+      "filePath": "lib/bookings.js",
+      "contentHash": "526a0a23073c37531073055422b40fc9b6549f6edebe9146b81046dcb4f49511",
+      "functions": [
+        {
+          "name": "generateBookingCode",
+          "params": [],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "normalizePhone",
+          "params": [
+            "phone"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "validate",
+          "params": [],
+          "exported": false,
+          "lineCount": 46
+        },
+        {
+          "name": "toKoreanError",
+          "params": [
+            "message"
+          ],
+          "exported": false,
+          "lineCount": 18
+        },
+        {
+          "name": "createBooking",
+          "params": [
+            "input"
+          ],
+          "exported": true,
+          "lineCount": 62
+        },
+        {
+          "name": "toBookingSummary",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 14
+        },
+        {
+          "name": "lookupBookings",
+          "params": [],
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "listMyBookings",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./supabase.js",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "./security/pii.js",
+          "specifiers": [
+            "detectAndMaskPii"
+          ]
+        },
+        {
+          "source": "./bookingLimits.js",
+          "specifiers": [
+            "MIN_PARTY_SIZE",
+            "MAX_PARTY_SIZE",
+            "NAME_MAX_LENGTH",
+            "MEMO_MAX_LENGTH"
+          ]
+        }
+      ],
+      "exports": [
+        "createBooking",
+        "lookupBookings",
+        "listMyBookings"
+      ],
+      "totalLines": 306,
+      "hasStructuralAnalysis": true
+    },
+    "lib/courseType.js": {
+      "filePath": "lib/courseType.js",
+      "contentHash": "b09f6fa4ed51f540723e215d5052eef2ccd5a97e6b8ebeaca22cddad83a9af0a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "TYPE_LABEL"
+      ],
+      "totalLines": 8,
+      "hasStructuralAnalysis": true
+    },
+    "lib/courses.js": {
+      "filePath": "lib/courses.js",
+      "contentHash": "82599c69e2a597e2d3c79562946bf0be736586e0606ce75724d4903b97b9dc1a",
+      "functions": [
+        {
+          "name": "toCourse",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "toSlot",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "listCourses",
+          "params": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "getCourse",
+          "params": [
+            "id"
+          ],
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "toCourseSummary",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "getSlot",
+          "params": [
+            "id"
+          ],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./supabase.js",
+          "specifiers": [
+            "createServerClient"
+          ]
+        }
+      ],
+      "exports": [
+        "listCourses",
+        "getCourse",
+        "getSlot"
+      ],
+      "totalLines": 133,
+      "hasStructuralAnalysis": true
+    },
+    "lib/dateLabel.js": {
+      "filePath": "lib/dateLabel.js",
+      "contentHash": "d77f38db61bdc6b78965b079e56371ce133dfdb2f1d10a8160fbf3eecfe241f0",
+      "functions": [
+        {
+          "name": "formatDateLabel",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "formatTimeLabel",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "WEEKDAY_LABEL",
+        "formatDateLabel",
+        "formatTimeLabel"
+      ],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "lib/mock/courses.js": {
+      "filePath": "lib/mock/courses.js",
+      "contentHash": "9444ba2fb0f5ebc14752203c3e4a432234d8e3d7b599a07b4baa58ccda2d7b9e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "COURSES"
+      ],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/apiLog.js": {
+      "filePath": "lib/security/apiLog.js",
+      "contentHash": "6119d941f253bea56b7b5b1171bc7ee549344f6bb504e0779476a127f22656c7",
+      "functions": [
+        {
+          "name": "withApiLog",
+          "params": [
+            "handler"
+          ],
+          "exported": true,
+          "lineCount": 55
+        },
+        {
+          "name": "recordAfterResponse",
+          "params": [],
+          "exported": false,
+          "lineCount": 59
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "after"
+          ]
+        },
+        {
+          "source": "@/lib/supabase",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "@/lib/security/hash",
+          "specifiers": [
+            "getClientIp",
+            "hashIp"
+          ]
+        },
+        {
+          "source": "@/lib/security/leak",
+          "specifiers": [
+            "scanForSecrets"
+          ]
+        },
+        {
+          "source": "@/lib/security/pii",
+          "specifiers": [
+            "createMaskedEvidence",
+            "createMaskedPathEvidence"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiResponseGuard",
+          "specifiers": [
+            "inspectApiResponsePii"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "createRequestAuth"
+          ]
+        },
+        {
+          "source": "@/lib/security/rules",
+          "specifiers": [
+            "checkApiRateLimit"
+          ]
+        }
+      ],
+      "exports": [
+        "withApiLog"
+      ],
+      "totalLines": 144,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/apiResponseGuard.js": {
+      "filePath": "lib/security/apiResponseGuard.js",
+      "contentHash": "1686075fdd21ccee74c7560acdf39ee93e5e683b625ce8127c7128a6c84558e2",
+      "functions": [
+        {
+          "name": "omitPublicCourseContact",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 15
+        },
+        {
+          "name": "inspectApiResponsePii",
+          "params": [
+            "path",
+            "bodyText"
+          ],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./pii.js",
+          "specifiers": [
+            "detectAndMaskPii"
+          ]
+        }
+      ],
+      "exports": [
+        "inspectApiResponsePii"
+      ],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/audit.js": {
+      "filePath": "lib/security/audit.js",
+      "contentHash": "93f136abbd6b749f3da0cbfa5b3b9b85ae16ec9a5e2ad20a2b7d224a8fe7f57e",
+      "functions": [
+        {
+          "name": "recordAudit",
+          "params": [
+            "request",
+            "entry"
+          ],
+          "exported": true,
+          "lineCount": 43
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "after"
+          ]
+        },
+        {
+          "source": "@/lib/supabase",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "@/lib/security/hash",
+          "specifiers": [
+            "getClientIp",
+            "hashIp"
+          ]
+        },
+        {
+          "source": "@/lib/security/pii",
+          "specifiers": [
+            "createMaskedEvidence",
+            "createMaskedPathEvidence"
+          ]
+        }
+      ],
+      "exports": [
+        "AUDIT_ACTIONS",
+        "recordAudit"
+      ],
+      "totalLines": 92,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/authPaths.js": {
+      "filePath": "lib/security/authPaths.js",
+      "contentHash": "54bb826542b75abdf7ac50b7c90d2deea93aca29ad9251e561569289d95d2370",
+      "functions": [
+        {
+          "name": "isProtectedPagePath",
+          "params": [
+            "path"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "isProtectedPagePath"
+      ],
+      "totalLines": 13,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/authz.js": {
+      "filePath": "lib/security/authz.js",
+      "contentHash": "1e99cdb22528c8e9adf26b3615f7fee649701421b0e993cf2fb8f3b119ff74b7",
+      "functions": [
+        {
+          "name": "getIpHashFromHeaders",
+          "params": [],
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "getOptions",
+          "params": [],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "scheduleTask",
+          "params": [
+            "runAfter",
+            "task"
+          ],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "recordUnauthorizedAdminAccess",
+          "params": [],
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "recordAdminAccess",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "recordUnknownAdminPath",
+          "params": [],
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server.js",
+          "specifiers": [
+            "after"
+          ]
+        },
+        {
+          "source": "next/headers.js",
+          "specifiers": [
+            "headers"
+          ]
+        },
+        {
+          "source": "../supabase.js",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "./hash.js",
+          "specifiers": [
+            "hashIp"
+          ]
+        },
+        {
+          "source": "./pii.js",
+          "specifiers": [
+            "createMaskedPathEvidence"
+          ]
+        }
+      ],
+      "exports": [
+        "recordUnauthorizedAdminAccess",
+        "recordAdminAccess",
+        "recordUnknownAdminPath"
+      ],
+      "totalLines": 116,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/chatGuard.js": {
+      "filePath": "lib/security/chatGuard.js",
+      "contentHash": "09db7c273085a58328fc014182d575ff40c112c0ee7c653c3f749ac08de95f39",
+      "functions": [
+        {
+          "name": "validateChatMessages",
+          "params": [
+            "messages"
+          ],
+          "exported": true,
+          "lineCount": 43
+        },
+        {
+          "name": "inspectChatMessages",
+          "params": [
+            "messages"
+          ],
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./injection.js",
+          "specifiers": [
+            "detectPromptInjection",
+            "INJECTION_BLOCK_REPLY"
+          ]
+        }
+      ],
+      "exports": [
+        "MAX_MESSAGE_LENGTH",
+        "MAX_TURNS",
+        "validateChatMessages",
+        "inspectChatMessages"
+      ],
+      "totalLines": 77,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/chatLog.js": {
+      "filePath": "lib/security/chatLog.js",
+      "contentHash": "4b75bd05d51747eb8acf2574bf1fb70650e72db77787fd873be30d5458bbc94e",
+      "functions": [
+        {
+          "name": "getConfiguration",
+          "params": [],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "insertRows",
+          "params": [
+            "table",
+            "rows"
+          ],
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "recordChatLog",
+          "params": [],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "recordSecurityEvents",
+          "params": [],
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./pii.js",
+          "specifiers": [
+            "createMaskedEvidence",
+            "detectAndMaskPii"
+          ]
+        }
+      ],
+      "exports": [
+        "recordChatLog",
+        "recordSecurityEvents"
+      ],
+      "totalLines": 78,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/hash.js": {
+      "filePath": "lib/security/hash.js",
+      "contentHash": "39a997eacd448ef43d2f1a8cab24a5b2dfe9d2e801d911a258140c50e3f22654",
+      "functions": [
+        {
+          "name": "hashIp",
+          "params": [
+            "ip"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "hashSecurityValue",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "getClientIp",
+          "params": [
+            "request"
+          ],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:crypto",
+          "specifiers": [
+            "createHash"
+          ]
+        }
+      ],
+      "exports": [
+        "hashIp",
+        "hashSecurityValue",
+        "getClientIp"
+      ],
+      "totalLines": 49,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/injection.js": {
+      "filePath": "lib/security/injection.js",
+      "contentHash": "c4baefb940ca69077d1bd27bbe56cdca3ad00eae0eb5a3ef07237de275d95fc8",
+      "functions": [
+        {
+          "name": "countMatches",
+          "params": [
+            "text",
+            "rule"
+          ],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "getHighestSeverity",
+          "params": [
+            "hits"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "detectPromptInjection",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "INJECTION_BLOCK_REPLY",
+        "INJECTION_RULES",
+        "detectPromptInjection"
+      ],
+      "totalLines": 82,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/leak.js": {
+      "filePath": "lib/security/leak.js",
+      "contentHash": "6e542b8a10a6918e78255894eeaccdeea196220b8b19501be600f60fa4e73151",
+      "functions": [
+        {
+          "name": "scanForSecrets",
+          "params": [
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "SECRET_PATTERNS",
+        "scanForSecrets"
+      ],
+      "totalLines": 44,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/loginProtection.js": {
+      "filePath": "lib/security/loginProtection.js",
+      "contentHash": "751f29e224dfa8052fdd14a981978dc98a0212287041e3db167546003a3c5ab5",
+      "functions": [
+        {
+          "name": "getSecuritySecret",
+          "params": [],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "createLoginLimitKey",
+          "params": [
+            "email",
+            "ipHash"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "parseRpcResult",
+          "params": [
+            "data",
+            "operation"
+          ],
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "reserveLoginAttempt",
+          "params": [
+            "keyHash"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "finishLoginAttempt",
+          "params": [
+            "keyHash",
+            "outcome"
+          ],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "isCredentialFailure",
+          "params": [
+            "error"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "recordLoginLock",
+          "params": [],
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:crypto",
+          "specifiers": [
+            "createHmac"
+          ]
+        },
+        {
+          "source": "../supabase.js",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "./securityConfig.js",
+          "specifiers": [
+            "ANOMALY_RULES"
+          ]
+        }
+      ],
+      "exports": [
+        "LOGIN_MAX_ATTEMPTS",
+        "LOGIN_WINDOW_SECONDS",
+        "LOGIN_LOCK_SECONDS",
+        "createLoginLimitKey",
+        "reserveLoginAttempt",
+        "finishLoginAttempt",
+        "isCredentialFailure",
+        "recordLoginLock"
+      ],
+      "totalLines": 93,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/outputGuard.js": {
+      "filePath": "lib/security/outputGuard.js",
+      "contentHash": "81daf968027bcf39f86ec30a187a7a5f49dbe8b092fe377586719a5a06e77221",
+      "functions": [
+        {
+          "name": "inspectAssistantOutput",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 29
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../ai/prompt.js",
+          "specifiers": [
+            "PROTECTED_PROMPT_MARKERS"
+          ]
+        },
+        {
+          "source": "./pii.js",
+          "specifiers": [
+            "detectAndMaskPii"
+          ]
+        },
+        {
+          "source": "./leak.js",
+          "specifiers": [
+            "scanForSecrets"
+          ]
+        }
+      ],
+      "exports": [
+        "SAFE_OUTPUT_REPLY",
+        "inspectAssistantOutput"
+      ],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/pii.js": {
+      "filePath": "lib/security/pii.js",
+      "contentHash": "fc1e5042bc463745c5d18a90d5d2d97ea34fadd75164ac3e3eae6b5b9de5f4b2",
+      "functions": [
+        {
+          "name": "maskName",
+          "params": [
+            "name"
+          ],
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "maskPhone",
+          "params": [
+            "phone"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "rangesOverlap",
+          "params": [
+            "left",
+            "right"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "collectMatches",
+          "params": [
+            "text"
+          ],
+          "exported": false,
+          "lineCount": 30
+        },
+        {
+          "name": "detectAndMaskPii",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "hasPii",
+          "params": [
+            "value",
+            "options"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "createMaskedEvidence",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "createMaskedPathEvidence",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "PII_RULES",
+        "detectAndMaskPii",
+        "hasPii",
+        "createMaskedEvidence",
+        "createMaskedPathEvidence"
+      ],
+      "totalLines": 208,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/report.js": {
+      "filePath": "lib/security/report.js",
+      "contentHash": "7cd058c21b59ee189f150100d532f12c7541b19e11004c694a7cc5386b80a178",
+      "functions": [
+        {
+          "name": "clampLimit",
+          "params": [
+            "value"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "toSecurityEvent",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "toAuditLog",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "listSecurityEvents",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "summarizeSecurityEvents",
+          "params": [],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "listAuditLogs",
+          "params": [],
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@/lib/supabase",
+          "specifiers": [
+            "createServerClient"
+          ]
+        }
+      ],
+      "exports": [
+        "listSecurityEvents",
+        "summarizeSecurityEvents",
+        "listAuditLogs"
+      ],
+      "totalLines": 132,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/requireStaff.js": {
+      "filePath": "lib/security/requireStaff.js",
+      "contentHash": "1ebc305769577b1a2da8a506b70dd9dd7af5119e76d7a53458c6fa8b72cdea6e",
+      "functions": [
+        {
+          "name": "requireStaff",
+          "params": [
+            "request",
+            "getUser"
+          ],
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "isStaff"
+          ]
+        },
+        {
+          "source": "@/lib/security/authz",
+          "specifiers": [
+            "recordUnauthorizedAdminAccess"
+          ]
+        }
+      ],
+      "exports": [
+        "requireStaff"
+      ],
+      "totalLines": 45,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/rules.js": {
+      "filePath": "lib/security/rules.js",
+      "contentHash": "129f6c8b32a95f0ca3d81f20b1282f756567b584cdeeb416d065f89c15dcd323",
+      "functions": [
+        {
+          "name": "countRecentDenies",
+          "params": [
+            "supabase"
+          ],
+          "exported": false,
+          "lineCount": 17
+        },
+        {
+          "name": "hasRecentEvent",
+          "params": [
+            "supabase"
+          ],
+          "exported": false,
+          "lineCount": 9
+        },
+        {
+          "name": "insertAnomalyOnce",
+          "params": [
+            "supabase"
+          ],
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "checkApiRateLimit",
+          "params": [],
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "detectCodeEnumeration",
+          "params": [],
+          "exported": true,
+          "lineCount": 31
+        },
+        {
+          "name": "detectScalping",
+          "params": [],
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "detectLookupBruteForce",
+          "params": [],
+          "exported": true,
+          "lineCount": 40
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server.js",
+          "specifiers": [
+            "after"
+          ]
+        },
+        {
+          "source": "../supabase.js",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "./securityConfig.js",
+          "specifiers": [
+            "ANOMALY_RULES"
+          ]
+        }
+      ],
+      "exports": [
+        "ANOMALY_RULES",
+        "checkApiRateLimit",
+        "detectCodeEnumeration",
+        "detectScalping",
+        "detectLookupBruteForce"
+      ],
+      "totalLines": 216,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/securityConfig.js": {
+      "filePath": "lib/security/securityConfig.js",
+      "contentHash": "d095dc5a1e4e4c05e7d3a166184d67e1605d58758ec32da2b7bd996806880db4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "ANOMALY_RULES"
+      ],
+      "totalLines": 45,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/sessionTimeout.js": {
+      "filePath": "lib/security/sessionTimeout.js",
+      "contentHash": "39cc07c14cc3855c77123bc19bbcc92228dd23d05baf7cf6dacf4e65d668ead0",
+      "functions": [
+        {
+          "name": "getSecuritySecret",
+          "params": [],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "sign",
+          "params": [
+            "payload"
+          ],
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "createSessionTimeoutToken",
+          "params": [
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "isSessionTimeoutTokenValid",
+          "params": [
+            "token",
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "getSessionTimeoutCookieOptions",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:crypto",
+          "specifiers": [
+            "createHmac",
+            "timingSafeEqual"
+          ]
+        }
+      ],
+      "exports": [
+        "SESSION_TIMEOUT_COOKIE",
+        "SESSION_IDLE_TIMEOUT_SECONDS",
+        "createSessionTimeoutToken",
+        "isSessionTimeoutTokenValid",
+        "getSessionTimeoutCookieOptions"
+      ],
+      "totalLines": 61,
+      "hasStructuralAnalysis": true
+    },
+    "lib/slotHandler.js": {
+      "filePath": "lib/slotHandler.js",
+      "contentHash": "2fa04542b9dc68abc2ed9051da4d38399fa5b07ebbbea5798bfb2179e71b9147",
+      "functions": [
+        {
+          "name": "createGetSlotHandler",
+          "params": [],
+          "exported": true,
+          "lineCount": 36
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./courses.js",
+          "specifiers": [
+            "defaultGetSlot"
+          ]
+        },
+        {
+          "source": "./slotId.js",
+          "specifiers": [
+            "isValidSlotId"
+          ]
+        }
+      ],
+      "exports": [
+        "createGetSlotHandler",
+        "handleGetSlot"
+      ],
+      "totalLines": 53,
+      "hasStructuralAnalysis": true
+    },
+    "lib/slotId.js": {
+      "filePath": "lib/slotId.js",
+      "contentHash": "1fbce9e20430bda7b7f9a9aace9fdb4661f8e27e7bef5a74537925222bbcaeac",
+      "functions": [
+        {
+          "name": "isValidSlotId",
+          "params": [
+            "value"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "isValidSlotId"
+      ],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "lib/supabase.js": {
+      "filePath": "lib/supabase.js",
+      "contentHash": "ff0f7acfd531810368f195437def935068d0f8e011cfde6061ef89083263b02d",
+      "functions": [
+        {
+          "name": "createServerClient",
+          "params": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "createBrowserClient",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@supabase/supabase-js",
+          "specifiers": [
+            "createClient"
+          ]
+        }
+      ],
+      "exports": [
+        "createServerClient",
+        "createBrowserClient"
+      ],
+      "totalLines": 42,
+      "hasStructuralAnalysis": true
+    },
+    "lib/supabaseAuth.js": {
+      "filePath": "lib/supabaseAuth.js",
+      "contentHash": "bcd60b6e33860b0a5f983e8022d9b9f0dd4a90b6c2873df1479b0c2d87a5447d",
+      "functions": [
+        {
+          "name": "assertEnv",
+          "params": [],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "createAuthBrowserClient",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "createAuthServerClient",
+          "params": [
+            "cookieStore"
+          ],
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@supabase/ssr",
+          "specifiers": [
+            "createBrowserClient",
+            "createServerClient"
+          ]
+        }
+      ],
+      "exports": [
+        "createAuthBrowserClient",
+        "createAuthServerClient"
+      ],
+      "totalLines": 57,
+      "hasStructuralAnalysis": true
+    },
+    "lib/useSlot.js": {
+      "filePath": "lib/useSlot.js",
+      "contentHash": "b8ae6affae4313a691596a0ff69e7aa7d7bc1bc0e4b36fcbeeb39ae73077b44e",
+      "functions": [
+        {
+          "name": "useSlot",
+          "params": [
+            "params"
+          ],
+          "exported": true,
+          "lineCount": 53
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        }
+      ],
+      "exports": [
+        "useSlot"
+      ],
+      "totalLines": 65,
+      "hasStructuralAnalysis": true
+    },
+    "next.config.mjs": {
+      "filePath": "next.config.mjs",
+      "contentHash": "3247bde2f4912a3602f2175f171d9bab44b78ba61d5da662052da8545374a5dc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": true
+    },
+    "package.json": {
+      "filePath": "package.json",
+      "contentHash": "d8cd28cae0189a2cf0a833705b12bfdcae9adf58af3aa36ca0cf7b9839d17876",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": false
+    },
+    "postcss.config.mjs": {
+      "filePath": "postcss.config.mjs",
+      "contentHash": "7b299d3d3b16699ddda397c0b2373b3af4f25f8fc9ccc9b3d9e64ef083bc1c21",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": true
+    },
+    "proxy.js": {
+      "filePath": "proxy.js",
+      "contentHash": "3d52151646e257ea09b9c3414512136bc5238ccf483b0cb6c891606e33f4d4a9",
+      "functions": [
+        {
+          "name": "proxy",
+          "params": [
+            "request"
+          ],
+          "exported": true,
+          "lineCount": 74
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@supabase/ssr",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "@/lib/security/authPaths",
+          "specifiers": [
+            "isProtectedPagePath"
+          ]
+        },
+        {
+          "source": "@/lib/security/sessionTimeout",
+          "specifiers": [
+            "createSessionTimeoutToken",
+            "getSessionTimeoutCookieOptions",
+            "isSessionTimeoutTokenValid",
+            "SESSION_TIMEOUT_COOKIE"
+          ]
+        }
+      ],
+      "exports": [
+        "proxy",
+        "config"
+      ],
+      "totalLines": 105,
+      "hasStructuralAnalysis": true
+    },
+    "scripts/fix-seed-encoding.py": {
+      "filePath": "scripts/fix-seed-encoding.py",
+      "contentHash": "683362ecfd61847ad9b89a1164337e8ff237be656a3610c1caf7e73726605787",
+      "functions": [
+        {
+          "name": "read_env",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "parse_courses",
+          "params": [
+            "sql_text"
+          ],
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "patch_course",
+          "params": [
+            "base_url",
+            "service_key",
+            "image_url",
+            "fields"
+          ],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "io",
+          "specifiers": [
+            "io"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "urllib.request",
+          "specifiers": [
+            "urllib.request"
+          ]
+        }
+      ],
+      "exports": [
+        "read_env",
+        "parse_courses",
+        "patch_course",
+        "main"
+      ],
+      "totalLines": 89,
+      "hasStructuralAnalysis": true
+    },
+    "supabase/migrations/20260909000000_auth_login_limits.sql": {
+      "filePath": "supabase/migrations/20260909000000_auth_login_limits.sql",
+      "contentHash": "49961fdd648574c9157225846bc9413acbf46479c492daf145ed16a48a9df9e7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 174,
+      "hasStructuralAnalysis": false
+    },
+    "supabase/policies.sql": {
+      "filePath": "supabase/policies.sql",
+      "contentHash": "1400e4177d1844f473b39dfacedc01053c3de3ccd8734a5236cfb6c3a4752e82",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 274,
+      "hasStructuralAnalysis": false
+    },
+    "supabase/schema.sql": {
+      "filePath": "supabase/schema.sql",
+      "contentHash": "503fbdda2e49c1fac05bf3a3898d2bbcfcc6e9dbbfd11239b736280ce35894a3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 460,
+      "hasStructuralAnalysis": false
+    },
+    "supabase/seed.sql": {
+      "filePath": "supabase/seed.sql",
+      "contentHash": "a9f684b122aad2c06e0b2017bc94bbf4d8e48fa1c3095ae6d044a0f824b0dce3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 134,
+      "hasStructuralAnalysis": false
+    },
+    "test/ai/chatService.test.js": {
+      "filePath": "test/ai/chatService.test.js",
+      "contentHash": "efefabca41bade3e011167a5e29a5d3732509f2b1031ee41cd6d1bf2b35d21d6",
+      "functions": [
+        {
+          "name": "createHarness",
+          "params": [],
+          "exported": false,
+          "lineCount": 13
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/ai/chatService.js",
+          "specifiers": [
+            "createChatService"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 93,
+      "hasStructuralAnalysis": true
+    },
+    "test/ai/dateContext.test.js": {
+      "filePath": "test/ai/dateContext.test.js",
+      "contentHash": "ccfdc3cc21bae3f3c1b58daf31ae5263b272c275efa016f6191c939c345d05ab",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/ai/dateContext.js",
+          "specifiers": [
+            "getDateContext",
+            "addDaysToYmd",
+            "KST_TIMEZONE"
+          ]
+        },
+        {
+          "source": "../../lib/ai/prompt.js",
+          "specifiers": [
+            "buildChatSystemPrompt",
+            "CHAT_SYSTEM_PROMPT"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 98,
+      "hasStructuralAnalysis": true
+    },
+    "test/ai/deepseek.test.js": {
+      "filePath": "test/ai/deepseek.test.js",
+      "contentHash": "daa79dea30767c4f252ddc473cc7ccfc3a764b721e022bbc1dbeea0bd6fea342",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/ai/deepseek.js",
+          "specifiers": [
+            "createDeepSeekGenerator"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 263,
+      "hasStructuralAnalysis": true
+    },
+    "test/ai/toolDependencies.test.js": {
+      "filePath": "test/ai/toolDependencies.test.js",
+      "contentHash": "b1536db960a474b4a39079404bafd5bdeb33412461d3d08db9b826b055b2e5fe",
+      "functions": [
+        {
+          "name": "createGetCourse",
+          "params": [],
+          "exported": false,
+          "lineCount": 21
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/ai/toolDependencies.js",
+          "specifiers": [
+            "createChatToolDependencies"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 159,
+      "hasStructuralAnalysis": true
+    },
+    "test/ai/tools.test.js": {
+      "filePath": "test/ai/tools.test.js",
+      "contentHash": "43138f970b3facb25ca8b0b23587ee5ac4f93eaf0dfcfa62be5bd31825476e5d",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/ai/tools.js",
+          "specifiers": [
+            "executeToolCall",
+            "validateToolCall"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 147,
+      "hasStructuralAnalysis": true
+    },
+    "test/authPaths.test.js": {
+      "filePath": "test/authPaths.test.js",
+      "contentHash": "90bae83e1510fc20430a49388f83a727b61cf42510666e21aafa38f755b06bfe",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../lib/security/authPaths.js",
+          "specifiers": [
+            "isProtectedPagePath"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": true
+    },
+    "test/bookingIntegration.test.js": {
+      "filePath": "test/bookingIntegration.test.js",
+      "contentHash": "3410550d1fb37a6b781695295fdc478820b98b7a9d876fc8a34bb14cde35dc20",
+      "functions": [
+        {
+          "name": "createFakeSupabase",
+          "params": [],
+          "exported": false,
+          "lineCount": 26
+        },
+        {
+          "name": "createFakeBookingSupabase",
+          "params": [],
+          "exported": false,
+          "lineCount": 51
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../lib/bookingLimits.js",
+          "specifiers": [
+            "MIN_PARTY_SIZE",
+            "MAX_PARTY_SIZE",
+            "NAME_MAX_LENGTH",
+            "MEMO_MAX_LENGTH"
+          ]
+        },
+        {
+          "source": "../lib/bookings.js",
+          "specifiers": [
+            "createBooking",
+            "lookupBookings",
+            "listMyBookings"
+          ]
+        },
+        {
+          "source": "../lib/slotId.js",
+          "specifiers": [
+            "isValidSlotId"
+          ]
+        },
+        {
+          "source": "../lib/courses.js",
+          "specifiers": [
+            "getSlot"
+          ]
+        },
+        {
+          "source": "../lib/slotHandler.js",
+          "specifiers": [
+            "createGetSlotHandler"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 868,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/adminPathDetection.test.js": {
+      "filePath": "test/security/adminPathDetection.test.js",
+      "contentHash": "301c872356e2eddfd1bad2d56e228affdd251276b754e34c280a75379f2df7cf",
+      "functions": [
+        {
+          "name": "createFakeSupabase",
+          "params": [
+            "insertedRows"
+          ],
+          "exported": false,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../app/admin/[...slug]/page.js",
+          "specifiers": [
+            "AdminCatchAllPage"
+          ]
+        },
+        {
+          "source": "../../lib/security/authz.js",
+          "specifiers": [
+            "recordUnauthorizedAdminAccess",
+            "recordAdminAccess"
+          ]
+        },
+        {
+          "source": "../../lib/security/authPaths.js",
+          "specifiers": [
+            "isProtectedPagePath"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 187,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/apiLog.test.js": {
+      "filePath": "test/security/apiLog.test.js",
+      "contentHash": "949a2a0c3a9abbb5005093442b701f61a921bb49d22aa267a6d9895593224219",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/apiResponseGuard.js",
+          "specifiers": [
+            "inspectApiResponsePii"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/apiResponseGuardImageUrl.test.js": {
+      "filePath": "test/security/apiResponseGuardImageUrl.test.js",
+      "contentHash": "34329ffb4504f640a3b7733efcddd77d5c86d22d92cfec78de434b3f09ee7317",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/apiResponseGuard.js",
+          "specifiers": [
+            "inspectApiResponsePii"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 32,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/chatLog.test.js": {
+      "filePath": "test/security/chatLog.test.js",
+      "contentHash": "29ccce41c8b053c4ca608d3297c637d834f3208062fbedb73320615abbc19156",
+      "functions": [
+        {
+          "name": "withSupabaseConfiguration",
+          "params": [
+            "run"
+          ],
+          "exported": false,
+          "lineCount": 16
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/chatLog.js",
+          "specifiers": [
+            "recordChatLog",
+            "recordSecurityEvents"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 70,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/hash.test.js": {
+      "filePath": "test/security/hash.test.js",
+      "contentHash": "90773ac3e7fadb983bf57a4eb15f5f8ed84310c7c86fa7231c1f67ad8c0d46dd",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/hash.js",
+          "specifiers": [
+            "hashSecurityValue"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/injection.test.js": {
+      "filePath": "test/security/injection.test.js",
+      "contentHash": "049f92be0b1cd21a255fb5dfd471206bf1b61444418572c54fe3b772e4e4a2de",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/injection.js",
+          "specifiers": [
+            "detectPromptInjection",
+            "INJECTION_BLOCK_REPLY"
+          ]
+        },
+        {
+          "source": "../../lib/security/chatGuard.js",
+          "specifiers": [
+            "inspectChatMessages",
+            "MAX_MESSAGE_LENGTH",
+            "MAX_TURNS",
+            "validateChatMessages"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 101,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/loginProtection.test.js": {
+      "filePath": "test/security/loginProtection.test.js",
+      "contentHash": "12508dff9646d4e189a6cb186c40da51ba0734735f7a212b84151206a01c3212",
+      "functions": [
+        {
+          "name": "withSecuritySecret",
+          "params": [
+            "run"
+          ],
+          "exported": false,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/loginProtection.js",
+          "specifiers": [
+            "createLoginLimitKey",
+            "finishLoginAttempt",
+            "isCredentialFailure",
+            "LOGIN_MAX_ATTEMPTS",
+            "reserveLoginAttempt"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 61,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/outputGuard.test.js": {
+      "filePath": "test/security/outputGuard.test.js",
+      "contentHash": "41a121b29b722efe380d311691fdeb674947d2e898ae9f3dbd1be4751cd58926",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/outputGuard.js",
+          "specifiers": [
+            "inspectAssistantOutput",
+            "SAFE_OUTPUT_REPLY"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 52,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/pii.test.js": {
+      "filePath": "test/security/pii.test.js",
+      "contentHash": "3b8dee1208cd6c331c252738d562ee9451ed8e9ef4e238a11d43d7b1a34d31da",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/pii.js",
+          "specifiers": [
+            "createMaskedEvidence",
+            "createMaskedPathEvidence",
+            "detectAndMaskPii",
+            "hasPii"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 154,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/rules.test.js": {
+      "filePath": "test/security/rules.test.js",
+      "contentHash": "2901c31f7a74f0b062365513df2bc60a8a9299e923dc53d7df0012bddc660f21",
+      "functions": [
+        {
+          "name": "createRateLimitClient",
+          "params": [],
+          "exported": false,
+          "lineCount": 28
+        },
+        {
+          "name": "createAnomalyClient",
+          "params": [],
+          "exported": false,
+          "lineCount": 38
+        },
+        {
+          "name": "runScheduled",
+          "params": [
+            "invoke"
+          ],
+          "exported": false,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/rules.js",
+          "specifiers": [
+            "checkApiRateLimit",
+            "detectCodeEnumeration",
+            "detectLookupBruteForce",
+            "detectScalping"
+          ]
+        },
+        {
+          "source": "../../lib/security/securityConfig.js",
+          "specifiers": [
+            "ANOMALY_RULES"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 157,
+      "hasStructuralAnalysis": true
+    },
+    "test/security/sessionTimeout.test.js": {
+      "filePath": "test/security/sessionTimeout.test.js",
+      "contentHash": "76e675f06971d790dd6e6d68a6e3a9afccfb6d47759f58060808cbe4809b208f",
+      "functions": [
+        {
+          "name": "withSecuritySecret",
+          "params": [
+            "run"
+          ],
+          "exported": false,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../../lib/security/sessionTimeout.js",
+          "specifiers": [
+            "createSessionTimeoutToken",
+            "isSessionTimeoutTokenValid",
+            "SESSION_IDLE_TIMEOUT_SECONDS"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 48,
+      "hasStructuralAnalysis": true
+    },
+    "tmp/pdfs/build_qkv_note.py": {
+      "filePath": "tmp/pdfs/build_qkv_note.py",
+      "contentHash": "ff895625027901403dd6cb926027a018ec7cabb97842edfeaf120d199ecb4d56",
+      "functions": [
+        {
+          "name": "style",
+          "params": [
+            "name",
+            "**kwargs"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "p",
+          "params": [
+            "text",
+            "sty"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "box",
+          "params": [
+            "text",
+            "color",
+            "border"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "footer",
+          "params": [
+            "canvas",
+            "doc"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "reportlab.lib",
+          "specifiers": [
+            "colors"
+          ]
+        },
+        {
+          "source": "reportlab.lib.enums",
+          "specifiers": [
+            "TA_CENTER"
+          ]
+        },
+        {
+          "source": "reportlab.lib.pagesizes",
+          "specifiers": [
+            "A4"
+          ]
+        },
+        {
+          "source": "reportlab.lib.styles",
+          "specifiers": [
+            "ParagraphStyle",
+            "getSampleStyleSheet"
+          ]
+        },
+        {
+          "source": "reportlab.lib.units",
+          "specifiers": [
+            "mm"
+          ]
+        },
+        {
+          "source": "reportlab.pdfbase",
+          "specifiers": [
+            "pdfmetrics"
+          ]
+        },
+        {
+          "source": "reportlab.pdfbase.ttfonts",
+          "specifiers": [
+            "TTFont"
+          ]
+        },
+        {
+          "source": "reportlab.platypus",
+          "specifiers": [
+            "KeepTogether",
+            "PageBreak",
+            "Paragraph",
+            "SimpleDocTemplate",
+            "Spacer",
+            "Table",
+            "TableStyle"
+          ]
+        }
+      ],
+      "exports": [
+        "style",
+        "p",
+        "box",
+        "footer"
+      ],
+      "totalLines": 165,
+      "hasStructuralAnalysis": true
+    },
+    "vercel.json": {
+      "filePath": "vercel.json",
+      "contentHash": "eacfc9463a956640519a9af2753da062e88ccd347464d1c24443adb5dfd337ba",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": false
+    }
+  }
+}

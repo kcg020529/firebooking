@@ -1,0 +1,115 @@
+{
+    "projectRoot":  "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+    "batchFiles":  [
+                       {
+                           "path":  "docs/ARCHITECTURE.md",
+                           "language":  "markdown",
+                           "sizeLines":  35,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/CONVENTIONS.md",
+                           "language":  "markdown",
+                           "sizeLines":  295,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/DATA_FLOW.md",
+                           "language":  "markdown",
+                           "sizeLines":  59,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/DECISIONS.md",
+                           "language":  "markdown",
+                           "sizeLines":  77,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/DEEPSEEK_SETUP.md",
+                           "language":  "markdown",
+                           "sizeLines":  66,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/LLM_SECURITY_TESTS.md",
+                           "language":  "markdown",
+                           "sizeLines":  52,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/MENTOR_FEEDBACK_REMEDIATION.md",
+                           "language":  "markdown",
+                           "sizeLines":  183,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/PLAN.md",
+                           "language":  "markdown",
+                           "sizeLines":  152,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/SBOM.cdx.json",
+                           "language":  "json",
+                           "sizeLines":  1922,
+                           "fileCategory":  "config"
+                       },
+                       {
+                           "path":  "docs/SBOM.md",
+                           "language":  "markdown",
+                           "sizeLines":  12,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/SECURITY.md",
+                           "language":  "markdown",
+                           "sizeLines":  197,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "docs/STACK.md",
+                           "language":  "markdown",
+                           "sizeLines":  39,
+                           "fileCategory":  "docs"
+                       }
+                   ],
+    "batchImportData":  {
+                            "docs/ARCHITECTURE.md":  [
+
+                                                     ],
+                            "docs/CONVENTIONS.md":  [
+
+                                                    ],
+                            "docs/DATA_FLOW.md":  [
+
+                                                  ],
+                            "docs/DECISIONS.md":  [
+
+                                                  ],
+                            "docs/DEEPSEEK_SETUP.md":  [
+
+                                                       ],
+                            "docs/LLM_SECURITY_TESTS.md":  [
+
+                                                           ],
+                            "docs/MENTOR_FEEDBACK_REMEDIATION.md":  [
+
+                                                                    ],
+                            "docs/PLAN.md":  [
+
+                                             ],
+                            "docs/SBOM.cdx.json":  [
+
+                                                   ],
+                            "docs/SBOM.md":  [
+
+                                             ],
+                            "docs/SECURITY.md":  [
+
+                                                 ],
+                            "docs/STACK.md":  [
+
+                                              ]
+                        }
+}

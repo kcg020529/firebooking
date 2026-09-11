@@ -1,0 +1,15 @@
+{
+  "nodes": [
+    {
+      "id": "table:supabase/migrations/20260909000000_auth_login_limits.sql:login_attempt_limits",
+      "type": "table",
+      "name": "login_attempt_limits",
+      "filePath": "supabase/migrations/20260909000000_auth_login_limits.sql",
+      "summary": "로그인 실패·예약 시도·잠금 상태를 HMAC 키별로 보관하는 login_attempt_limits 테이블과 원자적 갱신 함수를 생성한다. 서비스 역할만 이 상태를 읽고 실행하도록 권한을 제한한다.",
+      "tags": ["database", "migration", "login-security", "rate-limiting", "row-locking"],
+      "complexity": "complex",
+      "languageNotes": "PL/pgSQL의 FOR UPDATE 잠금과 security definer 함수를 이용해 동시 로그인 시도도 일관되게 집계한다."
+    }
+  ],
+  "edges": []
+}

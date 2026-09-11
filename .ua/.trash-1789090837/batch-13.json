@@ -1,0 +1,282 @@
+{
+  "nodes": [
+    {
+      "id": "table:supabase/policies.sql:policies",
+      "type": "table",
+      "name": "policies",
+      "filePath": "supabase/policies.sql",
+      "summary": "모든 서비스·보안 테이블의 RLS 활성화와 역할별 접근 정책을 정의합니다.",
+      "tags": [
+        "데이터베이스",
+        "rls-정책",
+        "보안"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "table:supabase/schema.sql:schema",
+      "type": "table",
+      "name": "schema",
+      "filePath": "supabase/schema.sql",
+      "summary": "골프 예약, 사용자 프로필, API·감사·보안·채팅 로그와 로그인 제한 테이블 및 RPC를 정의합니다.",
+      "tags": [
+        "데이터베이스",
+        "스키마",
+        "보안"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "table:supabase/seed.sql:seed",
+      "type": "table",
+      "name": "seed",
+      "filePath": "supabase/seed.sql",
+      "summary": "데모용 필드·스크린 골프장과 향후 14일 예약 슬롯을 반복 실행 가능하게 채웁니다.",
+      "tags": [
+        "데이터베이스",
+        "시드-데이터",
+        "예약"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "table:supabase/schema.sql:courses",
+      "type": "table",
+      "name": "courses",
+      "filePath": "supabase/schema.sql",
+      "summary": "골프장 기본 정보와 공개 표시용 주소·연락처·이미지 데이터를 저장합니다.",
+      "tags": [
+        "데이터베이스",
+        "스키마",
+        "골프장"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        13,
+        23
+      ]
+    },
+    {
+      "id": "table:supabase/schema.sql:slots",
+      "type": "table",
+      "name": "slots",
+      "filePath": "supabase/schema.sql",
+      "summary": "골프장별 날짜·시간·가격·정원과 예약 인원 수를 저장합니다.",
+      "tags": [
+        "데이터베이스",
+        "스키마",
+        "예약-슬롯"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        26,
+        38
+      ]
+    },
+    {
+      "id": "table:supabase/schema.sql:bookings",
+      "type": "table",
+      "name": "bookings",
+      "filePath": "supabase/schema.sql",
+      "summary": "예약번호와 원본 이름·전화번호를 포함한 예약 정보를 저장하는 유일한 PII 원본 테이블입니다.",
+      "tags": [
+        "데이터베이스",
+        "예약",
+        "pii-보호"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        43,
+        54
+      ]
+    },
+    {
+      "id": "table:supabase/schema.sql:profiles",
+      "type": "table",
+      "name": "profiles",
+      "filePath": "supabase/schema.sql",
+      "summary": "Supabase Auth 사용자와 표시 이름·역할을 연결합니다.",
+      "tags": [
+        "데이터베이스",
+        "프로필",
+        "권한"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        61,
+        68
+      ]
+    },
+    {
+      "id": "table:supabase/schema.sql:api_logs",
+      "type": "table",
+      "name": "api_logs",
+      "filePath": "supabase/schema.sql",
+      "summary": "API 요청 메서드·경로·상태·지연 시간·IP 해시를 기록합니다.",
+      "tags": [
+        "데이터베이스",
+        "api-모니터링",
+        "보안"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        71,
+        81
+      ]
+    },
+    {
+      "id": "table:supabase/schema.sql:audit_logs",
+      "type": "table",
+      "name": "audit_logs",
+      "filePath": "supabase/schema.sql",
+      "summary": "행위자·대상·허용 여부·IP 해시로 접근 감사 결과를 기록합니다.",
+      "tags": [
+        "데이터베이스",
+        "감사-로그",
+        "보안"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        84,
+        94
+      ]
+    },
+    {
+      "id": "table:supabase/schema.sql:security_events",
+      "type": "table",
+      "name": "security_events",
+      "filePath": "supabase/schema.sql",
+      "summary": "탐지 규칙, 심각도, 증적을 보존한 보안 이벤트를 기록합니다.",
+      "tags": [
+        "데이터베이스",
+        "보안-이벤트",
+        "이상-탐지"
+      ],
+      "complexity": "moderate",
+      "lineRange": [
+        97,
+        107
+      ]
+    },
+    {
+      "id": "table:supabase/schema.sql:chat_logs",
+      "type": "table",
+      "name": "chat_logs",
+      "filePath": "supabase/schema.sql",
+      "summary": "세션별 역할과 PII 마스킹된 채팅 내용만 저장합니다.",
+      "tags": [
+        "데이터베이스",
+        "챗봇",
+        "pii-마스킹"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        110,
+        117
+      ]
+    },
+    {
+      "id": "table:supabase/schema.sql:login_attempt_limits",
+      "type": "table",
+      "name": "login_attempt_limits",
+      "filePath": "supabase/schema.sql",
+      "summary": "해시 키별 실패·대기 시도 수와 잠금 시각을 원자적으로 관리합니다.",
+      "tags": [
+        "데이터베이스",
+        "로그인-보호",
+        "rate-limit"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        122,
+        129
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:courses",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:slots",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:bookings",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:profiles",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:api_logs",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:audit_logs",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:security_events",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:chat_logs",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:login_attempt_limits",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:schema",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/seed.sql:seed",
+      "target": "table:supabase/schema.sql:courses",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/seed.sql:seed",
+      "target": "table:supabase/schema.sql:slots",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

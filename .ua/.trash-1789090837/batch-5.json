@@ -1,0 +1,694 @@
+{
+  "nodes": [
+    {
+      "id": "file:lib/security/loginProtection.js",
+      "type": "file",
+      "name": "loginProtection.js",
+      "filePath": "lib/security/loginProtection.js",
+      "summary": "로그인 시도 예약·확정과 잠금 이벤트 기록을 통해 경쟁 상태를 고려한 인증 브루트포스 방어를 제공합니다.",
+      "tags": [
+        "보안",
+        "로그인-보호",
+        "브루트포스",
+        "supabase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/rules.js",
+      "type": "file",
+      "name": "rules.js",
+      "filePath": "lib/security/rules.js",
+      "summary": "API 과속, 예약번호 대입, 스캘핑, 예약 조회 브루트포스를 집계해 중복 없는 보안 이벤트를 생성합니다.",
+      "tags": [
+        "보안",
+        "이상-탐지",
+        "rate-limit",
+        "감사-로그"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/security/securityConfig.js",
+      "type": "file",
+      "name": "securityConfig.js",
+      "filePath": "lib/security/securityConfig.js",
+      "summary": "이상 탐지 규칙의 임계값·기간·심각도를 한곳에 선언합니다.",
+      "tags": [
+        "보안",
+        "설정",
+        "이상-탐지"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/supabase.js",
+      "type": "file",
+      "name": "supabase.js",
+      "filePath": "lib/supabase.js",
+      "summary": "서버 service-role 클라이언트와 브라우저 anon 클라이언트를 환경 변수 기반으로 분리 생성합니다.",
+      "tags": [
+        "supabase",
+        "클라이언트",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/security/loginProtection.test.js",
+      "type": "file",
+      "name": "loginProtection.test.js",
+      "filePath": "test/security/loginProtection.test.js",
+      "summary": "로그인 시도 키와 잠금 기록 흐름을 검증하는 Node 테스트입니다.",
+      "tags": [
+        "테스트",
+        "로그인-보호",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/rules.test.js",
+      "type": "file",
+      "name": "rules.test.js",
+      "filePath": "test/security/rules.test.js",
+      "summary": "API 속도 제한과 각 이상 탐지 규칙의 이벤트 기록 조건을 검증합니다.",
+      "tags": [
+        "테스트",
+        "이상-탐지",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/loginProtection.js:createLoginLimitKey",
+      "type": "function",
+      "name": "createLoginLimitKey",
+      "filePath": "lib/security/loginProtection.js",
+      "lineRange": [
+        18,
+        24
+      ],
+      "summary": "정규화한 이메일과 IP 해시를 HMAC 키로 바꿔 원문 없는 로그인 제한 식별자를 생성합니다.",
+      "tags": [
+        "보안",
+        "로그인-보호",
+        "해싱"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/security/loginProtection.js:reserveLoginAttempt",
+      "type": "function",
+      "name": "reserveLoginAttempt",
+      "filePath": "lib/security/loginProtection.js",
+      "lineRange": [
+        34,
+        44
+      ],
+      "summary": "Supabase RPC로 인증 전 로그인 시도 슬롯을 원자적으로 예약합니다.",
+      "tags": [
+        "보안",
+        "로그인-보호",
+        "supabase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/loginProtection.js:finishLoginAttempt",
+      "type": "function",
+      "name": "finishLoginAttempt",
+      "filePath": "lib/security/loginProtection.js",
+      "lineRange": [
+        47,
+        62
+      ],
+      "summary": "인증 결과에 따라 예약된 로그인 시도를 성공·실패·취소로 확정합니다.",
+      "tags": [
+        "보안",
+        "로그인-보호",
+        "supabase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/loginProtection.js:isCredentialFailure",
+      "type": "function",
+      "name": "isCredentialFailure",
+      "filePath": "lib/security/loginProtection.js",
+      "lineRange": [
+        65,
+        68
+      ],
+      "summary": "오류 코드가 자격 증명 실패인지 판별해 실패 횟수 처리 대상을 구분합니다.",
+      "tags": [
+        "보안",
+        "인증",
+        "오류-판별"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/security/loginProtection.js:recordLoginLock",
+      "type": "function",
+      "name": "recordLoginLock",
+      "filePath": "lib/security/loginProtection.js",
+      "lineRange": [
+        71,
+        92
+      ],
+      "summary": "현재 잠금 창에 같은 이벤트가 없을 때만 ANO_LOGIN_BF 보안 이벤트를 삽입합니다.",
+      "tags": [
+        "보안",
+        "로그인-보호",
+        "이벤트-기록"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/rules.js:countRecentDenies",
+      "type": "function",
+      "name": "countRecentDenies",
+      "filePath": "lib/security/rules.js",
+      "lineRange": [
+        24,
+        40
+      ],
+      "summary": "지정 기간의 deny 감사 로그 수를 IP와 행동 기준으로 집계합니다.",
+      "tags": [
+        "보안",
+        "감사-로그",
+        "이상-탐지"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/rules.js:insertAnomalyOnce",
+      "type": "function",
+      "name": "insertAnomalyOnce",
+      "filePath": "lib/security/rules.js",
+      "lineRange": [
+        52,
+        64
+      ],
+      "summary": "동일 IP·규칙의 최근 이벤트를 확인해 중복 없이 이상 이벤트를 기록합니다.",
+      "tags": [
+        "보안",
+        "이상-탐지",
+        "이벤트-기록"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/rules.js:checkApiRateLimit",
+      "type": "function",
+      "name": "checkApiRateLimit",
+      "filePath": "lib/security/rules.js",
+      "lineRange": [
+        67,
+        95
+      ],
+      "summary": "최근 API 로그 수가 임계값을 넘으면 ANO_RATE 이벤트를 비동기로 기록합니다.",
+      "tags": [
+        "보안",
+        "rate-limit",
+        "api-모니터링"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/rules.js:detectCodeEnumeration",
+      "type": "function",
+      "name": "detectCodeEnumeration",
+      "filePath": "lib/security/rules.js",
+      "lineRange": [
+        108,
+        138
+      ],
+      "summary": "예약번호 조회 거부 패턴을 집계해 코드 대입 공격을 탐지합니다.",
+      "tags": [
+        "보안",
+        "이상-탐지",
+        "예약-조회"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/rules.js:detectScalping",
+      "type": "function",
+      "name": "detectScalping",
+      "filePath": "lib/security/rules.js",
+      "lineRange": [
+        141,
+        173
+      ],
+      "summary": "짧은 시간에 반복된 허용 예약 행동을 감지해 스캘핑 이벤트를 기록합니다.",
+      "tags": [
+        "보안",
+        "이상-탐지",
+        "예약"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/rules.js:detectLookupBruteForce",
+      "type": "function",
+      "name": "detectLookupBruteForce",
+      "filePath": "lib/security/rules.js",
+      "lineRange": [
+        176,
+        215
+      ],
+      "summary": "서로 다른 예약번호 지문을 반복 대입한 조회 실패를 브루트포스로 탐지합니다.",
+      "tags": [
+        "보안",
+        "브루트포스",
+        "예약-조회"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:lib/supabase.js:createServerClient",
+      "type": "function",
+      "name": "createServerClient",
+      "filePath": "lib/supabase.js",
+      "lineRange": [
+        13,
+        25
+      ],
+      "summary": "서버 전용 service role 키로 Supabase 클라이언트를 생성합니다.",
+      "tags": [
+        "supabase",
+        "서버",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/supabase.js:createBrowserClient",
+      "type": "function",
+      "name": "createBrowserClient",
+      "filePath": "lib/supabase.js",
+      "lineRange": [
+        31,
+        41
+      ],
+      "summary": "공개 URL과 anon 키를 사용하는 브라우저 Supabase 클라이언트를 생성합니다.",
+      "tags": [
+        "supabase",
+        "브라우저",
+        "클라이언트"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:test/security/loginProtection.test.js:withSecuritySecret",
+      "type": "function",
+      "name": "withSecuritySecret",
+      "filePath": "test/security/loginProtection.test.js",
+      "lineRange": [
+        12,
+        21
+      ],
+      "summary": "테스트 중 IP 해시 salt 환경 변수를 임시 설정하고 원상 복구합니다.",
+      "tags": [
+        "테스트",
+        "환경변수",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:test/security/rules.test.js:createRateLimitClient",
+      "type": "function",
+      "name": "createRateLimitClient",
+      "filePath": "test/security/rules.test.js",
+      "lineRange": [
+        12,
+        39
+      ],
+      "summary": "API 로그 개수를 모사하는 rate-limit 테스트용 Supabase 클라이언트를 구성합니다.",
+      "tags": [
+        "테스트",
+        "rate-limit",
+        "supabase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:test/security/rules.test.js:createAnomalyClient",
+      "type": "function",
+      "name": "createAnomalyClient",
+      "filePath": "test/security/rules.test.js",
+      "lineRange": [
+        41,
+        78
+      ],
+      "summary": "감사·보안 이벤트 조회와 삽입을 모사하는 이상 탐지 테스트 클라이언트를 구성합니다.",
+      "tags": [
+        "테스트",
+        "이상-탐지",
+        "supabase"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:createLoginLimitKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:createLoginLimitKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:reserveLoginAttempt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:reserveLoginAttempt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:finishLoginAttempt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:finishLoginAttempt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:isCredentialFailure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:isCredentialFailure",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:recordLoginLock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "function:lib/security/loginProtection.js:recordLoginLock",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:countRecentDenies",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:insertAnomalyOnce",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:checkApiRateLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:checkApiRateLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:detectCodeEnumeration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:detectCodeEnumeration",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:detectScalping",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:detectScalping",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:detectLookupBruteForce",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "function:lib/security/rules.js:detectLookupBruteForce",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/supabase.js",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/supabase.js",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/supabase.js",
+      "target": "function:lib/supabase.js:createBrowserClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/supabase.js",
+      "target": "function:lib/supabase.js:createBrowserClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:test/security/loginProtection.test.js",
+      "target": "function:test/security/loginProtection.test.js:withSecuritySecret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:test/security/rules.test.js",
+      "target": "function:test/security/rules.test.js:createRateLimitClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:test/security/rules.test.js",
+      "target": "function:test/security/rules.test.js:createAnomalyClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/loginProtection.test.js",
+      "target": "file:lib/security/loginProtection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/rules.test.js",
+      "target": "file:lib/security/rules.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/rules.test.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:lib/security/loginProtection.js:reserveLoginAttempt",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/loginProtection.js:finishLoginAttempt",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/loginProtection.js:recordLoginLock",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:checkApiRateLimit",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:detectCodeEnumeration",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:detectScalping",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:detectLookupBruteForce",
+      "target": "function:lib/supabase.js:createServerClient",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:checkApiRateLimit",
+      "target": "function:lib/security/rules.js:insertAnomalyOnce",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:detectCodeEnumeration",
+      "target": "function:lib/security/rules.js:countRecentDenies",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:detectCodeEnumeration",
+      "target": "function:lib/security/rules.js:insertAnomalyOnce",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:detectScalping",
+      "target": "function:lib/security/rules.js:insertAnomalyOnce",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/rules.js:detectLookupBruteForce",
+      "target": "function:lib/security/rules.js:insertAnomalyOnce",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "file:test/security/loginProtection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "file:test/security/rules.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

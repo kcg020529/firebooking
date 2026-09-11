@@ -1,0 +1,36 @@
+{
+    "projectRoot":  "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+    "batchFiles":  [
+                       {
+                           "path":  "app/layout.js",
+                           "language":  "javascript",
+                           "sizeLines":  34,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "components/SiteHeader.js",
+                           "language":  "javascript",
+                           "sizeLines":  131,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "components/chat/ChatWidget.js",
+                           "language":  "javascript",
+                           "sizeLines":  193,
+                           "fileCategory":  "code"
+                       }
+                   ],
+    "batchImportData":  {
+                            "app/layout.js":  [
+                                                  "app/globals.css",
+                                                  "components/SiteHeader.js",
+                                                  "components/chat/ChatWidget.js"
+                                              ],
+                            "components/SiteHeader.js":  [
+
+                                                         ],
+                            "components/chat/ChatWidget.js":  [
+
+                                                              ]
+                        }
+}

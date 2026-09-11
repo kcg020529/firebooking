@@ -1,0 +1,308 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 3
+    }
+  },
+  "results": [
+    {
+      "path": "supabase/policies.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 273,
+      "nonEmptyLines": 231,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "supabase/schema.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 459,
+      "nonEmptyLines": 409,
+      "definitions": [
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "name",
+            "type",
+            "address",
+            "phone",
+            "image_url",
+            "description",
+            "created_at"
+          ],
+          "startLine": 13,
+          "endLine": 23
+        },
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "course_id",
+            "date",
+            "time",
+            "price",
+            "capacity",
+            "booked"
+          ],
+          "startLine": 26,
+          "endLine": 38
+        },
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "slot_id",
+            "user_id",
+            "phone",
+            "party_size",
+            "memo",
+            "source",
+            "created_at"
+          ],
+          "startLine": 43,
+          "endLine": 54
+        },
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "email",
+            "display_name",
+            "role",
+            "created_at"
+          ],
+          "startLine": 61,
+          "endLine": 68
+        },
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "ts",
+            "method",
+            "path",
+            "status",
+            "duration_ms",
+            "actor_id",
+            "ip_hash"
+          ],
+          "startLine": 71,
+          "endLine": 81
+        },
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "ts",
+            "actor_id",
+            "actor_role",
+            "action",
+            "target_id",
+            "result",
+            "ip_hash"
+          ],
+          "startLine": 84,
+          "endLine": 94
+        },
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "ts",
+            "rule_id",
+            "ANO_CODE_ENUM",
+            "severity",
+            "actor_id",
+            "ip_hash",
+            "evidence"
+          ],
+          "startLine": 97,
+          "endLine": 107
+        },
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "ts",
+            "session_id",
+            "role",
+            "content_masked"
+          ],
+          "startLine": 110,
+          "endLine": 117
+        },
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "failed_attempts",
+            "pending_attempts",
+            "window_started_at",
+            "locked_until",
+            "updated_at"
+          ],
+          "startLine": 122,
+          "endLine": 129
+        },
+        {
+          "name": "idx_courses_type",
+          "kind": "index",
+          "fields": [],
+          "startLine": 136,
+          "endLine": 136
+        },
+        {
+          "name": "idx_slots_course_date",
+          "kind": "index",
+          "fields": [],
+          "startLine": 137,
+          "endLine": 137
+        },
+        {
+          "name": "idx_slots_date",
+          "kind": "index",
+          "fields": [],
+          "startLine": 138,
+          "endLine": 138
+        },
+        {
+          "name": "idx_bookings_code",
+          "kind": "index",
+          "fields": [],
+          "startLine": 139,
+          "endLine": 139
+        },
+        {
+          "name": "idx_bookings_phone",
+          "kind": "index",
+          "fields": [],
+          "startLine": 140,
+          "endLine": 140
+        },
+        {
+          "name": "idx_bookings_user",
+          "kind": "index",
+          "fields": [],
+          "startLine": 141,
+          "endLine": 141
+        },
+        {
+          "name": "idx_bookings_slot",
+          "kind": "index",
+          "fields": [],
+          "startLine": 142,
+          "endLine": 142
+        },
+        {
+          "name": "idx_api_logs_ts",
+          "kind": "index",
+          "fields": [],
+          "startLine": 144,
+          "endLine": 144
+        },
+        {
+          "name": "idx_api_logs_ip",
+          "kind": "index",
+          "fields": [],
+          "startLine": 145,
+          "endLine": 145
+        },
+        {
+          "name": "idx_audit_logs_ts",
+          "kind": "index",
+          "fields": [],
+          "startLine": 146,
+          "endLine": 146
+        },
+        {
+          "name": "idx_audit_logs_actor",
+          "kind": "index",
+          "fields": [],
+          "startLine": 147,
+          "endLine": 147
+        },
+        {
+          "name": "idx_sec_events_ts",
+          "kind": "index",
+          "fields": [],
+          "startLine": 148,
+          "endLine": 148
+        },
+        {
+          "name": "idx_sec_events_severity",
+          "kind": "index",
+          "fields": [],
+          "startLine": 149,
+          "endLine": 149
+        },
+        {
+          "name": "idx_sec_events_rule",
+          "kind": "index",
+          "fields": [],
+          "startLine": 150,
+          "endLine": 150
+        },
+        {
+          "name": "idx_chat_logs_session",
+          "kind": "index",
+          "fields": [],
+          "startLine": 151,
+          "endLine": 151
+        },
+        {
+          "name": "idx_login_limits_updated",
+          "kind": "index",
+          "fields": [],
+          "startLine": 152,
+          "endLine": 152
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 25
+      }
+    },
+    {
+      "path": "supabase/seed.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 133,
+      "nonEmptyLines": 117,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    }
+  ]
+}

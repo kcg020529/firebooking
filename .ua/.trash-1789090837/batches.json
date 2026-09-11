@@ -1,0 +1,1670 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "louvain",
+  "totalFiles": 118,
+  "totalBatches": 15,
+  "exportsByPath": {
+    ".github/CODEOWNERS": [],
+    "app/admin/DashboardControls.js": [
+      "DashboardControls"
+    ],
+    "app/admin/[...slug]/page.js": [
+      "AdminCatchAllPage"
+    ],
+    "app/admin/audit/page.js": [
+      "AuditLogPage"
+    ],
+    "app/admin/layout.js": [
+      "dynamic",
+      "AdminLayout"
+    ],
+    "app/admin/page.js": [
+      "AdminIndexPage"
+    ],
+    "app/admin/security/page.js": [
+      "SecurityDashboardPage"
+    ],
+    "app/admin/useAdminResource.js": [
+      "AUTO_REFRESH_MS",
+      "useAdminResource"
+    ],
+    "app/api/admin/[...path]/route.js": [
+      "GET",
+      "HEAD",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS"
+    ],
+    "app/api/admin/audit/route.js": [
+      "GET"
+    ],
+    "app/api/admin/events/route.js": [
+      "GET"
+    ],
+    "app/api/auth/login/route.js": [
+      "POST"
+    ],
+    "app/api/bookings/lookup/route.js": [
+      "GET"
+    ],
+    "app/api/bookings/route.js": [
+      "POST"
+    ],
+    "app/api/chat/route.js": [
+      "POST"
+    ],
+    "app/api/courses/[id]/route.js": [
+      "GET"
+    ],
+    "app/api/courses/route.js": [
+      "GET"
+    ],
+    "app/api/health/route.js": [
+      "GET"
+    ],
+    "app/api/slots/[slotId]/route.js": [
+      "GET"
+    ],
+    "app/book/[slotId]/page.js": [
+      "BookPage"
+    ],
+    "app/booking/[code]/page.js": [
+      "BookingCompletePage"
+    ],
+    "app/courses/[id]/page.js": [
+      "CourseDetailPage"
+    ],
+    "app/layout.js": [
+      "metadata",
+      "RootLayout"
+    ],
+    "app/login/page.js": [
+      "LoginPage"
+    ],
+    "app/lookup/page.js": [
+      "LookupPage"
+    ],
+    "app/my/loading.js": [
+      "MyLoading"
+    ],
+    "app/my/page.js": [
+      "dynamic",
+      "MyPage"
+    ],
+    "app/page.js": [
+      "Home"
+    ],
+    "app/signup/page.js": [
+      "SignupPage"
+    ],
+    "components/LogoutButton.js": [
+      "LogoutButton"
+    ],
+    "components/SiteHeader.js": [
+      "SiteHeader"
+    ],
+    "components/chat/ChatWidget.js": [
+      "ChatWidget"
+    ],
+    "eslint.config.mjs": [],
+    "lib/adminFormat.js": [
+      "formatTimestamp",
+      "formatFullTimestamp",
+      "shortHash",
+      "startOfDayIso",
+      "endOfDayIso",
+      "buildQuery"
+    ],
+    "lib/ai/chatService.js": [
+      "createChatService"
+    ],
+    "lib/ai/dateContext.js": [
+      "KST_TIMEZONE",
+      "addDaysToYmd",
+      "getDateContext"
+    ],
+    "lib/ai/deepseek.js": [
+      "createDeepSeekGenerator"
+    ],
+    "lib/ai/prompt.js": [
+      "CHAT_SYSTEM_PROMPT",
+      "PROTECTED_PROMPT_MARKERS",
+      "buildChatSystemPrompt"
+    ],
+    "lib/ai/toolDependencies.js": [
+      "createChatToolDependencies"
+    ],
+    "lib/ai/tools.js": [
+      "CHAT_TOOLS",
+      "validateToolCall",
+      "executeToolCall"
+    ],
+    "lib/auth.js": [
+      "ROLES",
+      "getAuthUser",
+      "getUserProfile",
+      "getCurrentUser",
+      "createRequestAuth",
+      "isStaff",
+      "isAdmin"
+    ],
+    "lib/bookingLimits.js": [
+      "MIN_PARTY_SIZE",
+      "MAX_PARTY_SIZE",
+      "NAME_MAX_LENGTH",
+      "MEMO_MAX_LENGTH"
+    ],
+    "lib/bookings.js": [
+      "createBooking",
+      "lookupBookings",
+      "listMyBookings"
+    ],
+    "lib/courseType.js": [
+      "TYPE_LABEL"
+    ],
+    "lib/courses.js": [
+      "listCourses",
+      "getCourse",
+      "getSlot"
+    ],
+    "lib/dateLabel.js": [
+      "WEEKDAY_LABEL",
+      "formatDateLabel",
+      "formatTimeLabel"
+    ],
+    "lib/mock/courses.js": [
+      "COURSES"
+    ],
+    "lib/security/apiLog.js": [
+      "withApiLog"
+    ],
+    "lib/security/apiResponseGuard.js": [
+      "inspectApiResponsePii"
+    ],
+    "lib/security/audit.js": [
+      "AUDIT_ACTIONS",
+      "recordAudit"
+    ],
+    "lib/security/authPaths.js": [
+      "isProtectedPagePath"
+    ],
+    "lib/security/authz.js": [
+      "recordUnauthorizedAdminAccess",
+      "recordAdminAccess",
+      "recordUnknownAdminPath"
+    ],
+    "lib/security/chatGuard.js": [
+      "MAX_MESSAGE_LENGTH",
+      "MAX_TURNS",
+      "validateChatMessages",
+      "inspectChatMessages"
+    ],
+    "lib/security/chatLog.js": [
+      "recordChatLog",
+      "recordSecurityEvents"
+    ],
+    "lib/security/hash.js": [
+      "hashIp",
+      "hashSecurityValue",
+      "getClientIp"
+    ],
+    "lib/security/injection.js": [
+      "INJECTION_BLOCK_REPLY",
+      "INJECTION_RULES",
+      "detectPromptInjection"
+    ],
+    "lib/security/leak.js": [
+      "SECRET_PATTERNS",
+      "scanForSecrets"
+    ],
+    "lib/security/loginProtection.js": [
+      "LOGIN_MAX_ATTEMPTS",
+      "LOGIN_WINDOW_SECONDS",
+      "LOGIN_LOCK_SECONDS",
+      "createLoginLimitKey",
+      "reserveLoginAttempt",
+      "finishLoginAttempt",
+      "isCredentialFailure",
+      "recordLoginLock"
+    ],
+    "lib/security/outputGuard.js": [
+      "SAFE_OUTPUT_REPLY",
+      "inspectAssistantOutput"
+    ],
+    "lib/security/pii.js": [
+      "PII_RULES",
+      "detectAndMaskPii",
+      "hasPii",
+      "createMaskedEvidence",
+      "createMaskedPathEvidence"
+    ],
+    "lib/security/report.js": [
+      "listSecurityEvents",
+      "summarizeSecurityEvents",
+      "listAuditLogs"
+    ],
+    "lib/security/requireStaff.js": [
+      "requireStaff"
+    ],
+    "lib/security/rules.js": [
+      "ANOMALY_RULES",
+      "checkApiRateLimit",
+      "detectCodeEnumeration",
+      "detectScalping",
+      "detectLookupBruteForce"
+    ],
+    "lib/security/securityConfig.js": [
+      "ANOMALY_RULES"
+    ],
+    "lib/security/sessionTimeout.js": [
+      "SESSION_TIMEOUT_COOKIE",
+      "SESSION_IDLE_TIMEOUT_SECONDS",
+      "createSessionTimeoutToken",
+      "isSessionTimeoutTokenValid",
+      "getSessionTimeoutCookieOptions"
+    ],
+    "lib/slotHandler.js": [
+      "createGetSlotHandler",
+      "handleGetSlot"
+    ],
+    "lib/slotId.js": [
+      "isValidSlotId"
+    ],
+    "lib/supabase.js": [
+      "createServerClient",
+      "createBrowserClient"
+    ],
+    "lib/supabaseAuth.js": [
+      "createAuthBrowserClient",
+      "createAuthServerClient"
+    ],
+    "lib/useSlot.js": [
+      "useSlot"
+    ],
+    "next.config.mjs": [],
+    "postcss.config.mjs": [],
+    "proxy.js": [
+      "proxy",
+      "config"
+    ],
+    "scripts/fix-seed-encoding.py": [
+      "read_env",
+      "parse_courses",
+      "patch_course",
+      "main"
+    ],
+    "test/ai/chatService.test.js": [],
+    "test/ai/dateContext.test.js": [],
+    "test/ai/deepseek.test.js": [],
+    "test/ai/toolDependencies.test.js": [],
+    "test/ai/tools.test.js": [],
+    "test/authPaths.test.js": [],
+    "test/bookingIntegration.test.js": [],
+    "test/security/adminPathDetection.test.js": [],
+    "test/security/apiLog.test.js": [],
+    "test/security/apiResponseGuardImageUrl.test.js": [],
+    "test/security/chatLog.test.js": [],
+    "test/security/hash.test.js": [],
+    "test/security/injection.test.js": [],
+    "test/security/loginProtection.test.js": [],
+    "test/security/outputGuard.test.js": [],
+    "test/security/pii.test.js": [],
+    "test/security/rules.test.js": [],
+    "test/security/sessionTimeout.test.js": [],
+    "tmp/pdfs/build_qkv_note.py": [
+      "style",
+      "p",
+      "box",
+      "footer"
+    ]
+  },
+  "batches": [
+    {
+      "batchIndex": 1,
+      "files": [
+        {
+          "path": "app/api/chat/route.js",
+          "language": "javascript",
+          "sizeLines": 151,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/ai/deepseek.js",
+          "language": "javascript",
+          "sizeLines": 168,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/ai/tools.js",
+          "language": "javascript",
+          "sizeLines": 256,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/apiLog.js",
+          "language": "javascript",
+          "sizeLines": 143,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/audit.js",
+          "language": "javascript",
+          "sizeLines": 91,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/chatLog.js",
+          "language": "javascript",
+          "sizeLines": 77,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/ai/deepseek.test.js",
+          "language": "javascript",
+          "sizeLines": 262,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/ai/tools.test.js",
+          "language": "javascript",
+          "sizeLines": 146,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/chatLog.test.js",
+          "language": "javascript",
+          "sizeLines": 69,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "app/api/chat/route.js": [
+          "lib/ai/chatService.js",
+          "lib/ai/deepseek.js",
+          "lib/ai/toolDependencies.js",
+          "lib/security/apiLog.js",
+          "lib/security/audit.js",
+          "lib/security/chatLog.js",
+          "lib/security/hash.js",
+          "lib/security/rules.js"
+        ],
+        "lib/ai/deepseek.js": [
+          "lib/ai/prompt.js",
+          "lib/ai/tools.js"
+        ],
+        "lib/ai/tools.js": [],
+        "lib/security/apiLog.js": [],
+        "lib/security/audit.js": [],
+        "lib/security/chatLog.js": [
+          "lib/security/pii.js"
+        ],
+        "test/ai/deepseek.test.js": [
+          "lib/ai/deepseek.js"
+        ],
+        "test/ai/tools.test.js": [
+          "lib/ai/tools.js"
+        ],
+        "test/security/chatLog.test.js": [
+          "lib/security/chatLog.js"
+        ]
+      },
+      "neighborMap": {
+        "app/api/chat/route.js": [
+          {
+            "path": "lib/ai/chatService.js",
+            "batchIndex": 6,
+            "symbols": [
+              "createChatService"
+            ]
+          },
+          {
+            "path": "lib/ai/toolDependencies.js",
+            "batchIndex": 2,
+            "symbols": [
+              "createChatToolDependencies"
+            ]
+          },
+          {
+            "path": "lib/security/hash.js",
+            "batchIndex": 3,
+            "symbols": [
+              "hashIp",
+              "hashSecurityValue",
+              "getClientIp"
+            ]
+          },
+          {
+            "path": "lib/security/rules.js",
+            "batchIndex": 5,
+            "symbols": [
+              "ANOMALY_RULES",
+              "checkApiRateLimit",
+              "detectCodeEnumeration",
+              "detectScalping",
+              "detectLookupBruteForce"
+            ]
+          }
+        ],
+        "lib/ai/deepseek.js": [
+          {
+            "path": "lib/ai/prompt.js",
+            "batchIndex": 4,
+            "symbols": [
+              "CHAT_SYSTEM_PROMPT",
+              "PROTECTED_PROMPT_MARKERS",
+              "buildChatSystemPrompt"
+            ]
+          }
+        ],
+        "lib/security/chatLog.js": [
+          {
+            "path": "lib/security/pii.js",
+            "batchIndex": 7,
+            "symbols": [
+              "PII_RULES",
+              "detectAndMaskPii",
+              "hasPii",
+              "createMaskedEvidence",
+              "createMaskedPathEvidence"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 2,
+      "files": [
+        {
+          "path": "lib/ai/toolDependencies.js",
+          "language": "javascript",
+          "sizeLines": 102,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/bookingLimits.js",
+          "language": "javascript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/bookings.js",
+          "language": "javascript",
+          "sizeLines": 305,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/courses.js",
+          "language": "javascript",
+          "sizeLines": 132,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/slotHandler.js",
+          "language": "javascript",
+          "sizeLines": 52,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/slotId.js",
+          "language": "javascript",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/ai/toolDependencies.test.js",
+          "language": "javascript",
+          "sizeLines": 158,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/bookingIntegration.test.js",
+          "language": "javascript",
+          "sizeLines": 867,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "lib/ai/toolDependencies.js": [
+          "lib/bookings.js",
+          "lib/courses.js"
+        ],
+        "lib/bookingLimits.js": [],
+        "lib/bookings.js": [
+          "lib/bookingLimits.js",
+          "lib/security/pii.js",
+          "lib/supabase.js"
+        ],
+        "lib/courses.js": [
+          "lib/supabase.js"
+        ],
+        "lib/slotHandler.js": [
+          "lib/courses.js",
+          "lib/slotId.js"
+        ],
+        "lib/slotId.js": [],
+        "test/ai/toolDependencies.test.js": [
+          "lib/ai/toolDependencies.js"
+        ],
+        "test/bookingIntegration.test.js": [
+          "lib/bookingLimits.js",
+          "lib/bookings.js",
+          "lib/courses.js",
+          "lib/slotHandler.js",
+          "lib/slotId.js"
+        ]
+      },
+      "neighborMap": {
+        "lib/ai/toolDependencies.js": [
+          {
+            "path": "app/api/chat/route.js",
+            "batchIndex": 1,
+            "symbols": [
+              "POST"
+            ]
+          }
+        ],
+        "lib/bookings.js": [
+          {
+            "path": "lib/security/pii.js",
+            "batchIndex": 7,
+            "symbols": [
+              "PII_RULES",
+              "detectAndMaskPii",
+              "hasPii",
+              "createMaskedEvidence",
+              "createMaskedPathEvidence"
+            ]
+          },
+          {
+            "path": "lib/supabase.js",
+            "batchIndex": 5,
+            "symbols": [
+              "createServerClient",
+              "createBrowserClient"
+            ]
+          }
+        ],
+        "lib/courses.js": [
+          {
+            "path": "lib/supabase.js",
+            "batchIndex": 5,
+            "symbols": [
+              "createServerClient",
+              "createBrowserClient"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 3,
+      "files": [
+        {
+          "path": "app/admin/[...slug]/page.js",
+          "language": "javascript",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/authPaths.js",
+          "language": "javascript",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/authz.js",
+          "language": "javascript",
+          "sizeLines": 115,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/hash.js",
+          "language": "javascript",
+          "sizeLines": 48,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/authPaths.test.js",
+          "language": "javascript",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/adminPathDetection.test.js",
+          "language": "javascript",
+          "sizeLines": 186,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/hash.test.js",
+          "language": "javascript",
+          "sizeLines": 22,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "app/admin/[...slug]/page.js": [],
+        "lib/security/authPaths.js": [],
+        "lib/security/authz.js": [
+          "lib/security/hash.js",
+          "lib/security/pii.js",
+          "lib/supabase.js"
+        ],
+        "lib/security/hash.js": [],
+        "test/authPaths.test.js": [
+          "lib/security/authPaths.js"
+        ],
+        "test/security/adminPathDetection.test.js": [
+          "app/admin/[...slug]/page.js",
+          "lib/security/authPaths.js",
+          "lib/security/authz.js"
+        ],
+        "test/security/hash.test.js": [
+          "lib/security/hash.js"
+        ]
+      },
+      "neighborMap": {
+        "lib/security/authz.js": [
+          {
+            "path": "lib/security/pii.js",
+            "batchIndex": 7,
+            "symbols": [
+              "PII_RULES",
+              "detectAndMaskPii",
+              "hasPii",
+              "createMaskedEvidence",
+              "createMaskedPathEvidence"
+            ]
+          },
+          {
+            "path": "lib/supabase.js",
+            "batchIndex": 5,
+            "symbols": [
+              "createServerClient",
+              "createBrowserClient"
+            ]
+          }
+        ],
+        "lib/security/hash.js": [
+          {
+            "path": "app/api/chat/route.js",
+            "batchIndex": 1,
+            "symbols": [
+              "POST"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 4,
+      "files": [
+        {
+          "path": "lib/ai/dateContext.js",
+          "language": "javascript",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/ai/prompt.js",
+          "language": "javascript",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/leak.js",
+          "language": "javascript",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/outputGuard.js",
+          "language": "javascript",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/ai/dateContext.test.js",
+          "language": "javascript",
+          "sizeLines": 97,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/outputGuard.test.js",
+          "language": "javascript",
+          "sizeLines": 51,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "lib/ai/dateContext.js": [],
+        "lib/ai/prompt.js": [
+          "lib/ai/dateContext.js"
+        ],
+        "lib/security/leak.js": [],
+        "lib/security/outputGuard.js": [
+          "lib/ai/prompt.js",
+          "lib/security/leak.js",
+          "lib/security/pii.js"
+        ],
+        "test/ai/dateContext.test.js": [
+          "lib/ai/dateContext.js",
+          "lib/ai/prompt.js"
+        ],
+        "test/security/outputGuard.test.js": [
+          "lib/security/outputGuard.js"
+        ]
+      },
+      "neighborMap": {
+        "lib/ai/prompt.js": [
+          {
+            "path": "lib/ai/deepseek.js",
+            "batchIndex": 1,
+            "symbols": [
+              "createDeepSeekGenerator"
+            ]
+          }
+        ],
+        "lib/security/outputGuard.js": [
+          {
+            "path": "lib/security/pii.js",
+            "batchIndex": 7,
+            "symbols": [
+              "PII_RULES",
+              "detectAndMaskPii",
+              "hasPii",
+              "createMaskedEvidence",
+              "createMaskedPathEvidence"
+            ]
+          },
+          {
+            "path": "lib/ai/chatService.js",
+            "batchIndex": 6,
+            "symbols": [
+              "createChatService"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 5,
+      "files": [
+        {
+          "path": "lib/security/loginProtection.js",
+          "language": "javascript",
+          "sizeLines": 92,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/rules.js",
+          "language": "javascript",
+          "sizeLines": 215,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/securityConfig.js",
+          "language": "javascript",
+          "sizeLines": 44,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/supabase.js",
+          "language": "javascript",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/loginProtection.test.js",
+          "language": "javascript",
+          "sizeLines": 60,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/rules.test.js",
+          "language": "javascript",
+          "sizeLines": 156,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "lib/security/loginProtection.js": [
+          "lib/security/securityConfig.js",
+          "lib/supabase.js"
+        ],
+        "lib/security/rules.js": [
+          "lib/security/securityConfig.js",
+          "lib/supabase.js"
+        ],
+        "lib/security/securityConfig.js": [],
+        "lib/supabase.js": [],
+        "test/security/loginProtection.test.js": [
+          "lib/security/loginProtection.js"
+        ],
+        "test/security/rules.test.js": [
+          "lib/security/rules.js",
+          "lib/security/securityConfig.js"
+        ]
+      },
+      "neighborMap": {
+        "lib/security/rules.js": [
+          {
+            "path": "app/api/chat/route.js",
+            "batchIndex": 1,
+            "symbols": [
+              "POST"
+            ]
+          }
+        ],
+        "lib/supabase.js": [
+          {
+            "path": "lib/bookings.js",
+            "batchIndex": 2,
+            "symbols": [
+              "createBooking",
+              "lookupBookings",
+              "listMyBookings"
+            ]
+          },
+          {
+            "path": "lib/courses.js",
+            "batchIndex": 2,
+            "symbols": [
+              "listCourses",
+              "getCourse",
+              "getSlot"
+            ]
+          },
+          {
+            "path": "lib/security/authz.js",
+            "batchIndex": 3,
+            "symbols": [
+              "recordUnauthorizedAdminAccess",
+              "recordAdminAccess",
+              "recordUnknownAdminPath"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 6,
+      "files": [
+        {
+          "path": "lib/ai/chatService.js",
+          "language": "javascript",
+          "sizeLines": 169,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/chatGuard.js",
+          "language": "javascript",
+          "sizeLines": 76,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/injection.js",
+          "language": "javascript",
+          "sizeLines": 81,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/ai/chatService.test.js",
+          "language": "javascript",
+          "sizeLines": 92,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/injection.test.js",
+          "language": "javascript",
+          "sizeLines": 100,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "lib/ai/chatService.js": [
+          "lib/security/chatGuard.js",
+          "lib/security/outputGuard.js",
+          "lib/security/pii.js"
+        ],
+        "lib/security/chatGuard.js": [
+          "lib/security/injection.js"
+        ],
+        "lib/security/injection.js": [],
+        "test/ai/chatService.test.js": [
+          "lib/ai/chatService.js"
+        ],
+        "test/security/injection.test.js": [
+          "lib/security/chatGuard.js",
+          "lib/security/injection.js"
+        ]
+      },
+      "neighborMap": {
+        "lib/ai/chatService.js": [
+          {
+            "path": "lib/security/outputGuard.js",
+            "batchIndex": 4,
+            "symbols": [
+              "SAFE_OUTPUT_REPLY",
+              "inspectAssistantOutput"
+            ]
+          },
+          {
+            "path": "lib/security/pii.js",
+            "batchIndex": 7,
+            "symbols": [
+              "PII_RULES",
+              "detectAndMaskPii",
+              "hasPii",
+              "createMaskedEvidence",
+              "createMaskedPathEvidence"
+            ]
+          },
+          {
+            "path": "app/api/chat/route.js",
+            "batchIndex": 1,
+            "symbols": [
+              "POST"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 7,
+      "files": [
+        {
+          "path": "lib/security/apiResponseGuard.js",
+          "language": "javascript",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/pii.js",
+          "language": "javascript",
+          "sizeLines": 207,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/apiLog.test.js",
+          "language": "javascript",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/apiResponseGuardImageUrl.test.js",
+          "language": "javascript",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/pii.test.js",
+          "language": "javascript",
+          "sizeLines": 153,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "lib/security/apiResponseGuard.js": [
+          "lib/security/pii.js"
+        ],
+        "lib/security/pii.js": [],
+        "test/security/apiLog.test.js": [
+          "lib/security/apiResponseGuard.js"
+        ],
+        "test/security/apiResponseGuardImageUrl.test.js": [
+          "lib/security/apiResponseGuard.js"
+        ],
+        "test/security/pii.test.js": [
+          "lib/security/pii.js"
+        ]
+      },
+      "neighborMap": {
+        "lib/security/pii.js": [
+          {
+            "path": "lib/ai/chatService.js",
+            "batchIndex": 6,
+            "symbols": [
+              "createChatService"
+            ]
+          },
+          {
+            "path": "lib/bookings.js",
+            "batchIndex": 2,
+            "symbols": [
+              "createBooking",
+              "lookupBookings",
+              "listMyBookings"
+            ]
+          },
+          {
+            "path": "lib/security/authz.js",
+            "batchIndex": 3,
+            "symbols": [
+              "recordUnauthorizedAdminAccess",
+              "recordAdminAccess",
+              "recordUnknownAdminPath"
+            ]
+          },
+          {
+            "path": "lib/security/chatLog.js",
+            "batchIndex": 1,
+            "symbols": [
+              "recordChatLog",
+              "recordSecurityEvents"
+            ]
+          },
+          {
+            "path": "lib/security/outputGuard.js",
+            "batchIndex": 4,
+            "symbols": [
+              "SAFE_OUTPUT_REPLY",
+              "inspectAssistantOutput"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 8,
+      "files": [
+        {
+          "path": "app/admin/DashboardControls.js",
+          "language": "javascript",
+          "sizeLines": 60,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/admin/audit/page.js",
+          "language": "javascript",
+          "sizeLines": 319,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/admin/security/page.js",
+          "language": "javascript",
+          "sizeLines": 368,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/admin/useAdminResource.js",
+          "language": "javascript",
+          "sizeLines": 132,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "app/admin/DashboardControls.js": [],
+        "app/admin/audit/page.js": [
+          "app/admin/DashboardControls.js",
+          "app/admin/useAdminResource.js"
+        ],
+        "app/admin/security/page.js": [
+          "app/admin/DashboardControls.js",
+          "app/admin/useAdminResource.js"
+        ],
+        "app/admin/useAdminResource.js": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 9,
+      "files": [
+        {
+          "path": "app/layout.js",
+          "language": "javascript",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "components/SiteHeader.js",
+          "language": "javascript",
+          "sizeLines": 131,
+          "fileCategory": "code"
+        },
+        {
+          "path": "components/chat/ChatWidget.js",
+          "language": "javascript",
+          "sizeLines": 193,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "app/layout.js": [
+          "app/globals.css",
+          "components/SiteHeader.js",
+          "components/chat/ChatWidget.js"
+        ],
+        "components/SiteHeader.js": [],
+        "components/chat/ChatWidget.js": []
+      },
+      "neighborMap": {
+        "app/layout.js": [
+          {
+            "path": "app/globals.css",
+            "batchIndex": 14,
+            "symbols": []
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 10,
+      "files": [
+        {
+          "path": "supabase/migrations/20260909000000_auth_login_limits.sql",
+          "language": "sql",
+          "sizeLines": 173,
+          "fileCategory": "data"
+        }
+      ],
+      "batchImportData": {
+        "supabase/migrations/20260909000000_auth_login_limits.sql": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 11,
+      "files": [
+        {
+          "path": ".env.example",
+          "language": "config",
+          "sizeLines": 19,
+          "fileCategory": "config"
+        },
+        {
+          "path": "AGENTS.md",
+          "language": "markdown",
+          "sizeLines": 140,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "CLAUDE.md",
+          "language": "markdown",
+          "sizeLines": 143,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "README.md",
+          "language": "markdown",
+          "sizeLines": 101,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "jsconfig.json",
+          "language": "json",
+          "sizeLines": 7,
+          "fileCategory": "config"
+        },
+        {
+          "path": "package.json",
+          "language": "json",
+          "sizeLines": 26,
+          "fileCategory": "config"
+        },
+        {
+          "path": "vercel.json",
+          "language": "json",
+          "sizeLines": 4,
+          "fileCategory": "config"
+        }
+      ],
+      "batchImportData": {
+        ".env.example": [],
+        "AGENTS.md": [],
+        "CLAUDE.md": [],
+        "README.md": [],
+        "jsconfig.json": [],
+        "package.json": [],
+        "vercel.json": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 12,
+      "files": [
+        {
+          "path": "docs/ARCHITECTURE.md",
+          "language": "markdown",
+          "sizeLines": 35,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/CONVENTIONS.md",
+          "language": "markdown",
+          "sizeLines": 295,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/DATA_FLOW.md",
+          "language": "markdown",
+          "sizeLines": 59,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/DECISIONS.md",
+          "language": "markdown",
+          "sizeLines": 77,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/DEEPSEEK_SETUP.md",
+          "language": "markdown",
+          "sizeLines": 66,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/LLM_SECURITY_TESTS.md",
+          "language": "markdown",
+          "sizeLines": 52,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/MENTOR_FEEDBACK_REMEDIATION.md",
+          "language": "markdown",
+          "sizeLines": 183,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/PLAN.md",
+          "language": "markdown",
+          "sizeLines": 152,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/SBOM.cdx.json",
+          "language": "json",
+          "sizeLines": 1922,
+          "fileCategory": "config"
+        },
+        {
+          "path": "docs/SBOM.md",
+          "language": "markdown",
+          "sizeLines": 12,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/SECURITY.md",
+          "language": "markdown",
+          "sizeLines": 197,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/STACK.md",
+          "language": "markdown",
+          "sizeLines": 39,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "docs/ARCHITECTURE.md": [],
+        "docs/CONVENTIONS.md": [],
+        "docs/DATA_FLOW.md": [],
+        "docs/DECISIONS.md": [],
+        "docs/DEEPSEEK_SETUP.md": [],
+        "docs/LLM_SECURITY_TESTS.md": [],
+        "docs/MENTOR_FEEDBACK_REMEDIATION.md": [],
+        "docs/PLAN.md": [],
+        "docs/SBOM.cdx.json": [],
+        "docs/SBOM.md": [],
+        "docs/SECURITY.md": [],
+        "docs/STACK.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 13,
+      "files": [
+        {
+          "path": "supabase/policies.sql",
+          "language": "sql",
+          "sizeLines": 273,
+          "fileCategory": "data"
+        },
+        {
+          "path": "supabase/schema.sql",
+          "language": "sql",
+          "sizeLines": 459,
+          "fileCategory": "data"
+        },
+        {
+          "path": "supabase/seed.sql",
+          "language": "sql",
+          "sizeLines": 133,
+          "fileCategory": "data"
+        }
+      ],
+      "batchImportData": {
+        "supabase/policies.sql": [],
+        "supabase/schema.sql": [],
+        "supabase/seed.sql": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 14,
+      "files": [
+        {
+          "path": ".github/CODEOWNERS",
+          "language": "unknown",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": ".github/pull_request_template.md",
+          "language": "markdown",
+          "sizeLines": 30,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "app/admin/layout.js",
+          "language": "javascript",
+          "sizeLines": 108,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/admin/page.js",
+          "language": "javascript",
+          "sizeLines": 54,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/admin/[...path]/route.js",
+          "language": "javascript",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/admin/audit/route.js",
+          "language": "javascript",
+          "sizeLines": 58,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/admin/events/route.js",
+          "language": "javascript",
+          "sizeLines": 71,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/auth/login/route.js",
+          "language": "javascript",
+          "sizeLines": 146,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/bookings/lookup/route.js",
+          "language": "javascript",
+          "sizeLines": 70,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/bookings/route.js",
+          "language": "javascript",
+          "sizeLines": 76,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/courses/[id]/route.js",
+          "language": "javascript",
+          "sizeLines": 42,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/courses/route.js",
+          "language": "javascript",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/health/route.js",
+          "language": "javascript",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/api/slots/[slotId]/route.js",
+          "language": "javascript",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/book/[slotId]/page.js",
+          "language": "javascript",
+          "sizeLines": 232,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/booking/[code]/page.js",
+          "language": "javascript",
+          "sizeLines": 108,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/courses/[id]/page.js",
+          "language": "javascript",
+          "sizeLines": 235,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/globals.css",
+          "language": "css",
+          "sizeLines": 57,
+          "fileCategory": "markup"
+        },
+        {
+          "path": "app/login/page.js",
+          "language": "javascript",
+          "sizeLines": 113,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/lookup/page.js",
+          "language": "javascript",
+          "sizeLines": 107,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/my/loading.js",
+          "language": "javascript",
+          "sizeLines": 27,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/my/page.js",
+          "language": "javascript",
+          "sizeLines": 82,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/page.js",
+          "language": "javascript",
+          "sizeLines": 133,
+          "fileCategory": "code"
+        },
+        {
+          "path": "app/signup/page.js",
+          "language": "javascript",
+          "sizeLines": 134,
+          "fileCategory": "code"
+        },
+        {
+          "path": "components/LogoutButton.js",
+          "language": "javascript",
+          "sizeLines": 27,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        ".github/CODEOWNERS": [],
+        ".github/pull_request_template.md": [],
+        "app/admin/layout.js": [],
+        "app/admin/page.js": [],
+        "app/api/admin/[...path]/route.js": [],
+        "app/api/admin/audit/route.js": [],
+        "app/api/admin/events/route.js": [],
+        "app/api/auth/login/route.js": [],
+        "app/api/bookings/lookup/route.js": [],
+        "app/api/bookings/route.js": [],
+        "app/api/courses/[id]/route.js": [],
+        "app/api/courses/route.js": [],
+        "app/api/health/route.js": [],
+        "app/api/slots/[slotId]/route.js": [],
+        "app/book/[slotId]/page.js": [],
+        "app/booking/[code]/page.js": [],
+        "app/courses/[id]/page.js": [],
+        "app/globals.css": [],
+        "app/login/page.js": [],
+        "app/lookup/page.js": [],
+        "app/my/loading.js": [],
+        "app/my/page.js": [],
+        "app/page.js": [],
+        "app/signup/page.js": [],
+        "components/LogoutButton.js": []
+      },
+      "neighborMap": {
+        "app/globals.css": [
+          {
+            "path": "app/layout.js",
+            "batchIndex": 9,
+            "symbols": [
+              "metadata",
+              "RootLayout"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 15,
+      "files": [
+        {
+          "path": "eslint.config.mjs",
+          "language": "javascript",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/adminFormat.js",
+          "language": "javascript",
+          "sizeLines": 66,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/auth.js",
+          "language": "javascript",
+          "sizeLines": 159,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/courseType.js",
+          "language": "javascript",
+          "sizeLines": 7,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/dateLabel.js",
+          "language": "javascript",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/mock/courses.js",
+          "language": "javascript",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/report.js",
+          "language": "javascript",
+          "sizeLines": 131,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/requireStaff.js",
+          "language": "javascript",
+          "sizeLines": 44,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/security/sessionTimeout.js",
+          "language": "javascript",
+          "sizeLines": 60,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/supabaseAuth.js",
+          "language": "javascript",
+          "sizeLines": 56,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/useSlot.js",
+          "language": "javascript",
+          "sizeLines": 64,
+          "fileCategory": "code"
+        },
+        {
+          "path": "next.config.mjs",
+          "language": "javascript",
+          "sizeLines": 6,
+          "fileCategory": "code"
+        },
+        {
+          "path": "postcss.config.mjs",
+          "language": "javascript",
+          "sizeLines": 7,
+          "fileCategory": "code"
+        },
+        {
+          "path": "proxy.js",
+          "language": "javascript",
+          "sizeLines": 104,
+          "fileCategory": "code"
+        },
+        {
+          "path": "scripts/fix-seed-encoding.py",
+          "language": "python",
+          "sizeLines": 88,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/security/sessionTimeout.test.js",
+          "language": "javascript",
+          "sizeLines": 47,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tmp/pdfs/build_qkv_note.py",
+          "language": "python",
+          "sizeLines": 164,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "eslint.config.mjs": [],
+        "lib/adminFormat.js": [],
+        "lib/auth.js": [],
+        "lib/courseType.js": [],
+        "lib/dateLabel.js": [],
+        "lib/mock/courses.js": [],
+        "lib/security/report.js": [],
+        "lib/security/requireStaff.js": [],
+        "lib/security/sessionTimeout.js": [],
+        "lib/supabaseAuth.js": [],
+        "lib/useSlot.js": [],
+        "next.config.mjs": [],
+        "postcss.config.mjs": [],
+        "proxy.js": [],
+        "scripts/fix-seed-encoding.py": [],
+        "test/security/sessionTimeout.test.js": [
+          "lib/security/sessionTimeout.js"
+        ],
+        "tmp/pdfs/build_qkv_note.py": []
+      },
+      "neighborMap": {}
+    }
+  ]
+}

@@ -38,6 +38,7 @@ alter table public.audit_logs      enable row level security;
 alter table public.security_events enable row level security;
 alter table public.chat_logs       enable row level security;
 alter table public.login_attempt_limits enable row level security;
+alter table public.course_reviews enable row level security;
 
 
 -- ────────────────────────────────────────────────────────────
@@ -70,6 +71,7 @@ alter default privileges in schema public
 -- 공개 목록 — 비로그인도 읽는다
 grant select on public.courses to anon, authenticated;
 grant select on public.slots   to anon, authenticated;
+grant select on public.course_reviews to anon, authenticated;
 
 -- 로그인 사용자에게만 테이블을 열고, 실제로 보이는 행은 RLS 가 고른다.
 -- anon 에게는 GRANT 를 주지 않아 401 로 끊는다.
@@ -106,6 +108,15 @@ create policy slots_public_read
   for select
   to anon, authenticated
   using (true);
+
+drop policy if exists course_reviews_public_read on public.course_reviews;
+create policy course_reviews_public_read
+  on public.course_reviews
+  for select
+  to anon, authenticated
+  using (true);
+
+revoke insert, update, delete on public.course_reviews from anon, authenticated;
 
 
 -- ────────────────────────────────────────────────────────────

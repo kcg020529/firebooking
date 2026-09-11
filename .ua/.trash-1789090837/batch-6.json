@@ -1,0 +1,344 @@
+{
+  "nodes": [
+    {
+      "id": "file:lib/ai/chatService.js",
+      "type": "file",
+      "name": "chatService.js",
+      "filePath": "lib/ai/chatService.js",
+      "summary": "대화 입력 검사, PII 마스킹 로그, LLM 응답 생성과 출력 검사를 조합해 안전한 챗봇 서비스를 생성합니다.",
+      "tags": [
+        "ai",
+        "챗봇",
+        "보안",
+        "pii-마스킹"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/chatGuard.js",
+      "type": "file",
+      "name": "chatGuard.js",
+      "filePath": "lib/security/chatGuard.js",
+      "summary": "대화 턴 수·메시지 형식을 검증하고 프롬프트 인젝션 검사를 적용합니다.",
+      "tags": [
+        "보안",
+        "챗봇",
+        "입력-검증",
+        "프롬프트-인젝션"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/injection.js",
+      "type": "file",
+      "name": "injection.js",
+      "filePath": "lib/security/injection.js",
+      "summary": "프롬프트 인젝션 규칙을 정규식으로 검사하고 가장 높은 심각도의 탐지 결과를 반환합니다.",
+      "tags": [
+        "보안",
+        "프롬프트-인젝션",
+        "규칙-탐지"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/ai/chatService.test.js",
+      "type": "file",
+      "name": "chatService.test.js",
+      "filePath": "test/ai/chatService.test.js",
+      "summary": "안전한 챗봇 서비스의 로깅·차단·응답 정리 흐름을 검증합니다.",
+      "tags": [
+        "테스트",
+        "ai",
+        "챗봇"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/injection.test.js",
+      "type": "file",
+      "name": "injection.test.js",
+      "filePath": "test/security/injection.test.js",
+      "summary": "프롬프트 인젝션 규칙과 채팅 입력 가드의 차단 동작을 검증합니다.",
+      "tags": [
+        "테스트",
+        "보안",
+        "프롬프트-인젝션"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/ai/chatService.js:sanitizeQuickReplies",
+      "type": "function",
+      "name": "sanitizeQuickReplies",
+      "filePath": "lib/ai/chatService.js",
+      "lineRange": [
+        24,
+        40
+      ],
+      "summary": "길이와 출력 보안 검사를 통과한 짧은 답장 후보만 사용자에게 노출합니다.",
+      "tags": [
+        "ai",
+        "출력-검증",
+        "챗봇"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/ai/chatService.js:createChatService",
+      "type": "function",
+      "name": "createChatService",
+      "filePath": "lib/ai/chatService.js",
+      "lineRange": [
+        42,
+        169
+      ],
+      "summary": "의존성을 주입받아 입력 검사, 로그 마스킹, LLM 생성, 출력 차단을 수행하는 챗봇 처리 함수를 만듭니다.",
+      "tags": [
+        "ai",
+        "챗봇",
+        "보안",
+        "의존성-주입"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:lib/security/chatGuard.js:validateChatMessages",
+      "type": "function",
+      "name": "validateChatMessages",
+      "filePath": "lib/security/chatGuard.js",
+      "lineRange": [
+        11,
+        53
+      ],
+      "summary": "역할·내용·길이·턴 수를 검사해 유효한 채팅 메시지 배열만 허용합니다.",
+      "tags": [
+        "보안",
+        "입력-검증",
+        "챗봇"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/chatGuard.js:inspectChatMessages",
+      "type": "function",
+      "name": "inspectChatMessages",
+      "filePath": "lib/security/chatGuard.js",
+      "lineRange": [
+        55,
+        76
+      ],
+      "summary": "검증된 대화의 텍스트를 대상으로 프롬프트 인젝션 결과를 반환합니다.",
+      "tags": [
+        "보안",
+        "프롬프트-인젝션",
+        "챗봇"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/injection.js:detectPromptInjection",
+      "type": "function",
+      "name": "detectPromptInjection",
+      "filePath": "lib/security/injection.js",
+      "lineRange": [
+        60,
+        81
+      ],
+      "summary": "입력 문자열에 대한 모든 인젝션 규칙 일치와 최고 심각도를 계산합니다.",
+      "tags": [
+        "보안",
+        "프롬프트-인젝션",
+        "규칙-탐지"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:test/ai/chatService.test.js:createHarness",
+      "type": "function",
+      "name": "createHarness",
+      "filePath": "test/ai/chatService.test.js",
+      "lineRange": [
+        8,
+        20
+      ],
+      "summary": "생성·보안 이벤트·채팅 로그 호출을 관찰할 수 있는 챗봇 테스트 하니스를 구성합니다.",
+      "tags": [
+        "테스트",
+        "ai",
+        "테스트-더블"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "function:lib/ai/chatService.js:sanitizeQuickReplies",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "function:lib/ai/chatService.js:createChatService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "function:lib/ai/chatService.js:createChatService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "function:lib/security/chatGuard.js:validateChatMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "function:lib/security/chatGuard.js:validateChatMessages",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "function:lib/security/chatGuard.js:inspectChatMessages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "function:lib/security/chatGuard.js:inspectChatMessages",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/injection.js",
+      "target": "function:lib/security/injection.js:detectPromptInjection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/injection.js",
+      "target": "function:lib/security/injection.js:detectPromptInjection",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:test/ai/chatService.test.js",
+      "target": "function:test/ai/chatService.test.js:createHarness",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/chatGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/outputGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "file:lib/security/injection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/ai/chatService.test.js",
+      "target": "file:lib/ai/chatService.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/injection.test.js",
+      "target": "file:lib/security/chatGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/injection.test.js",
+      "target": "file:lib/security/injection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:lib/security/chatGuard.js:inspectChatMessages",
+      "target": "function:lib/security/injection.js:detectPromptInjection",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/ai/chatService.js:createChatService",
+      "target": "function:lib/security/chatGuard.js:inspectChatMessages",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/ai/chatService.js:createChatService",
+      "target": "function:lib/security/outputGuard.js:inspectAssistantOutput",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/ai/chatService.js:createChatService",
+      "target": "function:lib/security/pii.js:detectAndMaskPii",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:test/ai/chatService.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "file:test/security/injection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/injection.js",
+      "target": "file:test/security/injection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "issues": [],
+  "warnings": [
+    "Node 'table:supabase/migrations/20260909000000_auth_login_limits.sql:login_attempt_limits' has no edges (orphan)",
+    "Node 'config:.env.example' has no edges (orphan)",
+    "Node 'document:AGENTS.md' has no edges (orphan)",
+    "Node 'document:CLAUDE.md' has no edges (orphan)",
+    "Node 'document:README.md' has no edges (orphan)",
+    "Node 'config:jsconfig.json' has no edges (orphan)",
+    "Node 'config:package.json' has no edges (orphan)",
+    "Node 'config:vercel.json' has no edges (orphan)",
+    "Node 'document:docs/ARCHITECTURE.md' has no edges (orphan)",
+    "Node 'document:docs/CONVENTIONS.md' has no edges (orphan)",
+    "Node 'document:docs/DATA_FLOW.md' has no edges (orphan)",
+    "Node 'document:docs/DECISIONS.md' has no edges (orphan)",
+    "Node 'document:docs/DEEPSEEK_SETUP.md' has no edges (orphan)",
+    "Node 'document:docs/LLM_SECURITY_TESTS.md' has no edges (orphan)",
+    "Node 'document:docs/MENTOR_FEEDBACK_REMEDIATION.md' has no edges (orphan)",
+    "Node 'document:docs/PLAN.md' has no edges (orphan)",
+    "Node 'config:docs/SBOM.cdx.json' has no edges (orphan)",
+    "Node 'document:docs/SBOM.md' has no edges (orphan)",
+    "Node 'document:docs/SECURITY.md' has no edges (orphan)",
+    "Node 'document:docs/STACK.md' has no edges (orphan)",
+    "Node 'file:.github/CODEOWNERS' has no edges (orphan)",
+    "Node 'document:.github/pull_request_template.md' has no edges (orphan)",
+    "Node 'file:app/api/admin/audit/route.js' has no edges (orphan)",
+    "Node 'file:app/api/admin/events/route.js' has no edges (orphan)",
+    "Node 'file:app/api/auth/login/route.js' has no edges (orphan)",
+    "Node 'file:app/api/bookings/lookup/route.js' has no edges (orphan)",
+    "Node 'file:app/api/bookings/route.js' has no edges (orphan)",
+    "Node 'file:app/api/courses/[id]/route.js' has no edges (orphan)",
+    "Node 'file:app/api/courses/route.js' has no edges (orphan)",
+    "Node 'file:app/api/health/route.js' has no edges (orphan)",
+    "Node 'file:app/api/slots/[slotId]/route.js' has no edges (orphan)",
+    "Node 'file:eslint.config.mjs' has no edges (orphan)",
+    "Node 'file:lib/courseType.js' has no edges (orphan)",
+    "Node 'file:lib/mock/courses.js' has no edges (orphan)",
+    "Node 'file:next.config.mjs' has no edges (orphan)",
+    "Node 'file:postcss.config.mjs' has no edges (orphan)"
+  ],
+  "stats": {
+    "totalNodes": 275,
+    "totalEdges": 399,
+    "totalLayers": 8,
+    "tourSteps": 10,
+    "nodeTypes": {
+      "file": 94,
+      "function": 148,
+      "table": 13,
+      "config": 5,
+      "document": 15
+    },
+    "edgeTypes": {
+      "imports": 69,
+      "contains": 148,
+      "exports": 101,
+      "calls": 47,
+      "tested_by": 21,
+      "migrates": 9,
+      "related": 4
+    }
+  }
+}

@@ -1,0 +1,407 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "app/layout.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "RootLayout",
+          "startLine": 21,
+          "endLine": 34,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "metadata",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "RootLayout",
+          "line": 21,
+          "isDefault": true
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "components/SiteHeader.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 131,
+      "nonEmptyLines": 115,
+      "functions": [
+        {
+          "name": "SiteHeader",
+          "startLine": 13,
+          "endLine": 131,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SiteHeader",
+          "line": 13,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SiteHeader",
+          "callee": "useState",
+          "lineNumber": 14
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "useEffect",
+          "lineNumber": 16
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "createAuthBrowserClient",
+          "lineNumber": 17
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "setViewer",
+          "lineNumber": 26
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "metadataName.trim",
+          "lineNumber": 32
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "metadataName.trim",
+          "lineNumber": 33
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "setViewer",
+          "lineNumber": 41
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "supabase\r\n        .from(\"profiles\")\r\n        .select(\"display_name, role\")\r\n        .eq(\"id\", authUser.id)\r\n        .maybeSingle",
+          "lineNumber": 43
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "supabase\r\n        .from(\"profiles\")\r\n        .select(\"display_name, role\")\r\n        .eq",
+          "lineNumber": 43
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "supabase\r\n        .from(\"profiles\")\r\n        .select",
+          "lineNumber": 43
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "supabase\r\n        .from",
+          "lineNumber": 43
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "setViewer",
+          "lineNumber": 51
+        },
+        {
+          "caller": "syncViewer",
+          "callee": "profile?.display_name?.trim",
+          "lineNumber": 52
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "supabase.auth.getSession().then",
+          "lineNumber": 57
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "supabase.auth.getSession",
+          "lineNumber": 57
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "syncViewer",
+          "lineNumber": 58
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "supabase.auth.onAuthStateChange",
+          "lineNumber": 63
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "syncViewer",
+          "lineNumber": 64
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "subscription.unsubscribe",
+          "lineNumber": 69
+        },
+        {
+          "caller": "SiteHeader",
+          "callee": "[\"staff\", \"admin\"].includes",
+          "lineNumber": 99
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "components/chat/ChatWidget.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 193,
+      "nonEmptyLines": 175,
+      "functions": [
+        {
+          "name": "createSessionId",
+          "startLine": 17,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "ChatWidget",
+          "startLine": 29,
+          "endLine": 193,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChatWidget",
+          "line": 29,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createSessionId",
+          "callee": "sessionStorage.getItem",
+          "lineNumber": 18
+        },
+        {
+          "caller": "createSessionId",
+          "callee": "crypto.randomUUID",
+          "lineNumber": 24
+        },
+        {
+          "caller": "createSessionId",
+          "callee": "sessionStorage.setItem",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "useState",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "useRef",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "useState",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "useState",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "useState",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "useState",
+          "lineNumber": 35
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "content.trim",
+          "lineNumber": 38
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "createSessionId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "[...messages, userMessage].slice",
+          "lineNumber": 48
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "displayedMessages.filter",
+          "lineNumber": 49
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setMessages",
+          "lineNumber": 50
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setInput",
+          "lineNumber": 51
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setIsSending",
+          "lineNumber": 52
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setQuickReplies",
+          "lineNumber": 53
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "fetch",
+          "lineNumber": 56
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "JSON.stringify",
+          "lineNumber": 59
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "response.json",
+          "lineNumber": 61
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setMessages",
+          "lineNumber": 68
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "[...current, assistantMessage].slice",
+          "lineNumber": 68
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setQuickReplies",
+          "lineNumber": 69
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "Array.isArray",
+          "lineNumber": 70
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "data.quickReplies.slice",
+          "lineNumber": 71
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setMessages",
+          "lineNumber": 75
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setQuickReplies",
+          "lineNumber": 82
+        },
+        {
+          "caller": "sendMessage",
+          "callee": "setIsSending",
+          "lineNumber": 84
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "event.preventDefault",
+          "lineNumber": 89
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "sendMessage",
+          "lineNumber": 90
+        },
+        {
+          "caller": "handleToggle",
+          "callee": "createSessionId",
+          "lineNumber": 95
+        },
+        {
+          "caller": "handleToggle",
+          "callee": "setIsOpen",
+          "lineNumber": 98
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "setIsOpen",
+          "lineNumber": 115
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "messages.map",
+          "lineNumber": 127
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "setInput",
+          "lineNumber": 151
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "input.trim",
+          "lineNumber": 158
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "quickReplies.map",
+          "lineNumber": 166
+        },
+        {
+          "caller": "ChatWidget",
+          "callee": "sendMessage",
+          "lineNumber": 171
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

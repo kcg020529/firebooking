@@ -1,0 +1,552 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 7,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 7,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 7,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "app/admin/[...slug]/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 19,
+      "functions": [
+        {
+          "name": "AdminCatchAllPage",
+          "startLine": 18,
+          "endLine": 20,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminCatchAllPage",
+          "line": 18,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AdminCatchAllPage",
+          "callee": "notFound",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/authPaths.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "isProtectedPagePath",
+          "startLine": 5,
+          "endLine": 12,
+          "params": [
+            "path"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "isProtectedPagePath",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isProtectedPagePath",
+          "callee": "path.startsWith",
+          "lineNumber": 8
+        },
+        {
+          "caller": "isProtectedPagePath",
+          "callee": "path.startsWith",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/authz.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 115,
+      "nonEmptyLines": 105,
+      "functions": [
+        {
+          "name": "getIpHashFromHeaders",
+          "startLine": 8,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "getOptions",
+          "startLine": 15,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "scheduleTask",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "runAfter",
+            "task"
+          ]
+        },
+        {
+          "name": "recordUnauthorizedAdminAccess",
+          "startLine": 29,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "recordAdminAccess",
+          "startLine": 68,
+          "endLine": 92,
+          "params": []
+        },
+        {
+          "name": "recordUnknownAdminPath",
+          "startLine": 95,
+          "endLine": 115,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "recordUnauthorizedAdminAccess",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "recordAdminAccess",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "recordUnknownAdminPath",
+          "line": 95,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getIpHashFromHeaders",
+          "callee": "headers",
+          "lineNumber": 9
+        },
+        {
+          "caller": "getIpHashFromHeaders",
+          "callee": "headerList.get",
+          "lineNumber": 10
+        },
+        {
+          "caller": "getIpHashFromHeaders",
+          "callee": "forwarded.split(',')[0].trim",
+          "lineNumber": 11
+        },
+        {
+          "caller": "getIpHashFromHeaders",
+          "callee": "forwarded.split",
+          "lineNumber": 11
+        },
+        {
+          "caller": "getIpHashFromHeaders",
+          "callee": "headerList.get",
+          "lineNumber": 11
+        },
+        {
+          "caller": "getIpHashFromHeaders",
+          "callee": "hashIp",
+          "lineNumber": 12
+        },
+        {
+          "caller": "scheduleTask",
+          "callee": "runAfter",
+          "lineNumber": 24
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "getOptions",
+          "lineNumber": 33
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "getIpHash",
+          "lineNumber": 34
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "createMaskedPathEvidence",
+          "lineNumber": 37
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "String",
+          "lineNumber": 37
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "`${actorRole} 역할이 ${safePath} 접근 시도`.slice",
+          "lineNumber": 38
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "scheduleTask",
+          "lineNumber": 40
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "getSupabase",
+          "lineNumber": 42
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "supabase.from('security_events').insert",
+          "lineNumber": 43
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "supabase.from",
+          "lineNumber": 43
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "supabase.from('audit_logs').insert",
+          "lineNumber": 52
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "supabase.from",
+          "lineNumber": 52
+        },
+        {
+          "caller": "recordUnauthorizedAdminAccess",
+          "callee": "console.error",
+          "lineNumber": 62
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "getOptions",
+          "lineNumber": 72
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "getIpHash",
+          "lineNumber": 73
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "createMaskedPathEvidence",
+          "lineNumber": 74
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "String",
+          "lineNumber": 74
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "scheduleTask",
+          "lineNumber": 76
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "getSupabase",
+          "lineNumber": 78
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "supabase.from('audit_logs').insert",
+          "lineNumber": 79
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "supabase.from",
+          "lineNumber": 79
+        },
+        {
+          "caller": "recordAdminAccess",
+          "callee": "console.error",
+          "lineNumber": 89
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "getOptions",
+          "lineNumber": 96
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "getIpHash",
+          "lineNumber": 97
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "createMaskedPathEvidence",
+          "lineNumber": 98
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "String",
+          "lineNumber": 98
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "scheduleTask",
+          "lineNumber": 100
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "getSupabase",
+          "lineNumber": 102
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "supabase.from('security_events').insert",
+          "lineNumber": 103
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "supabase.from",
+          "lineNumber": 103
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "`존재하지 않는 관리자 경로 접근: ${safePath}`.slice",
+          "lineNumber": 109
+        },
+        {
+          "caller": "recordUnknownAdminPath",
+          "callee": "console.error",
+          "lineNumber": 112
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/hash.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "hashIp",
+          "startLine": 13,
+          "endLine": 23,
+          "params": [
+            "ip"
+          ]
+        },
+        {
+          "name": "hashSecurityValue",
+          "startLine": 26,
+          "endLine": 38,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "getClientIp",
+          "startLine": 44,
+          "endLine": 48,
+          "params": [
+            "request"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "hashIp",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "hashSecurityValue",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "getClientIp",
+          "line": 44,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "hashIp",
+          "callee": "createHash('sha256').update(`${salt}:${ip}`).digest('hex').slice",
+          "lineNumber": 22
+        },
+        {
+          "caller": "hashIp",
+          "callee": "createHash('sha256').update(`${salt}:${ip}`).digest",
+          "lineNumber": 22
+        },
+        {
+          "caller": "hashIp",
+          "callee": "createHash('sha256').update",
+          "lineNumber": 22
+        },
+        {
+          "caller": "hashIp",
+          "callee": "createHash",
+          "lineNumber": 22
+        },
+        {
+          "caller": "hashSecurityValue",
+          "callee": "createHash('sha256')\r\n    .update(`${salt}:security-value:${value}`)\r\n    .digest('hex')\r\n    .slice",
+          "lineNumber": 34
+        },
+        {
+          "caller": "hashSecurityValue",
+          "callee": "createHash('sha256')\r\n    .update(`${salt}:security-value:${value}`)\r\n    .digest",
+          "lineNumber": 34
+        },
+        {
+          "caller": "hashSecurityValue",
+          "callee": "createHash('sha256')\r\n    .update",
+          "lineNumber": 34
+        },
+        {
+          "caller": "hashSecurityValue",
+          "callee": "createHash",
+          "lineNumber": 34
+        },
+        {
+          "caller": "getClientIp",
+          "callee": "request.headers.get",
+          "lineNumber": 45
+        },
+        {
+          "caller": "getClientIp",
+          "callee": "forwarded.split(',')[0].trim",
+          "lineNumber": 46
+        },
+        {
+          "caller": "getClientIp",
+          "callee": "forwarded.split",
+          "lineNumber": 46
+        },
+        {
+          "caller": "getClientIp",
+          "callee": "request.headers.get",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/authPaths.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/adminPathDetection.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 186,
+      "nonEmptyLines": 157,
+      "functions": [
+        {
+          "name": "createFakeSupabase",
+          "startLine": 11,
+          "endLine": 22,
+          "params": [
+            "insertedRows"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insert",
+          "callee": "insertedRows.push",
+          "lineNumber": 16
+        },
+        {
+          "caller": "runAfter",
+          "callee": "fn",
+          "lineNumber": 50
+        },
+        {
+          "caller": "runAfter",
+          "callee": "fn",
+          "lineNumber": 100
+        },
+        {
+          "caller": "runAfter",
+          "callee": "fn",
+          "lineNumber": 123
+        },
+        {
+          "caller": "runAfter",
+          "callee": "fn",
+          "lineNumber": 148
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/hash.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 18,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

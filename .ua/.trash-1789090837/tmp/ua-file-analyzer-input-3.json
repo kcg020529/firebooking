@@ -1,0 +1,74 @@
+{
+    "projectRoot":  "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+    "batchFiles":  [
+                       {
+                           "path":  "app/admin/[...slug]/page.js",
+                           "language":  "javascript",
+                           "sizeLines":  20,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "lib/security/authPaths.js",
+                           "language":  "javascript",
+                           "sizeLines":  12,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "lib/security/authz.js",
+                           "language":  "javascript",
+                           "sizeLines":  115,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "lib/security/hash.js",
+                           "language":  "javascript",
+                           "sizeLines":  48,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "test/authPaths.test.js",
+                           "language":  "javascript",
+                           "sizeLines":  16,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "test/security/adminPathDetection.test.js",
+                           "language":  "javascript",
+                           "sizeLines":  186,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "test/security/hash.test.js",
+                           "language":  "javascript",
+                           "sizeLines":  22,
+                           "fileCategory":  "code"
+                       }
+                   ],
+    "batchImportData":  {
+                            "app/admin/[...slug]/page.js":  [
+
+                                                            ],
+                            "lib/security/authPaths.js":  [
+
+                                                          ],
+                            "lib/security/authz.js":  [
+                                                          "lib/security/hash.js",
+                                                          "lib/security/pii.js",
+                                                          "lib/supabase.js"
+                                                      ],
+                            "lib/security/hash.js":  [
+
+                                                     ],
+                            "test/authPaths.test.js":  [
+                                                           "lib/security/authPaths.js"
+                                                       ],
+                            "test/security/adminPathDetection.test.js":  [
+                                                                             "app/admin/[...slug]/page.js",
+                                                                             "lib/security/authPaths.js",
+                                                                             "lib/security/authz.js"
+                                                                         ],
+                            "test/security/hash.test.js":  [
+                                                               "lib/security/hash.js"
+                                                           ]
+                        }
+}

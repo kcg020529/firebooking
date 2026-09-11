@@ -1,0 +1,70 @@
+{
+    "projectRoot":  "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+    "batchFiles":  [
+                       {
+                           "path":  ".env.example",
+                           "language":  "config",
+                           "sizeLines":  19,
+                           "fileCategory":  "config"
+                       },
+                       {
+                           "path":  "AGENTS.md",
+                           "language":  "markdown",
+                           "sizeLines":  140,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "CLAUDE.md",
+                           "language":  "markdown",
+                           "sizeLines":  143,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "README.md",
+                           "language":  "markdown",
+                           "sizeLines":  101,
+                           "fileCategory":  "docs"
+                       },
+                       {
+                           "path":  "jsconfig.json",
+                           "language":  "json",
+                           "sizeLines":  7,
+                           "fileCategory":  "config"
+                       },
+                       {
+                           "path":  "package.json",
+                           "language":  "json",
+                           "sizeLines":  26,
+                           "fileCategory":  "config"
+                       },
+                       {
+                           "path":  "vercel.json",
+                           "language":  "json",
+                           "sizeLines":  4,
+                           "fileCategory":  "config"
+                       }
+                   ],
+    "batchImportData":  {
+                            ".env.example":  [
+
+                                             ],
+                            "AGENTS.md":  [
+
+                                          ],
+                            "CLAUDE.md":  [
+
+                                          ],
+                            "README.md":  [
+
+                                          ],
+                            "jsconfig.json":  [
+
+                                              ],
+                            "package.json":  [
+
+                                             ],
+                            "vercel.json":  [
+
+                                            ]
+                        }
+}

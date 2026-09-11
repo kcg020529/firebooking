@@ -1,0 +1,161 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/ARCHITECTURE.md",
+      "type": "document",
+      "name": "ARCHITECTURE.md",
+      "filePath": "docs/ARCHITECTURE.md",
+      "summary": "App Router, Supabase, 보안 모듈과 화면 계층의 분리를 설명하는 아키텍처 개요입니다.",
+      "tags": [
+        "문서화",
+        "아키텍처",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/CONVENTIONS.md",
+      "type": "document",
+      "name": "CONVENTIONS.md",
+      "filePath": "docs/CONVENTIONS.md",
+      "summary": "브랜치·커밋·PR·AI 사용, 파일 구조, 코드 스타일과 보안 규칙을 상세히 정의합니다.",
+      "tags": [
+        "문서화",
+        "개발-규약",
+        "보안"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/DATA_FLOW.md",
+      "type": "document",
+      "name": "DATA_FLOW.md",
+      "filePath": "docs/DATA_FLOW.md",
+      "summary": "폼 예약, 챗봇 예약, 관리자 감사와 로그 마스킹의 데이터 이동 경로를 설명합니다.",
+      "tags": [
+        "문서화",
+        "데이터-흐름",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/DECISIONS.md",
+      "type": "document",
+      "name": "DECISIONS.md",
+      "filePath": "docs/DECISIONS.md",
+      "summary": "프로젝트 범위, 우선순위, 협업 방식에 관한 초기 의사결정을 기록합니다.",
+      "tags": [
+        "문서화",
+        "의사결정",
+        "프로젝트-관리"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/DEEPSEEK_SETUP.md",
+      "type": "document",
+      "name": "DEEPSEEK_SETUP.md",
+      "filePath": "docs/DEEPSEEK_SETUP.md",
+      "summary": "DeepSeek API 환경 변수 설정과 자동·실연·공격 내성 검증 절차를 안내합니다.",
+      "tags": [
+        "문서화",
+        "deepseek",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/LLM_SECURITY_TESTS.md",
+      "type": "document",
+      "name": "LLM_SECURITY_TESTS.md",
+      "filePath": "docs/LLM_SECURITY_TESTS.md",
+      "summary": "프롬프트 인젝션과 PII 유출 방어를 확인하는 LLM 보안 테스트 시나리오를 정리합니다.",
+      "tags": [
+        "문서화",
+        "llm-보안",
+        "테스트"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/MENTOR_FEEDBACK_REMEDIATION.md",
+      "type": "document",
+      "name": "MENTOR_FEEDBACK_REMEDIATION.md",
+      "filePath": "docs/MENTOR_FEEDBACK_REMEDIATION.md",
+      "summary": "관리자 경로 탐색 취약점에 대한 멘토 피드백, 수정 내역과 검증 근거를 기록합니다.",
+      "tags": [
+        "문서화",
+        "보안",
+        "개선-이력"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/PLAN.md",
+      "type": "document",
+      "name": "PLAN.md",
+      "filePath": "docs/PLAN.md",
+      "summary": "2주 일정, 기능 우선순위, 담당자별 작업과 발표 준비 체크리스트를 제공합니다.",
+      "tags": [
+        "문서화",
+        "프로젝트-관리",
+        "계획"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:docs/SBOM.cdx.json",
+      "type": "config",
+      "name": "SBOM.cdx.json",
+      "filePath": "docs/SBOM.cdx.json",
+      "summary": "CycloneDX 형식으로 애플리케이션 의존성과 구성 요소를 열거한 소프트웨어 자재 명세입니다.",
+      "tags": [
+        "설정",
+        "sbom",
+        "공급망-보안"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/SBOM.md",
+      "type": "document",
+      "name": "SBOM.md",
+      "filePath": "docs/SBOM.md",
+      "summary": "SBOM 생성 명령과 산출물 위치를 간단히 안내합니다.",
+      "tags": [
+        "문서화",
+        "sbom",
+        "공급망-보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/SECURITY.md",
+      "type": "document",
+      "name": "SECURITY.md",
+      "filePath": "docs/SECURITY.md",
+      "summary": "PII 마스킹, 인젝션 탐지, API 모니터링, 권한 감사의 설계와 시연 기준을 정의합니다.",
+      "tags": [
+        "문서화",
+        "보안",
+        "pii-마스킹"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/STACK.md",
+      "type": "document",
+      "name": "STACK.md",
+      "filePath": "docs/STACK.md",
+      "summary": "프런트엔드, 백엔드, 데이터베이스, AI 보안과 운영 도구의 기술 스택을 설명합니다.",
+      "tags": [
+        "문서화",
+        "기술-스택",
+        "아키텍처"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}

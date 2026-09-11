@@ -1,0 +1,1 @@
+{"projectRoot":"C:\\Users\\shapd\\Documents\\prism\\sp1_project","batchFiles":[{"path":"supabase/migrations/20260909000000_auth_login_limits.sql","language":"sql","sizeLines":173,"fileCategory":"data"}],"batchImportData":{"supabase/migrations/20260909000000_auth_login_limits.sql":[]}}

@@ -1,0 +1,1341 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 9,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 9,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 9,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "app/api/chat/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 151,
+      "nonEmptyLines": 137,
+      "functions": [
+        {
+          "name": "recordBookingAudit",
+          "startLine": 20,
+          "endLine": 45,
+          "params": [
+            "request",
+            "actor"
+          ]
+        },
+        {
+          "name": "recordLookupAudit",
+          "startLine": 47,
+          "endLine": 84,
+          "params": [
+            "request",
+            "actor",
+            "ipHash"
+          ]
+        },
+        {
+          "name": "createRequestChatService",
+          "startLine": 86,
+          "endLine": 97,
+          "params": [
+            "request",
+            "actor",
+            "ipHash"
+          ]
+        },
+        {
+          "name": "recordChatAudit",
+          "startLine": 99,
+          "endLine": 107,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "handlePost",
+          "startLine": 109,
+          "endLine": 149,
+          "params": [
+            "request"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "POST",
+          "line": 151,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "recordBookingAudit",
+          "callee": "recordAudit",
+          "lineNumber": 21
+        },
+        {
+          "caller": "recordBookingAudit",
+          "callee": "detectScalping",
+          "lineNumber": 34
+        },
+        {
+          "caller": "recordBookingAudit",
+          "callee": "hashIp",
+          "lineNumber": 36
+        },
+        {
+          "caller": "recordBookingAudit",
+          "callee": "getClientIp",
+          "lineNumber": 36
+        },
+        {
+          "caller": "recordBookingAudit",
+          "callee": "operation",
+          "lineNumber": 40
+        },
+        {
+          "caller": "recordLookupAudit",
+          "callee": "hashSecurityValue",
+          "lineNumber": 48
+        },
+        {
+          "caller": "recordLookupAudit",
+          "callee": "input.phone.replace",
+          "lineNumber": 49
+        },
+        {
+          "caller": "recordLookupAudit",
+          "callee": "recordAudit",
+          "lineNumber": 51
+        },
+        {
+          "caller": "recordLookupAudit",
+          "callee": "Promise.all",
+          "lineNumber": 65
+        },
+        {
+          "caller": "recordLookupAudit",
+          "callee": "detectCodeEnumeration",
+          "lineNumber": 66
+        },
+        {
+          "caller": "recordLookupAudit",
+          "callee": "operation",
+          "lineNumber": 68
+        },
+        {
+          "caller": "recordLookupAudit",
+          "callee": "detectLookupBruteForce",
+          "lineNumber": 70
+        },
+        {
+          "caller": "recordLookupAudit",
+          "callee": "operation",
+          "lineNumber": 77
+        },
+        {
+          "caller": "createRequestChatService",
+          "callee": "createChatToolDependencies",
+          "lineNumber": 87
+        },
+        {
+          "caller": "createRequestChatService",
+          "callee": "recordBookingAudit",
+          "lineNumber": 88
+        },
+        {
+          "caller": "createRequestChatService",
+          "callee": "recordLookupAudit",
+          "lineNumber": 89
+        },
+        {
+          "caller": "createRequestChatService",
+          "callee": "createChatService",
+          "lineNumber": 92
+        },
+        {
+          "caller": "createRequestChatService",
+          "callee": "createDeepSeekGenerator",
+          "lineNumber": 93
+        },
+        {
+          "caller": "recordChatAudit",
+          "callee": "recordAudit",
+          "lineNumber": 100
+        },
+        {
+          "caller": "handlePost",
+          "callee": "request.json",
+          "lineNumber": 113
+        },
+        {
+          "caller": "handlePost",
+          "callee": "recordChatAudit",
+          "lineNumber": 115
+        },
+        {
+          "caller": "handlePost",
+          "callee": "Response.json",
+          "lineNumber": 116
+        },
+        {
+          "caller": "handlePost",
+          "callee": "getClientIp",
+          "lineNumber": 122
+        },
+        {
+          "caller": "handlePost",
+          "callee": "hashIp",
+          "lineNumber": 123
+        },
+        {
+          "caller": "handlePost",
+          "callee": "getUserId",
+          "lineNumber": 129
+        },
+        {
+          "caller": "handlePost",
+          "callee": "getUser",
+          "lineNumber": 130
+        },
+        {
+          "caller": "handlePost",
+          "callee": "createRequestChatService",
+          "lineNumber": 133
+        },
+        {
+          "caller": "handlePost",
+          "callee": "handleChat",
+          "lineNumber": 134
+        },
+        {
+          "caller": "handlePost",
+          "callee": "recordChatAudit",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handlePost",
+          "callee": "Response.json",
+          "lineNumber": 148
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 1,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/ai/deepseek.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 168,
+      "nonEmptyLines": 142,
+      "functions": [
+        {
+          "name": "getApiKey",
+          "startLine": 16,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "parseToolInput",
+          "startLine": 33,
+          "endLine": 41,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "requestDeepSeek",
+          "startLine": 43,
+          "endLine": 77,
+          "params": [
+            "messages",
+            "fetchImpl"
+          ]
+        },
+        {
+          "name": "createDeepSeekGenerator",
+          "startLine": 79,
+          "endLine": 168,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "createDeepSeekGenerator",
+          "line": 79,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getApiKey",
+          "callee": "process.env.DEEPSEEK_API_KEY?.trim",
+          "lineNumber": 17
+        },
+        {
+          "caller": "getApiKey",
+          "callee": "apiKey.includes",
+          "lineNumber": 24
+        },
+        {
+          "caller": "getApiKey",
+          "callee": "/\\s/.test",
+          "lineNumber": 25
+        },
+        {
+          "caller": "parseToolInput",
+          "callee": "JSON.parse",
+          "lineNumber": 37
+        },
+        {
+          "caller": "requestDeepSeek",
+          "callee": "getApiKey",
+          "lineNumber": 44
+        },
+        {
+          "caller": "requestDeepSeek",
+          "callee": "fetchImpl",
+          "lineNumber": 45
+        },
+        {
+          "caller": "requestDeepSeek",
+          "callee": "JSON.stringify",
+          "lineNumber": 51
+        },
+        {
+          "caller": "requestDeepSeek",
+          "callee": "AbortSignal.timeout",
+          "lineNumber": 61
+        },
+        {
+          "caller": "requestDeepSeek",
+          "callee": "response.json",
+          "lineNumber": 69
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "buildChatSystemPrompt",
+          "lineNumber": 99
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "messages.map",
+          "lineNumber": 100
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "requestDeepSeek",
+          "lineNumber": 105
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "Array.isArray",
+          "lineNumber": 106
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "message.content.trim",
+          "lineNumber": 107
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "assistantToolCalls.push",
+          "lineNumber": 132
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "executeToolCall",
+          "lineNumber": 141
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "parseToolInput",
+          "lineNumber": 142
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "toolResults.push",
+          "lineNumber": 151
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "JSON.stringify",
+          "lineNumber": 154
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "conversation.push",
+          "lineNumber": 158
+        },
+        {
+          "caller": "createDeepSeekGenerator",
+          "callee": "conversation.push",
+          "lineNumber": 163
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/ai/tools.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 256,
+      "nonEmptyLines": 223,
+      "functions": [
+        {
+          "name": "isPlainObject",
+          "startLine": 57,
+          "endLine": 65,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "hasOnlyKeys",
+          "startLine": 67,
+          "endLine": 69,
+          "params": [
+            "input",
+            "allowedKeys"
+          ]
+        },
+        {
+          "name": "isNonEmptyString",
+          "startLine": 71,
+          "endLine": 77,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "isPartySize",
+          "startLine": 79,
+          "endLine": 81,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "validateSearchSlots",
+          "startLine": 83,
+          "endLine": 94,
+          "params": [
+            "input"
+          ]
+        },
+        {
+          "name": "validateCreateBooking",
+          "startLine": 96,
+          "endLine": 110,
+          "params": [
+            "input"
+          ]
+        },
+        {
+          "name": "validateLookupBooking",
+          "startLine": 112,
+          "endLine": 122,
+          "params": [
+            "input"
+          ]
+        },
+        {
+          "name": "validateToolCall",
+          "startLine": 130,
+          "endLine": 140,
+          "params": [
+            "name",
+            "input"
+          ]
+        },
+        {
+          "name": "pick",
+          "startLine": 142,
+          "endLine": 150,
+          "params": [
+            "value",
+            "keys"
+          ]
+        },
+        {
+          "name": "shapeSearchResult",
+          "startLine": 152,
+          "endLine": 177,
+          "params": [
+            "result"
+          ]
+        },
+        {
+          "name": "shapeBookingResult",
+          "startLine": 179,
+          "endLine": 182,
+          "params": [
+            "result"
+          ]
+        },
+        {
+          "name": "shapeLookupResult",
+          "startLine": 184,
+          "endLine": 196,
+          "params": [
+            "result"
+          ]
+        },
+        {
+          "name": "executeToolCall",
+          "startLine": 198,
+          "endLine": 256,
+          "params": [
+            "dependencies"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CHAT_TOOLS",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "validateToolCall",
+          "line": 130,
+          "isDefault": false
+        },
+        {
+          "name": "executeToolCall",
+          "line": 198,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isPlainObject",
+          "callee": "Array.isArray",
+          "lineNumber": 61
+        },
+        {
+          "caller": "isPlainObject",
+          "callee": "Object.getPrototypeOf",
+          "lineNumber": 62
+        },
+        {
+          "caller": "isPlainObject",
+          "callee": "Object.getPrototypeOf",
+          "lineNumber": 63
+        },
+        {
+          "caller": "hasOnlyKeys",
+          "callee": "Object.keys(input).every",
+          "lineNumber": 68
+        },
+        {
+          "caller": "hasOnlyKeys",
+          "callee": "Object.keys",
+          "lineNumber": 68
+        },
+        {
+          "caller": "hasOnlyKeys",
+          "callee": "allowedKeys.includes",
+          "lineNumber": 68
+        },
+        {
+          "caller": "isNonEmptyString",
+          "callee": "value.trim",
+          "lineNumber": 74
+        },
+        {
+          "caller": "isPartySize",
+          "callee": "Number.isInteger",
+          "lineNumber": 80
+        },
+        {
+          "caller": "validateSearchSlots",
+          "callee": "hasOnlyKeys",
+          "lineNumber": 84
+        },
+        {
+          "caller": "validateSearchSlots",
+          "callee": "[\"field\", \"screen\"].includes",
+          "lineNumber": 89
+        },
+        {
+          "caller": "validateSearchSlots",
+          "callee": "isNonEmptyString",
+          "lineNumber": 90
+        },
+        {
+          "caller": "validateSearchSlots",
+          "callee": "DATE_RE.test",
+          "lineNumber": 91
+        },
+        {
+          "caller": "validateSearchSlots",
+          "callee": "isPartySize",
+          "lineNumber": 92
+        },
+        {
+          "caller": "validateCreateBooking",
+          "callee": "hasOnlyKeys",
+          "lineNumber": 97
+        },
+        {
+          "caller": "validateCreateBooking",
+          "callee": "isNonEmptyString",
+          "lineNumber": 102
+        },
+        {
+          "caller": "validateCreateBooking",
+          "callee": "isNonEmptyString",
+          "lineNumber": 103
+        },
+        {
+          "caller": "validateCreateBooking",
+          "callee": "PHONE_RE.test",
+          "lineNumber": 105
+        },
+        {
+          "caller": "validateCreateBooking",
+          "callee": "isPartySize",
+          "lineNumber": 106
+        },
+        {
+          "caller": "validateLookupBooking",
+          "callee": "hasOnlyKeys",
+          "lineNumber": 113
+        },
+        {
+          "caller": "validateLookupBooking",
+          "callee": "isNonEmptyString",
+          "lineNumber": 118
+        },
+        {
+          "caller": "validateLookupBooking",
+          "callee": "PHONE_RE.test",
+          "lineNumber": 120
+        },
+        {
+          "caller": "validateToolCall",
+          "callee": "TOOL_NAMES.has",
+          "lineNumber": 131
+        },
+        {
+          "caller": "validateToolCall",
+          "callee": "isPlainObject",
+          "lineNumber": 135
+        },
+        {
+          "caller": "validateToolCall",
+          "callee": "TOOL_VALIDATORS[name]",
+          "lineNumber": 135
+        },
+        {
+          "caller": "pick",
+          "callee": "isPlainObject",
+          "lineNumber": 143
+        },
+        {
+          "caller": "pick",
+          "callee": "Object.fromEntries",
+          "lineNumber": 147
+        },
+        {
+          "caller": "pick",
+          "callee": "keys.filter((key) => value[key] !== undefined).map",
+          "lineNumber": 148
+        },
+        {
+          "caller": "pick",
+          "callee": "keys.filter",
+          "lineNumber": 148
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "Array.isArray",
+          "lineNumber": 153
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "Array.isArray",
+          "lineNumber": 154
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "courses.slice(0, 20).map",
+          "lineNumber": 157
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "courses.slice",
+          "lineNumber": 157
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "pick",
+          "lineNumber": 158
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "Array.isArray",
+          "lineNumber": 160
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "slots.slice(0, 20).map",
+          "lineNumber": 161
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "slots.slice",
+          "lineNumber": 161
+        },
+        {
+          "caller": "shapeSearchResult",
+          "callee": "pick",
+          "lineNumber": 162
+        },
+        {
+          "caller": "shapeBookingResult",
+          "callee": "isNonEmptyString",
+          "lineNumber": 181
+        },
+        {
+          "caller": "shapeLookupResult",
+          "callee": "Array.isArray",
+          "lineNumber": 185
+        },
+        {
+          "caller": "shapeLookupResult",
+          "callee": "items.slice(0, 20).map",
+          "lineNumber": 186
+        },
+        {
+          "caller": "shapeLookupResult",
+          "callee": "items.slice",
+          "lineNumber": 186
+        },
+        {
+          "caller": "shapeLookupResult",
+          "callee": "pick",
+          "lineNumber": 187
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "validateToolCall",
+          "lineNumber": 199
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "isPlainObject",
+          "lineNumber": 205
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "dependencies.searchSlots",
+          "lineNumber": 211
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "shapeSearchResult",
+          "lineNumber": 212
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "dependencies.createBooking",
+          "lineNumber": 216
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "isNonEmptyString",
+          "lineNumber": 225
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "shapeBookingResult",
+          "lineNumber": 231
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "dependencies.lookupBooking",
+          "lineNumber": 238
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "isNonEmptyString",
+          "lineNumber": 243
+        },
+        {
+          "caller": "executeToolCall",
+          "callee": "shapeLookupResult",
+          "lineNumber": 249
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 13,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/apiLog.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 143,
+      "nonEmptyLines": 128,
+      "functions": [
+        {
+          "name": "withApiLog",
+          "startLine": 25,
+          "endLine": 79,
+          "params": [
+            "handler"
+          ]
+        },
+        {
+          "name": "recordAfterResponse",
+          "startLine": 85,
+          "endLine": 143,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "withApiLog",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "withApiLog",
+          "callee": "Date.now",
+          "lineNumber": 27
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "createRequestAuth",
+          "lineNumber": 36
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "hashIp",
+          "lineNumber": 42
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "getClientIp",
+          "lineNumber": 42
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "checkApiRateLimit",
+          "lineNumber": 43
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "Response.json",
+          "lineNumber": 46
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "String",
+          "lineNumber": 50
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "handler",
+          "lineNumber": 54
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "recordAfterResponse",
+          "lineNumber": 60
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "response.headers.get",
+          "lineNumber": 67
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "contentType.includes",
+          "lineNumber": 68
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "contentType.includes",
+          "lineNumber": 68
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "response.clone().text",
+          "lineNumber": 69
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "response.clone",
+          "lineNumber": 69
+        },
+        {
+          "caller": "withApiLog",
+          "callee": "recordAfterResponse",
+          "lineNumber": 75
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "Date.now",
+          "lineNumber": 86
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "createMaskedPathEvidence",
+          "lineNumber": 91
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "hashIp",
+          "lineNumber": 94
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "getClientIp",
+          "lineNumber": 94
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "request.headers.get",
+          "lineNumber": 95
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "createMaskedEvidence",
+          "lineNumber": 96
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "request.headers.get",
+          "lineNumber": 96
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "scanForSecrets",
+          "lineNumber": 100
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "inspectApiResponsePii",
+          "lineNumber": 101
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "after",
+          "lineNumber": 103
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "getUserId",
+          "lineNumber": 106
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "createServerClient",
+          "lineNumber": 107
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "supabase.from('api_logs').insert",
+          "lineNumber": 109
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "supabase.from",
+          "lineNumber": 109
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "supabase.from('security_events').insert",
+          "lineNumber": 112
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "supabase.from",
+          "lineNumber": 112
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "leaks.join",
+          "lineNumber": 120
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "createMaskedEvidence",
+          "lineNumber": 125
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "supabase.from('security_events').insert",
+          "lineNumber": 126
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "supabase.from",
+          "lineNumber": 126
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "piiHits.map",
+          "lineNumber": 127
+        },
+        {
+          "caller": "recordAfterResponse",
+          "callee": "console.error",
+          "lineNumber": 140
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/audit.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 91,
+      "nonEmptyLines": 83,
+      "functions": [
+        {
+          "name": "recordAudit",
+          "startLine": 49,
+          "endLine": 91,
+          "params": [
+            "request",
+            "entry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AUDIT_ACTIONS",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "recordAudit",
+          "line": 49,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "recordAudit",
+          "callee": "entry.targetId.startsWith",
+          "lineNumber": 55
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "createMaskedPathEvidence",
+          "lineNumber": 56
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "createMaskedEvidence",
+          "lineNumber": 57
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "hashIp",
+          "lineNumber": 60
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "getClientIp",
+          "lineNumber": 60
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "after",
+          "lineNumber": 65
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "resolveActorRole",
+          "lineNumber": 72
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "createServerClient",
+          "lineNumber": 78
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "supabase.from('audit_logs').insert",
+          "lineNumber": 80
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "supabase.from",
+          "lineNumber": 80
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "entry.onRecorded",
+          "lineNumber": 84
+        },
+        {
+          "caller": "recordAudit",
+          "callee": "console.error",
+          "lineNumber": 88
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/chatLog.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 77,
+      "nonEmptyLines": 67,
+      "functions": [
+        {
+          "name": "getConfiguration",
+          "startLine": 3,
+          "endLine": 12,
+          "params": []
+        },
+        {
+          "name": "insertRows",
+          "startLine": 14,
+          "endLine": 32,
+          "params": [
+            "table",
+            "rows"
+          ]
+        },
+        {
+          "name": "recordChatLog",
+          "startLine": 34,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "recordSecurityEvents",
+          "startLine": 58,
+          "endLine": 77,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "recordChatLog",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "recordSecurityEvents",
+          "line": 58,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insertRows",
+          "callee": "getConfiguration",
+          "lineNumber": 15
+        },
+        {
+          "caller": "insertRows",
+          "callee": "fetchImpl",
+          "lineNumber": 17
+        },
+        {
+          "caller": "insertRows",
+          "callee": "JSON.stringify",
+          "lineNumber": 25
+        },
+        {
+          "caller": "recordChatLog",
+          "callee": "detectAndMaskPii",
+          "lineNumber": 38
+        },
+        {
+          "caller": "recordChatLog",
+          "callee": "hits.reduce",
+          "lineNumber": 39
+        },
+        {
+          "caller": "recordChatLog",
+          "callee": "Number.isInteger",
+          "lineNumber": 40
+        },
+        {
+          "caller": "recordChatLog",
+          "callee": "insertRows",
+          "lineNumber": 44
+        },
+        {
+          "caller": "recordSecurityEvents",
+          "callee": "Array.isArray",
+          "lineNumber": 62
+        },
+        {
+          "caller": "recordSecurityEvents",
+          "callee": "createMaskedEvidence",
+          "lineNumber": 66
+        },
+        {
+          "caller": "recordSecurityEvents",
+          "callee": "hits.map",
+          "lineNumber": 67
+        },
+        {
+          "caller": "recordSecurityEvents",
+          "callee": "insertRows",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/ai/deepseek.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 262,
+      "nonEmptyLines": 241,
+      "callGraph": [
+        {
+          "caller": "fetchImpl",
+          "callee": "requests.push",
+          "lineNumber": 45
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "JSON.parse",
+          "lineNumber": 45
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "responses.shift",
+          "lineNumber": 46
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "requests.push",
+          "lineNumber": 180
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "JSON.parse",
+          "lineNumber": 180
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "responses.shift",
+          "lineNumber": 181
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "requests.push",
+          "lineNumber": 237
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "JSON.parse",
+          "lineNumber": 237
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "responses.shift",
+          "lineNumber": 238
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/ai/tools.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 146,
+      "nonEmptyLines": 135,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/chatLog.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 59,
+      "functions": [
+        {
+          "name": "withSupabaseConfiguration",
+          "startLine": 9,
+          "endLine": 24,
+          "params": [
+            "run"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "withSupabaseConfiguration",
+          "callee": "run",
+          "lineNumber": 16
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "JSON.parse",
+          "lineNumber": 30
+        },
+        {
+          "caller": "fetchImpl",
+          "callee": "JSON.parse",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

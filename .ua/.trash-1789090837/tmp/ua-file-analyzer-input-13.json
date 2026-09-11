@@ -1,0 +1,34 @@
+{
+    "projectRoot":  "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+    "batchFiles":  [
+                       {
+                           "path":  "supabase/policies.sql",
+                           "language":  "sql",
+                           "sizeLines":  273,
+                           "fileCategory":  "data"
+                       },
+                       {
+                           "path":  "supabase/schema.sql",
+                           "language":  "sql",
+                           "sizeLines":  459,
+                           "fileCategory":  "data"
+                       },
+                       {
+                           "path":  "supabase/seed.sql",
+                           "language":  "sql",
+                           "sizeLines":  133,
+                           "fileCategory":  "data"
+                       }
+                   ],
+    "batchImportData":  {
+                            "supabase/policies.sql":  [
+
+                                                      ],
+                            "supabase/schema.sql":  [
+
+                                                    ],
+                            "supabase/seed.sql":  [
+
+                                                  ]
+                        }
+}

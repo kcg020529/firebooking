@@ -1,0 +1,234 @@
+{
+  "scriptCompleted": true,
+  "stats": {
+    "filesScanned": 118,
+    "filesWithImports": 36,
+    "totalEdges": 69
+  },
+  "failures": [],
+  "importMap": {
+    ".env.example": [],
+    ".github/CODEOWNERS": [],
+    ".github/pull_request_template.md": [],
+    "AGENTS.md": [],
+    "CLAUDE.md": [],
+    "README.md": [],
+    "app/admin/DashboardControls.js": [],
+    "app/admin/[...slug]/page.js": [],
+    "app/admin/audit/page.js": [
+      "app/admin/DashboardControls.js",
+      "app/admin/useAdminResource.js"
+    ],
+    "app/admin/layout.js": [],
+    "app/admin/page.js": [],
+    "app/admin/security/page.js": [
+      "app/admin/DashboardControls.js",
+      "app/admin/useAdminResource.js"
+    ],
+    "app/admin/useAdminResource.js": [],
+    "app/api/admin/[...path]/route.js": [],
+    "app/api/admin/audit/route.js": [],
+    "app/api/admin/events/route.js": [],
+    "app/api/auth/login/route.js": [],
+    "app/api/bookings/lookup/route.js": [],
+    "app/api/bookings/route.js": [],
+    "app/api/chat/route.js": [
+      "lib/ai/chatService.js",
+      "lib/ai/deepseek.js",
+      "lib/ai/toolDependencies.js",
+      "lib/security/apiLog.js",
+      "lib/security/audit.js",
+      "lib/security/chatLog.js",
+      "lib/security/hash.js",
+      "lib/security/rules.js"
+    ],
+    "app/api/courses/[id]/route.js": [],
+    "app/api/courses/route.js": [],
+    "app/api/health/route.js": [],
+    "app/api/slots/[slotId]/route.js": [],
+    "app/book/[slotId]/page.js": [],
+    "app/booking/[code]/page.js": [],
+    "app/courses/[id]/page.js": [],
+    "app/globals.css": [],
+    "app/layout.js": [
+      "app/globals.css",
+      "components/SiteHeader.js",
+      "components/chat/ChatWidget.js"
+    ],
+    "app/login/page.js": [],
+    "app/lookup/page.js": [],
+    "app/my/loading.js": [],
+    "app/my/page.js": [],
+    "app/page.js": [],
+    "app/signup/page.js": [],
+    "components/LogoutButton.js": [],
+    "components/SiteHeader.js": [],
+    "components/chat/ChatWidget.js": [],
+    "docs/ARCHITECTURE.md": [],
+    "docs/CONVENTIONS.md": [],
+    "docs/DATA_FLOW.md": [],
+    "docs/DECISIONS.md": [],
+    "docs/DEEPSEEK_SETUP.md": [],
+    "docs/LLM_SECURITY_TESTS.md": [],
+    "docs/MENTOR_FEEDBACK_REMEDIATION.md": [],
+    "docs/PLAN.md": [],
+    "docs/SBOM.cdx.json": [],
+    "docs/SBOM.md": [],
+    "docs/SECURITY.md": [],
+    "docs/STACK.md": [],
+    "eslint.config.mjs": [],
+    "jsconfig.json": [],
+    "lib/adminFormat.js": [],
+    "lib/ai/chatService.js": [
+      "lib/security/chatGuard.js",
+      "lib/security/outputGuard.js",
+      "lib/security/pii.js"
+    ],
+    "lib/ai/dateContext.js": [],
+    "lib/ai/deepseek.js": [
+      "lib/ai/prompt.js",
+      "lib/ai/tools.js"
+    ],
+    "lib/ai/prompt.js": [
+      "lib/ai/dateContext.js"
+    ],
+    "lib/ai/toolDependencies.js": [
+      "lib/bookings.js",
+      "lib/courses.js"
+    ],
+    "lib/ai/tools.js": [],
+    "lib/auth.js": [],
+    "lib/bookingLimits.js": [],
+    "lib/bookings.js": [
+      "lib/bookingLimits.js",
+      "lib/security/pii.js",
+      "lib/supabase.js"
+    ],
+    "lib/courseType.js": [],
+    "lib/courses.js": [
+      "lib/supabase.js"
+    ],
+    "lib/dateLabel.js": [],
+    "lib/mock/courses.js": [],
+    "lib/security/apiLog.js": [],
+    "lib/security/apiResponseGuard.js": [
+      "lib/security/pii.js"
+    ],
+    "lib/security/audit.js": [],
+    "lib/security/authPaths.js": [],
+    "lib/security/authz.js": [
+      "lib/security/hash.js",
+      "lib/security/pii.js",
+      "lib/supabase.js"
+    ],
+    "lib/security/chatGuard.js": [
+      "lib/security/injection.js"
+    ],
+    "lib/security/chatLog.js": [
+      "lib/security/pii.js"
+    ],
+    "lib/security/hash.js": [],
+    "lib/security/injection.js": [],
+    "lib/security/leak.js": [],
+    "lib/security/loginProtection.js": [
+      "lib/security/securityConfig.js",
+      "lib/supabase.js"
+    ],
+    "lib/security/outputGuard.js": [
+      "lib/ai/prompt.js",
+      "lib/security/leak.js",
+      "lib/security/pii.js"
+    ],
+    "lib/security/pii.js": [],
+    "lib/security/report.js": [],
+    "lib/security/requireStaff.js": [],
+    "lib/security/rules.js": [
+      "lib/security/securityConfig.js",
+      "lib/supabase.js"
+    ],
+    "lib/security/securityConfig.js": [],
+    "lib/security/sessionTimeout.js": [],
+    "lib/slotHandler.js": [
+      "lib/courses.js",
+      "lib/slotId.js"
+    ],
+    "lib/slotId.js": [],
+    "lib/supabase.js": [],
+    "lib/supabaseAuth.js": [],
+    "lib/useSlot.js": [],
+    "next.config.mjs": [],
+    "package.json": [],
+    "postcss.config.mjs": [],
+    "proxy.js": [],
+    "scripts/fix-seed-encoding.py": [],
+    "supabase/migrations/20260909000000_auth_login_limits.sql": [],
+    "supabase/policies.sql": [],
+    "supabase/schema.sql": [],
+    "supabase/seed.sql": [],
+    "test/ai/chatService.test.js": [
+      "lib/ai/chatService.js"
+    ],
+    "test/ai/dateContext.test.js": [
+      "lib/ai/dateContext.js",
+      "lib/ai/prompt.js"
+    ],
+    "test/ai/deepseek.test.js": [
+      "lib/ai/deepseek.js"
+    ],
+    "test/ai/toolDependencies.test.js": [
+      "lib/ai/toolDependencies.js"
+    ],
+    "test/ai/tools.test.js": [
+      "lib/ai/tools.js"
+    ],
+    "test/authPaths.test.js": [
+      "lib/security/authPaths.js"
+    ],
+    "test/bookingIntegration.test.js": [
+      "lib/bookingLimits.js",
+      "lib/bookings.js",
+      "lib/courses.js",
+      "lib/slotHandler.js",
+      "lib/slotId.js"
+    ],
+    "test/security/adminPathDetection.test.js": [
+      "app/admin/[...slug]/page.js",
+      "lib/security/authPaths.js",
+      "lib/security/authz.js"
+    ],
+    "test/security/apiLog.test.js": [
+      "lib/security/apiResponseGuard.js"
+    ],
+    "test/security/apiResponseGuardImageUrl.test.js": [
+      "lib/security/apiResponseGuard.js"
+    ],
+    "test/security/chatLog.test.js": [
+      "lib/security/chatLog.js"
+    ],
+    "test/security/hash.test.js": [
+      "lib/security/hash.js"
+    ],
+    "test/security/injection.test.js": [
+      "lib/security/chatGuard.js",
+      "lib/security/injection.js"
+    ],
+    "test/security/loginProtection.test.js": [
+      "lib/security/loginProtection.js"
+    ],
+    "test/security/outputGuard.test.js": [
+      "lib/security/outputGuard.js"
+    ],
+    "test/security/pii.test.js": [
+      "lib/security/pii.js"
+    ],
+    "test/security/rules.test.js": [
+      "lib/security/rules.js",
+      "lib/security/securityConfig.js"
+    ],
+    "test/security/sessionTimeout.test.js": [
+      "lib/security/sessionTimeout.js"
+    ],
+    "tmp/pdfs/build_qkv_note.py": [],
+    "vercel.json": []
+  }
+}

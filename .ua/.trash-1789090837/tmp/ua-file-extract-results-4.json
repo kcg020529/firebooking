@@ -1,0 +1,359 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 6,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "lib/ai/dateContext.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "resolveDate",
+          "startLine": 10,
+          "endLine": 24,
+          "params": [
+            "clock"
+          ]
+        },
+        {
+          "name": "addDaysToYmd",
+          "startLine": 26,
+          "endLine": 30,
+          "params": [
+            "ymdString",
+            "days"
+          ]
+        },
+        {
+          "name": "getDateContext",
+          "startLine": 32,
+          "endLine": 43,
+          "params": [
+            "clock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "KST_TIMEZONE",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "addDaysToYmd",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "getDateContext",
+          "line": 32,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "resolveDate",
+          "callee": "clock",
+          "lineNumber": 12
+        },
+        {
+          "caller": "resolveDate",
+          "callee": "Number.isNaN",
+          "lineNumber": 14
+        },
+        {
+          "caller": "resolveDate",
+          "callee": "resolved.getTime",
+          "lineNumber": 14
+        },
+        {
+          "caller": "resolveDate",
+          "callee": "Number.isNaN",
+          "lineNumber": 17
+        },
+        {
+          "caller": "resolveDate",
+          "callee": "clock.getTime",
+          "lineNumber": 17
+        },
+        {
+          "caller": "resolveDate",
+          "callee": "Number.isNaN",
+          "lineNumber": 21
+        },
+        {
+          "caller": "resolveDate",
+          "callee": "resolved.getTime",
+          "lineNumber": 21
+        },
+        {
+          "caller": "addDaysToYmd",
+          "callee": "ymdString.split(\"-\").map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "addDaysToYmd",
+          "callee": "ymdString.split",
+          "lineNumber": 27
+        },
+        {
+          "caller": "addDaysToYmd",
+          "callee": "Date.UTC",
+          "lineNumber": 28
+        },
+        {
+          "caller": "addDaysToYmd",
+          "callee": "date.toISOString().slice",
+          "lineNumber": 29
+        },
+        {
+          "caller": "addDaysToYmd",
+          "callee": "date.toISOString",
+          "lineNumber": 29
+        },
+        {
+          "caller": "getDateContext",
+          "callee": "resolveDate",
+          "lineNumber": 33
+        },
+        {
+          "caller": "getDateContext",
+          "callee": "KST_DATE_FORMATTER.format",
+          "lineNumber": 34
+        },
+        {
+          "caller": "getDateContext",
+          "callee": "addDaysToYmd",
+          "lineNumber": 35
+        },
+        {
+          "caller": "getDateContext",
+          "callee": "addDaysToYmd",
+          "lineNumber": 36
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/ai/prompt.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "buildChatSystemPrompt",
+          "startLine": 23,
+          "endLine": 41,
+          "params": [
+            "dateContextOrClock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CHAT_SYSTEM_PROMPT",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "PROTECTED_PROMPT_MARKERS",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "buildChatSystemPrompt",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "buildChatSystemPrompt",
+          "callee": "getDateContext",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/leak.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "scanForSecrets",
+          "startLine": 26,
+          "endLine": 43,
+          "params": [
+            "text"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SECRET_PATTERNS",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "scanForSecrets",
+          "line": 26,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "scanForSecrets",
+          "callee": "text.slice",
+          "lineNumber": 29
+        },
+        {
+          "caller": "scanForSecrets",
+          "callee": "SECRET_PATTERNS.filter(({ re }) => re.test(target)).map",
+          "lineNumber": 30
+        },
+        {
+          "caller": "scanForSecrets",
+          "callee": "SECRET_PATTERNS.filter",
+          "lineNumber": 30
+        },
+        {
+          "caller": "scanForSecrets",
+          "callee": "re.test",
+          "lineNumber": 30
+        },
+        {
+          "caller": "scanForSecrets",
+          "callee": "process.env.DEEPSEEK_API_KEY?.trim",
+          "lineNumber": 31
+        },
+        {
+          "caller": "scanForSecrets",
+          "callee": "target.includes",
+          "lineNumber": 37
+        },
+        {
+          "caller": "scanForSecrets",
+          "callee": "hits.push",
+          "lineNumber": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/outputGuard.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "inspectAssistantOutput",
+          "startLine": 8,
+          "endLine": 36,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SAFE_OUTPUT_REPLY",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "inspectAssistantOutput",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "inspectAssistantOutput",
+          "callee": "scanForSecrets",
+          "lineNumber": 10
+        },
+        {
+          "caller": "inspectAssistantOutput",
+          "callee": "PROTECTED_PROMPT_MARKERS.some",
+          "lineNumber": 11
+        },
+        {
+          "caller": "inspectAssistantOutput",
+          "callee": "text.includes",
+          "lineNumber": 12
+        },
+        {
+          "caller": "inspectAssistantOutput",
+          "callee": "detectAndMaskPii",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/ai/dateContext.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 97,
+      "nonEmptyLines": 82,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/outputGuard.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 43,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

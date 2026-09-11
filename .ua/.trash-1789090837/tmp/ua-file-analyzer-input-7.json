@@ -1,0 +1,52 @@
+{
+    "projectRoot":  "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+    "batchFiles":  [
+                       {
+                           "path":  "lib/security/apiResponseGuard.js",
+                           "language":  "javascript",
+                           "sizeLines":  33,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "lib/security/pii.js",
+                           "language":  "javascript",
+                           "sizeLines":  207,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "test/security/apiLog.test.js",
+                           "language":  "javascript",
+                           "sizeLines":  38,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "test/security/apiResponseGuardImageUrl.test.js",
+                           "language":  "javascript",
+                           "sizeLines":  31,
+                           "fileCategory":  "code"
+                       },
+                       {
+                           "path":  "test/security/pii.test.js",
+                           "language":  "javascript",
+                           "sizeLines":  153,
+                           "fileCategory":  "code"
+                       }
+                   ],
+    "batchImportData":  {
+                            "lib/security/apiResponseGuard.js":  [
+                                                                     "lib/security/pii.js"
+                                                                 ],
+                            "lib/security/pii.js":  [
+
+                                                    ],
+                            "test/security/apiLog.test.js":  [
+                                                                 "lib/security/apiResponseGuard.js"
+                                                             ],
+                            "test/security/apiResponseGuardImageUrl.test.js":  [
+                                                                                   "lib/security/apiResponseGuard.js"
+                                                                               ],
+                            "test/security/pii.test.js":  [
+                                                              "lib/security/pii.js"
+                                                          ]
+                        }
+}

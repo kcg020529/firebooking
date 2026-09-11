@@ -1,0 +1,13 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 0,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "Merge report's five tested_by direction corrections are semantically sound; all 21 tested_by edges now run from production files to test files.",
+    "No unresolved merge-report issues were supplied. The assembled graph has 275 nodes, 399 edges, no dangling or duplicate edges, and no missing IDs or unsupported complexity values.",
+    "All 69 import relationships in the authoritative 118-entry importMap already have matching file-to-file imports edges; no cross-batch edges were needed."
+  ]
+}

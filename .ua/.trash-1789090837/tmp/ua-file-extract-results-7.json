@@ -1,0 +1,478 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "lib/security/apiResponseGuard.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "omitPublicCourseContact",
+          "startLine": 3,
+          "endLine": 17,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "inspectApiResponsePii",
+          "startLine": 20,
+          "endLine": 33,
+          "params": [
+            "path",
+            "bodyText"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "inspectApiResponsePii",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "omitPublicCourseContact",
+          "callee": "Array.isArray",
+          "lineNumber": 4
+        },
+        {
+          "caller": "omitPublicCourseContact",
+          "callee": "value.map",
+          "lineNumber": 4
+        },
+        {
+          "caller": "omitPublicCourseContact",
+          "callee": "Object.fromEntries",
+          "lineNumber": 7
+        },
+        {
+          "caller": "omitPublicCourseContact",
+          "callee": "Object.entries(value).map",
+          "lineNumber": 8
+        },
+        {
+          "caller": "omitPublicCourseContact",
+          "callee": "Object.entries",
+          "lineNumber": 8
+        },
+        {
+          "caller": "omitPublicCourseContact",
+          "callee": "omitPublicCourseContact",
+          "lineNumber": 14
+        },
+        {
+          "caller": "inspectApiResponsePii",
+          "callee": "path.startsWith",
+          "lineNumber": 24
+        },
+        {
+          "caller": "inspectApiResponsePii",
+          "callee": "JSON.stringify",
+          "lineNumber": 26
+        },
+        {
+          "caller": "inspectApiResponsePii",
+          "callee": "omitPublicCourseContact",
+          "lineNumber": 26
+        },
+        {
+          "caller": "inspectApiResponsePii",
+          "callee": "JSON.parse",
+          "lineNumber": 26
+        },
+        {
+          "caller": "inspectApiResponsePii",
+          "callee": "detectAndMaskPii",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/pii.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 207,
+      "nonEmptyLines": 185,
+      "functions": [
+        {
+          "name": "maskName",
+          "startLine": 4,
+          "endLine": 22,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "maskPhone",
+          "startLine": 24,
+          "endLine": 30,
+          "params": [
+            "phone"
+          ]
+        },
+        {
+          "name": "rangesOverlap",
+          "startLine": 117,
+          "endLine": 119,
+          "params": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "collectMatches",
+          "startLine": 121,
+          "endLine": 150,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "detectAndMaskPii",
+          "startLine": 152,
+          "endLine": 176,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "hasPii",
+          "startLine": 178,
+          "endLine": 180,
+          "params": [
+            "value",
+            "options"
+          ]
+        },
+        {
+          "name": "createMaskedEvidence",
+          "startLine": 182,
+          "endLine": 185,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "createMaskedPathEvidence",
+          "startLine": 188,
+          "endLine": 207,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PII_RULES",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "detectAndMaskPii",
+          "line": 152,
+          "isDefault": false
+        },
+        {
+          "name": "hasPii",
+          "line": 178,
+          "isDefault": false
+        },
+        {
+          "name": "createMaskedEvidence",
+          "line": 182,
+          "isDefault": false
+        },
+        {
+          "name": "createMaskedPathEvidence",
+          "line": 188,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "maskName",
+          "callee": "Array.from",
+          "lineNumber": 5
+        },
+        {
+          "caller": "maskName",
+          "callee": "characters\r\n    .map((character, index) => (/\\p{L}/u.test(character) ? index : -1))\r\n    .filter",
+          "lineNumber": 6
+        },
+        {
+          "caller": "maskName",
+          "callee": "characters\r\n    .map",
+          "lineNumber": 6
+        },
+        {
+          "caller": "maskName",
+          "callee": "/\\p{L}/u.test",
+          "lineNumber": 7
+        },
+        {
+          "caller": "maskName",
+          "callee": "letterIndexes.at",
+          "lineNumber": 13
+        },
+        {
+          "caller": "maskName",
+          "callee": "characters\r\n    .map((character, index) => {\r\n      if (!/\\p{L}/u.test(character)) return character;\r\n      if (index === first) return character;\r\n      if (letterIndexes.length > 2 && index === last) return character;\r\n      return \"*\";\r\n    })\r\n    .join",
+          "lineNumber": 14
+        },
+        {
+          "caller": "maskName",
+          "callee": "characters\r\n    .map",
+          "lineNumber": 14
+        },
+        {
+          "caller": "maskName",
+          "callee": "/\\p{L}/u.test",
+          "lineNumber": 16
+        },
+        {
+          "caller": "maskPhone",
+          "callee": "phone.replace",
+          "lineNumber": 25
+        },
+        {
+          "caller": "maskPhone",
+          "callee": "digits.slice",
+          "lineNumber": 26
+        },
+        {
+          "caller": "maskPhone",
+          "callee": "phone.trim().startsWith",
+          "lineNumber": 27
+        },
+        {
+          "caller": "maskPhone",
+          "callee": "phone.trim",
+          "lineNumber": 27
+        },
+        {
+          "caller": "maskPhone",
+          "callee": "digits.slice",
+          "lineNumber": 29
+        },
+        {
+          "caller": "collectMatches",
+          "callee": "text.matchAll",
+          "lineNumber": 126
+        },
+        {
+          "caller": "collectMatches",
+          "callee": "match[0].indexOf",
+          "lineNumber": 130
+        },
+        {
+          "caller": "collectMatches",
+          "callee": "candidates.push",
+          "lineNumber": 132
+        },
+        {
+          "caller": "collectMatches",
+          "callee": "candidates.sort",
+          "lineNumber": 136
+        },
+        {
+          "caller": "collectMatches",
+          "callee": "selected.some",
+          "lineNumber": 144
+        },
+        {
+          "caller": "collectMatches",
+          "callee": "rangesOverlap",
+          "lineNumber": 144
+        },
+        {
+          "caller": "collectMatches",
+          "callee": "selected.push",
+          "lineNumber": 145
+        },
+        {
+          "caller": "collectMatches",
+          "callee": "selected.sort",
+          "lineNumber": 149
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "collectMatches(text).filter",
+          "lineNumber": 155
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "collectMatches",
+          "lineNumber": 155
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "ignored.has",
+          "lineNumber": 155
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "text.slice",
+          "lineNumber": 161
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "match.rule.mask",
+          "lineNumber": 162
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "counts.set",
+          "lineNumber": 164
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "counts.get",
+          "lineNumber": 164
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "text.slice",
+          "lineNumber": 166
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "counts.get",
+          "lineNumber": 170
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "hits.some",
+          "lineNumber": 171
+        },
+        {
+          "caller": "detectAndMaskPii",
+          "callee": "hits.push",
+          "lineNumber": 172
+        },
+        {
+          "caller": "hasPii",
+          "callee": "detectAndMaskPii",
+          "lineNumber": 179
+        },
+        {
+          "caller": "createMaskedEvidence",
+          "callee": "Number.isInteger",
+          "lineNumber": 183
+        },
+        {
+          "caller": "createMaskedEvidence",
+          "callee": "detectAndMaskPii(value).maskedText.slice",
+          "lineNumber": 184
+        },
+        {
+          "caller": "createMaskedEvidence",
+          "callee": "detectAndMaskPii",
+          "lineNumber": 184
+        },
+        {
+          "caller": "createMaskedPathEvidence",
+          "callee": "decodeURIComponent",
+          "lineNumber": 193
+        },
+        {
+          "caller": "createMaskedPathEvidence",
+          "callee": "normalized.replace",
+          "lineNumber": 201
+        },
+        {
+          "caller": "createMaskedPathEvidence",
+          "callee": "normalized\r\n    .split('/')\r\n    .map((segment) => detectAndMaskPii(segment).maskedText)\r\n    .join",
+          "lineNumber": 202
+        },
+        {
+          "caller": "createMaskedPathEvidence",
+          "callee": "normalized\r\n    .split('/')\r\n    .map",
+          "lineNumber": 202
+        },
+        {
+          "caller": "createMaskedPathEvidence",
+          "callee": "normalized\r\n    .split",
+          "lineNumber": 202
+        },
+        {
+          "caller": "createMaskedPathEvidence",
+          "callee": "detectAndMaskPii",
+          "lineNumber": 204
+        },
+        {
+          "caller": "createMaskedPathEvidence",
+          "callee": "createMaskedEvidence",
+          "lineNumber": 206
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/apiLog.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 31,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/apiResponseGuardImageUrl.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 25,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/pii.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 153,
+      "nonEmptyLines": 126,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

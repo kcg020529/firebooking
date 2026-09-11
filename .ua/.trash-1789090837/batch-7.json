@@ -1,0 +1,355 @@
+{
+  "nodes": [
+    {
+      "id": "file:lib/security/apiResponseGuard.js",
+      "type": "file",
+      "name": "apiResponseGuard.js",
+      "filePath": "lib/security/apiResponseGuard.js",
+      "summary": "공개 API 응답에서 골프장 연락처를 제외한 뒤 PII 탐지 결과를 반환합니다.",
+      "tags": [
+        "보안",
+        "api-응답",
+        "pii-마스킹"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/pii.js",
+      "type": "file",
+      "name": "pii.js",
+      "filePath": "lib/security/pii.js",
+      "summary": "이름·전화·주민번호·카드·이메일 규칙으로 민감정보를 중첩 없이 탐지하고 마스킹된 증적을 생성합니다.",
+      "tags": [
+        "보안",
+        "pii-마스킹",
+        "민감정보",
+        "규칙-탐지"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:test/security/apiLog.test.js",
+      "type": "file",
+      "name": "apiLog.test.js",
+      "filePath": "test/security/apiLog.test.js",
+      "summary": "API 응답 검사 유틸리티의 PII 탐지 결과를 검증합니다.",
+      "tags": [
+        "테스트",
+        "api-응답",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/security/apiResponseGuardImageUrl.test.js",
+      "type": "file",
+      "name": "apiResponseGuardImageUrl.test.js",
+      "filePath": "test/security/apiResponseGuardImageUrl.test.js",
+      "summary": "이미지 URL이 전화번호처럼 오탐되지 않도록 API 응답 검사 예외를 검증합니다.",
+      "tags": [
+        "테스트",
+        "pii-마스킹",
+        "오탐-방지"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/security/pii.test.js",
+      "type": "file",
+      "name": "pii.test.js",
+      "filePath": "test/security/pii.test.js",
+      "summary": "각 PII 규칙의 탐지·마스킹·경로 증적 생성 동작을 검증합니다.",
+      "tags": [
+        "테스트",
+        "pii-마스킹",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/apiResponseGuard.js:omitPublicCourseContact",
+      "type": "function",
+      "name": "omitPublicCourseContact",
+      "filePath": "lib/security/apiResponseGuard.js",
+      "lineRange": [
+        3,
+        17
+      ],
+      "summary": "재귀적으로 공개 코스 데이터에서 phone 필드를 제거합니다.",
+      "tags": [
+        "보안",
+        "api-응답",
+        "데이터-정리"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/apiResponseGuard.js:inspectApiResponsePii",
+      "type": "function",
+      "name": "inspectApiResponsePii",
+      "filePath": "lib/security/apiResponseGuard.js",
+      "lineRange": [
+        20,
+        33
+      ],
+      "summary": "공개 코스 응답은 연락처를 제거한 뒤, 다른 응답은 원문 기준으로 PII를 탐지합니다.",
+      "tags": [
+        "보안",
+        "api-응답",
+        "pii-마스킹"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/pii.js:maskName",
+      "type": "function",
+      "name": "maskName",
+      "filePath": "lib/security/pii.js",
+      "lineRange": [
+        4,
+        22
+      ],
+      "summary": "문자 위치를 보존하면서 이름의 가운데 글자를 별표로 치환합니다.",
+      "tags": [
+        "보안",
+        "pii-마스킹",
+        "이름"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/pii.js:collectMatches",
+      "type": "function",
+      "name": "collectMatches",
+      "filePath": "lib/security/pii.js",
+      "lineRange": [
+        121,
+        150
+      ],
+      "summary": "규칙별 후보를 정렬하고 겹치는 범위를 제거해 안정적인 PII 일치 목록을 만듭니다.",
+      "tags": [
+        "보안",
+        "pii-탐지",
+        "정규식"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/pii.js:detectAndMaskPii",
+      "type": "function",
+      "name": "detectAndMaskPii",
+      "filePath": "lib/security/pii.js",
+      "lineRange": [
+        152,
+        176
+      ],
+      "summary": "문자열의 PII 일치 정보를 집계하고 원문을 노출하지 않는 마스킹 문자열을 생성합니다.",
+      "tags": [
+        "보안",
+        "pii-마스킹",
+        "민감정보"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/pii.js:hasPii",
+      "type": "function",
+      "name": "hasPii",
+      "filePath": "lib/security/pii.js",
+      "lineRange": [
+        178,
+        180
+      ],
+      "summary": "옵션에 따라 무시할 규칙을 제외하고 PII 존재 여부를 반환합니다.",
+      "tags": [
+        "보안",
+        "pii-탐지",
+        "검사"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/security/pii.js:createMaskedEvidence",
+      "type": "function",
+      "name": "createMaskedEvidence",
+      "filePath": "lib/security/pii.js",
+      "lineRange": [
+        182,
+        185
+      ],
+      "summary": "길이를 제한한 마스킹 증적 문자열을 생성해 로그 원문 유출을 방지합니다.",
+      "tags": [
+        "보안",
+        "감사-로그",
+        "pii-마스킹"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/security/pii.js:createMaskedPathEvidence",
+      "type": "function",
+      "name": "createMaskedPathEvidence",
+      "filePath": "lib/security/pii.js",
+      "lineRange": [
+        188,
+        207
+      ],
+      "summary": "URL 경로를 안전하게 디코드하고 각 세그먼트의 PII를 마스킹해 증적으로 만듭니다.",
+      "tags": [
+        "보안",
+        "경로-검사",
+        "pii-마스킹"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "function:lib/security/apiResponseGuard.js:omitPublicCourseContact",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "function:lib/security/apiResponseGuard.js:inspectApiResponsePii",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "function:lib/security/apiResponseGuard.js:inspectApiResponsePii",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:maskName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:collectMatches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:detectAndMaskPii",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:detectAndMaskPii",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:hasPii",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:hasPii",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:createMaskedEvidence",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:createMaskedEvidence",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:createMaskedPathEvidence",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "function:lib/security/pii.js:createMaskedPathEvidence",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/apiLog.test.js",
+      "target": "file:lib/security/apiResponseGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/apiResponseGuardImageUrl.test.js",
+      "target": "file:lib/security/apiResponseGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/pii.test.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:lib/security/apiResponseGuard.js:inspectApiResponsePii",
+      "target": "function:lib/security/pii.js:detectAndMaskPii",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "file:test/security/apiLog.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "file:test/security/apiResponseGuardImageUrl.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "file:test/security/pii.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

@@ -1,0 +1,360 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 7,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 7,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 7
+    }
+  },
+  "results": [
+    {
+      "path": ".env.example",
+      "language": "config",
+      "fileCategory": "config",
+      "totalLines": 19,
+      "nonEmptyLines": 15,
+      "definitions": [
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_URL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 8,
+          "endLine": 8
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 9,
+          "endLine": 9
+        },
+        {
+          "name": "SUPABASE_SERVICE_ROLE_KEY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 12,
+          "endLine": 12
+        },
+        {
+          "name": "DEEPSEEK_API_KEY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 15,
+          "endLine": 15
+        },
+        {
+          "name": "IP_HASH_SALT",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 19,
+          "endLine": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 5
+      }
+    },
+    {
+      "path": "AGENTS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 140,
+      "nonEmptyLines": 98,
+      "sections": [
+        {
+          "heading": "AGENTS.md",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "프로젝트",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "절대 규칙",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "API 계약",
+          "level": 2,
+          "line": 28
+        },
+        {
+          "heading": "DB 스키마",
+          "level": 2,
+          "line": 53
+        },
+        {
+          "heading": "탐지 규칙 ID",
+          "level": 2,
+          "line": 76
+        },
+        {
+          "heading": "챗봇 요청 처리 순서",
+          "level": 2,
+          "line": 92
+        },
+        {
+          "heading": "tool 3개",
+          "level": 3,
+          "line": 103
+        },
+        {
+          "heading": "코드 스타일",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "커밋",
+          "level": 2,
+          "line": 131
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 143,
+      "nonEmptyLines": 101,
+      "sections": [
+        {
+          "heading": "CLAUDE.md",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "프로젝트",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "절대 규칙",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "API 계약",
+          "level": 2,
+          "line": 28
+        },
+        {
+          "heading": "DB 스키마",
+          "level": 2,
+          "line": 53
+        },
+        {
+          "heading": "탐지 규칙 ID",
+          "level": 2,
+          "line": 78
+        },
+        {
+          "heading": "챗봇 요청 처리 순서",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "tool 3개",
+          "level": 3,
+          "line": 106
+        },
+        {
+          "heading": "코드 스타일",
+          "level": 2,
+          "line": 122
+        },
+        {
+          "heading": "커밋",
+          "level": 2,
+          "line": 134
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 101,
+      "nonEmptyLines": 71,
+      "sections": [
+        {
+          "heading": "firebooking",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "필드골프·스크린골프 예약 사이트를 만들고, **그 사이트가 뿜어내는 로그로 PII 마스킹 · 프롬프트 인젝션 탐지 · API 모니터링 · 접근 감사를 구현한다.**",
+          "level": 4,
+          "line": 9
+        },
+        {
+          "heading": "예약 기능은 그릇이고, 보안이 메인.",
+          "level": 4,
+          "line": 10
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "기술 스택",
+          "level": 2,
+          "line": 33
+        },
+        {
+          "heading": "팀 · 역할",
+          "level": 2,
+          "line": 48
+        },
+        {
+          "heading": "문서",
+          "level": 2,
+          "line": 60
+        },
+        {
+          "heading": "시작하기",
+          "level": 2,
+          "line": 77
+        },
+        {
+          "heading": "환경변수",
+          "level": 3,
+          "line": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "jsconfig.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "sections": [
+        {
+          "heading": "compilerOptions",
+          "level": 1,
+          "line": 2
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "package.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 26,
+      "nonEmptyLines": 26,
+      "sections": [
+        {
+          "heading": "name",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "version",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "private",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "type",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "scripts",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "dependencies",
+          "level": 1,
+          "line": 13
+        },
+        {
+          "heading": "devDependencies",
+          "level": 1,
+          "line": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "vercel.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 4,
+      "nonEmptyLines": 4,
+      "sections": [
+        {
+          "heading": "$schema",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "regions",
+          "level": 1,
+          "line": 3
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    }
+  ]
+}

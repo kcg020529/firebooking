@@ -1,0 +1,483 @@
+{
+  "nodes": [
+    {
+      "id": "file:app/admin/[...slug]/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/admin/[...slug]/page.js",
+      "summary": "정의되지 않은 관리자 하위 경로를 Next.js 404로 종료하는 catch-all 페이지입니다.",
+      "tags": [
+        "관리자",
+        "라우팅",
+        "404-처리"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/authPaths.js",
+      "type": "file",
+      "name": "authPaths.js",
+      "filePath": "lib/security/authPaths.js",
+      "summary": "일반 페이지 경로 중 로그인 또는 관리자 권한 검사가 필요한 범위를 판별합니다.",
+      "tags": [
+        "보안",
+        "경로-검사",
+        "권한"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/authz.js",
+      "type": "file",
+      "name": "authz.js",
+      "filePath": "lib/security/authz.js",
+      "summary": "관리자 접근의 허용·거부·미확인 경로 탐색을 마스킹한 감사 및 보안 이벤트로 비동기 기록합니다.",
+      "tags": [
+        "보안",
+        "권한-감사",
+        "이벤트-기록",
+        "pii-마스킹"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/hash.js",
+      "type": "file",
+      "name": "hash.js",
+      "filePath": "lib/security/hash.js",
+      "summary": "IP와 보안 식별값을 salt 기반 SHA-256 지문으로 바꾸고 요청 헤더에서 실제 클라이언트 IP를 추출합니다.",
+      "tags": [
+        "보안",
+        "해싱",
+        "ip-보호"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/authPaths.test.js",
+      "type": "file",
+      "name": "authPaths.test.js",
+      "filePath": "test/authPaths.test.js",
+      "summary": "보호 페이지 경로 판별 규칙을 검증하는 Node 테스트입니다.",
+      "tags": [
+        "테스트",
+        "보안",
+        "경로-검사"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/security/adminPathDetection.test.js",
+      "type": "file",
+      "name": "adminPathDetection.test.js",
+      "filePath": "test/security/adminPathDetection.test.js",
+      "summary": "관리자 catch-all, 접근 감사, PII 마스킹 및 과도한 경로 길이 방어를 통합 검증합니다.",
+      "tags": [
+        "테스트",
+        "관리자-보안",
+        "감사-로그",
+        "pii-마스킹"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/hash.test.js",
+      "type": "file",
+      "name": "hash.test.js",
+      "filePath": "test/security/hash.test.js",
+      "summary": "IP 해시와 요청 IP 추출 유틸리티의 동작을 검증합니다.",
+      "tags": [
+        "테스트",
+        "해싱",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app/admin/[...slug]/page.js:AdminCatchAllPage",
+      "type": "function",
+      "name": "AdminCatchAllPage",
+      "filePath": "app/admin/[...slug]/page.js",
+      "lineRange": [
+        18,
+        20
+      ],
+      "summary": "알 수 없는 관리자 경로에서 notFound를 호출해 404 응답을 유도합니다.",
+      "tags": [
+        "관리자",
+        "404-처리",
+        "라우팅"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/security/authPaths.js:isProtectedPagePath",
+      "type": "function",
+      "name": "isProtectedPagePath",
+      "filePath": "lib/security/authPaths.js",
+      "lineRange": [
+        5,
+        12
+      ],
+      "summary": "마이페이지와 관리자 경로 및 그 하위 경로를 보호 대상으로 반환합니다.",
+      "tags": [
+        "보안",
+        "경로-검사",
+        "권한"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/security/authz.js:recordUnauthorizedAdminAccess",
+      "type": "function",
+      "name": "recordUnauthorizedAdminAccess",
+      "filePath": "lib/security/authz.js",
+      "lineRange": [
+        29,
+        65
+      ],
+      "summary": "비인가 관리자 접근을 critical 보안 이벤트와 deny 감사 로그에 기록합니다.",
+      "tags": [
+        "보안",
+        "권한-거부",
+        "감사-로그"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/authz.js:recordAdminAccess",
+      "type": "function",
+      "name": "recordAdminAccess",
+      "filePath": "lib/security/authz.js",
+      "lineRange": [
+        68,
+        92
+      ],
+      "summary": "허용된 관리자 페이지 접근을 마스킹된 경로와 함께 감사 로그에 남깁니다.",
+      "tags": [
+        "보안",
+        "권한-감사",
+        "감사-로그"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/authz.js:recordUnknownAdminPath",
+      "type": "function",
+      "name": "recordUnknownAdminPath",
+      "filePath": "lib/security/authz.js",
+      "lineRange": [
+        95,
+        115
+      ],
+      "summary": "존재하지 않는 관리자 경로 탐색을 anomaly 보안 이벤트로 기록합니다.",
+      "tags": [
+        "보안",
+        "이상-탐지",
+        "관리자"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/hash.js:hashIp",
+      "type": "function",
+      "name": "hashIp",
+      "filePath": "lib/security/hash.js",
+      "lineRange": [
+        13,
+        23
+      ],
+      "summary": "IP 주소를 환경 변수 salt와 결합해 짧은 SHA-256 해시로 변환합니다.",
+      "tags": [
+        "보안",
+        "해싱",
+        "ip-보호"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/hash.js:hashSecurityValue",
+      "type": "function",
+      "name": "hashSecurityValue",
+      "filePath": "lib/security/hash.js",
+      "lineRange": [
+        26,
+        38
+      ],
+      "summary": "민감한 보안 값을 원문 없이 비교할 수 있도록 도메인 분리된 해시로 만듭니다.",
+      "tags": [
+        "보안",
+        "해싱",
+        "민감정보"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/security/hash.js:getClientIp",
+      "type": "function",
+      "name": "getClientIp",
+      "filePath": "lib/security/hash.js",
+      "lineRange": [
+        44,
+        48
+      ],
+      "summary": "프록시 전달 헤더를 우선해 요청의 클라이언트 IP를 추출합니다.",
+      "tags": [
+        "보안",
+        "ip-추출",
+        "요청"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:test/security/adminPathDetection.test.js:createFakeSupabase",
+      "type": "function",
+      "name": "createFakeSupabase",
+      "filePath": "test/security/adminPathDetection.test.js",
+      "lineRange": [
+        11,
+        22
+      ],
+      "summary": "테이블별 insert 호출과 payload를 수집하는 테스트용 Supabase 클라이언트를 만듭니다.",
+      "tags": [
+        "테스트",
+        "supabase",
+        "테스트-더블"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:app/admin/[...slug]/page.js",
+      "target": "function:app/admin/[...slug]/page.js:AdminCatchAllPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app/admin/[...slug]/page.js",
+      "target": "function:app/admin/[...slug]/page.js:AdminCatchAllPage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/authPaths.js",
+      "target": "function:lib/security/authPaths.js:isProtectedPagePath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/authPaths.js",
+      "target": "function:lib/security/authPaths.js:isProtectedPagePath",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "function:lib/security/authz.js:recordUnauthorizedAdminAccess",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "function:lib/security/authz.js:recordUnauthorizedAdminAccess",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "function:lib/security/authz.js:recordAdminAccess",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "function:lib/security/authz.js:recordAdminAccess",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "function:lib/security/authz.js:recordUnknownAdminPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "function:lib/security/authz.js:recordUnknownAdminPath",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/hash.js",
+      "target": "function:lib/security/hash.js:hashIp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/hash.js",
+      "target": "function:lib/security/hash.js:hashIp",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/hash.js",
+      "target": "function:lib/security/hash.js:hashSecurityValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/hash.js",
+      "target": "function:lib/security/hash.js:hashSecurityValue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/hash.js",
+      "target": "function:lib/security/hash.js:getClientIp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/hash.js",
+      "target": "function:lib/security/hash.js:getClientIp",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "function:test/security/adminPathDetection.test.js:createFakeSupabase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/security/hash.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/authPaths.test.js",
+      "target": "file:lib/security/authPaths.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:app/admin/[...slug]/page.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:lib/security/authPaths.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:lib/security/authz.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/security/hash.test.js",
+      "target": "file:lib/security/hash.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "function:lib/security/authz.js:recordUnauthorizedAdminAccess",
+      "target": "function:lib/security/pii.js:createMaskedPathEvidence",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/authz.js:recordAdminAccess",
+      "target": "function:lib/security/pii.js:createMaskedPathEvidence",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/security/authz.js:recordUnknownAdminPath",
+      "target": "function:lib/security/pii.js:createMaskedPathEvidence",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/security/authPaths.js",
+      "target": "file:test/authPaths.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:app/admin/[...slug]/page.js",
+      "target": "file:test/security/adminPathDetection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:test/security/adminPathDetection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/authPaths.js",
+      "target": "file:test/security/adminPathDetection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/hash.js",
+      "target": "file:test/security/hash.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

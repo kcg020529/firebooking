@@ -1,0 +1,783 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 12,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 12,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 12
+    }
+  },
+  "results": [
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 35,
+      "nonEmptyLines": 31,
+      "sections": [
+        {
+          "heading": "프로젝트 아키텍처",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "핵심 경계",
+          "level": 2,
+          "line": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "docs/CONVENTIONS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 295,
+      "nonEmptyLines": 212,
+      "sections": [
+        {
+          "heading": "협업 규칙",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 브랜치",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "규칙",
+          "level": 3,
+          "line": 11
+        },
+        {
+          "heading": "이름 규칙",
+          "level": 3,
+          "line": 17
+        },
+        {
+          "heading": "작업 시작할 때 항상",
+          "level": 3,
+          "line": 35
+        },
+        {
+          "heading": "2. 커밋",
+          "level": 2,
+          "line": 47
+        },
+        {
+          "heading": "형식 — Conventional Commits (타입은 영문, 설명은 한글)",
+          "level": 3,
+          "line": 49
+        },
+        {
+          "heading": "좋은 예 / 나쁜 예",
+          "level": 3,
+          "line": 67
+        },
+        {
+          "heading": "세부 규칙",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "3. Pull Request",
+          "level": 2,
+          "line": 91
+        },
+        {
+          "heading": "절차",
+          "level": 3,
+          "line": 93
+        },
+        {
+          "heading": "리뷰어가 확인할 것",
+          "level": 3,
+          "line": 100
+        },
+        {
+          "heading": "PR 크기",
+          "level": 3,
+          "line": 107
+        },
+        {
+          "heading": "충돌 났을 때",
+          "level": 3,
+          "line": 111
+        },
+        {
+          "heading": "4. AI 사용 규칙",
+          "level": 2,
+          "line": 126
+        },
+        {
+          "heading": "5. 파일 · 폴더",
+          "level": 2,
+          "line": 139
+        },
+        {
+          "heading": "폴더 구조 (Day 1에 이대로 만든다)",
+          "level": 3,
+          "line": 141
+        },
+        {
+          "heading": "이름 규칙",
+          "level": 3,
+          "line": 172
+        },
+        {
+          "heading": "6. 코드 네이밍",
+          "level": 2,
+          "line": 185
+        },
+        {
+          "heading": "⚠️ 가장 중요한 것 — snake_case ↔ camelCase 경계",
+          "level": 3,
+          "line": 197
+        },
+        {
+          "heading": "그 외 공통 약속",
+          "level": 3,
+          "line": 212
+        },
+        {
+          "heading": "7. 보안 규칙 (이 프로젝트 특수)",
+          "level": 2,
+          "line": 227
+        },
+        {
+          "heading": "절대 커밋 금지",
+          "level": 3,
+          "line": 231
+        },
+        {
+          "heading": "로그에 원문 PII 금지",
+          "level": 3,
+          "line": 240
+        },
+        {
+          "heading": "새 API 라우트를 만들면 반드시",
+          "level": 3,
+          "line": 248
+        },
+        {
+          "heading": "탐지 규칙 ID 네이밍",
+          "level": 3,
+          "line": 254
+        },
+        {
+          "heading": "담당자 잠금",
+          "level": 3,
+          "line": 268
+        },
+        {
+          "heading": "8. 소통",
+          "level": 2,
+          "line": 278
+        },
+        {
+          "heading": "9. 이 문서를 고치는 법",
+          "level": 2,
+          "line": 287
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 29
+      }
+    },
+    {
+      "path": "docs/DATA_FLOW.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 59,
+      "nonEmptyLines": 48,
+      "sections": [
+        {
+          "heading": "데이터 흐름",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "일반 예약",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "챗봇 예약",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "관리자·보안 이벤트",
+          "level": 2,
+          "line": 33
+        },
+        {
+          "heading": "로그인 보호",
+          "level": 2,
+          "line": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 77,
+      "nonEmptyLines": 54,
+      "sections": [
+        {
+          "heading": "정한 것 / 아직 안 정한 것",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 이미 정한 것",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "2. Day 1에 반드시 정할 것",
+          "level": 2,
+          "line": 28
+        },
+        {
+          "heading": "사람 · 계정",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "협업 방식",
+          "level": 3,
+          "line": 42
+        },
+        {
+          "heading": "프로젝트 내용",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "3. 나중에 정해도 되는 것",
+          "level": 2,
+          "line": 59
+        },
+        {
+          "heading": "4. 결정 기록 방법",
+          "level": 2,
+          "line": 70
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "docs/DEEPSEEK_SETUP.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 66,
+      "nonEmptyLines": 45,
+      "sections": [
+        {
+          "heading": "DeepSeek 연동 및 보안 검증",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. API 키 입력",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "2. 자동 검증",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "3. 실제 키 연결 확인",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "4. 공격 회귀 검증",
+          "level": 2,
+          "line": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/LLM_SECURITY_TESTS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 52,
+      "nonEmptyLines": 42,
+      "sections": [
+        {
+          "heading": "LLM 챗봇 보안 검증표",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "공격 시나리오",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "PII 오탐·미탐 튜닝",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "알려진 한계",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "배포 환경 최종 확인",
+          "level": 2,
+          "line": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "docs/MENTOR_FEEDBACK_REMEDIATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 183,
+      "nonEmptyLines": 126,
+      "sections": [
+        {
+          "heading": "멘토 피드백 보완 이력",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "A1. 존재하지 않는 관리자 경로 탐지",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "상태",
+          "level": 3,
+          "line": 9
+        },
+        {
+          "heading": "발견된 문제",
+          "level": 3,
+          "line": 18
+        },
+        {
+          "heading": "원인",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "수정 내용",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "1. 관리자 catch-all 라우트 추가",
+          "level": 4,
+          "line": 45
+        },
+        {
+          "heading": "2. 공격자 제어 경로의 저장 길이 제한",
+          "level": 4,
+          "line": 56
+        },
+        {
+          "heading": "3. 경로에 포함된 개인정보 마스킹",
+          "level": 4,
+          "line": 60
+        },
+        {
+          "heading": "4. 기록 로직 테스트 보강",
+          "level": 4,
+          "line": 76
+        },
+        {
+          "heading": "변경 후 동작",
+          "level": 3,
+          "line": 89
+        },
+        {
+          "heading": "검증 결과",
+          "level": 3,
+          "line": 100
+        },
+        {
+          "heading": "자동 검증",
+          "level": 4,
+          "line": 102
+        },
+        {
+          "heading": "Vercel Preview HTTP 검증",
+          "level": 4,
+          "line": 111
+        },
+        {
+          "heading": "Supabase 실제 저장 검증",
+          "level": 4,
+          "line": 120
+        },
+        {
+          "heading": "Before / After",
+          "level": 3,
+          "line": 136
+        },
+        {
+          "heading": "관련 파일",
+          "level": 3,
+          "line": 155
+        },
+        {
+          "heading": "PR",
+          "level": 3,
+          "line": 164
+        },
+        {
+          "heading": "남은 범위",
+          "level": 3,
+          "line": 168
+        },
+        {
+          "heading": "보고서용 증빙 예정",
+          "level": 3,
+          "line": 174
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 20
+      }
+    },
+    {
+      "path": "docs/PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 152,
+      "nonEmptyLines": 108,
+      "sections": [
+        {
+          "heading": "2주 일정",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "운영 원칙",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "기능 티어",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "Tier 0 — 사수 (Day 8까지)",
+          "level": 3,
+          "line": 18
+        },
+        {
+          "heading": "Tier 1 — 값싼 확장 (Day 9 오전, 각자 2시간 타임박스)",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "Tier 2 — 여유 있으면 (Day 9 오후)",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "일정",
+          "level": 2,
+          "line": 53
+        },
+        {
+          "heading": "Day 1 (월) — 셋이 같은 자리에서, 최소 4시간",
+          "level": 3,
+          "line": 55
+        },
+        {
+          "heading": "Day 2–3 (화·수) — 병렬 전반",
+          "level": 3,
+          "line": 67
+        },
+        {
+          "heading": "Day 4–5 (목·금) — 병렬 후반",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "Day 6 (월) — 통합 1일차, A가 지휘",
+          "level": 3,
+          "line": 84
+        },
+        {
+          "heading": "Day 7 (화) — 예약 + 감사 흐름 관통",
+          "level": 3,
+          "line": 89
+        },
+        {
+          "heading": "Day 8 (수) — 챗봇 + LLM 보안 관통 · 가장 위험한 하루",
+          "level": 3,
+          "line": 95
+        },
+        {
+          "heading": "Day 9 (목)",
+          "level": 3,
+          "line": 108
+        },
+        {
+          "heading": "Day 10 (금) — 발표",
+          "level": 3,
+          "line": 114
+        },
+        {
+          "heading": "완성 판정 체크리스트",
+          "level": 2,
+          "line": 123
+        },
+        {
+          "heading": "리스크",
+          "level": 2,
+          "line": 142
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 17
+      }
+    },
+    {
+      "path": "docs/SBOM.cdx.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 1923,
+      "nonEmptyLines": 1923,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 0
+      }
+    },
+    {
+      "path": "docs/SBOM.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 12,
+      "nonEmptyLines": 7,
+      "sections": [
+        {
+          "heading": "SBOM 생성 기준",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "docs/SECURITY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 197,
+      "nonEmptyLines": 136,
+      "sections": [
+        {
+          "heading": "보안 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "S1 — PII 탐지 · 마스킹",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "저장 경로 분리 — 이게 핵심",
+          "level": 3,
+          "line": 37
+        },
+        {
+          "heading": "오탐(false positive) — 발표에 반드시 넣을 것",
+          "level": 3,
+          "line": 47
+        },
+        {
+          "heading": "S2 — 프롬프트 인젝션 · 이상 탐지",
+          "level": 2,
+          "line": 58
+        },
+        {
+          "heading": "인젝션 패턴 — `lib/security/injection.js`",
+          "level": 3,
+          "line": 60
+        },
+        {
+          "heading": "이상 탐지 임계값 — `lib/security/rules.js`",
+          "level": 3,
+          "line": 78
+        },
+        {
+          "heading": "한계를 명시한다",
+          "level": 3,
+          "line": 93
+        },
+        {
+          "heading": "S3 — API 모니터링 · 알림",
+          "level": 2,
+          "line": 103
+        },
+        {
+          "heading": "대시보드 — `/admin/security`",
+          "level": 3,
+          "line": 119
+        },
+        {
+          "heading": "S4 — 인증 · 권한 · 감사",
+          "level": 2,
+          "line": 130
+        },
+        {
+          "heading": "역할 4개",
+          "level": 3,
+          "line": 132
+        },
+        {
+          "heading": "RLS — 이 과제에서 가장 중요한 설정",
+          "level": 3,
+          "line": 141
+        },
+        {
+          "heading": "감사 로그",
+          "level": 3,
+          "line": 148
+        },
+        {
+          "heading": "로그인 대입 방어 · 세션 타임아웃",
+          "level": 3,
+          "line": 156
+        },
+        {
+          "heading": "시연 시나리오",
+          "level": 2,
+          "line": 168
+        },
+        {
+          "heading": "폴백 대본",
+          "level": 3,
+          "line": 181
+        },
+        {
+          "heading": "발표에서 점수가 붙는 지점",
+          "level": 2,
+          "line": 189
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 18
+      }
+    },
+    {
+      "path": "docs/STACK.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 39,
+      "nonEmptyLines": 30,
+      "sections": [
+        {
+          "heading": "사용 스택",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "애플리케이션",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "백엔드·데이터",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "AI·보안",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "운영 원칙",
+          "level": 2,
+          "line": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    }
+  ]
+}

@@ -57,3 +57,19 @@ POST /api/auth/login
 
 원문 이메일·IP는 로그인 제한 테이블에 저장하지 않고 HMAC 키로만 사용한다.
 
+## 리뷰·난이도
+
+```text
+코스 상세 페이지
+  → GET /api/courses/:id/reviews
+  → 공개 리뷰·평균 별점·난이도 통계 반환
+
+예약 완료 사용자
+  → POST /api/courses/:id/reviews
+  → 서버 세션 확인
+  → bookings → slots를 조회해 해당 코스 예약 이력 확인
+  → 별점·난이도·내용 검증 및 PII 마스킹
+  → course_reviews 저장
+```
+
+리뷰 작성은 DB의 `course_id + user_id` 유일 제약과 서버 예약 이력 검증으로 1인 1개만 허용한다.

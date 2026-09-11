@@ -1,0 +1,482 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "lib/ai/chatService.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 169,
+      "nonEmptyLines": 147,
+      "functions": [
+        {
+          "name": "safelyRecord",
+          "startLine": 12,
+          "endLine": 18,
+          "params": [
+            "operation"
+          ]
+        },
+        {
+          "name": "countHits",
+          "startLine": 20,
+          "endLine": 22,
+          "params": [
+            "hits"
+          ]
+        },
+        {
+          "name": "sanitizeQuickReplies",
+          "startLine": 24,
+          "endLine": 40,
+          "params": [
+            "values"
+          ]
+        },
+        {
+          "name": "createChatService",
+          "startLine": 42,
+          "endLine": 169,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "createChatService",
+          "line": 42,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "safelyRecord",
+          "callee": "operation",
+          "lineNumber": 14
+        },
+        {
+          "caller": "safelyRecord",
+          "callee": "console.error",
+          "lineNumber": 16
+        },
+        {
+          "caller": "countHits",
+          "callee": "hits.reduce",
+          "lineNumber": 21
+        },
+        {
+          "caller": "sanitizeQuickReplies",
+          "callee": "Array.isArray",
+          "lineNumber": 25
+        },
+        {
+          "caller": "sanitizeQuickReplies",
+          "callee": "values\r\n    .filter((value) => typeof value === \"string\")\r\n    .map((value) => value.trim())\r\n    .filter((value) => value.length > 0 && value.length <= 50)\r\n    .filter((value) => {\r\n      const inspection = inspectAssistantOutput(value);\r\n      return inspection.isSafe && inspection.hits.length === 0;\r\n    })\r\n    .slice",
+          "lineNumber": 29
+        },
+        {
+          "caller": "sanitizeQuickReplies",
+          "callee": "values\r\n    .filter((value) => typeof value === \"string\")\r\n    .map((value) => value.trim())\r\n    .filter((value) => value.length > 0 && value.length <= 50)\r\n    .filter",
+          "lineNumber": 29
+        },
+        {
+          "caller": "sanitizeQuickReplies",
+          "callee": "values\r\n    .filter((value) => typeof value === \"string\")\r\n    .map((value) => value.trim())\r\n    .filter",
+          "lineNumber": 29
+        },
+        {
+          "caller": "sanitizeQuickReplies",
+          "callee": "values\r\n    .filter((value) => typeof value === \"string\")\r\n    .map",
+          "lineNumber": 29
+        },
+        {
+          "caller": "sanitizeQuickReplies",
+          "callee": "values\r\n    .filter",
+          "lineNumber": 29
+        },
+        {
+          "caller": "sanitizeQuickReplies",
+          "callee": "value.trim",
+          "lineNumber": 31
+        },
+        {
+          "caller": "sanitizeQuickReplies",
+          "callee": "inspectAssistantOutput",
+          "lineNumber": 34
+        },
+        {
+          "caller": "createChatService",
+          "callee": "SESSION_ID_RE.test",
+          "lineNumber": 56
+        },
+        {
+          "caller": "createChatService",
+          "callee": "inspectChatMessages",
+          "lineNumber": 60
+        },
+        {
+          "caller": "createChatService",
+          "callee": "messages.at",
+          "lineNumber": 66
+        },
+        {
+          "caller": "createChatService",
+          "callee": "detectAndMaskPii",
+          "lineNumber": 67
+        },
+        {
+          "caller": "createChatService",
+          "callee": "safelyRecord",
+          "lineNumber": 69
+        },
+        {
+          "caller": "createChatService",
+          "callee": "recordChatLog",
+          "lineNumber": 70
+        },
+        {
+          "caller": "createChatService",
+          "callee": "countHits",
+          "lineNumber": 74
+        },
+        {
+          "caller": "createChatService",
+          "callee": "safelyRecord",
+          "lineNumber": 79
+        },
+        {
+          "caller": "createChatService",
+          "callee": "recordSecurityEvents",
+          "lineNumber": 80
+        },
+        {
+          "caller": "createChatService",
+          "callee": "safelyRecord",
+          "lineNumber": 91
+        },
+        {
+          "caller": "createChatService",
+          "callee": "recordSecurityEvents",
+          "lineNumber": 92
+        },
+        {
+          "caller": "createChatService",
+          "callee": "generateReply",
+          "lineNumber": 113
+        },
+        {
+          "caller": "createChatService",
+          "callee": "inspectAssistantOutput",
+          "lineNumber": 122
+        },
+        {
+          "caller": "createChatService",
+          "callee": "output.hits.filter",
+          "lineNumber": 123
+        },
+        {
+          "caller": "createChatService",
+          "callee": "output.hits.filter",
+          "lineNumber": 124
+        },
+        {
+          "caller": "createChatService",
+          "callee": "ruleId.startsWith",
+          "lineNumber": 125
+        },
+        {
+          "caller": "createChatService",
+          "callee": "safelyRecord",
+          "lineNumber": 129
+        },
+        {
+          "caller": "createChatService",
+          "callee": "recordSecurityEvents",
+          "lineNumber": 130
+        },
+        {
+          "caller": "createChatService",
+          "callee": "safelyRecord",
+          "lineNumber": 141
+        },
+        {
+          "caller": "createChatService",
+          "callee": "recordSecurityEvents",
+          "lineNumber": 142
+        },
+        {
+          "caller": "createChatService",
+          "callee": "safelyRecord",
+          "lineNumber": 152
+        },
+        {
+          "caller": "createChatService",
+          "callee": "recordChatLog",
+          "lineNumber": 153
+        },
+        {
+          "caller": "createChatService",
+          "callee": "countHits",
+          "lineNumber": 157
+        },
+        {
+          "caller": "createChatService",
+          "callee": "sanitizeQuickReplies",
+          "lineNumber": 164
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/chatGuard.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 76,
+      "nonEmptyLines": 62,
+      "functions": [
+        {
+          "name": "validateChatMessages",
+          "startLine": 11,
+          "endLine": 53,
+          "params": [
+            "messages"
+          ]
+        },
+        {
+          "name": "inspectChatMessages",
+          "startLine": 55,
+          "endLine": 76,
+          "params": [
+            "messages"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MAX_MESSAGE_LENGTH",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "MAX_TURNS",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "validateChatMessages",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "inspectChatMessages",
+          "line": 55,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "validateChatMessages",
+          "callee": "Array.isArray",
+          "lineNumber": 12
+        },
+        {
+          "caller": "validateChatMessages",
+          "callee": "ALLOWED_ROLES.has",
+          "lineNumber": 27
+        },
+        {
+          "caller": "validateChatMessages",
+          "callee": "message.content.trim",
+          "lineNumber": 36
+        },
+        {
+          "caller": "validateChatMessages",
+          "callee": "messages.at",
+          "lineNumber": 48
+        },
+        {
+          "caller": "inspectChatMessages",
+          "callee": "validateChatMessages",
+          "lineNumber": 56
+        },
+        {
+          "caller": "inspectChatMessages",
+          "callee": "messages.map(({ content }) => content).join",
+          "lineNumber": 62
+        },
+        {
+          "caller": "inspectChatMessages",
+          "callee": "messages.map",
+          "lineNumber": 62
+        },
+        {
+          "caller": "inspectChatMessages",
+          "callee": "detectPromptInjection",
+          "lineNumber": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/injection.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 81,
+      "nonEmptyLines": 73,
+      "functions": [
+        {
+          "name": "countMatches",
+          "startLine": 47,
+          "endLine": 50,
+          "params": [
+            "text",
+            "rule"
+          ]
+        },
+        {
+          "name": "getHighestSeverity",
+          "startLine": 52,
+          "endLine": 58,
+          "params": [
+            "hits"
+          ]
+        },
+        {
+          "name": "detectPromptInjection",
+          "startLine": 60,
+          "endLine": 81,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "INJECTION_BLOCK_REPLY",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "INJECTION_RULES",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "detectPromptInjection",
+          "line": 60,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "countMatches",
+          "callee": "Array.from",
+          "lineNumber": 49
+        },
+        {
+          "caller": "countMatches",
+          "callee": "text.matchAll",
+          "lineNumber": 49
+        },
+        {
+          "caller": "getHighestSeverity",
+          "callee": "hits.reduce",
+          "lineNumber": 53
+        },
+        {
+          "caller": "detectPromptInjection",
+          "callee": "countMatches",
+          "lineNumber": 65
+        },
+        {
+          "caller": "detectPromptInjection",
+          "callee": "hits.push",
+          "lineNumber": 68
+        },
+        {
+          "caller": "detectPromptInjection",
+          "callee": "getHighestSeverity",
+          "lineNumber": 78
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/ai/chatService.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 92,
+      "nonEmptyLines": 77,
+      "functions": [
+        {
+          "name": "createHarness",
+          "startLine": 8,
+          "endLine": 20,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createHarness",
+          "callee": "createChatService",
+          "lineNumber": 10
+        },
+        {
+          "caller": "createHarness",
+          "callee": "calls.chats.push",
+          "lineNumber": 15
+        },
+        {
+          "caller": "createHarness",
+          "callee": "calls.events.push",
+          "lineNumber": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/injection.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 100,
+      "nonEmptyLines": 85,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "order": 1,
+    "title": "프로젝트와 보안 목표",
+    "description": "README에서 firebooking이 골프 필드·스크린 예약을 매개로 PII 마스킹, 프롬프트 인젝션 탐지, API 모니터링, 접근 감사를 보여 주는 프로젝트임을 먼저 파악합니다. 이후 단계에서는 이 보안 목표가 화면, API, 서비스, 데이터 모델에 어떻게 일관되게 반영되는지 따라갑니다.",
+    "nodeIds": ["document:README.md"]
+  },
+  {
+    "order": 2,
+    "title": "예약 화면의 시작점",
+    "description": "루트 레이아웃은 전역 스타일, 공통 헤더, 채팅 위젯을 묶어 모든 화면의 공통 경험을 만듭니다. 홈 페이지는 필드·스크린을 전환하며 골프장 목록을 카드로 보여 주므로, 사용자의 예약 여정이 UI 레이어에서 시작되는 지점입니다.",
+    "nodeIds": ["file:app/layout.js", "file:app/page.js"]
+  },
+  {
+    "order": 3,
+    "title": "코스와 슬롯 조회",
+    "description": "홈 화면에서 선택한 골프장과 날짜는 코스·슬롯 API로 이어져 실제 예약 가능한 시간 정보를 가져옵니다. 슬롯 단건 조회는 공통 핸들러와 API 로그 래퍼를 통해 노출되어, 단순 조회도 관측 가능한 서버 흐름에 포함됩니다.",
+    "nodeIds": ["file:app/api/courses/route.js", "file:app/api/courses/[id]/route.js", "file:app/api/slots/[slotId]/route.js"]
+  },
+  {
+    "order": 4,
+    "title": "단일 예약 경계",
+    "description": "폼 예약 API는 입력을 검증한 뒤 모든 예약 생성의 단일 경계인 createBooking으로 넘깁니다. 예약 조회 API도 예약번호와 전화번호를 함께 대조하며, 공통 bookings 모듈은 PII를 보호한 응답으로 변환해 생성 경로와 조회 경로의 보안 계약을 한곳에 둡니다.",
+    "nodeIds": ["file:app/api/bookings/route.js", "file:app/api/bookings/lookup/route.js", "file:lib/bookings.js"]
+  },
+  {
+    "order": 5,
+    "title": "대화형 예약 입구",
+    "description": "채팅 위젯은 세션 ID를 유지하며 빠른 답장과 오류 상태를 사용자에게 보여 주고, 요청은 채팅 API로 전달됩니다. 이 API는 인증 문맥과 IP 해시, 예약·조회·감사 이벤트를 연결하므로 챗봇도 앞선 폼 예약과 같은 서버 통제 안에서 동작합니다.",
+    "nodeIds": ["file:components/chat/ChatWidget.js", "file:app/api/chat/route.js"]
+  },
+  {
+    "order": 6,
+    "title": "챗봇 보안 방어선",
+    "description": "ChatService는 대화 입력 검사, 마스킹 로그, LLM 호출, 출력 검사를 하나의 안전한 흐름으로 조합합니다. 도구 정의는 서버가 슬롯 검색·예약 생성·예약 조회를 검증하도록 하고, chatGuard·PII·outputGuard는 인젝션을 호출 전에 막고 민감정보와 비밀값이 로그나 응답으로 새지 않게 합니다.",
+    "nodeIds": ["file:lib/ai/chatService.js", "file:lib/ai/tools.js", "file:lib/security/chatGuard.js", "file:lib/security/pii.js", "file:lib/security/outputGuard.js"],
+    "languageLesson": "JavaScript 모듈 분리는 탐지, 마스킹, 도구 검증, 응답 검사를 독립적으로 시험하고 조합하게 하며, 보안 정규식과 정책이 라우트마다 흩어지는 것을 막습니다."
+  },
+  {
+    "order": 7,
+    "title": "서버 데이터와 세션",
+    "description": "Supabase 클라이언트 모듈은 서버 service-role과 브라우저 anon 클라이언트를 환경 변수 기준으로 분리해 키의 노출 경계를 만듭니다. proxy는 보호 페이지 진입 전에 세션을 갱신하고 유휴 시간이 지난 사용자를 로그인으로 돌려보내므로, 서비스 레이어의 권한 판단을 요청 경계에서도 보강합니다.",
+    "nodeIds": ["file:lib/supabase.js", "file:proxy.js"]
+  },
+  {
+    "order": 8,
+    "title": "Supabase 스키마와 RLS",
+    "description": "스키마는 예약·프로필·API·감사·보안·채팅 로그를 정의하며, bookings만 이름과 전화번호 원본을 보관하는 PII 저장소입니다. 나머지 로그 테이블은 관측과 감사의 근거를 남기고, 정책 파일의 RLS는 이 데이터들이 역할에 맞는 경로로만 읽히도록 강제합니다.",
+    "nodeIds": ["table:supabase/schema.sql:schema", "table:supabase/schema.sql:bookings", "table:supabase/schema.sql:api_logs", "table:supabase/schema.sql:audit_logs", "table:supabase/policies.sql:policies"],
+    "languageLesson": "SQL의 테이블 분리와 RLS는 데이터 최소 공개 원칙을 데이터베이스에서 집행합니다. 애플리케이션의 검증이 실패해도 정책이 별도의 접근 통제 계층으로 남습니다."
+  },
+  {
+    "order": 9,
+    "title": "흐름을 검증하는 테스트",
+    "description": "통합 예약 테스트는 생성·조회·정원·입력 검증을 확인해 단일 예약 경계의 동작을 뒷받침합니다. 인젝션, PII, ChatService 테스트는 앞선 챗봇 방어선이 차단·마스킹·응답 정리까지 유지하는지 독립적으로 검증합니다.",
+    "nodeIds": ["file:test/bookingIntegration.test.js", "file:test/security/injection.test.js", "file:test/security/pii.test.js", "file:test/ai/chatService.test.js"]
+  },
+  {
+    "order": 10,
+    "title": "운영 설정과 배포",
+    "description": "package.json은 Next.js 실행과 검증에 필요한 의존성·스크립트를 선언하고, 환경 변수 예시는 Supabase·DeepSeek·IP 해시 salt의 공개 및 서버 전용 값을 구분합니다. 마지막으로 vercel.json은 배포 런타임 리전을 정해, 지금까지 살핀 서비스가 운영 환경에서도 같은 설정 경계를 유지하게 합니다.",
+    "nodeIds": ["config:package.json", "config:.env.example", "config:vercel.json"],
+    "languageLesson": "환경 변수는 소스 코드와 비밀값을 분리하는 설정 패턴입니다. 공개 값과 서버 전용 값을 명확히 나누면 브라우저 번들에 키가 포함되는 위험을 줄일 수 있습니다."
+  }
+]

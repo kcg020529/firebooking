@@ -1,0 +1,1885 @@
+{
+  "scriptCompleted": true,
+  "entryPointCandidates": [
+    {
+      "id": "document:README.md",
+      "score": 5,
+      "name": "README.md",
+      "summary": "firebooking의 보안 중심 목표, 기술 스택, 역할 분담, 문서와 실행 방법을 소개합니다."
+    },
+    {
+      "id": "document:AGENTS.md",
+      "score": 2,
+      "name": "AGENTS.md",
+      "summary": "프로젝트의 보안 제약, API 계약, 데이터 모델, 챗봇 처리 순서와 협업 규칙을 정의합니다."
+    },
+    {
+      "id": "document:CLAUDE.md",
+      "score": 2,
+      "name": "CLAUDE.md",
+      "summary": "AI 협업 도구가 따라야 할 프로젝트 구조, 보안 원칙, API와 데이터베이스 계약을 설명합니다."
+    },
+    {
+      "id": "file:.github/CODEOWNERS",
+      "score": 2,
+      "name": "CODEOWNERS",
+      "summary": "보안·예약·UI·AI 모듈의 경로별 코드 소유자와 공통 검토 책임자를 지정하는 GitHub 검토 정책 파일이다."
+    },
+    {
+      "id": "file:app/page.js",
+      "score": 2,
+      "name": "page.js",
+      "summary": "필드·스크린 유형을 전환하며 골프장 목록을 조회하고 카드 형태로 보여주는 홈 화면이다."
+    }
+  ],
+  "fanInRanking": [
+    {
+      "id": "function:lib/supabase.js:createServerClient",
+      "fanIn": 11,
+      "name": "createServerClient"
+    },
+    {
+      "id": "file:lib/security/pii.js",
+      "fanIn": 7,
+      "name": "pii.js"
+    },
+    {
+      "id": "function:lib/security/pii.js:detectAndMaskPii",
+      "fanIn": 7,
+      "name": "detectAndMaskPii"
+    },
+    {
+      "id": "file:lib/supabase.js",
+      "fanIn": 5,
+      "name": "supabase.js"
+    },
+    {
+      "id": "function:lib/security/pii.js:createMaskedPathEvidence",
+      "fanIn": 5,
+      "name": "createMaskedPathEvidence"
+    },
+    {
+      "id": "function:lib/security/rules.js:insertAnomalyOnce",
+      "fanIn": 5,
+      "name": "insertAnomalyOnce"
+    },
+    {
+      "id": "function:app/admin/useAdminResource.js:useAdminResource",
+      "fanIn": 4,
+      "name": "useAdminResource"
+    },
+    {
+      "id": "function:lib/security/audit.js:recordAudit",
+      "fanIn": 4,
+      "name": "recordAudit"
+    },
+    {
+      "id": "file:lib/ai/prompt.js",
+      "fanIn": 3,
+      "name": "prompt.js"
+    },
+    {
+      "id": "file:lib/courses.js",
+      "fanIn": 3,
+      "name": "courses.js"
+    },
+    {
+      "id": "file:lib/security/hash.js",
+      "fanIn": 3,
+      "name": "hash.js"
+    },
+    {
+      "id": "file:lib/security/securityConfig.js",
+      "fanIn": 3,
+      "name": "securityConfig.js"
+    },
+    {
+      "id": "file:test/security/adminPathDetection.test.js",
+      "fanIn": 3,
+      "name": "adminPathDetection.test.js"
+    },
+    {
+      "id": "function:lib/ai/chatService.js:createChatService",
+      "fanIn": 3,
+      "name": "createChatService"
+    },
+    {
+      "id": "function:lib/ai/deepseek.js:createDeepSeekGenerator",
+      "fanIn": 3,
+      "name": "createDeepSeekGenerator"
+    },
+    {
+      "id": "function:lib/ai/prompt.js:buildChatSystemPrompt",
+      "fanIn": 3,
+      "name": "buildChatSystemPrompt"
+    },
+    {
+      "id": "function:lib/ai/toolDependencies.js:createChatToolDependencies",
+      "fanIn": 3,
+      "name": "createChatToolDependencies"
+    },
+    {
+      "id": "function:lib/ai/tools.js:executeToolCall",
+      "fanIn": 3,
+      "name": "executeToolCall"
+    },
+    {
+      "id": "function:lib/ai/tools.js:validateToolCall",
+      "fanIn": 3,
+      "name": "validateToolCall"
+    },
+    {
+      "id": "function:lib/security/chatGuard.js:inspectChatMessages",
+      "fanIn": 3,
+      "name": "inspectChatMessages"
+    }
+  ],
+  "fanOutRanking": [
+    {
+      "id": "file:lib/bookings.js",
+      "fanOut": 15,
+      "name": "bookings.js"
+    },
+    {
+      "id": "file:lib/auth.js",
+      "fanOut": 13,
+      "name": "auth.js"
+    },
+    {
+      "id": "file:lib/security/loginProtection.js",
+      "fanOut": 13,
+      "name": "loginProtection.js"
+    },
+    {
+      "id": "file:lib/security/rules.js",
+      "fanOut": 13,
+      "name": "rules.js"
+    },
+    {
+      "id": "file:app/api/chat/route.js",
+      "fanOut": 12,
+      "name": "route.js"
+    },
+    {
+      "id": "file:lib/adminFormat.js",
+      "fanOut": 12,
+      "name": "adminFormat.js"
+    },
+    {
+      "id": "file:lib/security/pii.js",
+      "fanOut": 11,
+      "name": "pii.js"
+    },
+    {
+      "id": "file:lib/ai/tools.js",
+      "fanOut": 10,
+      "name": "tools.js"
+    },
+    {
+      "id": "file:lib/courses.js",
+      "fanOut": 10,
+      "name": "courses.js"
+    },
+    {
+      "id": "file:lib/security/authz.js",
+      "fanOut": 10,
+      "name": "authz.js"
+    },
+    {
+      "id": "table:supabase/schema.sql:schema",
+      "fanOut": 9,
+      "name": "schema"
+    },
+    {
+      "id": "file:lib/security/outputGuard.js",
+      "fanOut": 8,
+      "name": "outputGuard.js"
+    },
+    {
+      "id": "file:lib/security/report.js",
+      "fanOut": 8,
+      "name": "report.js"
+    },
+    {
+      "id": "file:scripts/fix-seed-encoding.py",
+      "fanOut": 8,
+      "name": "fix-seed-encoding.py"
+    },
+    {
+      "id": "file:tmp/pdfs/build_qkv_note.py",
+      "fanOut": 8,
+      "name": "build_qkv_note.py"
+    },
+    {
+      "id": "file:lib/ai/chatService.js",
+      "fanOut": 7,
+      "name": "chatService.js"
+    },
+    {
+      "id": "file:lib/ai/deepseek.js",
+      "fanOut": 7,
+      "name": "deepseek.js"
+    },
+    {
+      "id": "file:lib/security/chatLog.js",
+      "fanOut": 7,
+      "name": "chatLog.js"
+    },
+    {
+      "id": "file:lib/security/hash.js",
+      "fanOut": 7,
+      "name": "hash.js"
+    },
+    {
+      "id": "file:lib/security/sessionTimeout.js",
+      "fanOut": 7,
+      "name": "sessionTimeout.js"
+    }
+  ],
+  "bfsTraversal": {
+    "startNode": "file:.github/CODEOWNERS",
+    "order": [
+      "file:.github/CODEOWNERS"
+    ],
+    "depthMap": {
+      "file:.github/CODEOWNERS": 0
+    },
+    "byDepth": {
+      "0": [
+        "file:.github/CODEOWNERS"
+      ]
+    }
+  },
+  "nonCodeFiles": {
+    "documentation": [
+      {
+        "id": "document:AGENTS.md",
+        "name": "AGENTS.md",
+        "type": "document",
+        "summary": "프로젝트의 보안 제약, API 계약, 데이터 모델, 챗봇 처리 순서와 협업 규칙을 정의합니다."
+      },
+      {
+        "id": "document:CLAUDE.md",
+        "name": "CLAUDE.md",
+        "type": "document",
+        "summary": "AI 협업 도구가 따라야 할 프로젝트 구조, 보안 원칙, API와 데이터베이스 계약을 설명합니다."
+      },
+      {
+        "id": "document:README.md",
+        "name": "README.md",
+        "type": "document",
+        "summary": "firebooking의 보안 중심 목표, 기술 스택, 역할 분담, 문서와 실행 방법을 소개합니다."
+      },
+      {
+        "id": "document:docs/ARCHITECTURE.md",
+        "name": "ARCHITECTURE.md",
+        "type": "document",
+        "summary": "App Router, Supabase, 보안 모듈과 화면 계층의 분리를 설명하는 아키텍처 개요입니다."
+      },
+      {
+        "id": "document:docs/CONVENTIONS.md",
+        "name": "CONVENTIONS.md",
+        "type": "document",
+        "summary": "브랜치·커밋·PR·AI 사용, 파일 구조, 코드 스타일과 보안 규칙을 상세히 정의합니다."
+      },
+      {
+        "id": "document:docs/DATA_FLOW.md",
+        "name": "DATA_FLOW.md",
+        "type": "document",
+        "summary": "폼 예약, 챗봇 예약, 관리자 감사와 로그 마스킹의 데이터 이동 경로를 설명합니다."
+      },
+      {
+        "id": "document:docs/DECISIONS.md",
+        "name": "DECISIONS.md",
+        "type": "document",
+        "summary": "프로젝트 범위, 우선순위, 협업 방식에 관한 초기 의사결정을 기록합니다."
+      },
+      {
+        "id": "document:docs/DEEPSEEK_SETUP.md",
+        "name": "DEEPSEEK_SETUP.md",
+        "type": "document",
+        "summary": "DeepSeek API 환경 변수 설정과 자동·실연·공격 내성 검증 절차를 안내합니다."
+      },
+      {
+        "id": "document:docs/LLM_SECURITY_TESTS.md",
+        "name": "LLM_SECURITY_TESTS.md",
+        "type": "document",
+        "summary": "프롬프트 인젝션과 PII 유출 방어를 확인하는 LLM 보안 테스트 시나리오를 정리합니다."
+      },
+      {
+        "id": "document:docs/MENTOR_FEEDBACK_REMEDIATION.md",
+        "name": "MENTOR_FEEDBACK_REMEDIATION.md",
+        "type": "document",
+        "summary": "관리자 경로 탐색 취약점에 대한 멘토 피드백, 수정 내역과 검증 근거를 기록합니다."
+      },
+      {
+        "id": "document:docs/PLAN.md",
+        "name": "PLAN.md",
+        "type": "document",
+        "summary": "2주 일정, 기능 우선순위, 담당자별 작업과 발표 준비 체크리스트를 제공합니다."
+      },
+      {
+        "id": "document:docs/SBOM.md",
+        "name": "SBOM.md",
+        "type": "document",
+        "summary": "SBOM 생성 명령과 산출물 위치를 간단히 안내합니다."
+      },
+      {
+        "id": "document:docs/SECURITY.md",
+        "name": "SECURITY.md",
+        "type": "document",
+        "summary": "PII 마스킹, 인젝션 탐지, API 모니터링, 권한 감사의 설계와 시연 기준을 정의합니다."
+      },
+      {
+        "id": "document:docs/STACK.md",
+        "name": "STACK.md",
+        "type": "document",
+        "summary": "프런트엔드, 백엔드, 데이터베이스, AI 보안과 운영 도구의 기술 스택을 설명합니다."
+      },
+      {
+        "id": "document:.github/pull_request_template.md",
+        "name": "pull_request_template.md",
+        "type": "document",
+        "summary": "변경 내용, 검증 항목, 보안 규칙 준수와 리뷰어 참고 사항을 작성하도록 안내하는 PR 템플릿이다."
+      }
+    ],
+    "infrastructure": [],
+    "data": [
+      {
+        "id": "table:supabase/migrations/20260909000000_auth_login_limits.sql:login_attempt_limits",
+        "name": "login_attempt_limits",
+        "type": "table",
+        "summary": "로그인 실패·예약 시도·잠금 상태를 HMAC 키별로 보관하는 login_attempt_limits 테이블과 원자적 갱신 함수를 생성한다. 서비스 역할만 이 상태를 읽고 실행하도록 권한을 제한한다."
+      },
+      {
+        "id": "table:supabase/policies.sql:policies",
+        "name": "policies",
+        "type": "table",
+        "summary": "모든 서비스·보안 테이블의 RLS 활성화와 역할별 접근 정책을 정의합니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:schema",
+        "name": "schema",
+        "type": "table",
+        "summary": "골프 예약, 사용자 프로필, API·감사·보안·채팅 로그와 로그인 제한 테이블 및 RPC를 정의합니다."
+      },
+      {
+        "id": "table:supabase/seed.sql:seed",
+        "name": "seed",
+        "type": "table",
+        "summary": "데모용 필드·스크린 골프장과 향후 14일 예약 슬롯을 반복 실행 가능하게 채웁니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:courses",
+        "name": "courses",
+        "type": "table",
+        "summary": "골프장 기본 정보와 공개 표시용 주소·연락처·이미지 데이터를 저장합니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:slots",
+        "name": "slots",
+        "type": "table",
+        "summary": "골프장별 날짜·시간·가격·정원과 예약 인원 수를 저장합니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:bookings",
+        "name": "bookings",
+        "type": "table",
+        "summary": "예약번호와 원본 이름·전화번호를 포함한 예약 정보를 저장하는 유일한 PII 원본 테이블입니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:profiles",
+        "name": "profiles",
+        "type": "table",
+        "summary": "Supabase Auth 사용자와 표시 이름·역할을 연결합니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:api_logs",
+        "name": "api_logs",
+        "type": "table",
+        "summary": "API 요청 메서드·경로·상태·지연 시간·IP 해시를 기록합니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:audit_logs",
+        "name": "audit_logs",
+        "type": "table",
+        "summary": "행위자·대상·허용 여부·IP 해시로 접근 감사 결과를 기록합니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:security_events",
+        "name": "security_events",
+        "type": "table",
+        "summary": "탐지 규칙, 심각도, 증적을 보존한 보안 이벤트를 기록합니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:chat_logs",
+        "name": "chat_logs",
+        "type": "table",
+        "summary": "세션별 역할과 PII 마스킹된 채팅 내용만 저장합니다."
+      },
+      {
+        "id": "table:supabase/schema.sql:login_attempt_limits",
+        "name": "login_attempt_limits",
+        "type": "table",
+        "summary": "해시 키별 실패·대기 시도 수와 잠금 시각을 원자적으로 관리합니다."
+      }
+    ],
+    "config": [
+      {
+        "id": "config:.env.example",
+        "name": ".env.example",
+        "type": "config",
+        "summary": "Supabase, DeepSeek, IP 해시 salt에 필요한 공개·서버 전용 환경 변수의 예시를 제공합니다."
+      },
+      {
+        "id": "config:jsconfig.json",
+        "name": "jsconfig.json",
+        "type": "config",
+        "summary": "JavaScript 프로젝트의 컴파일러 옵션과 절대 경로 해석 기준을 설정합니다."
+      },
+      {
+        "id": "config:package.json",
+        "name": "package.json",
+        "type": "config",
+        "summary": "Next.js 애플리케이션의 실행 스크립트와 런타임·개발 의존성을 선언합니다."
+      },
+      {
+        "id": "config:vercel.json",
+        "name": "vercel.json",
+        "type": "config",
+        "summary": "Vercel 배포의 런타임 리전을 지정합니다."
+      },
+      {
+        "id": "config:docs/SBOM.cdx.json",
+        "name": "SBOM.cdx.json",
+        "type": "config",
+        "summary": "CycloneDX 형식으로 애플리케이션 의존성과 구성 요소를 열거한 소프트웨어 자재 명세입니다."
+      }
+    ]
+  },
+  "clusters": [],
+  "layers": {
+    "count": 8,
+    "list": [
+      {
+        "id": "layer:ui",
+        "name": "UI 레이어",
+        "description": "App Router 페이지·레이아웃·전역 스타일과 재사용 UI 컴포넌트로 예약 및 관리자 화면을 구성합니다."
+      },
+      {
+        "id": "layer:api",
+        "name": "API 레이어",
+        "description": "Next.js route handler에서 REST API 요청을 검증하고 예약·조회·관리·인증 처리를 Service 레이어로 전달합니다."
+      },
+      {
+        "id": "layer:service",
+        "name": "Service 레이어",
+        "description": "예약·코스·인증·Supabase·LLM 연동과 PII 마스킹, 인젝션 탐지, 접근 감사 등 핵심 비즈니스 및 보안 로직을 제공합니다."
+      },
+      {
+        "id": "layer:data",
+        "name": "데이터 레이어",
+        "description": "Supabase SQL 스키마·정책·시드·마이그레이션과 서비스 및 보안 감사 테이블 정의를 관리합니다."
+      },
+      {
+        "id": "layer:middleware",
+        "name": "middleware 레이어",
+        "description": "요청이 라우트에 도달하기 전 인증 및 세션 경계를 적용합니다."
+      },
+      {
+        "id": "layer:test",
+        "name": "테스트 레이어",
+        "description": "LLM tool 호출, 예약 흐름, PII 처리와 보안 방어 규칙을 단위 및 통합 테스트로 검증합니다."
+      },
+      {
+        "id": "layer:documentation",
+        "name": "문서 레이어",
+        "description": "프로젝트 운영 규칙, 아키텍처, 보안 정책, 기술 스택 및 협업 절차를 기록합니다."
+      },
+      {
+        "id": "layer:config",
+        "name": "설정 및 프로젝트 지원 레이어",
+        "description": "빌드·배포·환경 설정, 코드 소유권, SBOM 및 유지보수용 보조 스크립트를 관리합니다."
+      }
+    ]
+  },
+  "nodeSummaryIndex": {
+    "file:app/api/chat/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "채팅 요청의 인증 문맥과 IP 해시를 구성하고, 예약·조회·대화 감사 이벤트를 연결해 ChatService로 전달하는 POST 라우트다."
+    },
+    "file:lib/ai/deepseek.js": {
+      "name": "deepseek.js",
+      "type": "file",
+      "summary": "DeepSeek API 호출, tool-call 파싱과 실행, 대화 재요청을 캡슐화한 서버 전용 생성기다."
+    },
+    "file:lib/ai/tools.js": {
+      "name": "tools.js",
+      "type": "file",
+      "summary": "챗봇이 사용할 슬롯 검색·예약 생성·예약 조회 도구의 스키마 검증과 PII 최소화 결과 형식을 정의한다."
+    },
+    "file:lib/security/apiLog.js": {
+      "name": "apiLog.js",
+      "type": "file",
+      "summary": "API 핸들러를 감싸 요청 메타데이터, 응답 지연 시간, 비밀값·PII 유출 검사 결과를 비동기로 기록한다."
+    },
+    "file:lib/security/audit.js": {
+      "name": "audit.js",
+      "type": "file",
+      "summary": "접근 및 업무 동작을 마스킹한 대상 식별자와 역할·IP 해시로 audit_logs에 기록하는 공통 감사 모듈이다."
+    },
+    "file:lib/security/chatLog.js": {
+      "name": "chatLog.js",
+      "type": "file",
+      "summary": "채팅 원문에서 PII를 탐지·마스킹한 뒤 chat_logs와 security_events REST 삽입 요청으로 남긴다."
+    },
+    "file:test/ai/deepseek.test.js": {
+      "name": "deepseek.test.js",
+      "type": "file",
+      "summary": "DeepSeek 생성기의 요청 구성, tool-call 반복 실행, 오류 처리와 서버 키 검증을 모의 fetch로 검증한다."
+    },
+    "file:test/ai/tools.test.js": {
+      "name": "tools.test.js",
+      "type": "file",
+      "summary": "챗봇 도구 입력의 허용 키·형식 검증과 예약·조회 결과의 PII 제거 동작을 검증한다."
+    },
+    "file:test/security/chatLog.test.js": {
+      "name": "chatLog.test.js",
+      "type": "file",
+      "summary": "채팅 로그와 보안 이벤트가 Supabase REST 요청으로 전송될 때 PII가 마스킹되는지 검증한다."
+    },
+    "function:app/api/chat/route.js:recordBookingAudit": {
+      "name": "recordBookingAudit",
+      "type": "function",
+      "summary": "챗봇 예약 생성 결과를 감사 로그에 남기고 성공 예약의 비정상 반복 시도를 탐지한다."
+    },
+    "function:app/api/chat/route.js:recordLookupAudit": {
+      "name": "recordLookupAudit",
+      "type": "function",
+      "summary": "예약 조회 시도에서 전화번호·코드의 해시 증거만 기록하고 대입 공격과 무차별 조회를 탐지한다."
+    },
+    "function:app/api/chat/route.js:createRequestChatService": {
+      "name": "createRequestChatService",
+      "type": "function",
+      "summary": "현재 요청의 사용자와 IP 문맥, 감사 콜백, DeepSeek 생성기를 묶어 채팅 서비스 인스턴스를 만든다."
+    },
+    "function:app/api/chat/route.js:handlePost": {
+      "name": "handlePost",
+      "type": "function",
+      "summary": "채팅 본문을 검증하고 인증 사용자 문맥으로 서비스 처리를 호출해 표준 JSON 응답을 반환한다."
+    },
+    "function:lib/ai/deepseek.js:getApiKey": {
+      "name": "getApiKey",
+      "type": "function",
+      "summary": "서버 환경변수의 DeepSeek API 키가 누락되거나 공백·형식 오류가 없는지 검사한다."
+    },
+    "function:lib/ai/deepseek.js:requestDeepSeek": {
+      "name": "requestDeepSeek",
+      "type": "function",
+      "summary": "제한 시간과 인증 헤더를 적용해 DeepSeek chat completions API를 호출하고 실패 응답을 처리한다."
+    },
+    "function:lib/ai/deepseek.js:createDeepSeekGenerator": {
+      "name": "createDeepSeekGenerator",
+      "type": "function",
+      "summary": "시스템 프롬프트와 사용자 대화를 구성하고 모델 tool-call을 서버 도구 실행 결과와 함께 반복 처리한다."
+    },
+    "function:lib/ai/tools.js:validateSearchSlots": {
+      "name": "validateSearchSlots",
+      "type": "function",
+      "summary": "슬롯 검색 도구의 타입·날짜·인원수와 허용 필드만 통과시키는 입력 검증기다."
+    },
+    "function:lib/ai/tools.js:validateCreateBooking": {
+      "name": "validateCreateBooking",
+      "type": "function",
+      "summary": "예약 생성에 필요한 슬롯·이름·전화·인원수와 선택 메모를 엄격히 검증한다."
+    },
+    "function:lib/ai/tools.js:validateLookupBooking": {
+      "name": "validateLookupBooking",
+      "type": "function",
+      "summary": "예약번호와 전화번호를 모두 요구해 단일 코드 대입으로는 조회할 수 없게 검증한다."
+    },
+    "function:lib/ai/tools.js:validateToolCall": {
+      "name": "validateToolCall",
+      "type": "function",
+      "summary": "허용된 도구 이름과 각 도구 전용 검증기를 적용해 모델 도구 호출을 수용 또는 거부한다."
+    },
+    "function:lib/ai/tools.js:shapeSearchResult": {
+      "name": "shapeSearchResult",
+      "type": "function",
+      "summary": "검색 결과의 골프장·슬롯 필드를 필요한 범위로 제한하고 목록 길이를 상한선 안으로 자른다."
+    },
+    "function:lib/ai/tools.js:shapeLookupResult": {
+      "name": "shapeLookupResult",
+      "type": "function",
+      "summary": "예약 조회 결과에서 이름과 전화번호를 제외한 안전한 필드만 챗봇에 전달한다."
+    },
+    "function:lib/ai/tools.js:executeToolCall": {
+      "name": "executeToolCall",
+      "type": "function",
+      "summary": "검증된 도구 호출을 서버 의존성으로 실행하고 각 작업 결과를 최소 공개 형식으로 반환한다."
+    },
+    "function:lib/security/apiLog.js:withApiLog": {
+      "name": "withApiLog",
+      "type": "function",
+      "summary": "핸들러 실행 전후에 인증·속도 제한·응답 상태를 수집하고 로그 기록을 예약하는 API 래퍼다."
+    },
+    "function:lib/security/apiLog.js:recordAfterResponse": {
+      "name": "recordAfterResponse",
+      "type": "function",
+      "summary": "응답 본문의 비밀값·PII 유출 검사를 수행하고 api_logs 및 security_events에 마스킹된 증거를 비동기로 기록한다."
+    },
+    "function:lib/security/audit.js:recordAudit": {
+      "name": "recordAudit",
+      "type": "function",
+      "summary": "감사 대상과 IP 증거를 마스킹해 사용자 역할과 allow·deny 결과를 audit_logs에 기록한다."
+    },
+    "function:lib/security/chatLog.js:insertRows": {
+      "name": "insertRows",
+      "type": "function",
+      "summary": "환경 설정에서 Supabase REST 엔드포인트와 키를 읽어 지정한 테이블에 행을 삽입한다."
+    },
+    "function:lib/security/chatLog.js:recordChatLog": {
+      "name": "recordChatLog",
+      "type": "function",
+      "summary": "메시지 원문을 PII 규칙으로 마스킹하고 탐지 규칙 목록과 함께 chat_logs에 저장한다."
+    },
+    "function:lib/security/chatLog.js:recordSecurityEvents": {
+      "name": "recordSecurityEvents",
+      "type": "function",
+      "summary": "채팅 보안 탐지 결과를 마스킹된 증거로 변환해 security_events에 기록한다."
+    },
+    "function:test/security/chatLog.test.js:withSupabaseConfiguration": {
+      "name": "withSupabaseConfiguration",
+      "type": "function",
+      "summary": "테스트 동안 Supabase 환경변수를 임시로 설정하고 실행 뒤 원래 상태를 복원한다."
+    },
+    "file:lib/ai/toolDependencies.js": {
+      "name": "toolDependencies.js",
+      "type": "file",
+      "summary": "챗봇이 서버 예약 도구를 안전하게 호출하도록 검색·생성·조회 의존성을 조합한다."
+    },
+    "function:lib/ai/toolDependencies.js:toSearchSlot": {
+      "name": "toSearchSlot",
+      "type": "function",
+      "summary": "코스와 슬롯 데이터를 챗봇 검색 결과용 평면 객체로 변환한다."
+    },
+    "function:lib/ai/toolDependencies.js:createChatToolDependencies": {
+      "name": "createChatToolDependencies",
+      "type": "function",
+      "summary": "검색, 예약 생성, 예약 조회 도구를 주입 가능한 서버 의존성과 감사 콜백으로 구성한다."
+    },
+    "file:lib/bookingLimits.js": {
+      "name": "bookingLimits.js",
+      "type": "file",
+      "summary": "예약 인원·이름·메모의 공통 입력 상한을 상수로 정의한다."
+    },
+    "file:lib/bookings.js": {
+      "name": "bookings.js",
+      "type": "file",
+      "summary": "폼과 챗봇이 함께 쓰는 단일 예약 생성·조회 진입점과 PII 보호 응답 변환을 제공한다."
+    },
+    "function:lib/bookings.js:validate": {
+      "name": "validate",
+      "type": "function",
+      "summary": "예약 입력의 슬롯, 이름, 전화번호, 인원, 메모 및 요청 출처를 검증하고 정규화한다."
+    },
+    "function:lib/bookings.js:toKoreanError": {
+      "name": "toKoreanError",
+      "type": "function",
+      "summary": "알려진 데이터베이스 예약 오류를 사용자용 한국어 메시지로 매핑한다."
+    },
+    "function:lib/bookings.js:createBooking": {
+      "name": "createBooking",
+      "type": "function",
+      "summary": "입력을 검증한 뒤 원자적 RPC로 예약을 생성하고 예약번호 충돌을 재시도한다."
+    },
+    "function:lib/bookings.js:toBookingSummary": {
+      "name": "toBookingSummary",
+      "type": "function",
+      "summary": "예약 행에서 이름·전화번호를 제외하고 메모의 PII를 마스킹한 조회용 요약을 만든다."
+    },
+    "function:lib/bookings.js:lookupBookings": {
+      "name": "lookupBookings",
+      "type": "function",
+      "summary": "예약번호와 전화번호를 함께 대조해 본인 예약만 조회하고 PII 없는 요약을 반환한다."
+    },
+    "function:lib/bookings.js:listMyBookings": {
+      "name": "listMyBookings",
+      "type": "function",
+      "summary": "로그인 사용자 ID로 예약을 조회하고 안전한 요약 목록으로 변환한다."
+    },
+    "file:lib/courses.js": {
+      "name": "courses.js",
+      "type": "file",
+      "summary": "Supabase의 코스·슬롯 데이터를 JavaScript API 형식으로 변환해 조회한다."
+    },
+    "function:lib/courses.js:toCourse": {
+      "name": "toCourse",
+      "type": "function",
+      "summary": "코스 데이터베이스 행의 snake_case 필드를 클라이언트용 camelCase 객체로 변환한다."
+    },
+    "function:lib/courses.js:toSlot": {
+      "name": "toSlot",
+      "type": "function",
+      "summary": "슬롯 행을 변환하고 정원과 예약 수에서 잔여 인원을 계산한다."
+    },
+    "function:lib/courses.js:listCourses": {
+      "name": "listCourses",
+      "type": "function",
+      "summary": "선택적 코스 유형 필터를 적용해 정렬된 골프장 목록을 조회한다."
+    },
+    "function:lib/courses.js:getCourse": {
+      "name": "getCourse",
+      "type": "function",
+      "summary": "코스 상세와 선택 날짜의 슬롯·잔여 좌석 정보를 함께 조회한다."
+    },
+    "function:lib/courses.js:getSlot": {
+      "name": "getSlot",
+      "type": "function",
+      "summary": "슬롯과 연결된 코스 요약 정보를 하나의 API 응답 형식으로 조회한다."
+    },
+    "file:lib/slotHandler.js": {
+      "name": "slotHandler.js",
+      "type": "file",
+      "summary": "슬롯 ID 검증과 조회 결과의 HTTP 응답 처리를 재사용 가능한 핸들러로 분리한다."
+    },
+    "function:lib/slotHandler.js:createGetSlotHandler": {
+      "name": "createGetSlotHandler",
+      "type": "function",
+      "summary": "주입 가능한 슬롯 조회 함수로 UUID 검증, 성공·오류 HTTP 응답을 처리하는 GET 핸들러를 만든다."
+    },
+    "file:lib/slotId.js": {
+      "name": "slotId.js",
+      "type": "file",
+      "summary": "슬롯 식별자가 UUID 형식인지 판별하는 공유 검증기를 제공한다."
+    },
+    "function:lib/slotId.js:isValidSlotId": {
+      "name": "isValidSlotId",
+      "type": "function",
+      "summary": "문자열 슬롯 ID를 정규식으로 검사해 UUID 형식만 허용한다."
+    },
+    "file:test/ai/toolDependencies.test.js": {
+      "name": "toolDependencies.test.js",
+      "type": "file",
+      "summary": "챗봇 도구 의존성의 검색·예약·조회 동작과 감사 콜백을 검증한다."
+    },
+    "function:test/ai/toolDependencies.test.js:createGetCourse": {
+      "name": "createGetCourse",
+      "type": "function",
+      "summary": "검색 도구 테스트를 위한 날짜별 코스 조회 stub을 생성한다."
+    },
+    "file:test/bookingIntegration.test.js": {
+      "name": "bookingIntegration.test.js",
+      "type": "file",
+      "summary": "예약 생성·조회·정원·입력 검증을 가짜 Supabase 클라이언트로 통합 검증한다."
+    },
+    "function:test/bookingIntegration.test.js:createFakeSupabase": {
+      "name": "createFakeSupabase",
+      "type": "function",
+      "summary": "코스와 슬롯 조회 시나리오를 위한 체인형 Supabase 테스트 double을 생성한다."
+    },
+    "function:test/bookingIntegration.test.js:createFakeBookingSupabase": {
+      "name": "createFakeBookingSupabase",
+      "type": "function",
+      "summary": "예약 RPC와 조회 체인을 모사해 예약 시나리오를 검증하는 테스트 double을 만든다."
+    },
+    "file:app/admin/[...slug]/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "정의되지 않은 관리자 하위 경로를 Next.js 404로 종료하는 catch-all 페이지입니다."
+    },
+    "file:lib/security/authPaths.js": {
+      "name": "authPaths.js",
+      "type": "file",
+      "summary": "일반 페이지 경로 중 로그인 또는 관리자 권한 검사가 필요한 범위를 판별합니다."
+    },
+    "file:lib/security/authz.js": {
+      "name": "authz.js",
+      "type": "file",
+      "summary": "관리자 접근의 허용·거부·미확인 경로 탐색을 마스킹한 감사 및 보안 이벤트로 비동기 기록합니다."
+    },
+    "file:lib/security/hash.js": {
+      "name": "hash.js",
+      "type": "file",
+      "summary": "IP와 보안 식별값을 salt 기반 SHA-256 지문으로 바꾸고 요청 헤더에서 실제 클라이언트 IP를 추출합니다."
+    },
+    "file:test/authPaths.test.js": {
+      "name": "authPaths.test.js",
+      "type": "file",
+      "summary": "보호 페이지 경로 판별 규칙을 검증하는 Node 테스트입니다."
+    },
+    "file:test/security/adminPathDetection.test.js": {
+      "name": "adminPathDetection.test.js",
+      "type": "file",
+      "summary": "관리자 catch-all, 접근 감사, PII 마스킹 및 과도한 경로 길이 방어를 통합 검증합니다."
+    },
+    "file:test/security/hash.test.js": {
+      "name": "hash.test.js",
+      "type": "file",
+      "summary": "IP 해시와 요청 IP 추출 유틸리티의 동작을 검증합니다."
+    },
+    "function:app/admin/[...slug]/page.js:AdminCatchAllPage": {
+      "name": "AdminCatchAllPage",
+      "type": "function",
+      "summary": "알 수 없는 관리자 경로에서 notFound를 호출해 404 응답을 유도합니다."
+    },
+    "function:lib/security/authPaths.js:isProtectedPagePath": {
+      "name": "isProtectedPagePath",
+      "type": "function",
+      "summary": "마이페이지와 관리자 경로 및 그 하위 경로를 보호 대상으로 반환합니다."
+    },
+    "function:lib/security/authz.js:recordUnauthorizedAdminAccess": {
+      "name": "recordUnauthorizedAdminAccess",
+      "type": "function",
+      "summary": "비인가 관리자 접근을 critical 보안 이벤트와 deny 감사 로그에 기록합니다."
+    },
+    "function:lib/security/authz.js:recordAdminAccess": {
+      "name": "recordAdminAccess",
+      "type": "function",
+      "summary": "허용된 관리자 페이지 접근을 마스킹된 경로와 함께 감사 로그에 남깁니다."
+    },
+    "function:lib/security/authz.js:recordUnknownAdminPath": {
+      "name": "recordUnknownAdminPath",
+      "type": "function",
+      "summary": "존재하지 않는 관리자 경로 탐색을 anomaly 보안 이벤트로 기록합니다."
+    },
+    "function:lib/security/hash.js:hashIp": {
+      "name": "hashIp",
+      "type": "function",
+      "summary": "IP 주소를 환경 변수 salt와 결합해 짧은 SHA-256 해시로 변환합니다."
+    },
+    "function:lib/security/hash.js:hashSecurityValue": {
+      "name": "hashSecurityValue",
+      "type": "function",
+      "summary": "민감한 보안 값을 원문 없이 비교할 수 있도록 도메인 분리된 해시로 만듭니다."
+    },
+    "function:lib/security/hash.js:getClientIp": {
+      "name": "getClientIp",
+      "type": "function",
+      "summary": "프록시 전달 헤더를 우선해 요청의 클라이언트 IP를 추출합니다."
+    },
+    "function:test/security/adminPathDetection.test.js:createFakeSupabase": {
+      "name": "createFakeSupabase",
+      "type": "function",
+      "summary": "테이블별 insert 호출과 payload를 수집하는 테스트용 Supabase 클라이언트를 만듭니다."
+    },
+    "file:lib/ai/dateContext.js": {
+      "name": "dateContext.js",
+      "type": "file",
+      "summary": "KST 기준 오늘과 챗봇 예약 가능 날짜 범위를 계산하는 날짜 유틸리티를 제공한다."
+    },
+    "function:lib/ai/dateContext.js:addDaysToYmd": {
+      "name": "addDaysToYmd",
+      "type": "function",
+      "summary": "YYYY-MM-DD 문자열에 UTC 기준 일수를 더해 같은 형식의 날짜를 반환한다."
+    },
+    "function:lib/ai/dateContext.js:getDateContext": {
+      "name": "getDateContext",
+      "type": "function",
+      "summary": "주입 가능한 시계를 KST 날짜로 해석해 오늘과 1~14일 예약 범위를 만든다."
+    },
+    "file:lib/ai/prompt.js": {
+      "name": "prompt.js",
+      "type": "file",
+      "summary": "예약 챗봇의 보호 규칙과 KST 날짜 컨텍스트를 포함한 시스템 프롬프트를 구성한다."
+    },
+    "function:lib/ai/prompt.js:buildChatSystemPrompt": {
+      "name": "buildChatSystemPrompt",
+      "type": "function",
+      "summary": "날짜 컨텍스트 또는 시계를 받아 예약 범위가 반영된 시스템 프롬프트를 만든다."
+    },
+    "file:lib/security/leak.js": {
+      "name": "leak.js",
+      "type": "file",
+      "summary": "응답 텍스트에서 API 키, 서비스 역할 키, JWT 같은 비밀정보 패턴을 탐지한다."
+    },
+    "function:lib/security/leak.js:scanForSecrets": {
+      "name": "scanForSecrets",
+      "type": "function",
+      "summary": "정해진 크기 안에서 비밀 패턴과 설정된 DeepSeek 키의 노출 여부를 검사한다."
+    },
+    "file:lib/security/outputGuard.js": {
+      "name": "outputGuard.js",
+      "type": "file",
+      "summary": "LLM 출력에서 비밀값·시스템 프롬프트 유출을 차단하고 PII를 마스킹한다."
+    },
+    "function:lib/security/outputGuard.js:inspectAssistantOutput": {
+      "name": "inspectAssistantOutput",
+      "type": "function",
+      "summary": "출력의 비밀값·보호 프롬프트 조각을 차단하고 안전한 경우 PII 마스킹 결과를 반환한다."
+    },
+    "file:test/ai/dateContext.test.js": {
+      "name": "dateContext.test.js",
+      "type": "file",
+      "summary": "KST 날짜 경계, 예약 기간 계산 및 날짜가 포함된 챗봇 프롬프트를 검증한다."
+    },
+    "file:test/security/outputGuard.test.js": {
+      "name": "outputGuard.test.js",
+      "type": "file",
+      "summary": "비밀값·프롬프트 유출 차단과 응답 PII 마스킹을 검증한다."
+    },
+    "file:lib/security/loginProtection.js": {
+      "name": "loginProtection.js",
+      "type": "file",
+      "summary": "로그인 시도 예약·확정과 잠금 이벤트 기록을 통해 경쟁 상태를 고려한 인증 브루트포스 방어를 제공합니다."
+    },
+    "file:lib/security/rules.js": {
+      "name": "rules.js",
+      "type": "file",
+      "summary": "API 과속, 예약번호 대입, 스캘핑, 예약 조회 브루트포스를 집계해 중복 없는 보안 이벤트를 생성합니다."
+    },
+    "file:lib/security/securityConfig.js": {
+      "name": "securityConfig.js",
+      "type": "file",
+      "summary": "이상 탐지 규칙의 임계값·기간·심각도를 한곳에 선언합니다."
+    },
+    "file:lib/supabase.js": {
+      "name": "supabase.js",
+      "type": "file",
+      "summary": "서버 service-role 클라이언트와 브라우저 anon 클라이언트를 환경 변수 기반으로 분리 생성합니다."
+    },
+    "file:test/security/loginProtection.test.js": {
+      "name": "loginProtection.test.js",
+      "type": "file",
+      "summary": "로그인 시도 키와 잠금 기록 흐름을 검증하는 Node 테스트입니다."
+    },
+    "file:test/security/rules.test.js": {
+      "name": "rules.test.js",
+      "type": "file",
+      "summary": "API 속도 제한과 각 이상 탐지 규칙의 이벤트 기록 조건을 검증합니다."
+    },
+    "function:lib/security/loginProtection.js:createLoginLimitKey": {
+      "name": "createLoginLimitKey",
+      "type": "function",
+      "summary": "정규화한 이메일과 IP 해시를 HMAC 키로 바꿔 원문 없는 로그인 제한 식별자를 생성합니다."
+    },
+    "function:lib/security/loginProtection.js:reserveLoginAttempt": {
+      "name": "reserveLoginAttempt",
+      "type": "function",
+      "summary": "Supabase RPC로 인증 전 로그인 시도 슬롯을 원자적으로 예약합니다."
+    },
+    "function:lib/security/loginProtection.js:finishLoginAttempt": {
+      "name": "finishLoginAttempt",
+      "type": "function",
+      "summary": "인증 결과에 따라 예약된 로그인 시도를 성공·실패·취소로 확정합니다."
+    },
+    "function:lib/security/loginProtection.js:isCredentialFailure": {
+      "name": "isCredentialFailure",
+      "type": "function",
+      "summary": "오류 코드가 자격 증명 실패인지 판별해 실패 횟수 처리 대상을 구분합니다."
+    },
+    "function:lib/security/loginProtection.js:recordLoginLock": {
+      "name": "recordLoginLock",
+      "type": "function",
+      "summary": "현재 잠금 창에 같은 이벤트가 없을 때만 ANO_LOGIN_BF 보안 이벤트를 삽입합니다."
+    },
+    "function:lib/security/rules.js:countRecentDenies": {
+      "name": "countRecentDenies",
+      "type": "function",
+      "summary": "지정 기간의 deny 감사 로그 수를 IP와 행동 기준으로 집계합니다."
+    },
+    "function:lib/security/rules.js:insertAnomalyOnce": {
+      "name": "insertAnomalyOnce",
+      "type": "function",
+      "summary": "동일 IP·규칙의 최근 이벤트를 확인해 중복 없이 이상 이벤트를 기록합니다."
+    },
+    "function:lib/security/rules.js:checkApiRateLimit": {
+      "name": "checkApiRateLimit",
+      "type": "function",
+      "summary": "최근 API 로그 수가 임계값을 넘으면 ANO_RATE 이벤트를 비동기로 기록합니다."
+    },
+    "function:lib/security/rules.js:detectCodeEnumeration": {
+      "name": "detectCodeEnumeration",
+      "type": "function",
+      "summary": "예약번호 조회 거부 패턴을 집계해 코드 대입 공격을 탐지합니다."
+    },
+    "function:lib/security/rules.js:detectScalping": {
+      "name": "detectScalping",
+      "type": "function",
+      "summary": "짧은 시간에 반복된 허용 예약 행동을 감지해 스캘핑 이벤트를 기록합니다."
+    },
+    "function:lib/security/rules.js:detectLookupBruteForce": {
+      "name": "detectLookupBruteForce",
+      "type": "function",
+      "summary": "서로 다른 예약번호 지문을 반복 대입한 조회 실패를 브루트포스로 탐지합니다."
+    },
+    "function:lib/supabase.js:createServerClient": {
+      "name": "createServerClient",
+      "type": "function",
+      "summary": "서버 전용 service role 키로 Supabase 클라이언트를 생성합니다."
+    },
+    "function:lib/supabase.js:createBrowserClient": {
+      "name": "createBrowserClient",
+      "type": "function",
+      "summary": "공개 URL과 anon 키를 사용하는 브라우저 Supabase 클라이언트를 생성합니다."
+    },
+    "function:test/security/loginProtection.test.js:withSecuritySecret": {
+      "name": "withSecuritySecret",
+      "type": "function",
+      "summary": "테스트 중 IP 해시 salt 환경 변수를 임시 설정하고 원상 복구합니다."
+    },
+    "function:test/security/rules.test.js:createRateLimitClient": {
+      "name": "createRateLimitClient",
+      "type": "function",
+      "summary": "API 로그 개수를 모사하는 rate-limit 테스트용 Supabase 클라이언트를 구성합니다."
+    },
+    "function:test/security/rules.test.js:createAnomalyClient": {
+      "name": "createAnomalyClient",
+      "type": "function",
+      "summary": "감사·보안 이벤트 조회와 삽입을 모사하는 이상 탐지 테스트 클라이언트를 구성합니다."
+    },
+    "file:lib/ai/chatService.js": {
+      "name": "chatService.js",
+      "type": "file",
+      "summary": "대화 입력 검사, PII 마스킹 로그, LLM 응답 생성과 출력 검사를 조합해 안전한 챗봇 서비스를 생성합니다."
+    },
+    "file:lib/security/chatGuard.js": {
+      "name": "chatGuard.js",
+      "type": "file",
+      "summary": "대화 턴 수·메시지 형식을 검증하고 프롬프트 인젝션 검사를 적용합니다."
+    },
+    "file:lib/security/injection.js": {
+      "name": "injection.js",
+      "type": "file",
+      "summary": "프롬프트 인젝션 규칙을 정규식으로 검사하고 가장 높은 심각도의 탐지 결과를 반환합니다."
+    },
+    "file:test/ai/chatService.test.js": {
+      "name": "chatService.test.js",
+      "type": "file",
+      "summary": "안전한 챗봇 서비스의 로깅·차단·응답 정리 흐름을 검증합니다."
+    },
+    "file:test/security/injection.test.js": {
+      "name": "injection.test.js",
+      "type": "file",
+      "summary": "프롬프트 인젝션 규칙과 채팅 입력 가드의 차단 동작을 검증합니다."
+    },
+    "function:lib/ai/chatService.js:sanitizeQuickReplies": {
+      "name": "sanitizeQuickReplies",
+      "type": "function",
+      "summary": "길이와 출력 보안 검사를 통과한 짧은 답장 후보만 사용자에게 노출합니다."
+    },
+    "function:lib/ai/chatService.js:createChatService": {
+      "name": "createChatService",
+      "type": "function",
+      "summary": "의존성을 주입받아 입력 검사, 로그 마스킹, LLM 생성, 출력 차단을 수행하는 챗봇 처리 함수를 만듭니다."
+    },
+    "function:lib/security/chatGuard.js:validateChatMessages": {
+      "name": "validateChatMessages",
+      "type": "function",
+      "summary": "역할·내용·길이·턴 수를 검사해 유효한 채팅 메시지 배열만 허용합니다."
+    },
+    "function:lib/security/chatGuard.js:inspectChatMessages": {
+      "name": "inspectChatMessages",
+      "type": "function",
+      "summary": "검증된 대화의 텍스트를 대상으로 프롬프트 인젝션 결과를 반환합니다."
+    },
+    "function:lib/security/injection.js:detectPromptInjection": {
+      "name": "detectPromptInjection",
+      "type": "function",
+      "summary": "입력 문자열에 대한 모든 인젝션 규칙 일치와 최고 심각도를 계산합니다."
+    },
+    "function:test/ai/chatService.test.js:createHarness": {
+      "name": "createHarness",
+      "type": "function",
+      "summary": "생성·보안 이벤트·채팅 로그 호출을 관찰할 수 있는 챗봇 테스트 하니스를 구성합니다."
+    },
+    "file:lib/security/apiResponseGuard.js": {
+      "name": "apiResponseGuard.js",
+      "type": "file",
+      "summary": "공개 API 응답에서 골프장 연락처를 제외한 뒤 PII 탐지 결과를 반환합니다."
+    },
+    "file:lib/security/pii.js": {
+      "name": "pii.js",
+      "type": "file",
+      "summary": "이름·전화·주민번호·카드·이메일 규칙으로 민감정보를 중첩 없이 탐지하고 마스킹된 증적을 생성합니다."
+    },
+    "file:test/security/apiLog.test.js": {
+      "name": "apiLog.test.js",
+      "type": "file",
+      "summary": "API 응답 검사 유틸리티의 PII 탐지 결과를 검증합니다."
+    },
+    "file:test/security/apiResponseGuardImageUrl.test.js": {
+      "name": "apiResponseGuardImageUrl.test.js",
+      "type": "file",
+      "summary": "이미지 URL이 전화번호처럼 오탐되지 않도록 API 응답 검사 예외를 검증합니다."
+    },
+    "file:test/security/pii.test.js": {
+      "name": "pii.test.js",
+      "type": "file",
+      "summary": "각 PII 규칙의 탐지·마스킹·경로 증적 생성 동작을 검증합니다."
+    },
+    "function:lib/security/apiResponseGuard.js:omitPublicCourseContact": {
+      "name": "omitPublicCourseContact",
+      "type": "function",
+      "summary": "재귀적으로 공개 코스 데이터에서 phone 필드를 제거합니다."
+    },
+    "function:lib/security/apiResponseGuard.js:inspectApiResponsePii": {
+      "name": "inspectApiResponsePii",
+      "type": "function",
+      "summary": "공개 코스 응답은 연락처를 제거한 뒤, 다른 응답은 원문 기준으로 PII를 탐지합니다."
+    },
+    "function:lib/security/pii.js:maskName": {
+      "name": "maskName",
+      "type": "function",
+      "summary": "문자 위치를 보존하면서 이름의 가운데 글자를 별표로 치환합니다."
+    },
+    "function:lib/security/pii.js:collectMatches": {
+      "name": "collectMatches",
+      "type": "function",
+      "summary": "규칙별 후보를 정렬하고 겹치는 범위를 제거해 안정적인 PII 일치 목록을 만듭니다."
+    },
+    "function:lib/security/pii.js:detectAndMaskPii": {
+      "name": "detectAndMaskPii",
+      "type": "function",
+      "summary": "문자열의 PII 일치 정보를 집계하고 원문을 노출하지 않는 마스킹 문자열을 생성합니다."
+    },
+    "function:lib/security/pii.js:hasPii": {
+      "name": "hasPii",
+      "type": "function",
+      "summary": "옵션에 따라 무시할 규칙을 제외하고 PII 존재 여부를 반환합니다."
+    },
+    "function:lib/security/pii.js:createMaskedEvidence": {
+      "name": "createMaskedEvidence",
+      "type": "function",
+      "summary": "길이를 제한한 마스킹 증적 문자열을 생성해 로그 원문 유출을 방지합니다."
+    },
+    "function:lib/security/pii.js:createMaskedPathEvidence": {
+      "name": "createMaskedPathEvidence",
+      "type": "function",
+      "summary": "URL 경로를 안전하게 디코드하고 각 세그먼트의 PII를 마스킹해 증적으로 만듭니다."
+    },
+    "file:app/admin/DashboardControls.js": {
+      "name": "DashboardControls.js",
+      "type": "file",
+      "summary": "관리자 대시보드에서 갱신 시각, 자동 새로고침 전환 및 수동 새로고침 버튼을 공통으로 표시한다."
+    },
+    "function:app/admin/DashboardControls.js:DashboardControls": {
+      "name": "DashboardControls",
+      "type": "function",
+      "summary": "자동 갱신 상태와 로딩 상태를 접근 가능한 공통 대시보드 제어 UI로 렌더링한다."
+    },
+    "file:app/admin/audit/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "관리자 감사 로그를 필터링·자동 갱신하고 허용·거부 결과를 테이블로 표시한다."
+    },
+    "function:app/admin/audit/page.js:ResultBadge": {
+      "name": "ResultBadge",
+      "type": "function",
+      "summary": "감사 로그의 allow·deny 결과를 색상과 텍스트가 함께 있는 배지로 렌더링한다."
+    },
+    "function:app/admin/audit/page.js:AuditLogPage": {
+      "name": "AuditLogPage",
+      "type": "function",
+      "summary": "감사 로그 API의 필터 쿼리, debounce, 자동 갱신, 거부 이벤트 강조 UI를 조합한다."
+    },
+    "file:app/admin/security/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "보안 이벤트의 심각도·분류 필터, 집계, 규칙별 분포와 이벤트 타임라인을 표시한다."
+    },
+    "function:app/admin/security/page.js:SeverityBadge": {
+      "name": "SeverityBadge",
+      "type": "function",
+      "summary": "보안 이벤트 심각도를 색상과 레이블이 있는 접근 가능한 배지로 렌더링한다."
+    },
+    "function:app/admin/security/page.js:SecurityDashboardPage": {
+      "name": "SecurityDashboardPage",
+      "type": "function",
+      "summary": "보안 이벤트 API 데이터를 필터링하고 심각도 집계·규칙별 차트·안전한 텍스트 타임라인을 렌더링한다."
+    },
+    "file:app/admin/useAdminResource.js": {
+      "name": "useAdminResource.js",
+      "type": "file",
+      "summary": "관리자 API 리소스의 초기 로드, 가시성 기반 자동 갱신, 요청 경합 방지와 오류 상태를 관리하는 React hook을 제공한다."
+    },
+    "function:app/admin/useAdminResource.js:useAdminResource": {
+      "name": "useAdminResource",
+      "type": "function",
+      "summary": "최신 응답만 반영하면서 foreground·background 로드와 5초 자동 갱신을 관리한다."
+    },
+    "file:app/layout.js": {
+      "name": "layout.js",
+      "type": "file",
+      "summary": "전역 CSS·메타데이터와 공통 헤더·채팅 위젯을 포함하는 App Router 루트 레이아웃입니다."
+    },
+    "file:components/SiteHeader.js": {
+      "name": "SiteHeader.js",
+      "type": "file",
+      "summary": "인증 상태와 프로필 역할을 구독해 사용자 메뉴 및 관리자 탐색을 표시하는 클라이언트 헤더입니다."
+    },
+    "file:components/chat/ChatWidget.js": {
+      "name": "ChatWidget.js",
+      "type": "file",
+      "summary": "세션 ID를 유지하며 `/api/chat`과 통신하고 빠른 답장과 오류 상태를 렌더링하는 클라이언트 채팅 위젯입니다."
+    },
+    "function:app/layout.js:RootLayout": {
+      "name": "RootLayout",
+      "type": "function",
+      "summary": "전역 페이지 골격 안에 SiteHeader, 자식 콘텐츠, ChatWidget을 배치합니다."
+    },
+    "function:components/SiteHeader.js:SiteHeader": {
+      "name": "SiteHeader",
+      "type": "function",
+      "summary": "세션과 인증 변경을 동기화해 역할별 내비게이션과 로그인 상태를 렌더링합니다."
+    },
+    "function:components/chat/ChatWidget.js:createSessionId": {
+      "name": "createSessionId",
+      "type": "function",
+      "summary": "sessionStorage의 기존 세션 ID를 재사용하거나 UUID를 생성해 저장합니다."
+    },
+    "function:components/chat/ChatWidget.js:ChatWidget": {
+      "name": "ChatWidget",
+      "type": "function",
+      "summary": "사용자 메시지 전송, 응답·빠른 답장 상태 갱신, 오류 처리를 수행하는 채팅 UI입니다."
+    },
+    "table:supabase/migrations/20260909000000_auth_login_limits.sql:login_attempt_limits": {
+      "name": "login_attempt_limits",
+      "type": "table",
+      "summary": "로그인 실패·예약 시도·잠금 상태를 HMAC 키별로 보관하는 login_attempt_limits 테이블과 원자적 갱신 함수를 생성한다. 서비스 역할만 이 상태를 읽고 실행하도록 권한을 제한한다."
+    },
+    "config:.env.example": {
+      "name": ".env.example",
+      "type": "config",
+      "summary": "Supabase, DeepSeek, IP 해시 salt에 필요한 공개·서버 전용 환경 변수의 예시를 제공합니다."
+    },
+    "document:AGENTS.md": {
+      "name": "AGENTS.md",
+      "type": "document",
+      "summary": "프로젝트의 보안 제약, API 계약, 데이터 모델, 챗봇 처리 순서와 협업 규칙을 정의합니다."
+    },
+    "document:CLAUDE.md": {
+      "name": "CLAUDE.md",
+      "type": "document",
+      "summary": "AI 협업 도구가 따라야 할 프로젝트 구조, 보안 원칙, API와 데이터베이스 계약을 설명합니다."
+    },
+    "document:README.md": {
+      "name": "README.md",
+      "type": "document",
+      "summary": "firebooking의 보안 중심 목표, 기술 스택, 역할 분담, 문서와 실행 방법을 소개합니다."
+    },
+    "config:jsconfig.json": {
+      "name": "jsconfig.json",
+      "type": "config",
+      "summary": "JavaScript 프로젝트의 컴파일러 옵션과 절대 경로 해석 기준을 설정합니다."
+    },
+    "config:package.json": {
+      "name": "package.json",
+      "type": "config",
+      "summary": "Next.js 애플리케이션의 실행 스크립트와 런타임·개발 의존성을 선언합니다."
+    },
+    "config:vercel.json": {
+      "name": "vercel.json",
+      "type": "config",
+      "summary": "Vercel 배포의 런타임 리전을 지정합니다."
+    },
+    "document:docs/ARCHITECTURE.md": {
+      "name": "ARCHITECTURE.md",
+      "type": "document",
+      "summary": "App Router, Supabase, 보안 모듈과 화면 계층의 분리를 설명하는 아키텍처 개요입니다."
+    },
+    "document:docs/CONVENTIONS.md": {
+      "name": "CONVENTIONS.md",
+      "type": "document",
+      "summary": "브랜치·커밋·PR·AI 사용, 파일 구조, 코드 스타일과 보안 규칙을 상세히 정의합니다."
+    },
+    "document:docs/DATA_FLOW.md": {
+      "name": "DATA_FLOW.md",
+      "type": "document",
+      "summary": "폼 예약, 챗봇 예약, 관리자 감사와 로그 마스킹의 데이터 이동 경로를 설명합니다."
+    },
+    "document:docs/DECISIONS.md": {
+      "name": "DECISIONS.md",
+      "type": "document",
+      "summary": "프로젝트 범위, 우선순위, 협업 방식에 관한 초기 의사결정을 기록합니다."
+    },
+    "document:docs/DEEPSEEK_SETUP.md": {
+      "name": "DEEPSEEK_SETUP.md",
+      "type": "document",
+      "summary": "DeepSeek API 환경 변수 설정과 자동·실연·공격 내성 검증 절차를 안내합니다."
+    },
+    "document:docs/LLM_SECURITY_TESTS.md": {
+      "name": "LLM_SECURITY_TESTS.md",
+      "type": "document",
+      "summary": "프롬프트 인젝션과 PII 유출 방어를 확인하는 LLM 보안 테스트 시나리오를 정리합니다."
+    },
+    "document:docs/MENTOR_FEEDBACK_REMEDIATION.md": {
+      "name": "MENTOR_FEEDBACK_REMEDIATION.md",
+      "type": "document",
+      "summary": "관리자 경로 탐색 취약점에 대한 멘토 피드백, 수정 내역과 검증 근거를 기록합니다."
+    },
+    "document:docs/PLAN.md": {
+      "name": "PLAN.md",
+      "type": "document",
+      "summary": "2주 일정, 기능 우선순위, 담당자별 작업과 발표 준비 체크리스트를 제공합니다."
+    },
+    "config:docs/SBOM.cdx.json": {
+      "name": "SBOM.cdx.json",
+      "type": "config",
+      "summary": "CycloneDX 형식으로 애플리케이션 의존성과 구성 요소를 열거한 소프트웨어 자재 명세입니다."
+    },
+    "document:docs/SBOM.md": {
+      "name": "SBOM.md",
+      "type": "document",
+      "summary": "SBOM 생성 명령과 산출물 위치를 간단히 안내합니다."
+    },
+    "document:docs/SECURITY.md": {
+      "name": "SECURITY.md",
+      "type": "document",
+      "summary": "PII 마스킹, 인젝션 탐지, API 모니터링, 권한 감사의 설계와 시연 기준을 정의합니다."
+    },
+    "document:docs/STACK.md": {
+      "name": "STACK.md",
+      "type": "document",
+      "summary": "프런트엔드, 백엔드, 데이터베이스, AI 보안과 운영 도구의 기술 스택을 설명합니다."
+    },
+    "table:supabase/policies.sql:policies": {
+      "name": "policies",
+      "type": "table",
+      "summary": "모든 서비스·보안 테이블의 RLS 활성화와 역할별 접근 정책을 정의합니다."
+    },
+    "table:supabase/schema.sql:schema": {
+      "name": "schema",
+      "type": "table",
+      "summary": "골프 예약, 사용자 프로필, API·감사·보안·채팅 로그와 로그인 제한 테이블 및 RPC를 정의합니다."
+    },
+    "table:supabase/seed.sql:seed": {
+      "name": "seed",
+      "type": "table",
+      "summary": "데모용 필드·스크린 골프장과 향후 14일 예약 슬롯을 반복 실행 가능하게 채웁니다."
+    },
+    "table:supabase/schema.sql:courses": {
+      "name": "courses",
+      "type": "table",
+      "summary": "골프장 기본 정보와 공개 표시용 주소·연락처·이미지 데이터를 저장합니다."
+    },
+    "table:supabase/schema.sql:slots": {
+      "name": "slots",
+      "type": "table",
+      "summary": "골프장별 날짜·시간·가격·정원과 예약 인원 수를 저장합니다."
+    },
+    "table:supabase/schema.sql:bookings": {
+      "name": "bookings",
+      "type": "table",
+      "summary": "예약번호와 원본 이름·전화번호를 포함한 예약 정보를 저장하는 유일한 PII 원본 테이블입니다."
+    },
+    "table:supabase/schema.sql:profiles": {
+      "name": "profiles",
+      "type": "table",
+      "summary": "Supabase Auth 사용자와 표시 이름·역할을 연결합니다."
+    },
+    "table:supabase/schema.sql:api_logs": {
+      "name": "api_logs",
+      "type": "table",
+      "summary": "API 요청 메서드·경로·상태·지연 시간·IP 해시를 기록합니다."
+    },
+    "table:supabase/schema.sql:audit_logs": {
+      "name": "audit_logs",
+      "type": "table",
+      "summary": "행위자·대상·허용 여부·IP 해시로 접근 감사 결과를 기록합니다."
+    },
+    "table:supabase/schema.sql:security_events": {
+      "name": "security_events",
+      "type": "table",
+      "summary": "탐지 규칙, 심각도, 증적을 보존한 보안 이벤트를 기록합니다."
+    },
+    "table:supabase/schema.sql:chat_logs": {
+      "name": "chat_logs",
+      "type": "table",
+      "summary": "세션별 역할과 PII 마스킹된 채팅 내용만 저장합니다."
+    },
+    "table:supabase/schema.sql:login_attempt_limits": {
+      "name": "login_attempt_limits",
+      "type": "table",
+      "summary": "해시 키별 실패·대기 시도 수와 잠금 시각을 원자적으로 관리합니다."
+    },
+    "file:.github/CODEOWNERS": {
+      "name": "CODEOWNERS",
+      "type": "file",
+      "summary": "보안·예약·UI·AI 모듈의 경로별 코드 소유자와 공통 검토 책임자를 지정하는 GitHub 검토 정책 파일이다."
+    },
+    "document:.github/pull_request_template.md": {
+      "name": "pull_request_template.md",
+      "type": "document",
+      "summary": "변경 내용, 검증 항목, 보안 규칙 준수와 리뷰어 참고 사항을 작성하도록 안내하는 PR 템플릿이다."
+    },
+    "file:app/admin/layout.js": {
+      "name": "layout.js",
+      "type": "file",
+      "summary": "관리자 경로의 서버 측 권한 검사를 수행하고 감사 기록과 탭 기반 관리 화면 셸을 제공한다."
+    },
+    "file:app/admin/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "감사 로그와 보안 이벤트 대시보드로 이동하는 관리자 시작 페이지를 렌더링한다."
+    },
+    "file:app/api/admin/[...path]/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "알 수 없는 관리자 API 경로에 대해 직원 권한을 확인하고 접근 시도를 감사한 뒤 404 응답을 반환한다."
+    },
+    "file:app/api/admin/audit/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "직원·관리자 전용으로 감사 로그를 필터링 조회하는 API 엔드포인트다."
+    },
+    "file:app/api/admin/events/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "보안 이벤트를 심각도·규칙·기간 조건으로 조회하고 권한 없는 요청은 거부하는 API 엔드포인트다."
+    },
+    "file:app/api/auth/login/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "이메일·비밀번호 로그인을 처리하면서 IP와 계정 해시 기준의 시도 예약·잠금·감사 기록을 적용한다."
+    },
+    "file:app/api/bookings/lookup/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "예약번호와 전화번호를 함께 대조해 필요한 예약 정보만 반환하고 실패 조회를 감사하는 API다."
+    },
+    "file:app/api/bookings/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "폼 예약 요청을 검증하고 단일 createBooking 진입점으로 전달한 뒤 생성 결과를 응답한다."
+    },
+    "file:app/api/courses/[id]/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "날짜 조건을 포함해 특정 골프장과 예약 가능한 슬롯을 조회하는 API 엔드포인트다."
+    },
+    "file:app/api/courses/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "선택적 필드·스크린 유형 필터로 골프장 목록을 반환하는 API 엔드포인트다."
+    },
+    "file:app/api/health/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "서비스와 Supabase 연결 상태를 점검해 배포 환경의 상태 확인 응답을 제공한다."
+    },
+    "file:app/api/slots/[slotId]/route.js": {
+      "name": "route.js",
+      "type": "file",
+      "summary": "공통 슬롯 핸들러를 API 로그 래퍼로 노출해 단일 슬롯 정보를 조회한다."
+    },
+    "file:app/book/[slotId]/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "선택한 슬롯의 상태를 보여주고 이름·전화번호·인원·메모를 입력받아 예약 API로 전송하는 클라이언트 페이지다."
+    },
+    "file:app/booking/[code]/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "예약 완료 코드와 슬롯 요약을 표시하고 코드를 클립보드에 복사할 수 있는 완료 페이지다."
+    },
+    "file:app/courses/[id]/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "골프장 상세와 날짜별 슬롯을 불러와 예약 가능한 시간대를 선택하도록 구성한 클라이언트 페이지다."
+    },
+    "file:app/globals.css": {
+      "name": "globals.css",
+      "type": "file",
+      "summary": "Tailwind를 불러오고 라이트·다크 테마의 브랜드, 심각도, 표면 색상 토큰과 전역 본문 스타일을 정의한다."
+    },
+    "file:app/login/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "로그인 실패·잠금 안내를 표시하고 인증 API로 자격 증명을 전송하는 클라이언트 로그인 화면이다."
+    },
+    "file:app/lookup/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "예약번호와 전화번호를 함께 입력받아 안전한 예약 조회 결과를 표시하는 클라이언트 페이지다."
+    },
+    "file:app/my/loading.js": {
+      "name": "loading.js",
+      "type": "file",
+      "summary": "내 예약 페이지 데이터가 로드되는 동안 예약 카드 모양의 스켈레톤 UI를 표시한다."
+    },
+    "file:app/my/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "인증 사용자 프로필과 본인 예약 목록을 서버에서 조회해 개인 예약 페이지로 렌더링한다."
+    },
+    "file:app/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "필드·스크린 유형을 전환하며 골프장 목록을 조회하고 카드 형태로 보여주는 홈 화면이다."
+    },
+    "file:app/signup/page.js": {
+      "name": "page.js",
+      "type": "file",
+      "summary": "표시 이름을 포함한 Supabase 회원가입을 처리하고 인증 안내 또는 오류를 표시한다."
+    },
+    "file:components/LogoutButton.js": {
+      "name": "LogoutButton.js",
+      "type": "file",
+      "summary": "세션 종료 중 상태를 표시하고 Supabase 로그아웃 뒤 홈으로 이동시키는 재사용 버튼이다."
+    },
+    "function:app/admin/layout.js:AdminLayout": {
+      "name": "AdminLayout",
+      "type": "function",
+      "summary": "현재 사용자의 직원 권한을 확인하고 차단 또는 관리 화면 셸 렌더링과 접근 감사를 수행한다."
+    },
+    "function:app/admin/layout.js:AdminShell": {
+      "name": "AdminShell",
+      "type": "function",
+      "summary": "활성 탭을 판별해 관리자 탐색 메뉴와 자식 콘텐츠를 배치한다."
+    },
+    "function:app/admin/page.js:AdminIndexPage": {
+      "name": "AdminIndexPage",
+      "type": "function",
+      "summary": "관리 기능 카드 목록을 순회해 보안 이벤트와 감사 로그로 가는 링크를 렌더링한다."
+    },
+    "function:app/api/admin/[...path]/route.js:handleUnknownAdminApi": {
+      "name": "handleUnknownAdminApi",
+      "type": "function",
+      "summary": "직원 권한을 확인한 뒤 존재하지 않는 관리자 API 접근을 기록하고 표준 404 JSON을 반환한다."
+    },
+    "function:app/book/[slotId]/page.js:BookForm": {
+      "name": "BookForm",
+      "type": "function",
+      "summary": "슬롯 조회 상태와 예약 입력값을 관리하고 검증된 폼 데이터를 예약 API로 제출한다."
+    },
+    "function:app/book/[slotId]/page.js:BookPage": {
+      "name": "BookPage",
+      "type": "function",
+      "summary": "예약 폼을 Suspense 경계 안에서 렌더링하는 예약 페이지 진입 컴포넌트다."
+    },
+    "function:app/booking/[code]/page.js:BookingComplete": {
+      "name": "BookingComplete",
+      "type": "function",
+      "summary": "URL의 예약 코드와 슬롯 정보를 표시하고 코드 복사 완료 상태를 관리한다."
+    },
+    "function:app/booking/[code]/page.js:BookingCompletePage": {
+      "name": "BookingCompletePage",
+      "type": "function",
+      "summary": "예약 완료 콘텐츠를 Suspense 경계에서 제공하는 페이지 컴포넌트다."
+    },
+    "function:app/courses/[id]/page.js:buildDateOptions": {
+      "name": "buildDateOptions",
+      "type": "function",
+      "summary": "오늘을 기준으로 선택 가능한 날짜 값과 한국어 표시 레이블 목록을 생성한다."
+    },
+    "function:app/courses/[id]/page.js:CourseDetailPage": {
+      "name": "CourseDetailPage",
+      "type": "function",
+      "summary": "골프장과 날짜별 슬롯을 비동기로 불러와 로딩·오류·매진 상태와 예약 링크를 렌더링한다."
+    },
+    "function:app/login/page.js:LoginForm": {
+      "name": "LoginForm",
+      "type": "function",
+      "summary": "이메일·비밀번호 상태를 관리하고 로그인 API 결과에 따라 오류, 잠금 대기 또는 리디렉션을 처리한다."
+    },
+    "function:app/login/page.js:LoginPage": {
+      "name": "LoginPage",
+      "type": "function",
+      "summary": "로그인 폼을 Suspense 경계로 감싸 검색 매개변수 기반 안내를 안전하게 렌더링한다."
+    },
+    "function:app/lookup/page.js:LookupPage": {
+      "name": "LookupPage",
+      "type": "function",
+      "summary": "예약 코드와 전화번호를 제출하고 대조된 예약 목록, 로딩 상태 및 오류를 표시한다."
+    },
+    "function:app/my/loading.js:MyLoading": {
+      "name": "MyLoading",
+      "type": "function",
+      "summary": "반복 카드로 개인 예약 목록의 로딩 스켈레톤을 렌더링한다."
+    },
+    "function:app/my/page.js:MyPage": {
+      "name": "MyPage",
+      "type": "function",
+      "summary": "현재 사용자와 프로필·예약을 병렬 조회하고 비인증 사용자는 로그인으로 이동시킨다."
+    },
+    "function:app/page.js:Home": {
+      "name": "Home",
+      "type": "function",
+      "summary": "유형 필터 변화에 따라 골프장 목록을 로드하고 로딩·오류·빈 결과 상태를 렌더링한다."
+    },
+    "function:app/signup/page.js:SignupPage": {
+      "name": "SignupPage",
+      "type": "function",
+      "summary": "회원가입 폼을 검증하고 Supabase 인증 결과에 따른 안내와 로그인 이동을 처리한다."
+    },
+    "function:components/LogoutButton.js:LogoutButton": {
+      "name": "LogoutButton",
+      "type": "function",
+      "summary": "중복 클릭을 막으면서 브라우저 인증 클라이언트로 로그아웃을 실행하는 버튼을 렌더링한다."
+    },
+    "file:eslint.config.mjs": {
+      "name": "eslint.config.mjs",
+      "type": "file",
+      "summary": "Next.js 프로젝트에 적용할 ESLint 기본 설정과 무시 규칙을 정의한다."
+    },
+    "file:lib/adminFormat.js": {
+      "name": "adminFormat.js",
+      "type": "file",
+      "summary": "관리자 화면에서 쓰는 KST 시간 표시, 해시 축약, 날짜 범위와 URL 쿼리 생성 유틸리티를 제공한다."
+    },
+    "function:lib/adminFormat.js:formatTimestamp": {
+      "name": "formatTimestamp",
+      "type": "function",
+      "summary": "시간 값을 KST 기준의 간결한 날짜·시각 문자열로 포맷한다."
+    },
+    "function:lib/adminFormat.js:formatFullTimestamp": {
+      "name": "formatFullTimestamp",
+      "type": "function",
+      "summary": "시간 값을 KST 기준의 상세 타임스탬프로 포맷한다."
+    },
+    "function:lib/adminFormat.js:shortHash": {
+      "name": "shortHash",
+      "type": "function",
+      "summary": "로그의 긴 해시 값을 화면 표시용으로 짧게 자른다."
+    },
+    "function:lib/adminFormat.js:startOfDayIso": {
+      "name": "startOfDayIso",
+      "type": "function",
+      "summary": "날짜 입력을 KST 하루 시작 시각의 ISO 문자열로 변환한다."
+    },
+    "function:lib/adminFormat.js:endOfDayIso": {
+      "name": "endOfDayIso",
+      "type": "function",
+      "summary": "날짜 입력을 KST 하루 종료 시각의 ISO 문자열로 변환한다."
+    },
+    "function:lib/adminFormat.js:buildQuery": {
+      "name": "buildQuery",
+      "type": "function",
+      "summary": "비어 있지 않은 필터 값을 URLSearchParams 쿼리 문자열로 구성한다."
+    },
+    "file:lib/auth.js": {
+      "name": "auth.js",
+      "type": "file",
+      "summary": "Supabase 인증 사용자와 프로필 역할을 조회하고 요청 단위 인증 정보를 구성한다."
+    },
+    "function:lib/auth.js:getAuthUser": {
+      "name": "getAuthUser",
+      "type": "function",
+      "summary": "Supabase 클라이언트에서 현재 인증 사용자를 읽고 인증 오류를 구분한다."
+    },
+    "function:lib/auth.js:getUserProfile": {
+      "name": "getUserProfile",
+      "type": "function",
+      "summary": "사용자 ID로 profiles 테이블의 역할 프로필을 조회한다."
+    },
+    "function:lib/auth.js:attachRole": {
+      "name": "attachRole",
+      "type": "function",
+      "summary": "인증 사용자 객체에 조회한 프로필 역할 정보를 결합한다."
+    },
+    "function:lib/auth.js:getCurrentUser": {
+      "name": "getCurrentUser",
+      "type": "function",
+      "summary": "서버 클라이언트로 현재 사용자와 역할 정보를 조회한다."
+    },
+    "function:lib/auth.js:createRequestAuth": {
+      "name": "createRequestAuth",
+      "type": "function",
+      "summary": "주입한 클라이언트에서 요청용 사용자·역할 조회 함수를 구성한다."
+    },
+    "function:lib/auth.js:isStaff": {
+      "name": "isStaff",
+      "type": "function",
+      "summary": "프로필 역할이 staff 또는 admin인지 판별한다."
+    },
+    "function:lib/auth.js:isAdmin": {
+      "name": "isAdmin",
+      "type": "function",
+      "summary": "프로필 역할이 admin인지 판별한다."
+    },
+    "file:lib/courseType.js": {
+      "name": "courseType.js",
+      "type": "file",
+      "summary": "필드와 스크린 골프 유형의 표시 레이블을 정의한다."
+    },
+    "file:lib/dateLabel.js": {
+      "name": "dateLabel.js",
+      "type": "file",
+      "summary": "예약 화면용 날짜와 시간 표시 레이블을 만드는 유틸리티를 제공한다."
+    },
+    "function:lib/dateLabel.js:formatDateLabel": {
+      "name": "formatDateLabel",
+      "type": "function",
+      "summary": "YYYY-MM-DD 날짜에 요일 레이블을 결합해 표시 문자열을 만든다."
+    },
+    "function:lib/dateLabel.js:formatTimeLabel": {
+      "name": "formatTimeLabel",
+      "type": "function",
+      "summary": "24시간제 시간을 사용자에게 보여 줄 시간 레이블로 변환한다."
+    },
+    "file:lib/mock/courses.js": {
+      "name": "courses.js",
+      "type": "file",
+      "summary": "개발 또는 UI 검증에 사용할 골프 코스 mock 데이터를 내보낸다."
+    },
+    "file:lib/security/report.js": {
+      "name": "report.js",
+      "type": "file",
+      "summary": "보안 이벤트와 감사 로그를 조회·정규화하고 관리자 대시보드용 집계를 만든다."
+    },
+    "function:lib/security/report.js:toSecurityEvent": {
+      "name": "toSecurityEvent",
+      "type": "function",
+      "summary": "security_events 행을 관리자 API가 쓰는 camelCase 이벤트 객체로 변환한다."
+    },
+    "function:lib/security/report.js:toAuditLog": {
+      "name": "toAuditLog",
+      "type": "function",
+      "summary": "audit_logs 행을 관리자 화면용 camelCase 감사 로그 객체로 변환한다."
+    },
+    "function:lib/security/report.js:listSecurityEvents": {
+      "name": "listSecurityEvents",
+      "type": "function",
+      "summary": "심각도·분류·기간 조건을 적용해 최신 보안 이벤트를 조회한다."
+    },
+    "function:lib/security/report.js:summarizeSecurityEvents": {
+      "name": "summarizeSecurityEvents",
+      "type": "function",
+      "summary": "최근 보안 이벤트를 심각도·규칙별로 집계하고 미처리 건수를 계산한다."
+    },
+    "function:lib/security/report.js:listAuditLogs": {
+      "name": "listAuditLogs",
+      "type": "function",
+      "summary": "행위자·액션·결과·기간 필터로 감사 로그 목록을 조회한다."
+    },
+    "file:lib/security/requireStaff.js": {
+      "name": "requireStaff.js",
+      "type": "file",
+      "summary": "관리자 API에서 staff 또는 admin 역할을 요구하는 권한 검사를 제공한다."
+    },
+    "function:lib/security/requireStaff.js:requireStaff": {
+      "name": "requireStaff",
+      "type": "function",
+      "summary": "인증 상태와 역할을 확인해 staff 이상만 통과시키고 실패 응답을 만든다."
+    },
+    "file:lib/security/sessionTimeout.js": {
+      "name": "sessionTimeout.js",
+      "type": "file",
+      "summary": "서명된 세션 유휴 시간 토큰과 보안 쿠키 옵션을 생성·검증한다."
+    },
+    "function:lib/security/sessionTimeout.js:createSessionTimeoutToken": {
+      "name": "createSessionTimeoutToken",
+      "type": "function",
+      "summary": "발급 시각과 HMAC 서명을 결합한 세션 유휴 시간 토큰을 생성한다."
+    },
+    "function:lib/security/sessionTimeout.js:isSessionTimeoutTokenValid": {
+      "name": "isSessionTimeoutTokenValid",
+      "type": "function",
+      "summary": "토큰 구조·서명·만료 시각을 timing-safe 비교로 검증한다."
+    },
+    "function:lib/security/sessionTimeout.js:getSessionTimeoutCookieOptions": {
+      "name": "getSessionTimeoutCookieOptions",
+      "type": "function",
+      "summary": "세션 유휴 토큰에 적용할 보안 쿠키 속성을 반환한다."
+    },
+    "file:lib/supabaseAuth.js": {
+      "name": "supabaseAuth.js",
+      "type": "file",
+      "summary": "브라우저와 서버 환경에 맞는 Supabase 인증 클라이언트를 생성한다."
+    },
+    "function:lib/supabaseAuth.js:createAuthBrowserClient": {
+      "name": "createAuthBrowserClient",
+      "type": "function",
+      "summary": "필수 환경변수를 확인한 뒤 브라우저용 Supabase 인증 클라이언트를 만든다."
+    },
+    "function:lib/supabaseAuth.js:createAuthServerClient": {
+      "name": "createAuthServerClient",
+      "type": "function",
+      "summary": "쿠키 저장소를 연결해 서버 요청에서 인증 상태를 유지하는 Supabase 클라이언트를 만든다."
+    },
+    "file:lib/useSlot.js": {
+      "name": "useSlot.js",
+      "type": "file",
+      "summary": "슬롯 API를 조회해 슬롯·코스·로딩·오류 상태를 관리하는 React hook을 제공한다."
+    },
+    "function:lib/useSlot.js:useSlot": {
+      "name": "useSlot",
+      "type": "function",
+      "summary": "파라미터 변화에 맞춰 슬롯 상세 API를 호출하고 상태를 갱신한다."
+    },
+    "file:next.config.mjs": {
+      "name": "next.config.mjs",
+      "type": "file",
+      "summary": "Next.js 애플리케이션의 프레임워크 설정을 내보낸다."
+    },
+    "file:postcss.config.mjs": {
+      "name": "postcss.config.mjs",
+      "type": "file",
+      "summary": "Tailwind CSS 처리에 필요한 PostCSS 플러그인 설정을 정의한다."
+    },
+    "file:proxy.js": {
+      "name": "proxy.js",
+      "type": "file",
+      "summary": "보호 페이지의 Supabase 세션을 갱신하고 유휴 시간 만료 시 로그인으로 리디렉션하는 Next.js proxy를 제공한다."
+    },
+    "function:proxy.js:proxy": {
+      "name": "proxy",
+      "type": "function",
+      "summary": "요청 ID를 부여하고 인증·세션 타임아웃을 검사해 쿠키 갱신 또는 리디렉션 응답을 반환한다."
+    },
+    "file:scripts/fix-seed-encoding.py": {
+      "name": "fix-seed-encoding.py",
+      "type": "file",
+      "summary": "시드 SQL의 코스 데이터를 읽어 Supabase REST API로 인코딩·이미지 URL 값을 보정하는 유지보수 스크립트다."
+    },
+    "function:scripts/fix-seed-encoding.py:read_env": {
+      "name": "read_env",
+      "type": "function",
+      "summary": ".env 파일을 읽어 키와 값으로 구성된 환경변수 사전을 만든다."
+    },
+    "function:scripts/fix-seed-encoding.py:parse_courses": {
+      "name": "parse_courses",
+      "type": "function",
+      "summary": "시드 SQL의 코스 INSERT 데이터를 정규식으로 추출한다."
+    },
+    "function:scripts/fix-seed-encoding.py:patch_course": {
+      "name": "patch_course",
+      "type": "function",
+      "summary": "Supabase REST PATCH 요청으로 지정 코스 필드를 갱신한다."
+    },
+    "function:scripts/fix-seed-encoding.py:main": {
+      "name": "main",
+      "type": "function",
+      "summary": "환경을 읽고 시드 코스를 파싱한 뒤 각 레코드의 보정 요청을 실행한다."
+    },
+    "file:test/security/sessionTimeout.test.js": {
+      "name": "sessionTimeout.test.js",
+      "type": "file",
+      "summary": "세션 유휴 시간 토큰의 서명 검증, 만료, 쿠키 옵션을 검증한다."
+    },
+    "function:test/security/sessionTimeout.test.js:withSecuritySecret": {
+      "name": "withSecuritySecret",
+      "type": "function",
+      "summary": "테스트 동안 보안 비밀 환경변수를 임시 설정하고 원상 복구한다."
+    },
+    "file:tmp/pdfs/build_qkv_note.py": {
+      "name": "build_qkv_note.py",
+      "type": "file",
+      "summary": "QKV attention 개념을 설명하는 PDF 학습 노트를 ReportLab으로 생성한다."
+    },
+    "function:tmp/pdfs/build_qkv_note.py:style": {
+      "name": "style",
+      "type": "function",
+      "summary": "PDF 문단 스타일을 생성한다."
+    },
+    "function:tmp/pdfs/build_qkv_note.py:p": {
+      "name": "p",
+      "type": "function",
+      "summary": "텍스트와 스타일로 ReportLab Paragraph를 생성한다."
+    },
+    "function:tmp/pdfs/build_qkv_note.py:box": {
+      "name": "box",
+      "type": "function",
+      "summary": "색상과 테두리가 있는 PDF 표 기반 안내 상자를 생성한다."
+    },
+    "function:tmp/pdfs/build_qkv_note.py:footer": {
+      "name": "footer",
+      "type": "function",
+      "summary": "문서 페이지에 제목과 페이지 번호 footer를 그린다."
+    }
+  },
+  "totalNodes": 275,
+  "totalEdges": 399
+}

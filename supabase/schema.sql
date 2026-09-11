@@ -53,6 +53,18 @@ create table if not exists public.bookings (
   created_at   timestamptz not null default now()
 );
 
+-- 리뷰 원문은 서버에서 개인정보를 마스킹한 뒤 저장한다.
+create table if not exists public.course_reviews (
+  id          uuid primary key default gen_random_uuid(),
+  course_id   uuid not null references public.courses(id) on delete cascade,
+  user_id     uuid not null references auth.users(id) on delete cascade,
+  rating      int not null check (rating between 1 and 5),
+  difficulty  text not null check (difficulty in ('easy', 'medium', 'hard')),
+  content     text not null check (char_length(content) between 1 and 1000),
+  created_at  timestamptz not null default now(),
+  unique (course_id, user_id)
+);
+
 -- ────────────────────────────────────────────────────────────
 --  2. 보안 테이블
 -- ────────────────────────────────────────────────────────────

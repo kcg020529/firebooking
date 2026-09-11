@@ -46,6 +46,10 @@ export default function CourseDetailPage() {
   const [dateOptions, setDateOptions] = useState([]);
   const [date, setDate] = useState("");
   const [course, setCourse] = useState(null);
+  const [reviews, setReviews] = useState({ reviews: [], summary: null, canReview: false });
+  const [reviewForm, setReviewForm] = useState({ rating: 5, difficulty: "medium", content: "" });
+  const [reviewError, setReviewError] = useState(null);
+  const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -99,6 +103,46 @@ export default function CourseDetailPage() {
     };
   }, [id, date]);
 
+  useEffect(() => {
+    let isStale = false;
+    async function fetchReviews() {
+      try {
+        const response = await fetch(`/api/courses/${id}/reviews`);
+        const data = await response.json();
+        if (!isStale && data.ok) setReviews(data);
+      } catch {
+        // 리뷰 조회 실패는 예약 기능을 막지 않는다.
+      }
+    }
+    fetchReviews();
+    return () => { isStale = true; };
+  }, [id]);
+
+  async function handleReviewSubmit(event) {
+    event.preventDefault();
+    setReviewError(null);
+    setIsReviewSubmitting(true);
+    try {
+      const response = await fetch(`/api/courses/${id}/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reviewForm),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.ok) {
+        setReviewError(data.error ?? "리뷰를 저장하지 못했습니다.");
+        return;
+      }
+      const refreshed = await fetch(`/api/courses/${id}/reviews`).then((res) => res.json());
+      if (refreshed.ok) setReviews(refreshed);
+      setReviewForm((current) => ({ ...current, content: "" }));
+    } catch {
+      setReviewError("리뷰를 저장하지 못했습니다.");
+    } finally {
+      setIsReviewSubmitting(false);
+    }
+  }
+
   const slots = course?.slots ?? [];
 
   return (
@@ -142,6 +186,40 @@ export default function CourseDetailPage() {
           </div>
         </section>
       )}
+
+      {/* 리뷰와 체감 난이도 */}
+      <section className="mx-auto max-w-5xl px-6 pb-8">
+        <div className="flex items-baseline justify-between gap-4">
+          <h2 className="text-lg font-semibold">리뷰</h2>
+          {reviews.summary?.count > 0 && (
+            <p className="text-sm text-muted-foreground">
+              ★ {reviews.summary.averageRating} · 체감 난이도 {{ easy: "쉬움", medium: "보통", hard: "어려움" }[reviews.summary.difficulty]}
+            </p>
+          )}
+        </div>
+
+        {reviews.canReview && (
+          <form onSubmit={handleReviewSubmit} className="mt-4 rounded-xl border border-border bg-card p-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="flex flex-col gap-1 text-sm"><span>별점</span><select value={reviewForm.rating} onChange={(e) => setReviewForm({ ...reviewForm, rating: Number(e.target.value) })} className="rounded-lg border border-border bg-background px-3 py-2">{[5, 4, 3, 2, 1].map((value) => <option key={value} value={value}>{value}점</option>)}</select></label>
+              <label className="flex flex-col gap-1 text-sm"><span>체감 난이도</span><select value={reviewForm.difficulty} onChange={(e) => setReviewForm({ ...reviewForm, difficulty: e.target.value })} className="rounded-lg border border-border bg-background px-3 py-2"><option value="easy">쉬움</option><option value="medium">보통</option><option value="hard">어려움</option></select></label>
+            </div>
+            <textarea required maxLength={1000} value={reviewForm.content} onChange={(e) => setReviewForm({ ...reviewForm, content: e.target.value })} placeholder="골프장 이용 후기를 남겨주세요." className="mt-3 min-h-24 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm" />
+            {reviewError && <p role="alert" className="mt-2 text-sm text-critical">{reviewError}</p>}
+            <button type="submit" disabled={isReviewSubmitting} className="mt-3 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-brand-foreground disabled:opacity-50">{isReviewSubmitting ? "저장 중…" : "리뷰 등록"}</button>
+          </form>
+        )}
+
+        {!reviews.canReview && <p className="mt-3 text-sm text-muted-foreground">예약을 완료한 로그인 사용자만 리뷰를 작성할 수 있습니다.</p>}
+        <div className="mt-4 space-y-3">
+          {reviews.reviews.map((review) => (
+            <article key={review.id} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex justify-between text-sm"><span>★ {review.rating}</span><span className="text-muted-foreground">난이도 {review.difficultyLabel}</span></div>
+              <p className="mt-2 text-sm">{review.content}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       {/* 날짜 선택 */}
       <section className="mx-auto max-w-5xl px-6 pt-8">

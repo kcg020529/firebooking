@@ -1,0 +1,748 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "app/admin/DashboardControls.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 56,
+      "functions": [
+        {
+          "name": "DashboardControls",
+          "startLine": 12,
+          "endLine": 60,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DashboardControls",
+          "line": 12,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DashboardControls",
+          "callee": "formatTimestamp",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/admin/audit/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 319,
+      "nonEmptyLines": 289,
+      "functions": [
+        {
+          "name": "ResultBadge",
+          "startLine": 43,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "AuditLogPage",
+          "startLine": 57,
+          "endLine": 319,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuditLogPage",
+          "line": 57,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AuditLogPage",
+          "callee": "useState",
+          "lineNumber": 58
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useState",
+          "lineNumber": 59
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useState",
+          "lineNumber": 60
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useState",
+          "lineNumber": 61
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useState",
+          "lineNumber": 62
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useState",
+          "lineNumber": 68
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useState",
+          "lineNumber": 70
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useEffect",
+          "lineNumber": 72
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setTimeout",
+          "lineNumber": 73
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setDebouncedActorId",
+          "lineNumber": 73
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "actorId.trim",
+          "lineNumber": 73
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "clearTimeout",
+          "lineNumber": 74
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useMemo",
+          "lineNumber": 78
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "buildQuery",
+          "lineNumber": 79
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "startOfDayIso",
+          "lineNumber": 83
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "endOfDayIso",
+          "lineNumber": 84
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useAdminResource",
+          "lineNumber": 90
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setLogs",
+          "lineNumber": 91
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setLogs",
+          "lineNumber": 92
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "useMemo",
+          "lineNumber": 96
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "logs.filter",
+          "lineNumber": 97
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "Boolean",
+          "lineNumber": 101
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setAutoRefresh",
+          "lineNumber": 118
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setActorId",
+          "lineNumber": 130
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setAction",
+          "lineNumber": 140
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "Object.entries(ACTION_LABEL).map",
+          "lineNumber": 144
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "Object.entries",
+          "lineNumber": 144
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setResult",
+          "lineNumber": 156
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setFrom",
+          "lineNumber": 170
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setTo",
+          "lineNumber": 180
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setActorId",
+          "lineNumber": 189
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setAction",
+          "lineNumber": 190
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setResult",
+          "lineNumber": 191
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setFrom",
+          "lineNumber": 192
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setTo",
+          "lineNumber": 193
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "setResult",
+          "lineNumber": 221
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "Array.from({ length: 8 }).map",
+          "lineNumber": 246
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "Array.from",
+          "lineNumber": 246
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "logs.map",
+          "lineNumber": 255
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "formatFullTimestamp",
+          "lineNumber": 265
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "formatTimestamp",
+          "lineNumber": 267
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "log.actorId.slice",
+          "lineNumber": 270
+        },
+        {
+          "caller": "AuditLogPage",
+          "callee": "shortHash",
+          "lineNumber": 294
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/admin/security/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 368,
+      "nonEmptyLines": 333,
+      "functions": [
+        {
+          "name": "SeverityBadge",
+          "startLine": 48,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "StatTile",
+          "startLine": 62,
+          "endLine": 70,
+          "params": []
+        },
+        {
+          "name": "SecurityDashboardPage",
+          "startLine": 78,
+          "endLine": 368,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SecurityDashboardPage",
+          "line": 78,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "useState",
+          "lineNumber": 79
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "useState",
+          "lineNumber": 80
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "useState",
+          "lineNumber": 81
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "useState",
+          "lineNumber": 82
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "useState",
+          "lineNumber": 84
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "useState",
+          "lineNumber": 85
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "useMemo",
+          "lineNumber": 88
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "buildQuery",
+          "lineNumber": 89
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "startOfDayIso",
+          "lineNumber": 92
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "endOfDayIso",
+          "lineNumber": 93
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "useAdminResource",
+          "lineNumber": 99
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setEvents",
+          "lineNumber": 101
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setSummary",
+          "lineNumber": 102
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setEvents",
+          "lineNumber": 105
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setSummary",
+          "lineNumber": 106
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "Boolean",
+          "lineNumber": 113
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setAutoRefresh",
+          "lineNumber": 130
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setSeverity",
+          "lineNumber": 141
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "SEVERITY_ORDER.map",
+          "lineNumber": 145
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setCategory",
+          "lineNumber": 157
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "Object.entries(CATEGORY_LABEL).map",
+          "lineNumber": 161
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "Object.entries",
+          "lineNumber": 161
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setFrom",
+          "lineNumber": 174
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setTo",
+          "lineNumber": 184
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setSeverity",
+          "lineNumber": 193
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setCategory",
+          "lineNumber": 194
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setFrom",
+          "lineNumber": 195
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "setTo",
+          "lineNumber": 196
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "SEVERITY_ORDER.map",
+          "lineNumber": 227
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "byRule.map",
+          "lineNumber": 255
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "Array.from({ length: 6 }).map",
+          "lineNumber": 306
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "Array.from",
+          "lineNumber": 306
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "events.map",
+          "lineNumber": 315
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "formatFullTimestamp",
+          "lineNumber": 322
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "formatTimestamp",
+          "lineNumber": 324
+        },
+        {
+          "caller": "SecurityDashboardPage",
+          "callee": "shortHash",
+          "lineNumber": 338
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/admin/useAdminResource.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 132,
+      "nonEmptyLines": 116,
+      "functions": [
+        {
+          "name": "useAdminResource",
+          "startLine": 29,
+          "endLine": 132,
+          "params": [
+            "url"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AUTO_REFRESH_MS",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "useAdminResource",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useAdminResource",
+          "callee": "useRef",
+          "lineNumber": 32
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useRef",
+          "lineNumber": 33
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useRef",
+          "lineNumber": 34
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useRef",
+          "lineNumber": 35
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useEffect",
+          "lineNumber": 38
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useEffect",
+          "lineNumber": 44
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 51
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 52
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 53
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 54
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 55
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useCallback",
+          "lineNumber": 57
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setIsRefreshing",
+          "lineNumber": 60
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setIsLoading",
+          "lineNumber": 61
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "fetch",
+          "lineNumber": 64
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "res.json",
+          "lineNumber": 65
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setError",
+          "lineNumber": 72
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "onResetRef.current",
+          "lineNumber": 73
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setError",
+          "lineNumber": 78
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "onDataRef.current",
+          "lineNumber": 79
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setLoadedAt",
+          "lineNumber": 80
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setError",
+          "lineNumber": 84
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "onResetRef.current",
+          "lineNumber": 85
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setIsLoading",
+          "lineNumber": 89
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setIsRefreshing",
+          "lineNumber": 90
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useEffect",
+          "lineNumber": 99
+        },
+        {
+          "caller": "runInitialLoad",
+          "callee": "load",
+          "lineNumber": 102
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "runInitialLoad",
+          "lineNumber": 104
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useEffect",
+          "lineNumber": 111
+        },
+        {
+          "caller": "tick",
+          "callee": "load",
+          "lineNumber": 115
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setInterval",
+          "lineNumber": 117
+        },
+        {
+          "caller": "onVisible",
+          "callee": "load",
+          "lineNumber": 119
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "document.addEventListener",
+          "lineNumber": 121
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "clearInterval",
+          "lineNumber": 124
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "document.removeEventListener",
+          "lineNumber": 125
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useCallback",
+          "lineNumber": 129
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "load",
+          "lineNumber": 129
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

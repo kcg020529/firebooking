@@ -1,0 +1,1740 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 23,
+  "filesSkipped": [
+    ".github/CODEOWNERS",
+    "app/globals.css"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 23,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 22,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": ".github/pull_request_template.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 30,
+      "nonEmptyLines": 20,
+      "sections": [
+        {
+          "heading": "무엇을 했나",
+          "level": 2,
+          "line": 1
+        },
+        {
+          "heading": "왜",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "세 줄 설명",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "확인",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "리뷰어에게",
+          "level": 2,
+          "line": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "app/admin/layout.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 108,
+      "nonEmptyLines": 98,
+      "functions": [
+        {
+          "name": "AdminLayout",
+          "startLine": 18,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "AdminShell",
+          "startLine": 75,
+          "endLine": 108,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "dynamic",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "AdminLayout",
+          "line": 18,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AdminLayout",
+          "callee": "headers",
+          "lineNumber": 19
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "headerList.get",
+          "lineNumber": 20
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "getCurrentUser",
+          "lineNumber": 22
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "isStaff",
+          "lineNumber": 24
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "recordUnauthorizedAdminAccess",
+          "lineNumber": 25
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "recordAdminAccess",
+          "lineNumber": 63
+        },
+        {
+          "caller": "AdminShell",
+          "callee": "ADMIN_TABS.map",
+          "lineNumber": 80
+        },
+        {
+          "caller": "AdminShell",
+          "callee": "path.startsWith",
+          "lineNumber": 81
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/admin/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "AdminIndexPage",
+          "startLine": 24,
+          "endLine": 54,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminIndexPage",
+          "line": 24,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AdminIndexPage",
+          "callee": "SECTIONS.map",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/admin/[...path]/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "handleUnknownAdminApi",
+          "startLine": 6,
+          "endLine": 17,
+          "params": [
+            "request"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GET",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "HEAD",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "POST",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "PUT",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "PATCH",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "DELETE",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "OPTIONS",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleUnknownAdminApi",
+          "callee": "requireStaff",
+          "lineNumber": 7
+        },
+        {
+          "caller": "handleUnknownAdminApi",
+          "callee": "recordUnknownAdminPath",
+          "lineNumber": 10
+        },
+        {
+          "caller": "handleUnknownAdminApi",
+          "callee": "NextResponse.json",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/admin/audit/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 51,
+      "exports": [
+        {
+          "name": "GET",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/admin/events/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 63,
+      "exports": [
+        {
+          "name": "GET",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/auth/login/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 146,
+      "nonEmptyLines": 128,
+      "functions": [
+        {
+          "name": "jsonError",
+          "startLine": 24,
+          "endLine": 26,
+          "params": [
+            "error",
+            "status",
+            "headers"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "POST",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "jsonError",
+          "callee": "NextResponse.json",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/bookings/lookup/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 63,
+      "exports": [
+        {
+          "name": "GET",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/bookings/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 76,
+      "nonEmptyLines": 69,
+      "exports": [
+        {
+          "name": "POST",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/courses/[id]/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 36,
+      "exports": [
+        {
+          "name": "GET",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/courses/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 30,
+      "exports": [
+        {
+          "name": "GET",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/health/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 27,
+      "exports": [
+        {
+          "name": "GET",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/slots/[slotId]/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "exports": [
+        {
+          "name": "GET",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/book/[slotId]/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 232,
+      "nonEmptyLines": 207,
+      "functions": [
+        {
+          "name": "BookForm",
+          "startLine": 11,
+          "endLine": 222,
+          "params": []
+        },
+        {
+          "name": "BookPage",
+          "startLine": 224,
+          "endLine": 232,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BookPage",
+          "line": 224,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BookForm",
+          "callee": "useRouter",
+          "lineNumber": 12
+        },
+        {
+          "caller": "BookForm",
+          "callee": "useParams",
+          "lineNumber": 13
+        },
+        {
+          "caller": "BookForm",
+          "callee": "useSlot",
+          "lineNumber": 15
+        },
+        {
+          "caller": "BookForm",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "BookForm",
+          "callee": "useState",
+          "lineNumber": 18
+        },
+        {
+          "caller": "BookForm",
+          "callee": "useState",
+          "lineNumber": 19
+        },
+        {
+          "caller": "BookForm",
+          "callee": "useState",
+          "lineNumber": 20
+        },
+        {
+          "caller": "BookForm",
+          "callee": "useState",
+          "lineNumber": 21
+        },
+        {
+          "caller": "BookForm",
+          "callee": "useState",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "e.preventDefault",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setSubmitError",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "fetch",
+          "lineNumber": 38
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "JSON.stringify",
+          "lineNumber": 41
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "res.json",
+          "lineNumber": 50
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setSubmitError",
+          "lineNumber": 54
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "router.push",
+          "lineNumber": 62
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setSubmitError",
+          "lineNumber": 64
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 65
+        },
+        {
+          "caller": "BookForm",
+          "callee": "Math.max",
+          "lineNumber": 100
+        },
+        {
+          "caller": "BookForm",
+          "callee": "Math.min",
+          "lineNumber": 100
+        },
+        {
+          "caller": "BookForm",
+          "callee": "formatDateLabel",
+          "lineNumber": 137
+        },
+        {
+          "caller": "BookForm",
+          "callee": "formatTimeLabel",
+          "lineNumber": 137
+        },
+        {
+          "caller": "BookForm",
+          "callee": "slot.price.toLocaleString",
+          "lineNumber": 140
+        },
+        {
+          "caller": "BookForm",
+          "callee": "setName",
+          "lineNumber": 152
+        },
+        {
+          "caller": "BookForm",
+          "callee": "setPhone",
+          "lineNumber": 164
+        },
+        {
+          "caller": "BookForm",
+          "callee": "setPartySize",
+          "lineNumber": 178
+        },
+        {
+          "caller": "BookForm",
+          "callee": "Number",
+          "lineNumber": 178
+        },
+        {
+          "caller": "BookForm",
+          "callee": "Array.from({ length: maxSelectable }, (_, i) => i + 1).map",
+          "lineNumber": 181
+        },
+        {
+          "caller": "BookForm",
+          "callee": "Array.from",
+          "lineNumber": 181
+        },
+        {
+          "caller": "BookForm",
+          "callee": "setMemo",
+          "lineNumber": 197
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/booking/[code]/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 108,
+      "nonEmptyLines": 91,
+      "functions": [
+        {
+          "name": "BookingComplete",
+          "startLine": 13,
+          "endLine": 98,
+          "params": []
+        },
+        {
+          "name": "BookingCompletePage",
+          "startLine": 100,
+          "endLine": 108,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BookingCompletePage",
+          "line": 100,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BookingComplete",
+          "callee": "useParams",
+          "lineNumber": 14
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "useSearchParams",
+          "lineNumber": 15
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "searchParams.get",
+          "lineNumber": 19
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "useState",
+          "lineNumber": 21
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "useSlot",
+          "lineNumber": 27
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "useEffect",
+          "lineNumber": 30
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "setTimeout",
+          "lineNumber": 33
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "setIsCopied",
+          "lineNumber": 33
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "clearTimeout",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleCopy",
+          "callee": "navigator.clipboard.writeText",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleCopy",
+          "callee": "setIsCopied",
+          "lineNumber": 40
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "formatDateLabel",
+          "lineNumber": 75
+        },
+        {
+          "caller": "BookingComplete",
+          "callee": "formatTimeLabel",
+          "lineNumber": 75
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/courses/[id]/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 235,
+      "nonEmptyLines": 205,
+      "functions": [
+        {
+          "name": "toDateValue",
+          "startLine": 18,
+          "endLine": 22,
+          "params": [
+            "date"
+          ]
+        },
+        {
+          "name": "buildDateOptions",
+          "startLine": 24,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "CourseDetailPage",
+          "startLine": 43,
+          "endLine": 235,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CourseDetailPage",
+          "line": 43,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toDateValue",
+          "callee": "String(date.getMonth() + 1).padStart",
+          "lineNumber": 19
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "String",
+          "lineNumber": 19
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "date.getMonth",
+          "lineNumber": 19
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "String(date.getDate()).padStart",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "String",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "date.getDate",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "date.getFullYear",
+          "lineNumber": 21
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "Array.from",
+          "lineNumber": 27
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "date.setDate",
+          "lineNumber": 31
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "today.getDate",
+          "lineNumber": 31
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "toDateValue",
+          "lineNumber": 34
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "date.getMonth",
+          "lineNumber": 35
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "date.getDate",
+          "lineNumber": 36
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "date.getDay",
+          "lineNumber": 37
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useParams",
+          "lineNumber": 44
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 46
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 47
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 48
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 49
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 50
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useEffect",
+          "lineNumber": 56
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "buildDateOptions",
+          "lineNumber": 57
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setDateOptions",
+          "lineNumber": 58
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setDate",
+          "lineNumber": 59
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useEffect",
+          "lineNumber": 63
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setIsLoading",
+          "lineNumber": 69
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setError",
+          "lineNumber": 70
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setCourse",
+          "lineNumber": 72
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "fetch",
+          "lineNumber": 75
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "res.json",
+          "lineNumber": 76
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setError",
+          "lineNumber": 81
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setCourse",
+          "lineNumber": 85
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setError",
+          "lineNumber": 87
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setIsLoading",
+          "lineNumber": 89
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "fetchCourse",
+          "lineNumber": 93
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "dateOptions.map",
+          "lineNumber": 151
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setDate",
+          "lineNumber": 154
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "Array.from({ length: 8 }).map",
+          "lineNumber": 177
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "Array.from",
+          "lineNumber": 177
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slots.map",
+          "lineNumber": 189
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slot.time.slice",
+          "lineNumber": 198
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slot.price.toLocaleString",
+          "lineNumber": 201
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slot.time.slice",
+          "lineNumber": 214
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slot.price.toLocaleString",
+          "lineNumber": 217
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/login/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 113,
+      "nonEmptyLines": 99,
+      "functions": [
+        {
+          "name": "LoginForm",
+          "startLine": 7,
+          "endLine": 105,
+          "params": []
+        },
+        {
+          "name": "LoginPage",
+          "startLine": 107,
+          "endLine": 113,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LoginPage",
+          "line": 107,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LoginForm",
+          "callee": "useSearchParams",
+          "lineNumber": 8
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "useState",
+          "lineNumber": 9
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "useState",
+          "lineNumber": 10
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "useState",
+          "lineNumber": 11
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "useState",
+          "lineNumber": 12
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "searchParams.get",
+          "lineNumber": 14
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "e.preventDefault",
+          "lineNumber": 17
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 18
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "fetch",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "JSON.stringify",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "response.json().catch",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "response.json",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "Number.isInteger",
+          "lineNumber": 36
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "window.location.replace",
+          "lineNumber": 45
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "setEmail",
+          "lineNumber": 63
+        },
+        {
+          "caller": "LoginForm",
+          "callee": "setPassword",
+          "lineNumber": 75
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/lookup/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 107,
+      "nonEmptyLines": 96,
+      "functions": [
+        {
+          "name": "LookupPage",
+          "startLine": 6,
+          "endLine": 107,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LookupPage",
+          "line": 6,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LookupPage",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "useState",
+          "lineNumber": 8
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "useState",
+          "lineNumber": 9
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "useState",
+          "lineNumber": 10
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "useState",
+          "lineNumber": 11
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "e.preventDefault",
+          "lineNumber": 14
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 15
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setBookings",
+          "lineNumber": 16
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 17
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "fetch",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "res.json",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setBookings",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 32
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "setCode",
+          "lineNumber": 51
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "setPhone",
+          "lineNumber": 63
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "bookings?.map",
+          "lineNumber": 84
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "String(b.time).slice",
+          "lineNumber": 97
+        },
+        {
+          "caller": "LookupPage",
+          "callee": "String",
+          "lineNumber": 97
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/my/loading.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "MyLoading",
+          "startLine": 6,
+          "endLine": 27,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MyLoading",
+          "line": 6,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "MyLoading",
+          "callee": "[0, 1, 2].map",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/my/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 82,
+      "nonEmptyLines": 75,
+      "functions": [
+        {
+          "name": "formatDateTime",
+          "startLine": 10,
+          "endLine": 13,
+          "params": [
+            "date",
+            "time"
+          ]
+        },
+        {
+          "name": "MyPage",
+          "startLine": 15,
+          "endLine": 82,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "dynamic",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "MyPage",
+          "line": 15,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "formatDateTime",
+          "callee": "String(time).slice",
+          "lineNumber": 12
+        },
+        {
+          "caller": "formatDateTime",
+          "callee": "String",
+          "lineNumber": 12
+        },
+        {
+          "caller": "MyPage",
+          "callee": "getAuthUser",
+          "lineNumber": 17
+        },
+        {
+          "caller": "MyPage",
+          "callee": "redirect",
+          "lineNumber": 19
+        },
+        {
+          "caller": "MyPage",
+          "callee": "Promise.all",
+          "lineNumber": 23
+        },
+        {
+          "caller": "MyPage",
+          "callee": "getUserProfile",
+          "lineNumber": 24
+        },
+        {
+          "caller": "MyPage",
+          "callee": "listMyBookings",
+          "lineNumber": 25
+        },
+        {
+          "caller": "MyPage",
+          "callee": "bookings.map",
+          "lineNumber": 57
+        },
+        {
+          "caller": "MyPage",
+          "callee": "formatDateTime",
+          "lineNumber": 70
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 133,
+      "nonEmptyLines": 116,
+      "functions": [
+        {
+          "name": "Home",
+          "startLine": 7,
+          "endLine": 133,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Home",
+          "line": 7,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Home",
+          "callee": "useState",
+          "lineNumber": 8
+        },
+        {
+          "caller": "Home",
+          "callee": "useState",
+          "lineNumber": 9
+        },
+        {
+          "caller": "Home",
+          "callee": "useState",
+          "lineNumber": 10
+        },
+        {
+          "caller": "Home",
+          "callee": "useState",
+          "lineNumber": 11
+        },
+        {
+          "caller": "Home",
+          "callee": "useEffect",
+          "lineNumber": 16
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "setIsLoading",
+          "lineNumber": 20
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "setError",
+          "lineNumber": 21
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "fetch",
+          "lineNumber": 24
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "res.json",
+          "lineNumber": 25
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "setError",
+          "lineNumber": 30
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "setCourses",
+          "lineNumber": 31
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "setCourses",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "setError",
+          "lineNumber": 37
+        },
+        {
+          "caller": "fetchCourses",
+          "callee": "setIsLoading",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Home",
+          "callee": "fetchCourses",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Home",
+          "callee": "[\"field\", \"screen\"].map",
+          "lineNumber": 64
+        },
+        {
+          "caller": "Home",
+          "callee": "setType",
+          "lineNumber": 67
+        },
+        {
+          "caller": "Home",
+          "callee": "Array.from({ length: 4 }).map",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Home",
+          "callee": "Array.from",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Home",
+          "callee": "courses.map",
+          "lineNumber": 95
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/signup/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 134,
+      "nonEmptyLines": 117,
+      "functions": [
+        {
+          "name": "SignupPage",
+          "startLine": 10,
+          "endLine": 134,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SignupPage",
+          "line": 10,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SignupPage",
+          "callee": "useState",
+          "lineNumber": 11
+        },
+        {
+          "caller": "SignupPage",
+          "callee": "useState",
+          "lineNumber": 12
+        },
+        {
+          "caller": "SignupPage",
+          "callee": "useState",
+          "lineNumber": 13
+        },
+        {
+          "caller": "SignupPage",
+          "callee": "useState",
+          "lineNumber": 14
+        },
+        {
+          "caller": "SignupPage",
+          "callee": "useState",
+          "lineNumber": 15
+        },
+        {
+          "caller": "SignupPage",
+          "callee": "useState",
+          "lineNumber": 16
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "e.preventDefault",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setNotice",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 24
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "createAuthBrowserClient",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "supabase.auth.signUp",
+          "lineNumber": 31
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "displayName.trim",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setError",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "signUpError.message.includes",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setNotice",
+          "lineNumber": 50
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "setIsSubmitting",
+          "lineNumber": 51
+        },
+        {
+          "caller": "handleSubmit",
+          "callee": "window.location.replace",
+          "lineNumber": 55
+        },
+        {
+          "caller": "SignupPage",
+          "callee": "setEmail",
+          "lineNumber": 73
+        },
+        {
+          "caller": "SignupPage",
+          "callee": "setDisplayName",
+          "lineNumber": 84
+        },
+        {
+          "caller": "SignupPage",
+          "callee": "setPassword",
+          "lineNumber": 103
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "components/LogoutButton.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "LogoutButton",
+          "startLine": 6,
+          "endLine": 27,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LogoutButton",
+          "line": 6,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LogoutButton",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "handleLogout",
+          "callee": "setIsPending",
+          "lineNumber": 10
+        },
+        {
+          "caller": "handleLogout",
+          "callee": "createAuthBrowserClient",
+          "lineNumber": 11
+        },
+        {
+          "caller": "handleLogout",
+          "callee": "supabase.auth.signOut",
+          "lineNumber": 12
+        },
+        {
+          "caller": "handleLogout",
+          "callee": "window.location.replace",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

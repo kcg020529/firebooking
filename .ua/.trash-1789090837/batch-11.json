@@ -1,0 +1,96 @@
+{
+  "nodes": [
+    {
+      "id": "config:.env.example",
+      "type": "config",
+      "name": ".env.example",
+      "filePath": ".env.example",
+      "summary": "Supabase, DeepSeek, IP 해시 salt에 필요한 공개·서버 전용 환경 변수의 예시를 제공합니다.",
+      "tags": [
+        "환경변수",
+        "보안",
+        "설정"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "name": "AGENTS.md",
+      "filePath": "AGENTS.md",
+      "summary": "프로젝트의 보안 제약, API 계약, 데이터 모델, 챗봇 처리 순서와 협업 규칙을 정의합니다.",
+      "tags": [
+        "문서화",
+        "보안",
+        "개발-규약"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:CLAUDE.md",
+      "type": "document",
+      "name": "CLAUDE.md",
+      "filePath": "CLAUDE.md",
+      "summary": "AI 협업 도구가 따라야 할 프로젝트 구조, 보안 원칙, API와 데이터베이스 계약을 설명합니다.",
+      "tags": [
+        "문서화",
+        "보안",
+        "개발-규약"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "firebooking의 보안 중심 목표, 기술 스택, 역할 분담, 문서와 실행 방법을 소개합니다.",
+      "tags": [
+        "문서화",
+        "프로젝트-개요",
+        "시작-안내"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:jsconfig.json",
+      "type": "config",
+      "name": "jsconfig.json",
+      "filePath": "jsconfig.json",
+      "summary": "JavaScript 프로젝트의 컴파일러 옵션과 절대 경로 해석 기준을 설정합니다.",
+      "tags": [
+        "설정",
+        "javascript",
+        "빌드-시스템"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "Next.js 애플리케이션의 실행 스크립트와 런타임·개발 의존성을 선언합니다.",
+      "tags": [
+        "설정",
+        "npm",
+        "빌드-시스템"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:vercel.json",
+      "type": "config",
+      "name": "vercel.json",
+      "filePath": "vercel.json",
+      "summary": "Vercel 배포의 런타임 리전을 지정합니다.",
+      "tags": [
+        "설정",
+        "vercel",
+        "배포"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}

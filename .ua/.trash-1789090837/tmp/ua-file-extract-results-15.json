@@ -1,0 +1,1882 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 17,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 17,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 17,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "eslint.config.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 14,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/adminFormat.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 56,
+      "functions": [
+        {
+          "name": "formatTimestamp",
+          "startLine": 10,
+          "endLine": 20,
+          "params": [
+            "ts"
+          ]
+        },
+        {
+          "name": "formatFullTimestamp",
+          "startLine": 23,
+          "endLine": 27,
+          "params": [
+            "ts"
+          ]
+        },
+        {
+          "name": "shortHash",
+          "startLine": 33,
+          "endLine": 36,
+          "params": [
+            "hash"
+          ]
+        },
+        {
+          "name": "startOfDayIso",
+          "startLine": 44,
+          "endLine": 48,
+          "params": [
+            "dateValue"
+          ]
+        },
+        {
+          "name": "endOfDayIso",
+          "startLine": 50,
+          "endLine": 54,
+          "params": [
+            "dateValue"
+          ]
+        },
+        {
+          "name": "buildQuery",
+          "startLine": 57,
+          "endLine": 66,
+          "params": [
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "formatTimestamp",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "formatFullTimestamp",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "shortHash",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "startOfDayIso",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "endOfDayIso",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "buildQuery",
+          "line": 57,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "formatTimestamp",
+          "callee": "Number.isNaN",
+          "lineNumber": 12
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "date.getTime",
+          "lineNumber": 12
+        },
+        {
+          "caller": "pad",
+          "callee": "String(n).padStart",
+          "lineNumber": 14
+        },
+        {
+          "caller": "pad",
+          "callee": "String",
+          "lineNumber": 14
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "pad",
+          "lineNumber": 17
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "date.getMonth",
+          "lineNumber": 17
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "pad",
+          "lineNumber": 17
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "date.getDate",
+          "lineNumber": 17
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "pad",
+          "lineNumber": 18
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "date.getHours",
+          "lineNumber": 18
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "pad",
+          "lineNumber": 18
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "date.getMinutes",
+          "lineNumber": 18
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "pad",
+          "lineNumber": 18
+        },
+        {
+          "caller": "formatTimestamp",
+          "callee": "date.getSeconds",
+          "lineNumber": 18
+        },
+        {
+          "caller": "formatFullTimestamp",
+          "callee": "Number.isNaN",
+          "lineNumber": 25
+        },
+        {
+          "caller": "formatFullTimestamp",
+          "callee": "date.getTime",
+          "lineNumber": 25
+        },
+        {
+          "caller": "formatFullTimestamp",
+          "callee": "date.toLocaleString",
+          "lineNumber": 26
+        },
+        {
+          "caller": "shortHash",
+          "callee": "hash.slice",
+          "lineNumber": 35
+        },
+        {
+          "caller": "startOfDayIso",
+          "callee": "Number.isNaN",
+          "lineNumber": 47
+        },
+        {
+          "caller": "startOfDayIso",
+          "callee": "date.getTime",
+          "lineNumber": 47
+        },
+        {
+          "caller": "startOfDayIso",
+          "callee": "date.toISOString",
+          "lineNumber": 47
+        },
+        {
+          "caller": "endOfDayIso",
+          "callee": "Number.isNaN",
+          "lineNumber": 53
+        },
+        {
+          "caller": "endOfDayIso",
+          "callee": "date.getTime",
+          "lineNumber": 53
+        },
+        {
+          "caller": "endOfDayIso",
+          "callee": "date.toISOString",
+          "lineNumber": 53
+        },
+        {
+          "caller": "buildQuery",
+          "callee": "Object.entries",
+          "lineNumber": 60
+        },
+        {
+          "caller": "buildQuery",
+          "callee": "query.set",
+          "lineNumber": 62
+        },
+        {
+          "caller": "buildQuery",
+          "callee": "query.toString",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/auth.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 159,
+      "nonEmptyLines": 139,
+      "functions": [
+        {
+          "name": "getAuthUser",
+          "startLine": 38,
+          "endLine": 61,
+          "params": []
+        },
+        {
+          "name": "getUserProfile",
+          "startLine": 75,
+          "endLine": 87,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "attachRole",
+          "startLine": 90,
+          "endLine": 101,
+          "params": [
+            "authUser"
+          ]
+        },
+        {
+          "name": "getCurrentUser",
+          "startLine": 110,
+          "endLine": 112,
+          "params": []
+        },
+        {
+          "name": "createRequestAuth",
+          "startLine": 124,
+          "endLine": 150,
+          "params": []
+        },
+        {
+          "name": "isStaff",
+          "startLine": 153,
+          "endLine": 155,
+          "params": [
+            "user"
+          ]
+        },
+        {
+          "name": "isAdmin",
+          "startLine": 157,
+          "endLine": 159,
+          "params": [
+            "user"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ROLES",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "getAuthUser",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "getUserProfile",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "getCurrentUser",
+          "line": 110,
+          "isDefault": false
+        },
+        {
+          "name": "createRequestAuth",
+          "line": 124,
+          "isDefault": false
+        },
+        {
+          "name": "isStaff",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "isAdmin",
+          "line": 157,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getAuthUser",
+          "callee": "cookies",
+          "lineNumber": 39
+        },
+        {
+          "caller": "getAuthUser",
+          "callee": "createAuthServerClient",
+          "lineNumber": 40
+        },
+        {
+          "caller": "getAuthUser",
+          "callee": "supabase.auth.getUser",
+          "lineNumber": 42
+        },
+        {
+          "caller": "getAuthUser",
+          "callee": "cookieStore.get",
+          "lineNumber": 45
+        },
+        {
+          "caller": "getAuthUser",
+          "callee": "isSessionTimeoutTokenValid",
+          "lineNumber": 46
+        },
+        {
+          "caller": "getAuthUser",
+          "callee": "cookieStore.set",
+          "lineNumber": 51
+        },
+        {
+          "caller": "getAuthUser",
+          "callee": "createSessionTimeoutToken",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getAuthUser",
+          "callee": "getSessionTimeoutCookieOptions",
+          "lineNumber": 54
+        },
+        {
+          "caller": "getUserProfile",
+          "callee": "createServerClient",
+          "lineNumber": 76
+        },
+        {
+          "caller": "getUserProfile",
+          "callee": "admin\r\n    .from('profiles')\r\n    .select('role, display_name')\r\n    .eq('id', userId)\r\n    .maybeSingle",
+          "lineNumber": 77
+        },
+        {
+          "caller": "getUserProfile",
+          "callee": "admin\r\n    .from('profiles')\r\n    .select('role, display_name')\r\n    .eq",
+          "lineNumber": 77
+        },
+        {
+          "caller": "getUserProfile",
+          "callee": "admin\r\n    .from('profiles')\r\n    .select",
+          "lineNumber": 77
+        },
+        {
+          "caller": "getUserProfile",
+          "callee": "admin\r\n    .from",
+          "lineNumber": 77
+        },
+        {
+          "caller": "attachRole",
+          "callee": "getUserProfile",
+          "lineNumber": 93
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "attachRole",
+          "lineNumber": 111
+        },
+        {
+          "caller": "getCurrentUser",
+          "callee": "getAuthUser",
+          "lineNumber": 111
+        },
+        {
+          "caller": "loadAuthUser",
+          "callee": "getAuthUser().catch",
+          "lineNumber": 129
+        },
+        {
+          "caller": "loadAuthUser",
+          "callee": "getAuthUser",
+          "lineNumber": 129
+        },
+        {
+          "caller": "getUserId",
+          "callee": "loadAuthUser",
+          "lineNumber": 136
+        },
+        {
+          "caller": "getUser",
+          "callee": "loadAuthUser()\r\n          .then(attachRole)\r\n          .catch",
+          "lineNumber": 143
+        },
+        {
+          "caller": "getUser",
+          "callee": "loadAuthUser()\r\n          .then",
+          "lineNumber": 143
+        },
+        {
+          "caller": "getUser",
+          "callee": "loadAuthUser",
+          "lineNumber": 143
+        },
+        {
+          "caller": "isStaff",
+          "callee": "Boolean",
+          "lineNumber": 154
+        },
+        {
+          "caller": "isStaff",
+          "callee": "STAFF_ROLES.includes",
+          "lineNumber": 154
+        },
+        {
+          "caller": "isAdmin",
+          "callee": "Boolean",
+          "lineNumber": 158
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/courseType.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "exports": [
+        {
+          "name": "TYPE_LABEL",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/dateLabel.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "formatDateLabel",
+          "startLine": 17,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "formatTimeLabel",
+          "startLine": 27,
+          "endLine": 29,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "WEEKDAY_LABEL",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "formatDateLabel",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "formatTimeLabel",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "formatDateLabel",
+          "callee": "value.split('-').map",
+          "lineNumber": 18
+        },
+        {
+          "caller": "formatDateLabel",
+          "callee": "value.split",
+          "lineNumber": 18
+        },
+        {
+          "caller": "formatDateLabel",
+          "callee": "date.getDay",
+          "lineNumber": 20
+        },
+        {
+          "caller": "formatTimeLabel",
+          "callee": "value.slice",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/mock/courses.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 12,
+      "exports": [
+        {
+          "name": "COURSES",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/report.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 131,
+      "nonEmptyLines": 112,
+      "functions": [
+        {
+          "name": "clampLimit",
+          "startLine": 18,
+          "endLine": 22,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "toSecurityEvent",
+          "startLine": 25,
+          "endLine": 37,
+          "params": [
+            "row"
+          ]
+        },
+        {
+          "name": "toAuditLog",
+          "startLine": 39,
+          "endLine": 51,
+          "params": [
+            "row"
+          ]
+        },
+        {
+          "name": "listSecurityEvents",
+          "startLine": 57,
+          "endLine": 75,
+          "params": []
+        },
+        {
+          "name": "summarizeSecurityEvents",
+          "startLine": 84,
+          "endLine": 106,
+          "params": []
+        },
+        {
+          "name": "listAuditLogs",
+          "startLine": 112,
+          "endLine": 131,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "listSecurityEvents",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "summarizeSecurityEvents",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "listAuditLogs",
+          "line": 112,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "clampLimit",
+          "callee": "Number",
+          "lineNumber": 19
+        },
+        {
+          "caller": "clampLimit",
+          "callee": "Number.isInteger",
+          "lineNumber": 20
+        },
+        {
+          "caller": "clampLimit",
+          "callee": "Math.min",
+          "lineNumber": 21
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "createServerClient",
+          "lineNumber": 58
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "supabase\r\n    .from('security_events')\r\n    .select('id, ts, rule_id, category, severity, actor_id, ip_hash, evidence, handled')\r\n    .order('ts', { ascending: false })\r\n    .limit",
+          "lineNumber": 60
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "supabase\r\n    .from('security_events')\r\n    .select('id, ts, rule_id, category, severity, actor_id, ip_hash, evidence, handled')\r\n    .order",
+          "lineNumber": 60
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "supabase\r\n    .from('security_events')\r\n    .select",
+          "lineNumber": 60
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 60
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "clampLimit",
+          "lineNumber": 64
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "query.eq",
+          "lineNumber": 66
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "query.eq",
+          "lineNumber": 67
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "query.gte",
+          "lineNumber": 68
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "query.lte",
+          "lineNumber": 69
+        },
+        {
+          "caller": "listSecurityEvents",
+          "callee": "data.map",
+          "lineNumber": 74
+        },
+        {
+          "caller": "summarizeSecurityEvents",
+          "callee": "listSecurityEvents",
+          "lineNumber": 85
+        },
+        {
+          "caller": "summarizeSecurityEvents",
+          "callee": "Object.entries(byRule)\r\n      .map(([ruleId, count]) => ({ ruleId, count }))\r\n      .sort",
+          "lineNumber": 101
+        },
+        {
+          "caller": "summarizeSecurityEvents",
+          "callee": "Object.entries(byRule)\r\n      .map",
+          "lineNumber": 101
+        },
+        {
+          "caller": "summarizeSecurityEvents",
+          "callee": "Object.entries",
+          "lineNumber": 101
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "createServerClient",
+          "lineNumber": 113
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "supabase\r\n    .from('audit_logs')\r\n    .select('id, ts, actor_id, actor_role, action, target_type, target_id, result, ip_hash')\r\n    .order('ts', { ascending: false })\r\n    .limit",
+          "lineNumber": 115
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "supabase\r\n    .from('audit_logs')\r\n    .select('id, ts, actor_id, actor_role, action, target_type, target_id, result, ip_hash')\r\n    .order",
+          "lineNumber": 115
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "supabase\r\n    .from('audit_logs')\r\n    .select",
+          "lineNumber": 115
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 115
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "clampLimit",
+          "lineNumber": 119
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "query.eq",
+          "lineNumber": 121
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "query.eq",
+          "lineNumber": 122
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "query.eq",
+          "lineNumber": 123
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "query.gte",
+          "lineNumber": 124
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "query.lte",
+          "lineNumber": 125
+        },
+        {
+          "caller": "listAuditLogs",
+          "callee": "data.map",
+          "lineNumber": 130
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/requireStaff.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "requireStaff",
+          "startLine": 22,
+          "endLine": 44,
+          "params": [
+            "request",
+            "getUser"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "requireStaff",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "requireStaff",
+          "callee": "getUser",
+          "lineNumber": 23
+        },
+        {
+          "caller": "requireStaff",
+          "callee": "isStaff",
+          "lineNumber": 25
+        },
+        {
+          "caller": "requireStaff",
+          "callee": "recordUnauthorizedAdminAccess",
+          "lineNumber": 34
+        },
+        {
+          "caller": "requireStaff",
+          "callee": "NextResponse.json",
+          "lineNumber": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/security/sessionTimeout.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "getSecuritySecret",
+          "startLine": 7,
+          "endLine": 11,
+          "params": []
+        },
+        {
+          "name": "sign",
+          "startLine": 13,
+          "endLine": 18,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "createSessionTimeoutToken",
+          "startLine": 20,
+          "endLine": 25,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "isSessionTimeoutTokenValid",
+          "startLine": 27,
+          "endLine": 49,
+          "params": [
+            "token",
+            "userId"
+          ]
+        },
+        {
+          "name": "getSessionTimeoutCookieOptions",
+          "startLine": 51,
+          "endLine": 60,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SESSION_TIMEOUT_COOKIE",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "SESSION_IDLE_TIMEOUT_SECONDS",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "createSessionTimeoutToken",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "isSessionTimeoutTokenValid",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "getSessionTimeoutCookieOptions",
+          "line": 51,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "sign",
+          "callee": "createHmac('sha256', getSecuritySecret())\r\n    .update(`session-timeout:${payload}`)\r\n    .digest",
+          "lineNumber": 15
+        },
+        {
+          "caller": "sign",
+          "callee": "createHmac('sha256', getSecuritySecret())\r\n    .update",
+          "lineNumber": 15
+        },
+        {
+          "caller": "sign",
+          "callee": "createHmac",
+          "lineNumber": 15
+        },
+        {
+          "caller": "sign",
+          "callee": "getSecuritySecret",
+          "lineNumber": 15
+        },
+        {
+          "caller": "createSessionTimeoutToken",
+          "callee": "Date.now",
+          "lineNumber": 20
+        },
+        {
+          "caller": "createSessionTimeoutToken",
+          "callee": "Math.floor",
+          "lineNumber": 22
+        },
+        {
+          "caller": "createSessionTimeoutToken",
+          "callee": "sign",
+          "lineNumber": 24
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "Date.now",
+          "lineNumber": 27
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "token.split",
+          "lineNumber": 31
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "/^\\d+$/.test",
+          "lineNumber": 35
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "Number",
+          "lineNumber": 37
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "Math.floor",
+          "lineNumber": 38
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "sign",
+          "lineNumber": 42
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "Buffer.from",
+          "lineNumber": 43
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "Buffer.from",
+          "lineNumber": 44
+        },
+        {
+          "caller": "isSessionTimeoutTokenValid",
+          "callee": "timingSafeEqual",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/supabaseAuth.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "assertEnv",
+          "startLine": 18,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "createAuthBrowserClient",
+          "startLine": 27,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "createAuthServerClient",
+          "startLine": 36,
+          "endLine": 56,
+          "params": [
+            "cookieStore"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "createAuthBrowserClient",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "createAuthServerClient",
+          "line": 36,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createAuthBrowserClient",
+          "callee": "assertEnv",
+          "lineNumber": 28
+        },
+        {
+          "caller": "createAuthBrowserClient",
+          "callee": "createBrowserClient",
+          "lineNumber": 29
+        },
+        {
+          "caller": "createAuthServerClient",
+          "callee": "assertEnv",
+          "lineNumber": 37
+        },
+        {
+          "caller": "createAuthServerClient",
+          "callee": "createServerClient",
+          "lineNumber": 39
+        },
+        {
+          "caller": "getAll",
+          "callee": "cookieStore.getAll",
+          "lineNumber": 42
+        },
+        {
+          "caller": "setAll",
+          "callee": "cookiesToSet.forEach",
+          "lineNumber": 46
+        },
+        {
+          "caller": "setAll",
+          "callee": "cookieStore.set",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/useSlot.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "useSlot",
+          "startLine": 11,
+          "endLine": 63,
+          "params": [
+            "params"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "useSlot",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useSlot",
+          "callee": "useState",
+          "lineNumber": 14
+        },
+        {
+          "caller": "useSlot",
+          "callee": "useState",
+          "lineNumber": 15
+        },
+        {
+          "caller": "useSlot",
+          "callee": "useState",
+          "lineNumber": 16
+        },
+        {
+          "caller": "useSlot",
+          "callee": "Boolean",
+          "lineNumber": 16
+        },
+        {
+          "caller": "useSlot",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "useSlot",
+          "callee": "useEffect",
+          "lineNumber": 19
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setIsLoading",
+          "lineNumber": 25
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setError",
+          "lineNumber": 26
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "fetch",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "encodeURIComponent",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "res.json",
+          "lineNumber": 30
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setSlot",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setCourse",
+          "lineNumber": 36
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setError",
+          "lineNumber": 37
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setSlot",
+          "lineNumber": 41
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setCourse",
+          "lineNumber": 42
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "console.error",
+          "lineNumber": 45
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setSlot",
+          "lineNumber": 46
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setCourse",
+          "lineNumber": 47
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setError",
+          "lineNumber": 48
+        },
+        {
+          "caller": "fetchSlot",
+          "callee": "setIsLoading",
+          "lineNumber": 51
+        },
+        {
+          "caller": "useSlot",
+          "callee": "fetchSlot",
+          "lineNumber": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "next.config.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "postcss.config.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "proxy.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 104,
+      "nonEmptyLines": 92,
+      "functions": [
+        {
+          "name": "proxy",
+          "startLine": 26,
+          "endLine": 99,
+          "params": [
+            "request"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "proxy",
+          "line": 26,
+          "isDefault": true
+        },
+        {
+          "name": "config",
+          "line": 101,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "proxy",
+          "callee": "requestHeaders.set",
+          "lineNumber": 30
+        },
+        {
+          "caller": "proxy",
+          "callee": "crypto.randomUUID",
+          "lineNumber": 30
+        },
+        {
+          "caller": "proxy",
+          "callee": "requestHeaders.set",
+          "lineNumber": 31
+        },
+        {
+          "caller": "proxy",
+          "callee": "NextResponse.next",
+          "lineNumber": 33
+        },
+        {
+          "caller": "proxy",
+          "callee": "isProtectedPagePath",
+          "lineNumber": 41
+        },
+        {
+          "caller": "proxy",
+          "callee": "createServerClient",
+          "lineNumber": 49
+        },
+        {
+          "caller": "getAll",
+          "callee": "request.cookies.getAll",
+          "lineNumber": 52
+        },
+        {
+          "caller": "setAll",
+          "callee": "nextCookies.forEach",
+          "lineNumber": 55
+        },
+        {
+          "caller": "setAll",
+          "callee": "request.cookies.set",
+          "lineNumber": 56
+        },
+        {
+          "caller": "setAll",
+          "callee": "cookiesToSet.push",
+          "lineNumber": 57
+        },
+        {
+          "caller": "proxy",
+          "callee": "supabase.auth.getUser",
+          "lineNumber": 63
+        },
+        {
+          "caller": "proxy",
+          "callee": "request.cookies.get",
+          "lineNumber": 66
+        },
+        {
+          "caller": "proxy",
+          "callee": "isSessionTimeoutTokenValid",
+          "lineNumber": 67
+        },
+        {
+          "caller": "proxy",
+          "callee": "supabase.auth.signOut",
+          "lineNumber": 69
+        },
+        {
+          "caller": "proxy",
+          "callee": "loginUrl.searchParams.set",
+          "lineNumber": 72
+        },
+        {
+          "caller": "proxy",
+          "callee": "NextResponse.redirect",
+          "lineNumber": 73
+        },
+        {
+          "caller": "proxy",
+          "callee": "cookiesToSet.forEach",
+          "lineNumber": 74
+        },
+        {
+          "caller": "proxy",
+          "callee": "response.cookies.set",
+          "lineNumber": 75
+        },
+        {
+          "caller": "proxy",
+          "callee": "response.cookies.delete",
+          "lineNumber": 77
+        },
+        {
+          "caller": "proxy",
+          "callee": "NextResponse.next",
+          "lineNumber": 81
+        },
+        {
+          "caller": "proxy",
+          "callee": "cookiesToSet.forEach",
+          "lineNumber": 82
+        },
+        {
+          "caller": "proxy",
+          "callee": "response.cookies.set",
+          "lineNumber": 83
+        },
+        {
+          "caller": "proxy",
+          "callee": "response.cookies.set",
+          "lineNumber": 85
+        },
+        {
+          "caller": "proxy",
+          "callee": "createSessionTimeoutToken",
+          "lineNumber": 87
+        },
+        {
+          "caller": "proxy",
+          "callee": "getSessionTimeoutCookieOptions",
+          "lineNumber": 88
+        },
+        {
+          "caller": "proxy",
+          "callee": "NextResponse.next",
+          "lineNumber": 91
+        },
+        {
+          "caller": "proxy",
+          "callee": "cookiesToSet.forEach",
+          "lineNumber": 92
+        },
+        {
+          "caller": "proxy",
+          "callee": "response.cookies.set",
+          "lineNumber": 93
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "scripts/fix-seed-encoding.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 88,
+      "nonEmptyLines": 72,
+      "functions": [
+        {
+          "name": "read_env",
+          "startLine": 19,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "parse_courses",
+          "startLine": 30,
+          "endLine": 50,
+          "params": [
+            "sql_text"
+          ]
+        },
+        {
+          "name": "patch_course",
+          "startLine": 53,
+          "endLine": 64,
+          "params": [
+            "base_url",
+            "service_key",
+            "image_url",
+            "fields"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 67,
+          "endLine": 84,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "read_env",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "parse_courses",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "patch_course",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "main",
+          "line": 67,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "read_env",
+          "callee": "io.open",
+          "lineNumber": 21
+        },
+        {
+          "caller": "read_env",
+          "callee": "line.strip",
+          "lineNumber": 22
+        },
+        {
+          "caller": "read_env",
+          "callee": "line.startswith",
+          "lineNumber": 23
+        },
+        {
+          "caller": "read_env",
+          "callee": "line.split",
+          "lineNumber": 25
+        },
+        {
+          "caller": "parse_courses",
+          "callee": "re.compile",
+          "lineNumber": 32
+        },
+        {
+          "caller": "parse_courses",
+          "callee": "pattern.finditer",
+          "lineNumber": 39
+        },
+        {
+          "caller": "parse_courses",
+          "callee": "m.groups",
+          "lineNumber": 40
+        },
+        {
+          "caller": "parse_courses",
+          "callee": "courses.append",
+          "lineNumber": 41
+        },
+        {
+          "caller": "patch_course",
+          "callee": "quote",
+          "lineNumber": 56
+        },
+        {
+          "caller": "patch_course",
+          "callee": "json.dumps(fields, ensure_ascii=False).encode",
+          "lineNumber": 57
+        },
+        {
+          "caller": "patch_course",
+          "callee": "json.dumps",
+          "lineNumber": 57
+        },
+        {
+          "caller": "patch_course",
+          "callee": "urllib.request.Request",
+          "lineNumber": 58
+        },
+        {
+          "caller": "patch_course",
+          "callee": "req.add_header",
+          "lineNumber": 59
+        },
+        {
+          "caller": "patch_course",
+          "callee": "req.add_header",
+          "lineNumber": 60
+        },
+        {
+          "caller": "patch_course",
+          "callee": "req.add_header",
+          "lineNumber": 61
+        },
+        {
+          "caller": "patch_course",
+          "callee": "req.add_header",
+          "lineNumber": 62
+        },
+        {
+          "caller": "patch_course",
+          "callee": "urllib.request.urlopen",
+          "lineNumber": 63
+        },
+        {
+          "caller": "patch_course",
+          "callee": "json.loads",
+          "lineNumber": 64
+        },
+        {
+          "caller": "patch_course",
+          "callee": "resp.read().decode",
+          "lineNumber": 64
+        },
+        {
+          "caller": "patch_course",
+          "callee": "resp.read",
+          "lineNumber": 64
+        },
+        {
+          "caller": "main",
+          "callee": "read_env",
+          "lineNumber": 68
+        },
+        {
+          "caller": "main",
+          "callee": "io.open(SEED_PATH, encoding=\"utf-8\").read",
+          "lineNumber": 72
+        },
+        {
+          "caller": "main",
+          "callee": "io.open",
+          "lineNumber": 72
+        },
+        {
+          "caller": "main",
+          "callee": "parse_courses",
+          "lineNumber": 73
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 74
+        },
+        {
+          "caller": "main",
+          "callee": "len",
+          "lineNumber": 74
+        },
+        {
+          "caller": "main",
+          "callee": "c.items",
+          "lineNumber": 77
+        },
+        {
+          "caller": "main",
+          "callee": "patch_course",
+          "lineNumber": 78
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 80
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 82
+        },
+        {
+          "caller": "main",
+          "callee": "print",
+          "lineNumber": 84
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/security/sessionTimeout.test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "withSecuritySecret",
+          "startLine": 10,
+          "endLine": 19,
+          "params": [
+            "run"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "withSecuritySecret",
+          "callee": "run",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "tmp/pdfs/build_qkv_note.py",
+      "language": "python",
+      "fileCategory": "code",
+      "totalLines": 164,
+      "nonEmptyLines": 145,
+      "functions": [
+        {
+          "name": "style",
+          "startLine": 23,
+          "endLine": 25,
+          "params": [
+            "name",
+            "**kwargs"
+          ]
+        },
+        {
+          "name": "p",
+          "startLine": 36,
+          "endLine": 37,
+          "params": [
+            "text",
+            "sty"
+          ]
+        },
+        {
+          "name": "box",
+          "startLine": 39,
+          "endLine": 49,
+          "params": [
+            "text",
+            "color",
+            "border"
+          ]
+        },
+        {
+          "name": "footer",
+          "startLine": 51,
+          "endLine": 57,
+          "params": [
+            "canvas",
+            "doc"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "style",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "p",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "box",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "footer",
+          "line": 51,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "style",
+          "callee": "ParagraphStyle",
+          "lineNumber": 24
+        },
+        {
+          "caller": "p",
+          "callee": "Paragraph",
+          "lineNumber": 37
+        },
+        {
+          "caller": "box",
+          "callee": "Table",
+          "lineNumber": 40
+        },
+        {
+          "caller": "box",
+          "callee": "p",
+          "lineNumber": 40
+        },
+        {
+          "caller": "box",
+          "callee": "t.setStyle",
+          "lineNumber": 41
+        },
+        {
+          "caller": "box",
+          "callee": "TableStyle",
+          "lineNumber": 41
+        },
+        {
+          "caller": "box",
+          "callee": "colors.HexColor",
+          "lineNumber": 42
+        },
+        {
+          "caller": "box",
+          "callee": "colors.HexColor",
+          "lineNumber": 43
+        },
+        {
+          "caller": "footer",
+          "callee": "canvas.saveState",
+          "lineNumber": 52
+        },
+        {
+          "caller": "footer",
+          "callee": "canvas.setFont",
+          "lineNumber": 53
+        },
+        {
+          "caller": "footer",
+          "callee": "canvas.setFillColor",
+          "lineNumber": 54
+        },
+        {
+          "caller": "footer",
+          "callee": "colors.HexColor",
+          "lineNumber": 54
+        },
+        {
+          "caller": "footer",
+          "callee": "canvas.drawString",
+          "lineNumber": 55
+        },
+        {
+          "caller": "footer",
+          "callee": "canvas.drawRightString",
+          "lineNumber": 56
+        },
+        {
+          "caller": "footer",
+          "callee": "str",
+          "lineNumber": 56
+        },
+        {
+          "caller": "footer",
+          "callee": "canvas.restoreState",
+          "lineNumber": 57
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    }
+  ]
+}

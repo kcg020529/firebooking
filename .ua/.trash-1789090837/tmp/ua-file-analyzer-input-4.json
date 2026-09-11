@@ -1,0 +1,14 @@
+{
+  "projectRoot": "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+  "batchFiles": [
+    {"path":"lib/ai/dateContext.js","language":"javascript","sizeLines":43,"fileCategory":"code"},
+    {"path":"lib/ai/prompt.js","language":"javascript","sizeLines":41,"fileCategory":"code"},
+    {"path":"lib/security/leak.js","language":"javascript","sizeLines":43,"fileCategory":"code"},
+    {"path":"lib/security/outputGuard.js","language":"javascript","sizeLines":36,"fileCategory":"code"},
+    {"path":"test/ai/dateContext.test.js","language":"javascript","sizeLines":97,"fileCategory":"code"},
+    {"path":"test/security/outputGuard.test.js","language":"javascript","sizeLines":51,"fileCategory":"code"}
+  ],
+  "batchImportData": {
+    "lib/ai/dateContext.js":[],"lib/ai/prompt.js":["lib/ai/dateContext.js"],"lib/security/leak.js":[],"lib/security/outputGuard.js":["lib/ai/prompt.js","lib/security/leak.js","lib/security/pii.js"],"test/ai/dateContext.test.js":["lib/ai/dateContext.js","lib/ai/prompt.js"],"test/security/outputGuard.test.js":["lib/security/outputGuard.js"]
+  }
+}

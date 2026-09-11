@@ -1,0 +1,12 @@
+{
+  "projectRoot": "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+  "batchFiles": [
+    {"path":"app/admin/DashboardControls.js","language":"javascript","sizeLines":60,"fileCategory":"code"},
+    {"path":"app/admin/audit/page.js","language":"javascript","sizeLines":319,"fileCategory":"code"},
+    {"path":"app/admin/security/page.js","language":"javascript","sizeLines":368,"fileCategory":"code"},
+    {"path":"app/admin/useAdminResource.js","language":"javascript","sizeLines":132,"fileCategory":"code"}
+  ],
+  "batchImportData": {
+    "app/admin/DashboardControls.js":[],"app/admin/audit/page.js":["app/admin/DashboardControls.js","app/admin/useAdminResource.js"],"app/admin/security/page.js":["app/admin/DashboardControls.js","app/admin/useAdminResource.js"],"app/admin/useAdminResource.js":[]
+  }
+}
