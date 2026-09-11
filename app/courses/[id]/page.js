@@ -189,7 +189,8 @@ export default function CourseDetailPage() {
 
       {/* 골프장 정보 */}
       {course && (
-        <section className="mx-auto max-w-5xl px-6">
+        <section className="w-full px-6">
+          <div className="mx-auto max-w-5xl">
           <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
             {course.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -215,11 +216,13 @@ export default function CourseDetailPage() {
               <p className="mt-4 text-sm">{course.description}</p>
             </div>
           </div>
+          </div>
         </section>
       )}
 
       {/* 리뷰와 체감 난이도 */}
-      <section className="order-last mx-auto max-w-5xl px-6 pb-8">
+      <section className="order-last w-full px-6 pb-8">
+        <div className="mx-auto max-w-5xl">
         <div className="flex items-baseline justify-between gap-4">
           <h2 className="text-lg font-semibold">리뷰</h2>
           {reviews.summary?.count > 0 && (
@@ -251,10 +254,11 @@ export default function CourseDetailPage() {
           {(reviews.items ?? []).map((review) => <ReviewCard key={review.id} review={review} onLike={handleLike} onEdit={(item) => { setEditingReviewId(item.id); setEditingReview({ rating: item.rating, difficulty: item.difficulty, content: item.content }); }} onDelete={handleReviewDelete} editing={editingReviewId === review.id ? editingReview : null} onSave={handleReviewUpdate} onCancel={() => setEditingReviewId(null)} onChange={setEditingReview} />)}
         </div>
         {(reviews.totalPages ?? 1) > 1 && <div className="mt-4 flex justify-center gap-2">{Array.from({ length: reviews.totalPages }, (_, index) => index + 1).map((page) => <button key={page} type="button" onClick={() => fetch(`/api/courses/${id}/reviews?page=${page}`).then((res) => res.json()).then((data) => data.ok && setReviews(data))} className={`rounded px-3 py-1 text-sm ${page === reviews.page ? "bg-brand text-brand-foreground" : "bg-muted"}`}>{page}</button>)}</div>}
+        </div>
       </section>
 
       {/* 날짜 선택 */}
-      <section className="mx-auto max-w-5xl px-6 pt-8">
+      <section className="w-full px-6 pt-8"><div className="mx-auto max-w-5xl">
         <h2 className="text-lg font-semibold">날짜 선택</h2>
 
         <div className="mt-3 flex gap-2 overflow-x-auto pb-2">
@@ -275,10 +279,10 @@ export default function CourseDetailPage() {
             </button>
           ))}
         </div>
-      </section>
+      </div></section>
 
       {/* 시간 슬롯 */}
-      <section className="mx-auto max-w-5xl px-6 py-8">
+      <section className="w-full px-6 py-8"><div className="mx-auto max-w-5xl">
         <h2 className="text-lg font-semibold">시간 선택</h2>
 
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -339,7 +343,7 @@ export default function CourseDetailPage() {
             선택하신 날짜에는 예약 가능한 시간이 없습니다.
           </p>
         )}
-      </section>
+      </div></section>
     </main>
   );
 }
