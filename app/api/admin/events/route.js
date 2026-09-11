@@ -3,6 +3,7 @@ import { withApiLog } from '@/lib/security/apiLog';
 import { requireStaff } from '@/lib/security/requireStaff';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { listSecurityEvents, summarizeSecurityEvents } from '@/lib/security/report';
+import { isDiscordAlertConfigured } from '@/lib/security/discordAlert';
 
 const VALID_SEVERITY = ['info', 'warn', 'critical'];
 const VALID_CATEGORY = ['pii', 'injection', 'anomaly', 'authz', 'leak'];
@@ -60,7 +61,14 @@ export const GET = withApiLog(async (request, { getUser }) => {
       targetId: '/api/admin/events',
     });
 
-    return NextResponse.json({ ok: true, events, summary });
+    return NextResponse.json({
+      ok: true,
+      events,
+      summary,
+      discordAlert: {
+        configured: isDiscordAlertConfigured(),
+      },
+    });
   } catch (error) {
     console.error('[GET /api/admin/events]', error);
     return NextResponse.json(
