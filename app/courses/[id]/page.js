@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TYPE_LABEL } from "@/lib/courseType";
 import { WEEKDAY_LABEL } from "@/lib/dateLabel";
+import CourseMap from "@/components/course-map/CourseMap";
 
 // 시드 슬롯은 오늘+1 ~ 오늘+14 에만 있다.
 // 그 밖의 날짜는 무조건 빈 목록이라, 고를 수 있는 날짜 자체를 이 범위로 막는다.
@@ -219,6 +220,8 @@ export default function CourseDetailPage() {
       )}
 
       {/* 리뷰와 체감 난이도 */}
+      {course?.type === "field" && <CourseMap courseName={course.name} />}
+
       <section className="mx-auto max-w-5xl px-6 pb-8">
         <div className="flex items-baseline justify-between gap-4">
           <h2 className="text-lg font-semibold">리뷰</h2>
