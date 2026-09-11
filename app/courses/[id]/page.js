@@ -178,7 +178,7 @@ export default function CourseDetailPage() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <div className="mx-auto max-w-5xl px-6 py-6">
+      <div className="mx-auto flex w-full max-w-5xl justify-end px-6 py-6">
         <Link
           href="/"
           className="text-sm text-muted-foreground transition hover:opacity-80"
