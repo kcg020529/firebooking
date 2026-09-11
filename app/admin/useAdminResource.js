@@ -18,7 +18,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
  *  - 요청 경쟁 방지: 마지막으로 보낸 요청의 결과만 반영한다(reqId). 필터를 빠르게 바꾸거나
  *    자동 갱신과 수동 갱신이 겹쳐도 지난 응답이 최신 화면을 덮지 않는다.
  *
- * @param {string} url            조회할 URL(쿼리스트링 포함). 이 값이 바뀌면 foreground 로드.
+ * @param {string | (() => Promise<object>)} source
+ *        조회 소스. 문자열이면 그 URL 을 fetch 해 JSON 을 읽고(기존 대시보드),
+ *        함수이면 그 async 함수가 돌려주는 객체를 그대로 쓴다(메트릭처럼 Supabase 직접 조회).
+ *        어느 쪽이든 결과는 { ok, ... } 형태여야 한다. 함수는 useCallback 으로 메모이즈해서 넘긴다.
  * @param {object} handlers
  * @param {(data: object) => void} handlers.onData   성공 응답(data.ok === true) 처리
  * @param {() => void} [handlers.onReset]             foreground 실패 시 기존 데이터 비우기
@@ -26,7 +29,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
  */
 export const AUTO_REFRESH_MS = 5000;
 
-export function useAdminResource(url, { onData, onReset, errorMessage }) {
+export function useAdminResource(source, { onData, onReset, errorMessage }) {
   // 콜백을 ref 로 들고 있어 load 의 정체성을 url 에만 묶는다.
   // (onData 를 deps 에 넣으면 매 렌더마다 폴링 타이머가 재생성된다.)
   const onDataRef = useRef(onData);
@@ -61,11 +64,13 @@ export function useAdminResource(url, { onData, onReset, errorMessage }) {
       else setIsLoading(true);
 
       try {
-        const res = await fetch(url);
-        const data = await res.json();
+        const data =
+          typeof source === "function"
+            ? await source()
+            : await (await fetch(source)).json();
         if (id !== reqIdRef.current || !mountedRef.current) return; // 최신·마운트 상태만 반영
 
-        if (!data.ok) {
+        if (!data || !data.ok) {
           // background 실패는 조용히 넘긴다 — 5초마다 깜빡이는 오류 배너를 만들지 않고
           // 직전에 성공한 데이터를 그대로 둔다. 다음 성공 갱신이 알아서 덮는다.
           if (!background) {
@@ -91,7 +96,7 @@ export function useAdminResource(url, { onData, onReset, errorMessage }) {
         }
       }
     },
-    [url, errorMessage]
+    [source, errorMessage]
   );
 
   // 초기 로드 + url(필터) 변경 시 foreground 로드.
