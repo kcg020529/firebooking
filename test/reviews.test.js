@@ -7,6 +7,7 @@ import {
   DIFFICULTY_LEVELS,
   summarizeReviews,
   getFeaturedReviews,
+  splitFeaturedReviews,
   paginateReviews,
   sanitizeReviewContent,
   validateReviewInput,
@@ -86,4 +87,5 @@ test('좋아요 순으로 상위 3개와 나머지 페이지를 나눈다', () =
   const rows = Array.from({ length: 5 }, (_, index) => ({ id: String(index), likeCount: 5 - index }));
   assert.deepEqual(getFeaturedReviews(rows).map((row) => row.id), ['0', '1', '2']);
   assert.deepEqual(paginateReviews(rows.slice(3), 1, 2).items.map((row) => row.id), ['3', '4']);
+  assert.deepEqual(splitFeaturedReviews(rows).rest.map((row) => row.id), ['3', '4']);
 });

@@ -236,6 +236,7 @@ export default function CourseDetailPage() {
         )}
 
       {!reviews.canReview && <p className="mt-3 text-sm text-muted-foreground">예약을 완료한 로그인 사용자만 리뷰를 작성할 수 있습니다.</p>}
+        {(reviews.featured ?? []).length > 0 && <h3 className="mt-5 text-sm font-semibold">인기 리뷰</h3>}
         <div className="mt-4 space-y-3">
           {[...(reviews.featured ?? []), ...(reviews.items ?? [])].map((review) => (
             <article key={review.id} className="rounded-xl border border-border bg-card p-4">

@@ -6,9 +6,9 @@ import {
   canReviewCourse,
   createCourseReview,
   listCourseReviews,
-  getFeaturedReviews,
   paginateReviews,
   hasUserReviewedCourse,
+  splitFeaturedReviews,
 } from '@/lib/reviews';
 
 function jsonError(error, status) {
@@ -25,8 +25,7 @@ export const GET = withApiLog(async (request, { params }) => {
       ? (await canReviewCourse(id, user.id)) && !(await hasUserReviewedCourse(id, user.id))
       : false;
     const page = Number(new URL(request.url).searchParams.get('page') ?? 1);
-    const featured = getFeaturedReviews(result.reviews);
-    const rest = result.reviews;
+    const { featured, rest } = splitFeaturedReviews(result.reviews);
     return NextResponse.json({ ok: true, summary: result.summary, featured, ...paginateReviews(rest, page), canReview });
   } catch (error) {
     console.error('[GET /api/courses/:id/reviews]', error);
