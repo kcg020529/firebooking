@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { withApiLog } from '@/lib/security/apiLog';
-import { getAuthUser } from '@/lib/auth';
+import { getAuthUser, getCurrentUser, isAdmin } from '@/lib/auth';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import {
   canReviewCourse,
@@ -20,13 +20,17 @@ export const GET = withApiLog(async (request, { params }) => {
 
   try {
     const user = await getAuthUser();
+    const currentUser = user ? await getCurrentUser() : null;
     const result = await listCourseReviews(id, { viewerId: user?.id ?? null });
     const canReview = user
       ? (await canReviewCourse(id, user.id)) && !(await hasUserReviewedCourse(id, user.id))
       : false;
+    const hasReviewed = user ? await hasUserReviewedCourse(id, user.id) : false;
     const page = Number(new URL(request.url).searchParams.get('page') ?? 1);
     const { featured, rest } = splitFeaturedReviews(result.reviews);
-    return NextResponse.json({ ok: true, summary: result.summary, featured, ...paginateReviews(rest, page), canReview });
+    const canManageReviews = Boolean(currentUser && isAdmin(currentUser));
+    const markManage = (review) => ({ ...review, canDelete: canManageReviews || review.isOwner });
+    return NextResponse.json({ ok: true, summary: result.summary, featured: featured.map(markManage), ...paginateReviews(rest.map(markManage), page), canReview, hasReviewed });
   } catch (error) {
     console.error('[GET /api/courses/:id/reviews]', error);
     return jsonError('리뷰를 불러오지 못했습니다.', 500);

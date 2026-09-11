@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { withApiLog } from '@/lib/security/apiLog';
-import { getAuthUser } from '@/lib/auth';
+import { getAuthUser, getCurrentUser, isAdmin } from '@/lib/auth';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { updateCourseReview, deleteCourseReview } from '@/lib/reviews';
 
@@ -24,7 +24,7 @@ export const DELETE = withApiLog(async (request, { params }) => {
   if (!user) return errorResponse('로그인이 필요합니다.', 401);
   const { id, reviewId } = await params;
   try {
-    const result = await deleteCourseReview(id, reviewId, user.id);
+    const result = await deleteCourseReview(id, reviewId, user.id, { isAdmin: isAdmin(await getCurrentUser()) });
     recordAudit(request, { action: AUDIT_ACTIONS.REVIEW_DELETE, result: result.ok ? 'allow' : 'deny', actorId: user.id, targetType: 'course_review', targetId: reviewId });
     return result.ok ? NextResponse.json(result) : errorResponse(result.error, 403);
   } catch (error) { console.error('[DELETE review]', error); return errorResponse('리뷰를 삭제하지 못했습니다.', 500); }

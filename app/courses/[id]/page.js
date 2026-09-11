@@ -40,13 +40,17 @@ function buildDateOptions() {
   );
 }
 
+function ReviewCard({ review, onLike, onEdit, onDelete, editing, onSave, onCancel, onChange }) {
+  return <article className="rounded-xl border border-border bg-card p-4"><div className="flex justify-between text-sm"><span>★ {review.rating} <button type="button" onClick={() => onLike(review.id)}>♡ {review.likeCount ?? 0}</button></span><span className="text-muted-foreground">난이도 {review.difficultyLabel}</span></div><p className="mt-2 text-sm">{review.content}</p>{(review.isOwner || review.canDelete) && <div className="mt-3 flex gap-2 text-xs">{review.isOwner && <button type="button" onClick={() => onEdit(review)}>수정</button>}<button type="button" onClick={() => onDelete(review.id)}>삭제</button></div>}{editing && <div className="mt-3 flex gap-2"><select value={editing.rating} onChange={(e) => onChange({ ...editing, rating: Number(e.target.value) })}>{[5,4,3,2,1].map((v) => <option key={v} value={v}>{v}점</option>)}</select><select value={editing.difficulty} onChange={(e) => onChange({ ...editing, difficulty: e.target.value })}><option value="easy">쉬움</option><option value="medium">보통</option><option value="hard">어려움</option></select><input value={editing.content} onChange={(e) => onChange({ ...editing, content: e.target.value })} /><button type="button" onClick={() => onSave(review.id)}>저장</button><button type="button" onClick={onCancel}>취소</button></div>}</article>;
+}
+
 export default function CourseDetailPage() {
   const { id } = useParams();
 
   const [dateOptions, setDateOptions] = useState([]);
   const [date, setDate] = useState("");
   const [course, setCourse] = useState(null);
-  const [reviews, setReviews] = useState({ featured: [], items: [], summary: null, canReview: false, page: 1, totalPages: 1 });
+  const [reviews, setReviews] = useState({ featured: [], items: [], summary: null, canReview: false, hasReviewed: false, page: 1, totalPages: 1 });
   const [reviewForm, setReviewForm] = useState({ rating: 5, difficulty: "medium", content: "" });
   const [reviewError, setReviewError] = useState(null);
   const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
@@ -165,6 +169,11 @@ export default function CourseDetailPage() {
     if (refreshed.ok) setReviews(refreshed);
   }
 
+  async function handleLike(reviewId) {
+    const response = await fetch(`/api/courses/${id}/reviews/${reviewId}/like`, { method: "POST" });
+    if (response.ok) { const refreshed = await fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then((res) => res.json()); if (refreshed.ok) setReviews(refreshed); }
+  }
+
   const slots = course?.slots ?? [];
 
   return (
@@ -235,17 +244,11 @@ export default function CourseDetailPage() {
           </form>
         )}
 
-      {!reviews.canReview && <p className="mt-3 text-sm text-muted-foreground">예약을 완료한 로그인 사용자만 리뷰를 작성할 수 있습니다.</p>}
-        {(reviews.featured ?? []).length > 0 && <h3 className="mt-5 text-sm font-semibold">인기 리뷰</h3>}
+      {!reviews.canReview && <p className="mt-3 text-sm text-muted-foreground">{reviews.hasReviewed ? "이미 이 골프장에 리뷰를 작성했습니다." : "예약을 완료한 로그인 사용자만 리뷰를 작성할 수 있습니다."}</p>}
+        {(reviews.featured ?? []).length > 0 && <><h3 className="mt-5 text-sm font-semibold">인기 리뷰</h3><div className="mt-2 space-y-3">{reviews.featured.map((review) => <ReviewCard key={`featured-${review.id}`} review={review} onLike={handleLike} onEdit={(item) => { setEditingReviewId(item.id); setEditingReview({ rating: item.rating, difficulty: item.difficulty, content: item.content }); }} onDelete={handleReviewDelete} editing={editingReviewId === review.id ? editingReview : null} onSave={handleReviewUpdate} onCancel={() => setEditingReviewId(null)} onChange={setEditingReview} />)}</div></>}
+        <h3 className="mt-5 text-sm font-semibold">전체 리뷰</h3>
         <div className="mt-4 space-y-3">
-          {[...(reviews.featured ?? []), ...(reviews.items ?? [])].map((review) => (
-            <article key={review.id} className="rounded-xl border border-border bg-card p-4">
-              <div className="flex justify-between text-sm"><span>★ {review.rating} <button type="button" onClick={async () => { const response = await fetch(`/api/courses/${id}/reviews/${review.id}/like`, { method: "POST" }); if (response.ok) { const refreshed = await fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then((res) => res.json()); if (refreshed.ok) setReviews(refreshed); } }}>♡ {review.likeCount ?? 0}</button></span><span className="text-muted-foreground">난이도 {review.difficultyLabel}</span></div>
-              <p className="mt-2 text-sm">{review.content}</p>
-              {review.isOwner && <div className="mt-3 flex gap-2 text-xs"><button type="button" onClick={() => { setEditingReviewId(review.id); setEditingReview({ rating: review.rating, difficulty: review.difficulty, content: review.content }); }}>수정</button><button type="button" onClick={() => handleReviewDelete(review.id)}>삭제</button></div>}
-              {editingReviewId === review.id && <div className="mt-3 flex gap-2"><select value={editingReview.rating} onChange={(e) => setEditingReview({ ...editingReview, rating: Number(e.target.value) })}>{[5, 4, 3, 2, 1].map((value) => <option key={value} value={value}>{value}점</option>)}</select><select value={editingReview.difficulty} onChange={(e) => setEditingReview({ ...editingReview, difficulty: e.target.value })}><option value="easy">쉬움</option><option value="medium">보통</option><option value="hard">어려움</option></select><input value={editingReview.content} onChange={(e) => setEditingReview({ ...editingReview, content: e.target.value })} /><button type="button" onClick={() => handleReviewUpdate(review.id)}>저장</button><button type="button" onClick={() => setEditingReviewId(null)}>취소</button></div>}
-            </article>
-          ))}
+          {(reviews.items ?? []).map((review) => <ReviewCard key={review.id} review={review} onLike={handleLike} onEdit={(item) => { setEditingReviewId(item.id); setEditingReview({ rating: item.rating, difficulty: item.difficulty, content: item.content }); }} onDelete={handleReviewDelete} editing={editingReviewId === review.id ? editingReview : null} onSave={handleReviewUpdate} onCancel={() => setEditingReviewId(null)} onChange={setEditingReview} />)}
         </div>
         {(reviews.totalPages ?? 1) > 1 && <div className="mt-4 flex justify-center gap-2">{Array.from({ length: reviews.totalPages }, (_, index) => index + 1).map((page) => <button key={page} type="button" onClick={() => fetch(`/api/courses/${id}/reviews?page=${page}`).then((res) => res.json()).then((data) => data.ok && setReviews(data))} className={`rounded px-3 py-1 text-sm ${page === reviews.page ? "bg-brand text-brand-foreground" : "bg-muted"}`}>{page}</button>)}</div>}
       </section>
