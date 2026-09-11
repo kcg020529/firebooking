@@ -6,6 +6,9 @@ import {
   createCourseReview,
   DIFFICULTY_LEVELS,
   summarizeReviews,
+  getFeaturedReviews,
+  paginateReviews,
+  sanitizeReviewContent,
   validateReviewInput,
 } from '../lib/reviews.js';
 
@@ -70,4 +73,16 @@ test('리뷰 저장 전에 내용의 개인정보를 마스킹한다', async () 
   }, { client });
   assert.equal(result.ok, true);
   assert.equal(client.calls[0].row.content.includes('010-1234-5678'), false);
+});
+
+test('리뷰 전용 마스킹은 PII만 가리고 일반 문장은 유지한다', () => {
+  const result = sanitizeReviewContent('코스가 정말 좋았고 연락처는 010-1234-5678입니다.');
+  assert.equal(result.maskedText.includes('010-1234-5678'), false);
+  assert.equal(result.maskedText.includes('코스가 정말 좋았고'), true);
+});
+
+test('좋아요 순으로 상위 3개와 나머지 페이지를 나눈다', () => {
+  const rows = Array.from({ length: 5 }, (_, index) => ({ id: String(index), likeCount: 5 - index }));
+  assert.deepEqual(getFeaturedReviews(rows).map((row) => row.id), ['0', '1', '2']);
+  assert.deepEqual(paginateReviews(rows.slice(3), 1, 2).items.map((row) => row.id), ['3', '4']);
 });

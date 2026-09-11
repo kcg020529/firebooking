@@ -112,6 +112,7 @@ export default function Home() {
 
               <div className="p-4">
                 <h3 className="font-semibold">{course.name}</h3>
+                <p className="mt-1 text-sm" aria-label="평균 별점">★ {course.averageRating || 0} ({course.reviewCount || 0})</p>
                 <p className="mt-1 text-sm text-muted-foreground">{course.region}</p>
                 <p className="mt-2 text-xs text-muted-foreground">{course.description}</p>
               </div>

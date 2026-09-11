@@ -46,10 +46,11 @@ export default function CourseDetailPage() {
   const [dateOptions, setDateOptions] = useState([]);
   const [date, setDate] = useState("");
   const [course, setCourse] = useState(null);
-  const [reviews, setReviews] = useState({ reviews: [], summary: null, canReview: false });
+  const [reviews, setReviews] = useState({ featured: [], items: [], summary: null, canReview: false, page: 1, totalPages: 1 });
   const [reviewForm, setReviewForm] = useState({ rating: 5, difficulty: "medium", content: "" });
   const [reviewError, setReviewError] = useState(null);
   const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -136,6 +137,7 @@ export default function CourseDetailPage() {
       const refreshed = await fetch(`/api/courses/${id}/reviews`).then((res) => res.json());
       if (refreshed.ok) setReviews(refreshed);
       setReviewForm((current) => ({ ...current, content: "" }));
+      setIsReviewFormOpen(false);
     } catch {
       setReviewError("리뷰를 저장하지 못했습니다.");
     } finally {
@@ -193,12 +195,15 @@ export default function CourseDetailPage() {
           <h2 className="text-lg font-semibold">리뷰</h2>
           {reviews.summary?.count > 0 && (
             <p className="text-sm text-muted-foreground">
-              ★ {reviews.summary.averageRating} · 체감 난이도 {{ easy: "쉬움", medium: "보통", hard: "어려움" }[reviews.summary.difficulty]}
+              ★ {reviews.summary.averageRating} ({reviews.summary.count}) · 체감 난이도
+              <span className="ml-2 inline-flex gap-1" aria-label="체감 난이도">
+                {["easy", "medium", "hard"].map((level, index) => <span key={level} className={`h-2 w-8 rounded ${index <= ["easy", "medium", "hard"].indexOf(reviews.summary.difficulty) ? "bg-brand" : "bg-muted"}`} />)}
+              </span>
             </p>
           )}
         </div>
 
-        {reviews.canReview && (
+        {reviews.canReview && isReviewFormOpen && (
           <form onSubmit={handleReviewSubmit} className="mt-4 rounded-xl border border-border bg-card p-4">
             <div className="grid gap-3 sm:grid-cols-2">
               <label className="flex flex-col gap-1 text-sm"><span>별점</span><select value={reviewForm.rating} onChange={(e) => setReviewForm({ ...reviewForm, rating: Number(e.target.value) })} className="rounded-lg border border-border bg-background px-3 py-2">{[5, 4, 3, 2, 1].map((value) => <option key={value} value={value}>{value}점</option>)}</select></label>
@@ -210,15 +215,16 @@ export default function CourseDetailPage() {
           </form>
         )}
 
-        {!reviews.canReview && <p className="mt-3 text-sm text-muted-foreground">예약을 완료한 로그인 사용자만 리뷰를 작성할 수 있습니다.</p>}
+      {!reviews.canReview && <p className="mt-3 text-sm text-muted-foreground">예약을 완료한 로그인 사용자만 리뷰를 작성할 수 있습니다.</p>}
         <div className="mt-4 space-y-3">
-          {reviews.reviews.map((review) => (
+          {[...(reviews.featured ?? []), ...(reviews.items ?? [])].map((review) => (
             <article key={review.id} className="rounded-xl border border-border bg-card p-4">
-              <div className="flex justify-between text-sm"><span>★ {review.rating}</span><span className="text-muted-foreground">난이도 {review.difficultyLabel}</span></div>
+              <div className="flex justify-between text-sm"><span>★ {review.rating} <button type="button" onClick={async () => { const response = await fetch(`/api/courses/${id}/reviews/${review.id}/like`, { method: "POST" }); if (response.ok) { const refreshed = await fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then((res) => res.json()); if (refreshed.ok) setReviews(refreshed); } }}>♡ {review.likeCount ?? 0}</button></span><span className="text-muted-foreground">난이도 {review.difficultyLabel}</span></div>
               <p className="mt-2 text-sm">{review.content}</p>
             </article>
           ))}
         </div>
+        {(reviews.totalPages ?? 1) > 1 && <div className="mt-4 flex justify-center gap-2">{Array.from({ length: reviews.totalPages }, (_, index) => index + 1).map((page) => <button key={page} type="button" onClick={() => fetch(`/api/courses/${id}/reviews?page=${page}`).then((res) => res.json()).then((data) => data.ok && setReviews(data))} className={`rounded px-3 py-1 text-sm ${page === reviews.page ? "bg-brand text-brand-foreground" : "bg-muted"}`}>{page}</button>)}</div>}
       </section>
 
       {/* 날짜 선택 */}

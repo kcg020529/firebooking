@@ -6,6 +6,8 @@ import {
   canReviewCourse,
   createCourseReview,
   listCourseReviews,
+  getFeaturedReviews,
+  paginateReviews,
 } from '@/lib/reviews';
 
 function jsonError(error, status) {
@@ -19,7 +21,11 @@ export const GET = withApiLog(async (request, { params }) => {
     const result = await listCourseReviews(id);
     const user = await getAuthUser();
     const canReview = user ? await canReviewCourse(id, user.id) : false;
-    return NextResponse.json({ ok: true, ...result, canReview });
+    const page = Number(new URL(request.url).searchParams.get('page') ?? 1);
+    const featured = getFeaturedReviews(result.reviews);
+    const featuredIds = new Set(featured.map((review) => review.id));
+    const rest = result.reviews.filter((review) => !featuredIds.has(review.id));
+    return NextResponse.json({ ok: true, summary: result.summary, featured, ...paginateReviews(rest, page), canReview });
   } catch (error) {
     console.error('[GET /api/courses/:id/reviews]', error);
     return jsonError('리뷰를 불러오지 못했습니다.', 500);
