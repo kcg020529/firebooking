@@ -83,6 +83,7 @@ export default function SecurityDashboardPage() {
 
   const [events, setEvents] = useState([]);
   const [summary, setSummary] = useState(null);
+  const [discordAlert, setDiscordAlert] = useState(null);
 
   // 필터가 바뀌면 url 이 바뀌고, 훅이 이를 감지해 다시 조회한다.
   const url = useMemo(() => {
@@ -100,10 +101,12 @@ export default function SecurityDashboardPage() {
       onData: (data) => {
         setEvents(data.events);
         setSummary(data.summary);
+        setDiscordAlert(data.discordAlert ?? null);
       },
       onReset: () => {
         setEvents([]);
         setSummary(null);
+        setDiscordAlert(null);
       },
       errorMessage: "보안 이벤트를 불러오지 못했습니다.",
     });
@@ -121,6 +124,20 @@ export default function SecurityDashboardPage() {
             <p className="mt-1 text-sm text-muted-foreground">
               탐지 규칙에 걸린 이벤트를 최신순으로 보여줍니다.
             </p>
+            <div className="mt-2 flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">Discord 긴급 알림:</span>
+              {discordAlert?.configured ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+                  설정됨
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                  <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50" aria-hidden="true" />
+                  미설정
+                </span>
+              )}
+            </div>
           </div>
 
           <DashboardControls
