@@ -26,6 +26,7 @@ function jsonError(error, status, headers) {
 }
 
 export const POST = withApiLog(async (request) => {
+  // 이 라우트에서 입력 검증, 시도 제한, 인증, 쿠키 발급, 감사 기록을 모두 처리합니다.
   let body;
   try {
     body = await request.json();
@@ -40,6 +41,7 @@ export const POST = withApiLog(async (request) => {
   }
 
   const ipHash = hashIp(getClientIp(request));
+  // 제한 키는 정규화한 이메일과 해시된 IP의 HMAC이며, 원본 식별 정보는 사용하지 않습니다.
   const keyHash = createLoginLimitKey(email, ipHash);
   const auditTargetId = `login:${keyHash.slice(0, 16)}`;
 
@@ -52,6 +54,7 @@ export const POST = withApiLog(async (request) => {
   }
 
   if (!reservation.allowed) {
+    // 계정 존재 여부는 노출하지 않고, 재시도 가능한 시간 정보만 응답합니다.
     recordAudit(request, {
       action: AUDIT_ACTIONS.AUTH_LOGIN,
       result: 'deny',
@@ -75,6 +78,7 @@ export const POST = withApiLog(async (request) => {
   });
 
   if (signInError || !data.user) {
+    // 잘못된 인증 정보만 실패 횟수를 늘리고, 인프라 오류는 예약을 취소합니다.
     const outcome = isCredentialFailure(signInError) ? 'failure' : 'cancelled';
     let result;
     try {
@@ -115,6 +119,7 @@ export const POST = withApiLog(async (request) => {
   }
 
   try {
+    // 로그인에 성공하면 해당 이메일/IP 조합의 이전 실패 횟수를 초기화합니다.
     await finishLoginAttempt(keyHash, 'success');
   } catch (error) {
     await supabase.auth.signOut({ scope: 'local' });
@@ -123,6 +128,7 @@ export const POST = withApiLog(async (request) => {
   }
 
   cookieStore.set(
+    // 유휴 시간 제한 쿠키를 인증된 Supabase 사용자에게 연결합니다.
     SESSION_TIMEOUT_COOKIE,
     createSessionTimeoutToken(data.user.id),
     getSessionTimeoutCookieOptions()

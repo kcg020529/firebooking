@@ -1,3 +1,4 @@
+-- 이메일/IP 로그인 제한을 위한 서버 전용 상태입니다. 값은 개인정보가 아닌 HMAC 키입니다.
 create table if not exists public.login_attempt_limits (
   key_hash          text primary key check (key_hash ~ '^[0-9a-f]{64}$'),
   failed_attempts   int not null default 0 check (failed_attempts >= 0),
@@ -27,6 +28,7 @@ declare
   v_state public.login_attempt_limits;
   v_total int;
 begin
+  -- 확인과 예약 중 행을 잠가 병렬 요청이 제한을 우회하지 못하게 합니다.
   if p_key_hash is null or p_key_hash !~ '^[0-9a-f]{64}$' then
     raise exception 'INVALID_LOGIN_KEY';
   end if;
@@ -101,6 +103,7 @@ declare
   v_pending int;
   v_locked_until timestamptz;
 begin
+  -- 예약을 정리하고 결과를 원자적으로 반영합니다.
   if p_outcome not in ('success', 'failure', 'cancelled') then
     raise exception 'INVALID_LOGIN_OUTCOME';
   end if;

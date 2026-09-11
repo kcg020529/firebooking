@@ -44,6 +44,7 @@ export default async function proxy(request) {
   // 원격 토큰 검증·갱신은 보호 페이지에서만 수행하고,
   // API 권한은 각 Route Handler가 자신의 서버 경계에서 검증한다.
   if (isProtectedPage && url && anonKey) {
+    // 보호된 페이지는 서버에서 사용자를 확인하고, 공개 페이지에서는 이 원격 검증을 수행하지 않습니다.
     const cookiesToSet = [];
     const supabase = createServerClient(url, anonKey, {
       cookies: {
@@ -64,6 +65,7 @@ export default async function proxy(request) {
     if (user) {
       const timeoutToken = request.cookies.get(SESSION_TIMEOUT_COOKIE)?.value;
       if (!isSessionTimeoutTokenValid(timeoutToken, user.id)) {
+        // 타임아웃 정보가 없거나 만료·위조되면 로컬 세션을 무효화합니다.
         await supabase.auth.signOut({ scope: 'local' });
 
         const loginUrl = new URL('/login', request.url);

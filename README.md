@@ -65,6 +65,11 @@
 | [docs/DECISIONS.md](docs/DECISIONS.md) | **정한 것 / 아직 안 정한 것** — 첫 회의 안건 |
 | [docs/PLAN.md](docs/PLAN.md) | 2주 일정 · 기능 티어 · 게이트 |
 | [docs/SECURITY.md](docs/SECURITY.md) | 보안 4축 · 탐지 규칙 · 시연 시나리오 |
+| [docs/STACK.md](docs/STACK.md) | 사용 기술 스택과 비밀값 관리 원칙 |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 애플리케이션 구성과 보안 경계 |
+| [docs/DATA_FLOW.md](docs/DATA_FLOW.md) | 예약·챗봇·로그인·관리자 데이터 흐름 |
+| [docs/SBOM.cdx.json](docs/SBOM.cdx.json) | npm 의존성 CycloneDX SBOM |
+| [docs/SBOM.md](docs/SBOM.md) | SBOM 생성 기준과 갱신 방법 |
 | [CLAUDE.md](CLAUDE.md) | AI 공통 컨텍스트 — API 계약 · 스키마 · 규칙 ID |
 
 ---
