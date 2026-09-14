@@ -6,6 +6,7 @@ import {
   MAX_PARTY_SIZE,
   NAME_MAX_LENGTH,
   MEMO_MAX_LENGTH,
+  MAX_ACTIVE_BOOKINGS_PER_PHONE,
 } from "../lib/bookingLimits.js";
 import { createBooking, lookupBookings, listMyBookings } from "../lib/bookings.js";
 import { isValidSlotId } from "../lib/slotId.js";
@@ -167,6 +168,7 @@ test("listMyBookings: userId 가 없으면 빈 배열을 반환한다", async ()
 function createFakeBookingSupabase({
   bookingsData = [],
   bookingsError = null,
+  activeCount = 0,
   rpcHandler = null,
 } = {}) {
   const eqCalls = [];
@@ -181,12 +183,18 @@ function createFakeBookingSupabase({
     from(table) {
       assert.equal(table, "bookings");
       return {
-        select(fields) {
+        select(fields, options = {}) {
           assert.ok(typeof fields === "string");
           client._selectFields = fields;
+          // createBooking 의 전화번호당 활성 예약 수 카운트 쿼리(head+count)
+          const isCountQuery = options.head === true;
           const queryBuilder = {
             eq(field, value) {
               eqCalls.push({ field, value });
+              return queryBuilder;
+            },
+            gte(field, value) {
+              eqCalls.push({ field, value, op: "gte" });
               return queryBuilder;
             },
             limit(count) {
@@ -198,7 +206,10 @@ function createFakeBookingSupabase({
               return queryBuilder;
             },
             then(resolve, reject) {
-              return Promise.resolve({ data: bookingsData, error: bookingsError }).then(resolve, reject);
+              const result = isCountQuery
+                ? { count: activeCount, error: bookingsError }
+                : { data: bookingsData, error: bookingsError };
+              return Promise.resolve(result).then(resolve, reject);
             },
           };
           return queryBuilder;
@@ -470,6 +481,69 @@ test("createBooking: 정상 예약 생성 시 RPC 호출 인자 전달 및 반�
   assert.equal(chatResult.ok, true);
   assert.equal(chatResult.booking.source, "chat");
   assert.equal(chatClient._rpcCalls[0].params.p_source, "chat");
+});
+
+test("createBooking: 전화번호당 활성 예약 수 상한을 넘으면 RPC 없이 거절한다", async () => {
+  const client = createFakeBookingSupabase({
+    activeCount: MAX_ACTIVE_BOOKINGS_PER_PHONE,
+    rpcHandler: () => {
+      throw new Error("상한 초과 시 create_booking RPC 를 부르면 안 된다");
+    },
+  });
+
+  const result = await createBooking(
+    {
+      slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      name: "홍길동",
+      phone: "010-1234-5678",
+      partySize: 2,
+      source: "form",
+    },
+    { client }
+  );
+
+  assert.equal(result.ok, false);
+  assert.match(result.error, /최대 5건/);
+  assert.equal(client._rpcCalls.length, 0);
+
+  // 활성 예약을 미래 슬롯 기준으로 셌는지 확인 (phone eq + slots.date gte)
+  const phonePredicate = client._eqCalls.find((c) => c.field === "phone");
+  assert.deepEqual(phonePredicate, { field: "phone", value: "010-1234-5678" });
+  const datePredicate = client._eqCalls.find((c) => c.op === "gte");
+  assert.equal(datePredicate.field, "slots.date");
+});
+
+test("createBooking: 활성 예약이 상한 미만이면 정상적으로 예약을 생성한다", async () => {
+  const client = createFakeBookingSupabase({
+    activeCount: MAX_ACTIVE_BOOKINGS_PER_PHONE - 1,
+    rpcHandler: () => ({
+      data: [{
+        id: "booking-uuid-under-limit",
+        booking_code: "GB-UNDR1",
+        slot_id: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+        name: "홍길동",
+        phone: "010-1234-5678",
+        party_size: 2,
+        source: "form",
+        created_at: "2026-09-04T12:00:00Z",
+      }],
+      error: null,
+    }),
+  });
+
+  const result = await createBooking(
+    {
+      slotId: "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d",
+      name: "홍길동",
+      phone: "010-1234-5678",
+      partySize: 2,
+      source: "form",
+    },
+    { client }
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(client._rpcCalls.length, 1);
 });
 
 test("toKoreanError: RPC 에러 코드별 한국어 메시지 매핑 및 미식별 에러 시 DB 원본 메시지 은닉을 검증한다", async () => {
