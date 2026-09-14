@@ -44,6 +44,10 @@ const CATEGORY_LABEL = {
   leak: "유출",
 };
 
+/** 사고 IP 조회 사유 길이. 서버(lib/security/report.js)와 같은 기준이다. */
+const REASON_MIN_LENGTH = 10;
+const REASON_MAX_LENGTH = 200;
+
 /** 심각도 배지 — 색만으로 구분하지 않도록 항상 글자를 같이 둔다. */
 function SeverityBadge({ severity }) {
   const meta = SEVERITY_META[severity];
@@ -75,6 +79,136 @@ const SEVERITY_ACCENT = {
   info: "border-l-info",
 };
 
+/** 보관 기한이 남은 사고 IP 암호문이 있는가. 만료 여부는 서버가 다시 판정한다. */
+function hasIncidentIp(event) {
+  return Boolean(event.ipExpiresAt) && new Date(event.ipExpiresAt) > new Date();
+}
+
+/**
+ * critical 사고 IP 조회 창.
+ *
+ * 사유는 audit_logs 에 남는다. 조회한 원본 IP 는 이 화면의 메모리에만 두고
+ * 저장하지 않는다 — 새로고침하면 사라진다.
+ */
+function IpRevealDialog({ event, onClose, onRevealed }) {
+  const [reason, setReason] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const trimmedLength = reason.trim().length;
+  const canSubmit =
+    trimmedLength >= REASON_MIN_LENGTH && trimmedLength <= REASON_MAX_LENGTH && !isSubmitting;
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!canSubmit) return;
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/admin/events/${event.id}/ip`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason: reason.trim() }),
+      });
+      const data = await response.json();
+
+      if (!data.ok) {
+        setError(data.error || "사고 IP를 조회하지 못했습니다.");
+        return;
+      }
+
+      onRevealed(event.id, { ip: data.ip, expiresAt: data.expiresAt });
+      onClose();
+    } catch {
+      setError("사고 IP를 조회하지 못했습니다.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+      onClick={onClose}
+    >
+      <form
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ip-reveal-title"
+        onSubmit={handleSubmit}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md rounded-xl border border-border bg-card p-6 shadow-2xl"
+      >
+        <p className="text-xs font-semibold uppercase tracking-wider text-critical">
+          Critical IP reveal
+        </p>
+        <h2 id="ip-reveal-title" className="mt-2 text-lg font-bold">
+          사고 원본 IP 조회
+        </h2>
+        <dl className="mt-3 grid grid-cols-[5rem_1fr] gap-y-1 text-sm">
+          <dt className="text-muted-foreground">이벤트</dt>
+          <dd className="font-mono text-xs leading-5">
+            #{event.id} · {event.ruleId}
+          </dd>
+          <dt className="text-muted-foreground">발생</dt>
+          <dd>{formatFullTimestamp(event.ts)}</dd>
+          <dt className="text-muted-foreground">파기 예정</dt>
+          <dd>{formatFullTimestamp(event.ipExpiresAt)}</dd>
+        </dl>
+
+        <label className="mt-4 flex flex-col gap-1.5">
+          <span className="text-xs text-muted-foreground">
+            조회 사유 ({REASON_MIN_LENGTH}~{REASON_MAX_LENGTH}자) — 감사 로그에 기록됩니다
+          </span>
+          <textarea
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            maxLength={REASON_MAX_LENGTH}
+            rows={3}
+            autoFocus
+            placeholder="예: 반복 예약번호 열거 공격 원본 IP 차단 조사"
+            className="resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-brand"
+          />
+          <span
+            className={`text-right text-xs tabular-nums ${
+              trimmedLength > 0 && trimmedLength < REASON_MIN_LENGTH
+                ? "text-warn"
+                : "text-muted-foreground"
+            }`}
+          >
+            {trimmedLength} / {REASON_MAX_LENGTH}
+          </span>
+        </label>
+
+        {error && (
+          <p className="mt-2 rounded-lg border border-critical/40 bg-critical/5 p-3 text-sm text-critical">
+            {error}
+          </p>
+        )}
+
+        <div className="mt-5 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg border border-border px-4 py-2 text-sm text-muted-foreground transition hover:opacity-80"
+          >
+            취소
+          </button>
+          <button
+            type="submit"
+            disabled={!canSubmit}
+            className="rounded-lg bg-critical px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isSubmitting ? "조회 중…" : "사유 기록 후 조회"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 export default function SecurityDashboardPage() {
   const [severity, setSeverity] = useState("");
   const [category, setCategory] = useState("");
@@ -84,6 +218,12 @@ export default function SecurityDashboardPage() {
   const [events, setEvents] = useState([]);
   const [summary, setSummary] = useState(null);
   const [discordAlert, setDiscordAlert] = useState(null);
+  const [viewerRole, setViewerRole] = useState(null);
+
+  const [pendingHandleIds, setPendingHandleIds] = useState(() => new Set());
+  const [actionError, setActionError] = useState(null);
+  const [revealTarget, setRevealTarget] = useState(null);
+  const [revealedIps, setRevealedIps] = useState({});
 
   // 필터가 바뀌면 url 이 바뀌고, 훅이 이를 감지해 다시 조회한다.
   const url = useMemo(() => {
@@ -102,6 +242,7 @@ export default function SecurityDashboardPage() {
         setEvents(data.events);
         setSummary(data.summary);
         setDiscordAlert(data.discordAlert ?? null);
+        setViewerRole(data.viewer?.role ?? null);
       },
       onReset: () => {
         setEvents([]);
@@ -114,6 +255,48 @@ export default function SecurityDashboardPage() {
   const byRule = summary?.byRule ?? [];
   const maxRuleCount = byRule[0]?.count ?? 0;
   const hasFilter = Boolean(severity || category || from || to);
+  const isAdmin = viewerRole === "admin";
+
+  async function handleToggleHandled(event) {
+    const nextHandled = !event.handled;
+
+    setActionError(null);
+    setPendingHandleIds((current) => new Set(current).add(event.id));
+
+    try {
+      const response = await fetch(`/api/admin/events/${event.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ handled: nextHandled }),
+      });
+      const data = await response.json();
+
+      if (!data.ok) {
+        setActionError(data.error || "처리 상태를 바꾸지 못했습니다.");
+        return;
+      }
+
+      // 목록은 바로 반영하고, 미처리 건수는 다시 조회해 맞춘다.
+      setEvents((current) =>
+        current.map((item) =>
+          item.id === event.id ? { ...item, handled: data.event.handled } : item,
+        ),
+      );
+      refresh();
+    } catch {
+      setActionError("처리 상태를 바꾸지 못했습니다.");
+    } finally {
+      setPendingHandleIds((current) => {
+        const next = new Set(current);
+        next.delete(event.id);
+        return next;
+      });
+    }
+  }
+
+  function handleRevealed(eventId, revealed) {
+    setRevealedIps((current) => ({ ...current, [eventId]: revealed }));
+  }
 
   return (
     <main className="flex-1 px-6 py-10">
@@ -304,8 +487,14 @@ export default function SecurityDashboardPage() {
         <section className="mt-8">
           <h2 className="text-lg font-semibold">이벤트 타임라인</h2>
 
+          {actionError && (
+            <p className="mt-3 rounded-xl border border-critical/40 bg-critical/5 p-3 text-sm text-critical">
+              {actionError}
+            </p>
+          )}
+
           <div className="mt-3 overflow-x-auto rounded-xl border border-border bg-card">
-            <table className="w-full min-w-[52rem] text-left text-sm">
+            <table className="w-full min-w-[56rem] text-left text-sm">
               <thead className="border-b border-border bg-muted/40 text-xs text-muted-foreground">
                 <tr>
                   <th className="px-4 py-3 font-medium">시각</th>
@@ -329,40 +518,78 @@ export default function SecurityDashboardPage() {
                   ))}
 
                 {!isLoading &&
-                  events.map((event) => (
-                    <tr
-                      key={event.id}
-                      className="border-b border-border transition-colors last:border-0 hover:bg-muted/40"
-                    >
-                      <td
-                        className="whitespace-nowrap px-4 py-3 tabular-nums text-muted-foreground"
-                        title={formatFullTimestamp(event.ts)}
+                  events.map((event) => {
+                    const revealed = revealedIps[event.id];
+                    const isPending = pendingHandleIds.has(event.id);
+
+                    return (
+                      <tr
+                        key={event.id}
+                        className="border-b border-border transition-colors last:border-0 hover:bg-muted/40"
                       >
-                        {formatTimestamp(event.ts)}
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-3">
-                        <SeverityBadge severity={event.severity} />
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">
-                        {event.ruleId}
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">
-                        {CATEGORY_LABEL[event.category] ?? event.category}
-                      </td>
-                      {/* 텍스트 렌더만 한다 — React 가 이스케이프해준다. */}
-                      <td className="max-w-md break-words px-4 py-3">{event.evidence}</td>
-                      <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-muted-foreground">
-                        {shortHash(event.ipHash)}
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-3 text-xs">
-                        {event.handled ? (
-                          <span className="text-muted-foreground">처리됨</span>
-                        ) : (
-                          <span className="font-medium text-warn">미처리</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                        <td
+                          className="whitespace-nowrap px-4 py-3 tabular-nums text-muted-foreground"
+                          title={formatFullTimestamp(event.ts)}
+                        >
+                          {formatTimestamp(event.ts)}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3">
+                          <SeverityBadge severity={event.severity} />
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">
+                          {event.ruleId}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">
+                          {CATEGORY_LABEL[event.category] ?? event.category}
+                        </td>
+                        {/* 텍스트 렌더만 한다 — React 가 이스케이프해준다. */}
+                        <td className="max-w-md break-words px-4 py-3">{event.evidence}</td>
+                        <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-muted-foreground">
+                          <div>{shortHash(event.ipHash)}</div>
+                          {revealed ? (
+                            <div
+                              className="mt-1 font-semibold text-critical"
+                              title={`파기 예정 ${formatFullTimestamp(revealed.expiresAt)}`}
+                            >
+                              {revealed.ip}
+                            </div>
+                          ) : (
+                            hasIncidentIp(event) &&
+                            (isAdmin ? (
+                              <button
+                                type="button"
+                                onClick={() => setRevealTarget(event)}
+                                className="mt-1 rounded-md border border-critical/50 px-2 py-0.5 font-sans text-xs text-critical transition hover:bg-critical/10"
+                              >
+                                원본 IP 조회
+                              </button>
+                            ) : (
+                              <div className="mt-1 font-sans text-xs" title="admin 만 조회할 수 있습니다">
+                                암호화 보관
+                              </div>
+                            ))
+                          )}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-xs">
+                          <div className="flex flex-col items-start gap-1">
+                            {event.handled ? (
+                              <span className="text-muted-foreground">처리됨</span>
+                            ) : (
+                              <span className="font-medium text-warn">미처리</span>
+                            )}
+                            <button
+                              type="button"
+                              disabled={isPending}
+                              onClick={() => handleToggleHandled(event)}
+                              className="rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                              {isPending ? "저장 중…" : event.handled ? "미처리로" : "처리 완료"}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
 
                 {!isLoading && events.length === 0 && (
                   <tr>
@@ -377,9 +604,18 @@ export default function SecurityDashboardPage() {
 
           <p className="mt-3 text-xs text-muted-foreground">
             최신 100건까지 표시합니다. 더 좁혀 보려면 기간 필터를 사용하세요.
+            {isAdmin && " 원본 IP 조회는 사유와 함께 감사 로그에 기록되며, 조회한 IP는 새로고침하면 사라집니다."}
           </p>
         </section>
       </div>
+
+      {revealTarget && (
+        <IpRevealDialog
+          event={revealTarget}
+          onClose={() => setRevealTarget(null)}
+          onRevealed={handleRevealed}
+        />
+      )}
     </main>
   );
 }

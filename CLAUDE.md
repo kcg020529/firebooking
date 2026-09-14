@@ -38,6 +38,7 @@
 | GET | `/api/bookings/lookup` | `?code=` **+** `?phone=` (둘 다 필수) | `{ ok, bookings: [{ bookingCode, courseName, courseType, date, time, partySize, memo }] }` |
 | POST | `/api/chat` | `{ sessionId, messages: [...] }` (assistant 메시지는 서버가 준 `signature` 필수) | `{ reply, replySignature?, quickReplies?, bookingCode? }` |
 | GET | `/api/admin/events` | `?severity=&category=&from=&to=` | `[{ id, ts, ruleId, category, severity, evidence }]` |
+| PATCH | `/api/admin/events/:id` | `{ handled }` (staff·admin) | `{ ok, event: { id, handled } }` |
 | POST | `/api/admin/events/:id/ip` | `{ reason }` (admin 전용) | `{ ok, ip, expiresAt }` |
 | GET | `/api/admin/audit` | `?actorId=&from=&to=` | `[{ id, ts, actorId, action, result }]` |
 

@@ -68,6 +68,9 @@ export const GET = withApiLog(async (request, { getUser }) => {
       discordAlert: {
         configured: isDiscordAlertConfigured(),
       },
+      // 화면이 admin 전용 기능(사고 IP 조회)을 보여줄지 정하는 데만 쓴다.
+      // 실제 권한 판정은 /api/admin/events/:id/ip 가 서버에서 다시 한다.
+      viewer: { role: guard.user.role },
     });
   } catch (error) {
     console.error('[GET /api/admin/events]', error);
