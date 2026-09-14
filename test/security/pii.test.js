@@ -28,6 +28,8 @@ test("주민번호와 카드번호 원문을 모두 제거한다", () => {
   );
   assert.equal(result.maskedText.includes("900101"), false);
   assert.equal(result.maskedText.includes("1234 5678"), false);
+  assert.ok(result.hits.some((h) => h.ruleId === "PII_RRN" && h.severity === "warn"));
+  assert.ok(result.hits.some((h) => h.ruleId === "PII_CARD" && h.severity === "warn"));
 });
 
 test("이메일과 문맥으로 확인된 이름을 마스킹한다", () => {
@@ -121,7 +123,7 @@ test("16자리 카드번호는 주민번호가 아니라 카드로 한 번만 �
 
   assert.equal(result.maskedText, "****-****-****-1111");
   assert.deepEqual(result.hits, [
-    { ruleId: "PII_CARD", severity: "critical", count: 1 },
+    { ruleId: "PII_CARD", severity: "warn", count: 1 },
   ]);
 });
 
