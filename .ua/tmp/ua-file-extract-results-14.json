@@ -1,0 +1,903 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 6,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "app/admin/AdminNav.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "AdminNav",
+          "startLine": 21,
+          "endLine": 55,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminNav",
+          "line": 21,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AdminNav",
+          "callee": "usePathname",
+          "lineNumber": 22
+        },
+        {
+          "caller": "AdminNav",
+          "callee": "ADMIN_TABS.map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "AdminNav",
+          "callee": "pathname.startsWith",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/admin/layout.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 73,
+      "nonEmptyLines": 65,
+      "functions": [
+        {
+          "name": "AdminLayout",
+          "startLine": 19,
+          "endLine": 73,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "dynamic",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "AdminLayout",
+          "line": 19,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AdminLayout",
+          "callee": "headers",
+          "lineNumber": 20
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "headerList.get",
+          "lineNumber": 21
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "getCurrentUser",
+          "lineNumber": 23
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "isStaff",
+          "lineNumber": 25
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "recordUnauthorizedAdminAccess",
+          "lineNumber": 26
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "recordAdminAccess",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/courses/[id]/reviews/[reviewId]/like/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 19,
+      "exports": [
+        {
+          "name": "POST",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/courses/[id]/reviews/[reviewId]/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "errorResponse",
+          "startLine": 7,
+          "endLine": 7,
+          "params": [
+            "error"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PATCH",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "DELETE",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "errorResponse",
+          "callee": "NextResponse.json",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/api/courses/[id]/reviews/route.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 83,
+      "nonEmptyLines": 74,
+      "functions": [
+        {
+          "name": "jsonError",
+          "startLine": 14,
+          "endLine": 16,
+          "params": [
+            "error",
+            "status"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GET",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "POST",
+          "line": 40,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "jsonError",
+          "callee": "NextResponse.json",
+          "lineNumber": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/courses/[id]/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 349,
+      "nonEmptyLines": 310,
+      "functions": [
+        {
+          "name": "toDateValue",
+          "startLine": 18,
+          "endLine": 22,
+          "params": [
+            "date"
+          ]
+        },
+        {
+          "name": "buildDateOptions",
+          "startLine": 24,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "ReviewCard",
+          "startLine": 43,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "CourseDetailPage",
+          "startLine": 47,
+          "endLine": 349,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CourseDetailPage",
+          "line": 47,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toDateValue",
+          "callee": "String(date.getMonth() + 1).padStart",
+          "lineNumber": 19
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "String",
+          "lineNumber": 19
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "date.getMonth",
+          "lineNumber": 19
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "String(date.getDate()).padStart",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "String",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "date.getDate",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toDateValue",
+          "callee": "date.getFullYear",
+          "lineNumber": 21
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "Array.from",
+          "lineNumber": 27
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "date.setDate",
+          "lineNumber": 31
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "today.getDate",
+          "lineNumber": 31
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "toDateValue",
+          "lineNumber": 34
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "date.getMonth",
+          "lineNumber": 35
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "date.getDate",
+          "lineNumber": 36
+        },
+        {
+          "caller": "buildDateOptions",
+          "callee": "date.getDay",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "onLike",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "onEdit",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "onDelete",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "onChange",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "Number",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "[5,4,3,2,1].map",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "onChange",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "onChange",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ReviewCard",
+          "callee": "onSave",
+          "lineNumber": 44
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useParams",
+          "lineNumber": 48
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 50
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 51
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 52
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 53
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 54
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 55
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 56
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 57
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 58
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 59
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 60
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useState",
+          "lineNumber": 61
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useEffect",
+          "lineNumber": 67
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "buildDateOptions",
+          "lineNumber": 68
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setDateOptions",
+          "lineNumber": 69
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setDate",
+          "lineNumber": 70
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useEffect",
+          "lineNumber": 74
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setIsLoading",
+          "lineNumber": 80
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setError",
+          "lineNumber": 81
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setCourse",
+          "lineNumber": 83
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "fetch",
+          "lineNumber": 86
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "res.json",
+          "lineNumber": 87
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setError",
+          "lineNumber": 92
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setCourse",
+          "lineNumber": 96
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setError",
+          "lineNumber": 98
+        },
+        {
+          "caller": "fetchCourse",
+          "callee": "setIsLoading",
+          "lineNumber": 100
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "fetchCourse",
+          "lineNumber": 104
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "useEffect",
+          "lineNumber": 113
+        },
+        {
+          "caller": "fetchReviews",
+          "callee": "fetch",
+          "lineNumber": 117
+        },
+        {
+          "caller": "fetchReviews",
+          "callee": "response.json",
+          "lineNumber": 118
+        },
+        {
+          "caller": "fetchReviews",
+          "callee": "setReviews",
+          "lineNumber": 119
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "fetchReviews",
+          "lineNumber": 124
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "event.preventDefault",
+          "lineNumber": 129
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "setReviewError",
+          "lineNumber": 130
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "setIsReviewSubmitting",
+          "lineNumber": 131
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "fetch",
+          "lineNumber": 133
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "JSON.stringify",
+          "lineNumber": 136
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "response.json",
+          "lineNumber": 138
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "setReviewError",
+          "lineNumber": 140
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "fetch(`/api/courses/${id}/reviews`).then",
+          "lineNumber": 143
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "fetch",
+          "lineNumber": 143
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "res.json",
+          "lineNumber": 143
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "setReviews",
+          "lineNumber": 144
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "setReviewForm",
+          "lineNumber": 145
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "setIsReviewFormOpen",
+          "lineNumber": 146
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "setReviewError",
+          "lineNumber": 148
+        },
+        {
+          "caller": "handleReviewSubmit",
+          "callee": "setIsReviewSubmitting",
+          "lineNumber": 150
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "fetch",
+          "lineNumber": 155
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "JSON.stringify",
+          "lineNumber": 155
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "response.json",
+          "lineNumber": 156
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "setReviewError",
+          "lineNumber": 157
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then",
+          "lineNumber": 158
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "fetch",
+          "lineNumber": 158
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "res.json",
+          "lineNumber": 158
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "setReviews",
+          "lineNumber": 159
+        },
+        {
+          "caller": "handleReviewUpdate",
+          "callee": "setEditingReviewId",
+          "lineNumber": 160
+        },
+        {
+          "caller": "handleReviewDelete",
+          "callee": "window.confirm",
+          "lineNumber": 164
+        },
+        {
+          "caller": "handleReviewDelete",
+          "callee": "fetch",
+          "lineNumber": 165
+        },
+        {
+          "caller": "handleReviewDelete",
+          "callee": "response.json",
+          "lineNumber": 166
+        },
+        {
+          "caller": "handleReviewDelete",
+          "callee": "setReviewError",
+          "lineNumber": 167
+        },
+        {
+          "caller": "handleReviewDelete",
+          "callee": "fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then",
+          "lineNumber": 168
+        },
+        {
+          "caller": "handleReviewDelete",
+          "callee": "fetch",
+          "lineNumber": 168
+        },
+        {
+          "caller": "handleReviewDelete",
+          "callee": "res.json",
+          "lineNumber": 168
+        },
+        {
+          "caller": "handleReviewDelete",
+          "callee": "setReviews",
+          "lineNumber": 169
+        },
+        {
+          "caller": "handleLike",
+          "callee": "fetch",
+          "lineNumber": 173
+        },
+        {
+          "caller": "handleLike",
+          "callee": "fetch(`/api/courses/${id}/reviews?page=${reviews.page}`).then",
+          "lineNumber": 174
+        },
+        {
+          "caller": "handleLike",
+          "callee": "fetch",
+          "lineNumber": 174
+        },
+        {
+          "caller": "handleLike",
+          "callee": "res.json",
+          "lineNumber": 174
+        },
+        {
+          "caller": "handleLike",
+          "callee": "setReviews",
+          "lineNumber": 174
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "[\"easy\", \"medium\", \"hard\"].map",
+          "lineNumber": 232
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "[\"easy\", \"medium\", \"hard\"].indexOf",
+          "lineNumber": 232
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setReviewForm",
+          "lineNumber": 241
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "Number",
+          "lineNumber": 241
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "[5, 4, 3, 2, 1].map",
+          "lineNumber": 241
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setReviewForm",
+          "lineNumber": 242
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setReviewForm",
+          "lineNumber": 244
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "reviews.featured.map",
+          "lineNumber": 251
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setEditingReviewId",
+          "lineNumber": 251
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setEditingReview",
+          "lineNumber": 251
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setEditingReviewId",
+          "lineNumber": 251
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "dateOptions.map",
+          "lineNumber": 260
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setDate",
+          "lineNumber": 263
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "Array.from({ length: 8 }).map",
+          "lineNumber": 286
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "Array.from",
+          "lineNumber": 286
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slots.map",
+          "lineNumber": 298
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slot.time.slice",
+          "lineNumber": 307
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slot.price.toLocaleString",
+          "lineNumber": 310
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slot.time.slice",
+          "lineNumber": 323
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "slot.price.toLocaleString",
+          "lineNumber": 326
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "(reviews.items ?? []).map",
+          "lineNumber": 344
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setEditingReviewId",
+          "lineNumber": 344
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setEditingReview",
+          "lineNumber": 344
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setEditingReviewId",
+          "lineNumber": 344
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "Array.from({ length: reviews.totalPages }, (_, index) => index + 1).map",
+          "lineNumber": 345
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "Array.from",
+          "lineNumber": 345
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "fetch(`/api/courses/${id}/reviews?page=${page}`).then((res) => res.json()).then",
+          "lineNumber": 345
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "fetch(`/api/courses/${id}/reviews?page=${page}`).then",
+          "lineNumber": 345
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "fetch",
+          "lineNumber": 345
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "res.json",
+          "lineNumber": 345
+        },
+        {
+          "caller": "CourseDetailPage",
+          "callee": "setReviews",
+          "lineNumber": 345
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    }
+  ]
+}

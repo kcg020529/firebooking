@@ -79,7 +79,12 @@ grant select on public.bookings        to authenticated;
 grant select on public.profiles        to authenticated;
 grant select on public.api_logs        to authenticated;
 grant select on public.audit_logs      to authenticated;
-grant select on public.security_events to authenticated;
+-- 암호화된 사고 IP는 RLS 대상 역할에도 직접 노출하지 않는다.
+-- 복호화는 admin 전용 서버 API에서 사유와 감사 기록을 남긴 뒤 수행한다.
+revoke select on table public.security_events from anon, authenticated;
+grant select (
+  id, ts, rule_id, category, severity, actor_id, ip_hash, evidence, handled
+) on public.security_events to authenticated;
 grant select on public.chat_logs       to authenticated;
 
 -- login_attempt_limits 는 정책도 GRANT도 주지 않는다.

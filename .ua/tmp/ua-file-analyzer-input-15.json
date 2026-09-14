@@ -1,0 +1,8 @@
+{
+  "projectRoot": "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+  "batchFiles": [
+    {"path":"components/charts/BarList.js","language":"javascript","sizeLines":47,"fileCategory":"code"},
+    {"path":"components/charts/TimeSeriesChart.js","language":"javascript","sizeLines":154,"fileCategory":"code"}
+  ],
+  "batchImportData": {"components/charts/BarList.js": [],"components/charts/TimeSeriesChart.js": []}
+}

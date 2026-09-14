@@ -38,8 +38,8 @@ create table if not exists public.slots (
 );
 
 -- 예약
--- ★ 원본 PII(name, phone)가 저장되는 곳은 이 테이블 하나뿐.
---   chat_logs · security_events 에는 절대 원문을 넣지 않는다.
+-- ★ 예약 PII(name, phone)가 원문으로 저장되는 곳은 이 테이블 하나뿐.
+--   chat_logs · security_events.evidence 에는 절대 원문을 넣지 않는다.
 create table if not exists public.bookings (
   id           uuid primary key default gen_random_uuid(),
   slot_id      uuid not null references public.slots(id),
@@ -102,7 +102,8 @@ create table if not exists public.audit_logs (
   target_type text,
   target_id   text,
   result      text not null check (result in ('allow', 'deny')),
-  ip_hash     text
+  ip_hash     text,
+  reason      text check (reason is null or char_length(reason) <= 200)
 );
 
 -- 탐지 결과 (S1 · S2 · S3)
@@ -115,7 +116,18 @@ create table if not exists public.security_events (
   actor_id uuid,
   ip_hash  text,
   evidence text,            -- ★ 마스킹된 발췌만. 원문 PII 절대 금지
-  handled  boolean not null default false
+  handled  boolean not null default false,
+  ip_ciphertext text,       -- critical 사고 IP의 AES-256-GCM 암호문. 평문 저장 금지
+  ip_expires_at timestamptz,
+  constraint security_events_ip_forensics_consistency check (
+    (ip_ciphertext is null and ip_expires_at is null)
+    or (
+      severity = 'critical'
+      and ip_ciphertext is not null
+      and ip_expires_at is not null
+      and ip_ciphertext like 'v1:%'
+    )
+  )
 );
 
 -- 챗봇 대화 로그 (S1) — 마스킹본만 저장
@@ -233,6 +245,49 @@ begin
   return new;
 end;
 $$;
+
+-- critical 사고 IP 암호문 자동 파기. DB에는 복호화 키가 없다.
+create schema if not exists private;
+revoke all on schema private from public;
+revoke all on schema private from anon, authenticated;
+
+create or replace function private.purge_expired_security_event_ips()
+returns bigint
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  affected_rows bigint;
+begin
+  with cleared as (
+    update public.security_events
+       set ip_ciphertext = null,
+           ip_expires_at = null
+     where ip_expires_at <= now()
+       and ip_ciphertext is not null
+    returning 1
+  )
+  select count(*) into affected_rows from cleared;
+
+  return affected_rows;
+end;
+$$;
+
+revoke all on function private.purge_expired_security_event_ips() from public;
+revoke all on function private.purge_expired_security_event_ips() from anon, authenticated;
+
+create extension if not exists pg_cron with schema pg_catalog;
+
+select cron.unschedule(jobid)
+  from cron.job
+ where jobname = 'purge-expired-security-event-ips';
+
+select cron.schedule(
+  'purge-expired-security-event-ips',
+  '17 3 * * *',
+  'select private.purge_expired_security_event_ips()'
+);
 
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created

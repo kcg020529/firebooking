@@ -1,0 +1,14 @@
+{
+  "nodes": [
+    {"id":"table:supabase/migrations/20260911000000_course_reviews.sql:course-reviews-migration","type":"table","name":"course_reviews 마이그레이션","filePath":"supabase/migrations/20260911000000_course_reviews.sql","summary":"예약 이력이 있는 사용자만 작성할 수 있는 코스 리뷰 테이블과 공개 읽기 RLS 정책을 추가한다.","tags":["database","migration","review","rls"],"complexity":"simple"},
+    {"id":"table:supabase/migrations/20260911000000_course_reviews.sql:course_reviews","type":"table","name":"course_reviews","filePath":"supabase/migrations/20260911000000_course_reviews.sql","lineRange":[2,11],"summary":"코스별 사용자 리뷰의 별점·난이도·마스킹된 내용과 생성 시각을 유일한 작성자 제약과 함께 저장한다.","tags":["database","review","schema","pii-masking"],"complexity":"moderate"},
+    {"id":"table:supabase/migrations/20260911000001_review_likes.sql:review-likes-migration","type":"table","name":"review_likes 마이그레이션","filePath":"supabase/migrations/20260911000001_review_likes.sql","summary":"리뷰 좋아요 수 컬럼, 사용자별 좋아요 테이블과 서버 전용 토글 RPC를 추가한다.","tags":["database","migration","review","access-control"],"complexity":"moderate"},
+    {"id":"table:supabase/migrations/20260911000001_review_likes.sql:course_review_likes","type":"table","name":"course_review_likes","filePath":"supabase/migrations/20260911000001_review_likes.sql","lineRange":[4,9],"summary":"리뷰와 사용자 조합을 복합 기본 키로 저장해 사용자당 하나의 좋아요만 허용한다.","tags":["database","review","likes","schema"],"complexity":"simple"}
+  ],
+  "edges": [
+    {"source":"table:supabase/migrations/20260911000000_course_reviews.sql:course-reviews-migration","target":"table:supabase/migrations/20260911000000_course_reviews.sql:course_reviews","type":"migrates","direction":"forward","weight":0.7},
+    {"source":"table:supabase/migrations/20260911000000_course_reviews.sql:course-reviews-migration","target":"table:supabase/schema.sql:course_reviews","type":"migrates","direction":"forward","weight":0.7},
+    {"source":"table:supabase/migrations/20260911000001_review_likes.sql:review-likes-migration","target":"table:supabase/migrations/20260911000001_review_likes.sql:course_review_likes","type":"migrates","direction":"forward","weight":0.7},
+    {"source":"table:supabase/migrations/20260911000001_review_likes.sql:review-likes-migration","target":"table:supabase/schema.sql:course_reviews","type":"migrates","direction":"forward","weight":0.7}
+  ]
+}

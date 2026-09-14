@@ -36,12 +36,6 @@
       "fileCategory": "docs"
     },
     {
-      "path": "AGENTS.md",
-      "language": "markdown",
-      "sizeLines": 140,
-      "fileCategory": "docs"
-    },
-    {
       "path": "CLAUDE.md",
       "language": "markdown",
       "sizeLines": 143,
@@ -52,6 +46,12 @@
       "language": "markdown",
       "sizeLines": 101,
       "fileCategory": "docs"
+    },
+    {
+      "path": "app/admin/AdminNav.js",
+      "language": "javascript",
+      "sizeLines": 55,
+      "fileCategory": "code"
     },
     {
       "path": "app/admin/DashboardControls.js",
@@ -74,13 +74,19 @@
     {
       "path": "app/admin/layout.js",
       "language": "javascript",
-      "sizeLines": 108,
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "app/admin/metricsData.js",
+      "language": "javascript",
+      "sizeLines": 165,
       "fileCategory": "code"
     },
     {
       "path": "app/admin/page.js",
       "language": "javascript",
-      "sizeLines": 54,
+      "sizeLines": 247,
       "fileCategory": "code"
     },
     {
@@ -92,7 +98,7 @@
     {
       "path": "app/admin/useAdminResource.js",
       "language": "javascript",
-      "sizeLines": 132,
+      "sizeLines": 137,
       "fileCategory": "code"
     },
     {
@@ -138,6 +144,24 @@
       "fileCategory": "code"
     },
     {
+      "path": "app/api/courses/[id]/reviews/[reviewId]/like/route.js",
+      "language": "javascript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "app/api/courses/[id]/reviews/[reviewId]/route.js",
+      "language": "javascript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "app/api/courses/[id]/reviews/route.js",
+      "language": "javascript",
+      "sizeLines": 83,
+      "fileCategory": "code"
+    },
+    {
       "path": "app/api/courses/[id]/route.js",
       "language": "javascript",
       "sizeLines": 42,
@@ -176,7 +200,7 @@
     {
       "path": "app/courses/[id]/page.js",
       "language": "javascript",
-      "sizeLines": 235,
+      "sizeLines": 349,
       "fileCategory": "code"
     },
     {
@@ -218,7 +242,7 @@
     {
       "path": "app/page.js",
       "language": "javascript",
-      "sizeLines": 133,
+      "sizeLines": 138,
       "fileCategory": "code"
     },
     {
@@ -237,6 +261,18 @@
       "path": "components/SiteHeader.js",
       "language": "javascript",
       "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "components/charts/BarList.js",
+      "language": "javascript",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "components/charts/TimeSeriesChart.js",
+      "language": "javascript",
+      "sizeLines": 154,
       "fileCategory": "code"
     },
     {
@@ -260,7 +296,7 @@
     {
       "path": "docs/DATA_FLOW.md",
       "language": "markdown",
-      "sizeLines": 59,
+      "sizeLines": 75,
       "fileCategory": "docs"
     },
     {
@@ -398,7 +434,7 @@
     {
       "path": "lib/courses.js",
       "language": "javascript",
-      "sizeLines": 132,
+      "sizeLines": 142,
       "fileCategory": "code"
     },
     {
@@ -411,6 +447,12 @@
       "path": "lib/mock/courses.js",
       "language": "javascript",
       "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/reviews.js",
+      "language": "javascript",
+      "sizeLines": 174,
       "fileCategory": "code"
     },
     {
@@ -428,7 +470,7 @@
     {
       "path": "lib/security/audit.js",
       "language": "javascript",
-      "sizeLines": 91,
+      "sizeLines": 94,
       "fileCategory": "code"
     },
     {
@@ -588,15 +630,27 @@
       "fileCategory": "data"
     },
     {
+      "path": "supabase/migrations/20260911000000_course_reviews.sql",
+      "language": "sql",
+      "sizeLines": 28,
+      "fileCategory": "data"
+    },
+    {
+      "path": "supabase/migrations/20260911000001_review_likes.sql",
+      "language": "sql",
+      "sizeLines": 32,
+      "fileCategory": "data"
+    },
+    {
       "path": "supabase/policies.sql",
       "language": "sql",
-      "sizeLines": 273,
+      "sizeLines": 284,
       "fileCategory": "data"
     },
     {
       "path": "supabase/schema.sql",
       "language": "sql",
-      "sizeLines": 459,
+      "sizeLines": 471,
       "fileCategory": "data"
     },
     {
@@ -645,6 +699,12 @@
       "path": "test/bookingIntegration.test.js",
       "language": "javascript",
       "sizeLines": 867,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/reviews.test.js",
+      "language": "javascript",
+      "sizeLines": 91,
       "fileCategory": "code"
     },
     {
@@ -726,24 +786,31 @@
       "fileCategory": "config"
     }
   ],
-  "totalFiles": 118,
-  "filteredByIgnore": 6,
+  "totalFiles": 128,
+  "filteredByIgnore": 0,
   "estimatedComplexity": "moderate",
   "importMap": {
     ".env.example": [],
     ".github/CODEOWNERS": [],
     ".github/pull_request_template.md": [],
-    "AGENTS.md": [],
     "CLAUDE.md": [],
     "README.md": [],
+    "app/admin/AdminNav.js": [],
     "app/admin/DashboardControls.js": [],
     "app/admin/[...slug]/page.js": [],
     "app/admin/audit/page.js": [
       "app/admin/DashboardControls.js",
       "app/admin/useAdminResource.js"
     ],
-    "app/admin/layout.js": [],
-    "app/admin/page.js": [],
+    "app/admin/layout.js": [
+      "app/admin/AdminNav.js"
+    ],
+    "app/admin/metricsData.js": [],
+    "app/admin/page.js": [
+      "app/admin/DashboardControls.js",
+      "app/admin/metricsData.js",
+      "app/admin/useAdminResource.js"
+    ],
     "app/admin/security/page.js": [
       "app/admin/DashboardControls.js",
       "app/admin/useAdminResource.js"
@@ -765,6 +832,9 @@
       "lib/security/hash.js",
       "lib/security/rules.js"
     ],
+    "app/api/courses/[id]/reviews/[reviewId]/like/route.js": [],
+    "app/api/courses/[id]/reviews/[reviewId]/route.js": [],
+    "app/api/courses/[id]/reviews/route.js": [],
     "app/api/courses/[id]/route.js": [],
     "app/api/courses/route.js": [],
     "app/api/health/route.js": [],
@@ -786,6 +856,8 @@
     "app/signup/page.js": [],
     "components/LogoutButton.js": [],
     "components/SiteHeader.js": [],
+    "components/charts/BarList.js": [],
+    "components/charts/TimeSeriesChart.js": [],
     "components/chat/ChatWidget.js": [],
     "docs/ARCHITECTURE.md": [],
     "docs/CONVENTIONS.md": [],
@@ -833,6 +905,10 @@
     ],
     "lib/dateLabel.js": [],
     "lib/mock/courses.js": [],
+    "lib/reviews.js": [
+      "lib/security/pii.js",
+      "lib/supabase.js"
+    ],
     "lib/security/apiLog.js": [],
     "lib/security/apiResponseGuard.js": [
       "lib/security/pii.js"
@@ -885,6 +961,8 @@
     "proxy.js": [],
     "scripts/fix-seed-encoding.py": [],
     "supabase/migrations/20260909000000_auth_login_limits.sql": [],
+    "supabase/migrations/20260911000000_course_reviews.sql": [],
+    "supabase/migrations/20260911000001_review_likes.sql": [],
     "supabase/policies.sql": [],
     "supabase/schema.sql": [],
     "supabase/seed.sql": [],
@@ -913,6 +991,9 @@
       "lib/courses.js",
       "lib/slotHandler.js",
       "lib/slotId.js"
+    ],
+    "test/reviews.test.js": [
+      "lib/reviews.js"
     ],
     "test/security/adminPathDetection.test.js": [
       "app/admin/[...slug]/page.js",
@@ -953,5 +1034,6 @@
     ],
     "tmp/pdfs/build_qkv_note.py": [],
     "vercel.json": []
-  }
+  },
+  "contentDigest": "177b3d127a7d50fae28b9462de9e24fe922da3b40bf74a82908344bcd8543368"
 }

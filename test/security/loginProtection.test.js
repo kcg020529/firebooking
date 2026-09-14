@@ -6,8 +6,10 @@ import {
   finishLoginAttempt,
   isCredentialFailure,
   LOGIN_MAX_ATTEMPTS,
+  recordLoginLock,
   reserveLoginAttempt,
 } from '../../lib/security/loginProtection.js';
+import { decryptIncidentIp } from '../../lib/security/hash.js';
 
 function withSecuritySecret(run) {
   const original = process.env.IP_HASH_SALT;
@@ -57,4 +59,49 @@ test('잘못된 비밀번호만 실패 횟수로 세고 공급자 장애는 제�
   assert.equal(isCredentialFailure({ code: 'invalid_credentials', status: 400 }), true);
   assert.equal(isCredentialFailure({ code: 'over_request_rate_limit', status: 429 }), false);
   assert.equal(isCredentialFailure({ code: 'unexpected_failure', status: 500 }), false);
+});
+
+test('로그인 잠금 critical 이벤트에 사고 IP를 암호화해 저장한다', async () => {
+  const previousKey = process.env.SECURITY_IP_ENCRYPTION_KEY;
+  process.env.SECURITY_IP_ENCRYPTION_KEY = Buffer.alloc(32, 31).toString('base64');
+  const inserts = [];
+  const client = {
+    from() {
+      return {
+        select() {
+          const query = {
+            eq() { return query; },
+            gte() { return query; },
+            then(resolve, reject) {
+              return Promise.resolve({ count: 0, error: null }).then(resolve, reject);
+            },
+          };
+          return query;
+        },
+        async insert(row) {
+          inserts.push(row);
+          return { error: null };
+        },
+      };
+    },
+  };
+
+  try {
+    await recordLoginLock({
+      ipHash: 'login-ip-hash',
+      networkContext: {
+        ip: '198.51.100.22',
+        country: 'US',
+        method: 'POST',
+        path: '/api/auth/login',
+        userAgent: 'Login Attack Agent/1.0',
+      },
+      client,
+    });
+
+    assert.equal(decryptIncidentIp(inserts[0].ip_ciphertext), '198.51.100.22');
+  } finally {
+    if (previousKey === undefined) delete process.env.SECURITY_IP_ENCRYPTION_KEY;
+    else process.env.SECURITY_IP_ENCRYPTION_KEY = previousKey;
+  }
 });

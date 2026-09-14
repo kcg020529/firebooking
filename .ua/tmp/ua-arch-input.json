@@ -1,0 +1,3530 @@
+{
+  "fileNodes": [
+    {
+      "id": "file:app/api/chat/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/chat/route.js",
+      "summary": "채팅 요청의 인증 문맥과 IP 해시를 구성하고, 예약·조회·대화 감사 이벤트를 연결해 ChatService로 전달하는 POST 라우트다.",
+      "tags": [
+        "api-handler",
+        "chatbot",
+        "security",
+        "audit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/ai/deepseek.js",
+      "type": "file",
+      "name": "deepseek.js",
+      "filePath": "lib/ai/deepseek.js",
+      "summary": "DeepSeek API 호출, tool-call 파싱과 실행, 대화 재요청을 캡슐화한 서버 전용 생성기다.",
+      "tags": [
+        "llm",
+        "deepseek",
+        "tool-calling",
+        "server-only",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/ai/tools.js",
+      "type": "file",
+      "name": "tools.js",
+      "filePath": "lib/ai/tools.js",
+      "summary": "챗봇이 사용할 슬롯 검색·예약 생성·예약 조회 도구의 스키마 검증과 PII 최소화 결과 형식을 정의한다.",
+      "tags": [
+        "tool-calling",
+        "validation",
+        "booking",
+        "pii-protection",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/security/apiLog.js",
+      "type": "file",
+      "name": "apiLog.js",
+      "filePath": "lib/security/apiLog.js",
+      "summary": "API 핸들러를 감싸 요청 메타데이터, 응답 지연 시간, 비밀값·PII 유출 검사 결과를 비동기로 기록한다.",
+      "tags": [
+        "middleware",
+        "api-monitoring",
+        "security",
+        "pii-protection"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/audit.js",
+      "type": "file",
+      "name": "audit.js",
+      "filePath": "lib/security/audit.js",
+      "summary": "접근 및 업무 동작을 마스킹한 대상 식별자와 역할·IP 해시로 audit_logs에 기록하는 공통 감사 모듈이다.",
+      "tags": [
+        "audit",
+        "security",
+        "logging",
+        "pii-protection"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/chatLog.js",
+      "type": "file",
+      "name": "chatLog.js",
+      "filePath": "lib/security/chatLog.js",
+      "summary": "채팅 원문에서 PII를 탐지·마스킹한 뒤 chat_logs와 security_events REST 삽입 요청으로 남긴다.",
+      "tags": [
+        "chatbot",
+        "logging",
+        "pii-masking",
+        "security-events",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/ai/deepseek.test.js",
+      "type": "file",
+      "name": "deepseek.test.js",
+      "filePath": "test/ai/deepseek.test.js",
+      "summary": "DeepSeek 생성기의 요청 구성, tool-call 반복 실행, 오류 처리와 서버 키 검증을 모의 fetch로 검증한다.",
+      "tags": [
+        "test",
+        "deepseek",
+        "tool-calling",
+        "api-client"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:test/ai/tools.test.js",
+      "type": "file",
+      "name": "tools.test.js",
+      "filePath": "test/ai/tools.test.js",
+      "summary": "챗봇 도구 입력의 허용 키·형식 검증과 예약·조회 결과의 PII 제거 동작을 검증한다.",
+      "tags": [
+        "test",
+        "tool-calling",
+        "validation",
+        "pii-protection"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/chatLog.test.js",
+      "type": "file",
+      "name": "chatLog.test.js",
+      "filePath": "test/security/chatLog.test.js",
+      "summary": "채팅 로그와 보안 이벤트가 Supabase REST 요청으로 전송될 때 PII가 마스킹되는지 검증한다.",
+      "tags": [
+        "test",
+        "chatbot",
+        "logging",
+        "pii-masking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/ai/toolDependencies.js",
+      "type": "file",
+      "name": "toolDependencies.js",
+      "filePath": "lib/ai/toolDependencies.js",
+      "summary": "챗봇이 서버 예약 도구를 안전하게 호출하도록 검색·생성·조회 의존성을 조합한다.",
+      "tags": [
+        "chatbot",
+        "tooling",
+        "booking",
+        "dependency-injection",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/bookingLimits.js",
+      "type": "file",
+      "name": "bookingLimits.js",
+      "filePath": "lib/bookingLimits.js",
+      "summary": "예약 인원·이름·메모의 공통 입력 상한을 상수로 정의한다.",
+      "tags": [
+        "booking",
+        "validation",
+        "constants",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/bookings.js",
+      "type": "file",
+      "name": "bookings.js",
+      "filePath": "lib/bookings.js",
+      "summary": "폼과 챗봇이 함께 쓰는 단일 예약 생성·조회 진입점과 PII 보호 응답 변환을 제공한다.",
+      "tags": [
+        "booking",
+        "security",
+        "pii",
+        "supabase",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/slotHandler.js",
+      "type": "file",
+      "name": "slotHandler.js",
+      "filePath": "lib/slotHandler.js",
+      "summary": "슬롯 ID 검증과 조회 결과의 HTTP 응답 처리를 재사용 가능한 핸들러로 분리한다.",
+      "tags": [
+        "api-handler",
+        "slot",
+        "validation",
+        "http"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/slotId.js",
+      "type": "file",
+      "name": "slotId.js",
+      "filePath": "lib/slotId.js",
+      "summary": "슬롯 식별자가 UUID 형식인지 판별하는 공유 검증기를 제공한다.",
+      "tags": [
+        "slot",
+        "validation",
+        "uuid",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/ai/toolDependencies.test.js",
+      "type": "file",
+      "name": "toolDependencies.test.js",
+      "filePath": "test/ai/toolDependencies.test.js",
+      "summary": "챗봇 도구 의존성의 검색·예약·조회 동작과 감사 콜백을 검증한다.",
+      "tags": [
+        "test",
+        "chatbot",
+        "tooling",
+        "booking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/bookingIntegration.test.js",
+      "type": "file",
+      "name": "bookingIntegration.test.js",
+      "filePath": "test/bookingIntegration.test.js",
+      "summary": "예약 생성·조회·정원·입력 검증을 가짜 Supabase 클라이언트로 통합 검증한다.",
+      "tags": [
+        "test",
+        "booking",
+        "integration-test",
+        "supabase"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:app/admin/[...slug]/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/admin/[...slug]/page.js",
+      "summary": "정의되지 않은 관리자 하위 경로를 Next.js 404로 종료하는 catch-all 페이지입니다.",
+      "tags": [
+        "관리자",
+        "라우팅",
+        "404-처리",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/authPaths.js",
+      "type": "file",
+      "name": "authPaths.js",
+      "filePath": "lib/security/authPaths.js",
+      "summary": "일반 페이지 경로 중 로그인 또는 관리자 권한 검사가 필요한 범위를 판별합니다.",
+      "tags": [
+        "보안",
+        "경로-검사",
+        "권한",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/authz.js",
+      "type": "file",
+      "name": "authz.js",
+      "filePath": "lib/security/authz.js",
+      "summary": "관리자 접근의 허용·거부·미확인 경로 탐색을 마스킹한 감사 및 보안 이벤트로 비동기 기록합니다.",
+      "tags": [
+        "보안",
+        "권한-감사",
+        "이벤트-기록",
+        "pii-마스킹",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/hash.js",
+      "type": "file",
+      "name": "hash.js",
+      "filePath": "lib/security/hash.js",
+      "summary": "IP와 보안 식별값을 salt 기반 SHA-256 지문으로 바꾸고 요청 헤더에서 실제 클라이언트 IP를 추출합니다.",
+      "tags": [
+        "보안",
+        "해싱",
+        "ip-보호",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/authPaths.test.js",
+      "type": "file",
+      "name": "authPaths.test.js",
+      "filePath": "test/authPaths.test.js",
+      "summary": "보호 페이지 경로 판별 규칙을 검증하는 Node 테스트입니다.",
+      "tags": [
+        "테스트",
+        "보안",
+        "경로-검사"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/security/adminPathDetection.test.js",
+      "type": "file",
+      "name": "adminPathDetection.test.js",
+      "filePath": "test/security/adminPathDetection.test.js",
+      "summary": "관리자 catch-all, 접근 감사, PII 마스킹 및 과도한 경로 길이 방어를 통합 검증합니다.",
+      "tags": [
+        "테스트",
+        "관리자-보안",
+        "감사-로그",
+        "pii-마스킹"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/hash.test.js",
+      "type": "file",
+      "name": "hash.test.js",
+      "filePath": "test/security/hash.test.js",
+      "summary": "IP 해시와 요청 IP 추출 유틸리티의 동작을 검증합니다.",
+      "tags": [
+        "테스트",
+        "해싱",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/ai/dateContext.js",
+      "type": "file",
+      "name": "dateContext.js",
+      "filePath": "lib/ai/dateContext.js",
+      "summary": "KST 기준 오늘과 챗봇 예약 가능 날짜 범위를 계산하는 날짜 유틸리티를 제공한다.",
+      "tags": [
+        "chatbot",
+        "date",
+        "timezone",
+        "utility",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/ai/prompt.js",
+      "type": "file",
+      "name": "prompt.js",
+      "filePath": "lib/ai/prompt.js",
+      "summary": "예약 챗봇의 보호 규칙과 KST 날짜 컨텍스트를 포함한 시스템 프롬프트를 구성한다.",
+      "tags": [
+        "chatbot",
+        "prompt",
+        "security",
+        "date"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/leak.js",
+      "type": "file",
+      "name": "leak.js",
+      "filePath": "lib/security/leak.js",
+      "summary": "응답 텍스트에서 API 키, 서비스 역할 키, JWT 같은 비밀정보 패턴을 탐지한다.",
+      "tags": [
+        "security",
+        "secret-detection",
+        "leak-prevention",
+        "validation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/outputGuard.js",
+      "type": "file",
+      "name": "outputGuard.js",
+      "filePath": "lib/security/outputGuard.js",
+      "summary": "LLM 출력에서 비밀값·시스템 프롬프트 유출을 차단하고 PII를 마스킹한다.",
+      "tags": [
+        "security",
+        "chatbot",
+        "pii",
+        "output-guard",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/ai/dateContext.test.js",
+      "type": "file",
+      "name": "dateContext.test.js",
+      "filePath": "test/ai/dateContext.test.js",
+      "summary": "KST 날짜 경계, 예약 기간 계산 및 날짜가 포함된 챗봇 프롬프트를 검증한다.",
+      "tags": [
+        "test",
+        "chatbot",
+        "date",
+        "timezone"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/outputGuard.test.js",
+      "type": "file",
+      "name": "outputGuard.test.js",
+      "filePath": "test/security/outputGuard.test.js",
+      "summary": "비밀값·프롬프트 유출 차단과 응답 PII 마스킹을 검증한다.",
+      "tags": [
+        "test",
+        "security",
+        "pii",
+        "output-guard"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/loginProtection.js",
+      "type": "file",
+      "name": "loginProtection.js",
+      "filePath": "lib/security/loginProtection.js",
+      "summary": "로그인 시도 예약·확정과 잠금 이벤트 기록을 통해 경쟁 상태를 고려한 인증 브루트포스 방어를 제공합니다.",
+      "tags": [
+        "보안",
+        "로그인-보호",
+        "브루트포스",
+        "supabase",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/rules.js",
+      "type": "file",
+      "name": "rules.js",
+      "filePath": "lib/security/rules.js",
+      "summary": "API 과속, 예약번호 대입, 스캘핑, 예약 조회 브루트포스를 집계해 중복 없는 보안 이벤트를 생성합니다.",
+      "tags": [
+        "보안",
+        "이상-탐지",
+        "rate-limit",
+        "감사-로그",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:lib/security/securityConfig.js",
+      "type": "file",
+      "name": "securityConfig.js",
+      "filePath": "lib/security/securityConfig.js",
+      "summary": "이상 탐지 규칙의 임계값·기간·심각도를 한곳에 선언합니다.",
+      "tags": [
+        "보안",
+        "설정",
+        "이상-탐지"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/supabase.js",
+      "type": "file",
+      "name": "supabase.js",
+      "filePath": "lib/supabase.js",
+      "summary": "서버 service-role 클라이언트와 브라우저 anon 클라이언트를 환경 변수 기반으로 분리 생성합니다.",
+      "tags": [
+        "supabase",
+        "클라이언트",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/security/loginProtection.test.js",
+      "type": "file",
+      "name": "loginProtection.test.js",
+      "filePath": "test/security/loginProtection.test.js",
+      "summary": "로그인 시도 키와 잠금 기록 흐름을 검증하는 Node 테스트입니다.",
+      "tags": [
+        "테스트",
+        "로그인-보호",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/rules.test.js",
+      "type": "file",
+      "name": "rules.test.js",
+      "filePath": "test/security/rules.test.js",
+      "summary": "API 속도 제한과 각 이상 탐지 규칙의 이벤트 기록 조건을 검증합니다.",
+      "tags": [
+        "테스트",
+        "이상-탐지",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/ai/chatService.js",
+      "type": "file",
+      "name": "chatService.js",
+      "filePath": "lib/ai/chatService.js",
+      "summary": "대화 입력 검사, PII 마스킹 로그, LLM 응답 생성과 출력 검사를 조합해 안전한 챗봇 서비스를 생성합니다.",
+      "tags": [
+        "ai",
+        "챗봇",
+        "보안",
+        "pii-마스킹",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/chatGuard.js",
+      "type": "file",
+      "name": "chatGuard.js",
+      "filePath": "lib/security/chatGuard.js",
+      "summary": "대화 턴 수·메시지 형식을 검증하고 프롬프트 인젝션 검사를 적용합니다.",
+      "tags": [
+        "보안",
+        "챗봇",
+        "입력-검증",
+        "프롬프트-인젝션",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/injection.js",
+      "type": "file",
+      "name": "injection.js",
+      "filePath": "lib/security/injection.js",
+      "summary": "프롬프트 인젝션 규칙을 정규식으로 검사하고 가장 높은 심각도의 탐지 결과를 반환합니다.",
+      "tags": [
+        "보안",
+        "프롬프트-인젝션",
+        "규칙-탐지",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/ai/chatService.test.js",
+      "type": "file",
+      "name": "chatService.test.js",
+      "filePath": "test/ai/chatService.test.js",
+      "summary": "안전한 챗봇 서비스의 로깅·차단·응답 정리 흐름을 검증합니다.",
+      "tags": [
+        "테스트",
+        "ai",
+        "챗봇"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/injection.test.js",
+      "type": "file",
+      "name": "injection.test.js",
+      "filePath": "test/security/injection.test.js",
+      "summary": "프롬프트 인젝션 규칙과 채팅 입력 가드의 차단 동작을 검증합니다.",
+      "tags": [
+        "테스트",
+        "보안",
+        "프롬프트-인젝션"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/apiResponseGuard.js",
+      "type": "file",
+      "name": "apiResponseGuard.js",
+      "filePath": "lib/security/apiResponseGuard.js",
+      "summary": "공개 API 응답에서 골프장 연락처를 제외한 뒤 PII 탐지 결과를 반환합니다.",
+      "tags": [
+        "보안",
+        "api-응답",
+        "pii-마스킹",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/pii.js",
+      "type": "file",
+      "name": "pii.js",
+      "filePath": "lib/security/pii.js",
+      "summary": "이름·전화·주민번호·카드·이메일 규칙으로 민감정보를 중첩 없이 탐지하고 마스킹된 증적을 생성합니다.",
+      "tags": [
+        "보안",
+        "pii-마스킹",
+        "민감정보",
+        "규칙-탐지",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:test/security/apiLog.test.js",
+      "type": "file",
+      "name": "apiLog.test.js",
+      "filePath": "test/security/apiLog.test.js",
+      "summary": "API 응답 검사 유틸리티의 PII 탐지 결과를 검증합니다.",
+      "tags": [
+        "테스트",
+        "api-응답",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/security/apiResponseGuardImageUrl.test.js",
+      "type": "file",
+      "name": "apiResponseGuardImageUrl.test.js",
+      "filePath": "test/security/apiResponseGuardImageUrl.test.js",
+      "summary": "이미지 URL이 전화번호처럼 오탐되지 않도록 API 응답 검사 예외를 검증합니다.",
+      "tags": [
+        "테스트",
+        "pii-마스킹",
+        "오탐-방지"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/security/pii.test.js",
+      "type": "file",
+      "name": "pii.test.js",
+      "filePath": "test/security/pii.test.js",
+      "summary": "각 PII 규칙의 탐지·마스킹·경로 증적 생성 동작을 검증합니다.",
+      "tags": [
+        "테스트",
+        "pii-마스킹",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/admin/DashboardControls.js",
+      "type": "file",
+      "name": "DashboardControls.js",
+      "filePath": "app/admin/DashboardControls.js",
+      "summary": "관리자 대시보드에서 갱신 시각, 자동 새로고침 전환 및 수동 새로고침 버튼을 공통으로 표시한다.",
+      "tags": [
+        "component",
+        "admin",
+        "dashboard",
+        "refresh"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/admin/audit/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/admin/audit/page.js",
+      "summary": "관리자 감사 로그를 필터링·자동 갱신하고 허용·거부 결과를 테이블로 표시한다.",
+      "tags": [
+        "component",
+        "admin",
+        "audit-log",
+        "dashboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:app/admin/security/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/admin/security/page.js",
+      "summary": "보안 이벤트의 심각도·분류 필터, 집계, 규칙별 분포와 이벤트 타임라인을 표시한다.",
+      "tags": [
+        "component",
+        "admin",
+        "security",
+        "dashboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:app/layout.js",
+      "type": "file",
+      "name": "layout.js",
+      "filePath": "app/layout.js",
+      "summary": "전역 CSS·메타데이터와 공통 헤더·채팅 위젯을 포함하는 App Router 루트 레이아웃입니다.",
+      "tags": [
+        "nextjs",
+        "레이아웃",
+        "공통-ui"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:components/SiteHeader.js",
+      "type": "file",
+      "name": "SiteHeader.js",
+      "filePath": "components/SiteHeader.js",
+      "summary": "인증 상태와 프로필 역할을 구독해 사용자 메뉴 및 관리자 탐색을 표시하는 클라이언트 헤더입니다.",
+      "tags": [
+        "react",
+        "헤더",
+        "인증",
+        "컴포넌트"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:components/chat/ChatWidget.js",
+      "type": "file",
+      "name": "ChatWidget.js",
+      "filePath": "components/chat/ChatWidget.js",
+      "summary": "세션 ID를 유지하며 `/api/chat`과 통신하고 빠른 답장과 오류 상태를 렌더링하는 클라이언트 채팅 위젯입니다.",
+      "tags": [
+        "react",
+        "챗봇",
+        "api-클라이언트",
+        "컴포넌트"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/migrations/20260909000000_auth_login_limits.sql:login_attempt_limits",
+      "type": "table",
+      "name": "login_attempt_limits",
+      "filePath": "supabase/migrations/20260909000000_auth_login_limits.sql",
+      "summary": "로그인 실패·예약 시도·잠금 상태를 HMAC 키별로 보관하는 login_attempt_limits 테이블과 원자적 갱신 함수를 생성한다. 서비스 역할만 이 상태를 읽고 실행하도록 권한을 제한한다.",
+      "tags": [
+        "database",
+        "migration",
+        "login-security",
+        "rate-limiting",
+        "row-locking"
+      ],
+      "complexity": "complex",
+      "languageNotes": "PL/pgSQL의 FOR UPDATE 잠금과 security definer 함수를 이용해 동시 로그인 시도도 일관되게 집계한다."
+    },
+    {
+      "id": "config:.env.example",
+      "type": "config",
+      "name": ".env.example",
+      "filePath": ".env.example",
+      "summary": "Supabase, DeepSeek, IP 해시 salt에 필요한 공개·서버 전용 환경 변수의 예시를 제공합니다.",
+      "tags": [
+        "환경변수",
+        "보안",
+        "설정"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:CLAUDE.md",
+      "type": "document",
+      "name": "CLAUDE.md",
+      "filePath": "CLAUDE.md",
+      "summary": "AI 협업 도구가 따라야 할 프로젝트 구조, 보안 원칙, API와 데이터베이스 계약을 설명합니다.",
+      "tags": [
+        "문서화",
+        "보안",
+        "개발-규약"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "firebooking의 보안 중심 목표, 기술 스택, 역할 분담, 문서와 실행 방법을 소개합니다.",
+      "tags": [
+        "문서화",
+        "프로젝트-개요",
+        "시작-안내"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:jsconfig.json",
+      "type": "config",
+      "name": "jsconfig.json",
+      "filePath": "jsconfig.json",
+      "summary": "JavaScript 프로젝트의 컴파일러 옵션과 절대 경로 해석 기준을 설정합니다.",
+      "tags": [
+        "설정",
+        "javascript",
+        "빌드-시스템"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "Next.js 애플리케이션의 실행 스크립트와 런타임·개발 의존성을 선언합니다.",
+      "tags": [
+        "설정",
+        "npm",
+        "빌드-시스템"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:vercel.json",
+      "type": "config",
+      "name": "vercel.json",
+      "filePath": "vercel.json",
+      "summary": "Vercel 배포의 런타임 리전을 지정합니다.",
+      "tags": [
+        "설정",
+        "vercel",
+        "배포"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/ARCHITECTURE.md",
+      "type": "document",
+      "name": "ARCHITECTURE.md",
+      "filePath": "docs/ARCHITECTURE.md",
+      "summary": "App Router, Supabase, 보안 모듈과 화면 계층의 분리를 설명하는 아키텍처 개요입니다.",
+      "tags": [
+        "문서화",
+        "아키텍처",
+        "보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/CONVENTIONS.md",
+      "type": "document",
+      "name": "CONVENTIONS.md",
+      "filePath": "docs/CONVENTIONS.md",
+      "summary": "브랜치·커밋·PR·AI 사용, 파일 구조, 코드 스타일과 보안 규칙을 상세히 정의합니다.",
+      "tags": [
+        "문서화",
+        "개발-규약",
+        "보안"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/DECISIONS.md",
+      "type": "document",
+      "name": "DECISIONS.md",
+      "filePath": "docs/DECISIONS.md",
+      "summary": "프로젝트 범위, 우선순위, 협업 방식에 관한 초기 의사결정을 기록합니다.",
+      "tags": [
+        "문서화",
+        "의사결정",
+        "프로젝트-관리"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/DEEPSEEK_SETUP.md",
+      "type": "document",
+      "name": "DEEPSEEK_SETUP.md",
+      "filePath": "docs/DEEPSEEK_SETUP.md",
+      "summary": "DeepSeek API 환경 변수 설정과 자동·실연·공격 내성 검증 절차를 안내합니다.",
+      "tags": [
+        "문서화",
+        "deepseek",
+        "보안"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/LLM_SECURITY_TESTS.md",
+      "type": "document",
+      "name": "LLM_SECURITY_TESTS.md",
+      "filePath": "docs/LLM_SECURITY_TESTS.md",
+      "summary": "프롬프트 인젝션과 PII 유출 방어를 확인하는 LLM 보안 테스트 시나리오를 정리합니다.",
+      "tags": [
+        "문서화",
+        "llm-보안",
+        "테스트"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/MENTOR_FEEDBACK_REMEDIATION.md",
+      "type": "document",
+      "name": "MENTOR_FEEDBACK_REMEDIATION.md",
+      "filePath": "docs/MENTOR_FEEDBACK_REMEDIATION.md",
+      "summary": "관리자 경로 탐색 취약점에 대한 멘토 피드백, 수정 내역과 검증 근거를 기록합니다.",
+      "tags": [
+        "문서화",
+        "보안",
+        "개선-이력"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/PLAN.md",
+      "type": "document",
+      "name": "PLAN.md",
+      "filePath": "docs/PLAN.md",
+      "summary": "2주 일정, 기능 우선순위, 담당자별 작업과 발표 준비 체크리스트를 제공합니다.",
+      "tags": [
+        "문서화",
+        "프로젝트-관리",
+        "계획"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:docs/SBOM.cdx.json",
+      "type": "config",
+      "name": "SBOM.cdx.json",
+      "filePath": "docs/SBOM.cdx.json",
+      "summary": "CycloneDX 형식으로 애플리케이션 의존성과 구성 요소를 열거한 소프트웨어 자재 명세입니다.",
+      "tags": [
+        "설정",
+        "sbom",
+        "공급망-보안"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/SBOM.md",
+      "type": "document",
+      "name": "SBOM.md",
+      "filePath": "docs/SBOM.md",
+      "summary": "SBOM 생성 명령과 산출물 위치를 간단히 안내합니다.",
+      "tags": [
+        "문서화",
+        "sbom",
+        "공급망-보안"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/SECURITY.md",
+      "type": "document",
+      "name": "SECURITY.md",
+      "filePath": "docs/SECURITY.md",
+      "summary": "PII 마스킹, 인젝션 탐지, API 모니터링, 권한 감사의 설계와 시연 기준을 정의합니다.",
+      "tags": [
+        "문서화",
+        "보안",
+        "pii-마스킹"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/STACK.md",
+      "type": "document",
+      "name": "STACK.md",
+      "filePath": "docs/STACK.md",
+      "summary": "프런트엔드, 백엔드, 데이터베이스, AI 보안과 운영 도구의 기술 스택을 설명합니다.",
+      "tags": [
+        "문서화",
+        "기술-스택",
+        "아키텍처"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:supabase/seed.sql:seed",
+      "type": "table",
+      "name": "seed",
+      "filePath": "supabase/seed.sql",
+      "summary": "데모용 필드·스크린 골프장과 향후 14일 예약 슬롯을 반복 실행 가능하게 채웁니다.",
+      "tags": [
+        "데이터베이스",
+        "시드-데이터",
+        "예약"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:.github/CODEOWNERS",
+      "type": "file",
+      "name": "CODEOWNERS",
+      "filePath": ".github/CODEOWNERS",
+      "summary": "보안·예약·UI·AI 모듈의 경로별 코드 소유자와 공통 검토 책임자를 지정하는 GitHub 검토 정책 파일이다.",
+      "tags": [
+        "code-ownership",
+        "governance",
+        "review-policy"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.github/pull_request_template.md",
+      "type": "document",
+      "name": "pull_request_template.md",
+      "filePath": ".github/pull_request_template.md",
+      "summary": "변경 내용, 검증 항목, 보안 규칙 준수와 리뷰어 참고 사항을 작성하도록 안내하는 PR 템플릿이다.",
+      "tags": [
+        "documentation",
+        "pull-request",
+        "security-review"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/api/admin/[...path]/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/admin/[...path]/route.js",
+      "summary": "알 수 없는 관리자 API 경로에 대해 직원 권한을 확인하고 접근 시도를 감사한 뒤 404 응답을 반환한다.",
+      "tags": [
+        "api-handler",
+        "admin",
+        "authorization",
+        "audit"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/api/admin/audit/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/admin/audit/route.js",
+      "summary": "직원·관리자 전용으로 감사 로그를 필터링 조회하는 API 엔드포인트다.",
+      "tags": [
+        "api-handler",
+        "admin",
+        "audit",
+        "authorization"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/api/admin/events/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/admin/events/route.js",
+      "summary": "보안 이벤트를 심각도·규칙·기간 조건으로 조회하고 권한 없는 요청은 거부하는 API 엔드포인트다.",
+      "tags": [
+        "api-handler",
+        "admin",
+        "security-events",
+        "authorization"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/api/auth/login/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/auth/login/route.js",
+      "summary": "이메일·비밀번호 로그인을 처리하면서 IP와 계정 해시 기준의 시도 예약·잠금·감사 기록을 적용한다.",
+      "tags": [
+        "api-handler",
+        "authentication",
+        "rate-limiting",
+        "audit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/api/bookings/lookup/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/bookings/lookup/route.js",
+      "summary": "예약번호와 전화번호를 함께 대조해 필요한 예약 정보만 반환하고 실패 조회를 감사하는 API다.",
+      "tags": [
+        "api-handler",
+        "booking-lookup",
+        "pii-protection",
+        "audit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/api/bookings/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/bookings/route.js",
+      "summary": "폼 예약 요청을 검증하고 단일 createBooking 진입점으로 전달한 뒤 생성 결과를 응답한다.",
+      "tags": [
+        "api-handler",
+        "booking",
+        "validation",
+        "audit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/api/courses/[id]/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/courses/[id]/route.js",
+      "summary": "날짜 조건을 포함해 특정 골프장과 예약 가능한 슬롯을 조회하는 API 엔드포인트다.",
+      "tags": [
+        "api-handler",
+        "course-search",
+        "slot-search"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/api/courses/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/courses/route.js",
+      "summary": "선택적 필드·스크린 유형 필터로 골프장 목록을 반환하는 API 엔드포인트다.",
+      "tags": [
+        "api-handler",
+        "course-search",
+        "filtering"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/api/health/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/health/route.js",
+      "summary": "서비스와 Supabase 연결 상태를 점검해 배포 환경의 상태 확인 응답을 제공한다.",
+      "tags": [
+        "api-handler",
+        "health-check",
+        "monitoring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/api/slots/[slotId]/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/slots/[slotId]/route.js",
+      "summary": "공통 슬롯 핸들러를 API 로그 래퍼로 노출해 단일 슬롯 정보를 조회한다.",
+      "tags": [
+        "api-handler",
+        "slot-search",
+        "middleware"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/book/[slotId]/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/book/[slotId]/page.js",
+      "summary": "선택한 슬롯의 상태를 보여주고 이름·전화번호·인원·메모를 입력받아 예약 API로 전송하는 클라이언트 페이지다.",
+      "tags": [
+        "component",
+        "booking",
+        "form",
+        "client-page"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:app/booking/[code]/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/booking/[code]/page.js",
+      "summary": "예약 완료 코드와 슬롯 요약을 표시하고 코드를 클립보드에 복사할 수 있는 완료 페이지다.",
+      "tags": [
+        "component",
+        "booking",
+        "confirmation",
+        "client-page"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/globals.css",
+      "type": "file",
+      "name": "globals.css",
+      "filePath": "app/globals.css",
+      "summary": "Tailwind를 불러오고 라이트·다크 테마의 브랜드, 심각도, 표면 색상 토큰과 전역 본문 스타일을 정의한다.",
+      "tags": [
+        "styles",
+        "tailwind",
+        "design-tokens",
+        "theme"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/login/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/login/page.js",
+      "summary": "로그인 실패·잠금 안내를 표시하고 인증 API로 자격 증명을 전송하는 클라이언트 로그인 화면이다.",
+      "tags": [
+        "component",
+        "authentication",
+        "form",
+        "client-page"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/lookup/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/lookup/page.js",
+      "summary": "예약번호와 전화번호를 함께 입력받아 안전한 예약 조회 결과를 표시하는 클라이언트 페이지다.",
+      "tags": [
+        "component",
+        "booking-lookup",
+        "form",
+        "pii-protection"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/my/loading.js",
+      "type": "file",
+      "name": "loading.js",
+      "filePath": "app/my/loading.js",
+      "summary": "내 예약 페이지 데이터가 로드되는 동안 예약 카드 모양의 스켈레톤 UI를 표시한다.",
+      "tags": [
+        "component",
+        "loading-state",
+        "skeleton"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/my/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/my/page.js",
+      "summary": "인증 사용자 프로필과 본인 예약 목록을 서버에서 조회해 개인 예약 페이지로 렌더링한다.",
+      "tags": [
+        "component",
+        "booking",
+        "authentication",
+        "server-page"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/page.js",
+      "summary": "필드·스크린 유형을 전환하며 골프장 목록을 조회하고 카드 형태로 보여주는 홈 화면이다.",
+      "tags": [
+        "component",
+        "course-search",
+        "client-page",
+        "filtering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/signup/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/signup/page.js",
+      "summary": "표시 이름을 포함한 Supabase 회원가입을 처리하고 인증 안내 또는 오류를 표시한다.",
+      "tags": [
+        "component",
+        "authentication",
+        "signup",
+        "form"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:components/LogoutButton.js",
+      "type": "file",
+      "name": "LogoutButton.js",
+      "filePath": "components/LogoutButton.js",
+      "summary": "세션 종료 중 상태를 표시하고 Supabase 로그아웃 뒤 홈으로 이동시키는 재사용 버튼이다.",
+      "tags": [
+        "component",
+        "authentication",
+        "logout"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:eslint.config.mjs",
+      "type": "file",
+      "name": "eslint.config.mjs",
+      "filePath": "eslint.config.mjs",
+      "summary": "Next.js 프로젝트에 적용할 ESLint 기본 설정과 무시 규칙을 정의한다.",
+      "tags": [
+        "configuration",
+        "linting",
+        "nextjs",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/adminFormat.js",
+      "type": "file",
+      "name": "adminFormat.js",
+      "filePath": "lib/adminFormat.js",
+      "summary": "관리자 화면에서 쓰는 KST 시간 표시, 해시 축약, 날짜 범위와 URL 쿼리 생성 유틸리티를 제공한다.",
+      "tags": [
+        "admin",
+        "formatting",
+        "date",
+        "utility"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/auth.js",
+      "type": "file",
+      "name": "auth.js",
+      "filePath": "lib/auth.js",
+      "summary": "Supabase 인증 사용자와 프로필 역할을 조회하고 요청 단위 인증 정보를 구성한다.",
+      "tags": [
+        "authentication",
+        "authorization",
+        "supabase",
+        "security"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/courseType.js",
+      "type": "file",
+      "name": "courseType.js",
+      "filePath": "lib/courseType.js",
+      "summary": "필드와 스크린 골프 유형의 표시 레이블을 정의한다.",
+      "tags": [
+        "course",
+        "constants",
+        "ui",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/dateLabel.js",
+      "type": "file",
+      "name": "dateLabel.js",
+      "filePath": "lib/dateLabel.js",
+      "summary": "예약 화면용 날짜와 시간 표시 레이블을 만드는 유틸리티를 제공한다.",
+      "tags": [
+        "date",
+        "formatting",
+        "booking",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/mock/courses.js",
+      "type": "file",
+      "name": "courses.js",
+      "filePath": "lib/mock/courses.js",
+      "summary": "개발 또는 UI 검증에 사용할 골프 코스 mock 데이터를 내보낸다.",
+      "tags": [
+        "mock-data",
+        "course",
+        "development",
+        "fixture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/report.js",
+      "type": "file",
+      "name": "report.js",
+      "filePath": "lib/security/report.js",
+      "summary": "보안 이벤트와 감사 로그를 조회·정규화하고 관리자 대시보드용 집계를 만든다.",
+      "tags": [
+        "security",
+        "audit-log",
+        "reporting",
+        "supabase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/security/requireStaff.js",
+      "type": "file",
+      "name": "requireStaff.js",
+      "filePath": "lib/security/requireStaff.js",
+      "summary": "관리자 API에서 staff 또는 admin 역할을 요구하는 권한 검사를 제공한다.",
+      "tags": [
+        "authorization",
+        "security",
+        "admin",
+        "api-handler"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/security/sessionTimeout.js",
+      "type": "file",
+      "name": "sessionTimeout.js",
+      "filePath": "lib/security/sessionTimeout.js",
+      "summary": "서명된 세션 유휴 시간 토큰과 보안 쿠키 옵션을 생성·검증한다.",
+      "tags": [
+        "security",
+        "session",
+        "cookie",
+        "authentication",
+        "tested"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/supabaseAuth.js",
+      "type": "file",
+      "name": "supabaseAuth.js",
+      "filePath": "lib/supabaseAuth.js",
+      "summary": "브라우저와 서버 환경에 맞는 Supabase 인증 클라이언트를 생성한다.",
+      "tags": [
+        "supabase",
+        "authentication",
+        "client",
+        "server"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/useSlot.js",
+      "type": "file",
+      "name": "useSlot.js",
+      "filePath": "lib/useSlot.js",
+      "summary": "슬롯 API를 조회해 슬롯·코스·로딩·오류 상태를 관리하는 React hook을 제공한다.",
+      "tags": [
+        "hook",
+        "slot",
+        "data-fetching",
+        "react"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:next.config.mjs",
+      "type": "file",
+      "name": "next.config.mjs",
+      "filePath": "next.config.mjs",
+      "summary": "Next.js 애플리케이션의 프레임워크 설정을 내보낸다.",
+      "tags": [
+        "configuration",
+        "nextjs",
+        "build-system",
+        "framework"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:postcss.config.mjs",
+      "type": "file",
+      "name": "postcss.config.mjs",
+      "filePath": "postcss.config.mjs",
+      "summary": "Tailwind CSS 처리에 필요한 PostCSS 플러그인 설정을 정의한다.",
+      "tags": [
+        "configuration",
+        "postcss",
+        "tailwind",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:proxy.js",
+      "type": "file",
+      "name": "proxy.js",
+      "filePath": "proxy.js",
+      "summary": "보호 페이지의 Supabase 세션을 갱신하고 유휴 시간 만료 시 로그인으로 리디렉션하는 Next.js proxy를 제공한다.",
+      "tags": [
+        "middleware",
+        "authentication",
+        "session",
+        "security"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:scripts/fix-seed-encoding.py",
+      "type": "file",
+      "name": "fix-seed-encoding.py",
+      "filePath": "scripts/fix-seed-encoding.py",
+      "summary": "시드 SQL의 코스 데이터를 읽어 Supabase REST API로 인코딩·이미지 URL 값을 보정하는 유지보수 스크립트다.",
+      "tags": [
+        "script",
+        "supabase",
+        "data-migration",
+        "maintenance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test/security/sessionTimeout.test.js",
+      "type": "file",
+      "name": "sessionTimeout.test.js",
+      "filePath": "test/security/sessionTimeout.test.js",
+      "summary": "세션 유휴 시간 토큰의 서명 검증, 만료, 쿠키 옵션을 검증한다.",
+      "tags": [
+        "test",
+        "security",
+        "session",
+        "authentication"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tmp/pdfs/build_qkv_note.py",
+      "type": "file",
+      "name": "build_qkv_note.py",
+      "filePath": "tmp/pdfs/build_qkv_note.py",
+      "summary": "QKV attention 개념을 설명하는 PDF 학습 노트를 ReportLab으로 생성한다.",
+      "tags": [
+        "script",
+        "pdf",
+        "documentation",
+        "reportlab"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/courses.js",
+      "type": "file",
+      "name": "courses.js",
+      "filePath": "lib/courses.js",
+      "summary": "Supabase의 골프장·슬롯·리뷰 집계 데이터를 API용 camelCase 객체로 변환해 조회한다.",
+      "tags": [
+        "supabase",
+        "데이터-접근",
+        "골프장",
+        "예약-슬롯"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "DB의 snake_case 필드를 이 모듈에서만 camelCase로 변환하고 선택적 의존성 주입으로 슬롯 조회를 테스트한다."
+    },
+    {
+      "id": "file:lib/reviews.js",
+      "type": "file",
+      "name": "reviews.js",
+      "filePath": "lib/reviews.js",
+      "summary": "골프장 리뷰의 입력 검증, PII 마스킹, 조회·요약과 작성·수정·삭제를 Supabase 서버 클라이언트로 처리한다.",
+      "tags": [
+        "review",
+        "data-access",
+        "pii-masking",
+        "validation",
+        "tested"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:test/reviews.test.js",
+      "type": "file",
+      "name": "reviews.test.js",
+      "filePath": "test/reviews.test.js",
+      "summary": "리뷰 입력·집계·예약 이력 권한·PII 마스킹과 대표 리뷰 페이지 분리를 node:test로 검증한다.",
+      "tags": [
+        "test",
+        "review",
+        "pii-masking",
+        "authorization"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/admin/metricsData.js",
+      "type": "file",
+      "name": "metricsData.js",
+      "filePath": "app/admin/metricsData.js",
+      "summary": "관리자 대시보드가 브라우저의 인증된 Supabase 세션으로 API 로그와 보안 이벤트를 읽어 기간별 운영 메트릭으로 집계한다.",
+      "tags": [
+        "관리자-대시보드",
+        "운영-메트릭",
+        "supabase",
+        "클라이언트-집계"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/admin/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/admin/page.js",
+      "summary": "관리자 홈에서 기간별 API 운영 지표와 보안 이벤트 추이를 KPI, SVG 시계열 차트, 상위 경로 및 최근 로그로 표시한다.",
+      "tags": [
+        "관리자-대시보드",
+        "모니터링",
+        "데이터-시각화",
+        "클라이언트-컴포넌트"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:app/admin/useAdminResource.js",
+      "type": "file",
+      "name": "useAdminResource.js",
+      "filePath": "app/admin/useAdminResource.js",
+      "summary": "관리자 리소스의 초기 조회, 가시성 기반 자동 갱신, 요청 경합 방지와 오류 상태를 공통 React hook으로 관리한다.",
+      "tags": [
+        "react-hook",
+        "관리자",
+        "데이터-조회",
+        "자동-갱신"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/migrations/20260911000000_course_reviews.sql:course-reviews-migration",
+      "type": "table",
+      "name": "course_reviews 마이그레이션",
+      "filePath": "supabase/migrations/20260911000000_course_reviews.sql",
+      "summary": "예약 이력이 있는 사용자만 작성할 수 있는 코스 리뷰 테이블과 공개 읽기 RLS 정책을 추가한다.",
+      "tags": [
+        "database",
+        "migration",
+        "review",
+        "rls"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:supabase/migrations/20260911000000_course_reviews.sql:course_reviews",
+      "type": "table",
+      "name": "course_reviews",
+      "filePath": "supabase/migrations/20260911000000_course_reviews.sql",
+      "lineRange": [
+        2,
+        11
+      ],
+      "summary": "코스별 사용자 리뷰의 별점·난이도·마스킹된 내용과 생성 시각을 유일한 작성자 제약과 함께 저장한다.",
+      "tags": [
+        "database",
+        "review",
+        "schema",
+        "pii-masking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/migrations/20260911000001_review_likes.sql:review-likes-migration",
+      "type": "table",
+      "name": "review_likes 마이그레이션",
+      "filePath": "supabase/migrations/20260911000001_review_likes.sql",
+      "summary": "리뷰 좋아요 수 컬럼, 사용자별 좋아요 테이블과 서버 전용 토글 RPC를 추가한다.",
+      "tags": [
+        "database",
+        "migration",
+        "review",
+        "access-control"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/migrations/20260911000001_review_likes.sql:course_review_likes",
+      "type": "table",
+      "name": "course_review_likes",
+      "filePath": "supabase/migrations/20260911000001_review_likes.sql",
+      "lineRange": [
+        4,
+        9
+      ],
+      "summary": "리뷰와 사용자 조합을 복합 기본 키로 저장해 사용자당 하나의 좋아요만 허용한다.",
+      "tags": [
+        "database",
+        "review",
+        "likes",
+        "schema"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/DATA_FLOW.md",
+      "type": "document",
+      "name": "DATA_FLOW.md",
+      "filePath": "docs/DATA_FLOW.md",
+      "summary": "일반 예약, 챗봇 예약, 관리자 보안 이벤트, 로그인 보호와 리뷰 작성에서 PII 마스킹·권한 검증·감사 로그가 흐르는 경로를 설명한다.",
+      "tags": [
+        "문서화",
+        "데이터-흐름",
+        "보안",
+        "pii-보호"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/policies.sql:policies",
+      "type": "table",
+      "name": "policies",
+      "filePath": "supabase/policies.sql",
+      "summary": "모든 서비스·보안 테이블의 RLS, 역할별 읽기 권한과 서버 전용 함수 실행 권한을 정의한다.",
+      "tags": [
+        "database",
+        "rls",
+        "access-control",
+        "security"
+      ],
+      "complexity": "complex",
+      "languageNotes": "PostgreSQL의 GRANT와 RLS를 함께 적용해 브라우저 직접 접근과 서버 service_role 접근을 분리한다."
+    },
+    {
+      "id": "table:supabase/schema.sql:schema",
+      "type": "table",
+      "name": "schema",
+      "filePath": "supabase/schema.sql",
+      "summary": "골프 예약·리뷰와 프로필, API·감사·보안·채팅 로그 및 로그인 제한을 위한 테이블과 원자적 RPC를 정의한다.",
+      "tags": [
+        "database",
+        "schema",
+        "booking",
+        "security"
+      ],
+      "complexity": "complex",
+      "languageNotes": "security definer 함수와 행 잠금을 사용해 역할 판정, 예약 정원, 로그인 시도 제한을 DB에서 원자적으로 처리한다."
+    },
+    {
+      "id": "table:supabase/schema.sql:courses",
+      "type": "table",
+      "name": "courses",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        13,
+        23
+      ],
+      "summary": "골프장 이름·유형·지역·주소·연락처·이미지와 설명을 저장한다.",
+      "tags": [
+        "database",
+        "schema",
+        "course"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/schema.sql:slots",
+      "type": "table",
+      "name": "slots",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        26,
+        38
+      ],
+      "summary": "골프장별 날짜·시간·가격·정원과 예약 인원을 저장하며 정원 초과를 제약 조건으로 막는다.",
+      "tags": [
+        "database",
+        "schema",
+        "booking",
+        "capacity"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/schema.sql:bookings",
+      "type": "table",
+      "name": "bookings",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        43,
+        54
+      ],
+      "summary": "예약 번호와 원본 이름·전화번호를 포함한 예약 정보를 저장하는 유일한 원본 PII 테이블이다.",
+      "tags": [
+        "database",
+        "booking",
+        "pii",
+        "security"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/schema.sql:course_reviews",
+      "type": "table",
+      "name": "course_reviews",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        57,
+        66
+      ],
+      "summary": "코스별 사용자 리뷰의 별점·난이도·PII 마스킹된 내용과 작성 시각을 저장한다.",
+      "tags": [
+        "database",
+        "review",
+        "schema",
+        "pii-masking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/schema.sql:profiles",
+      "type": "table",
+      "name": "profiles",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        73,
+        80
+      ],
+      "summary": "Supabase Auth 사용자와 이메일·표시 이름·서비스 역할을 연결한다.",
+      "tags": [
+        "database",
+        "profile",
+        "authorization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:supabase/schema.sql:api_logs",
+      "type": "table",
+      "name": "api_logs",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        83,
+        93
+      ],
+      "summary": "API 요청 메서드·경로·상태·지연 시간과 해시된 IP 정보를 기록한다.",
+      "tags": [
+        "database",
+        "api-monitoring",
+        "security",
+        "logging"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/schema.sql:audit_logs",
+      "type": "table",
+      "name": "audit_logs",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        96,
+        106
+      ],
+      "summary": "행위자·대상·허용 여부와 IP 해시를 기록해 접근 감사를 지원한다.",
+      "tags": [
+        "database",
+        "audit-log",
+        "security",
+        "authorization"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/schema.sql:security_events",
+      "type": "table",
+      "name": "security_events",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        109,
+        119
+      ],
+      "summary": "탐지 규칙·심각도·마스킹된 증적과 처리 상태를 보존하는 보안 이벤트를 저장한다.",
+      "tags": [
+        "database",
+        "security-event",
+        "anomaly-detection",
+        "pii-masking"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:supabase/schema.sql:chat_logs",
+      "type": "table",
+      "name": "chat_logs",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        122,
+        129
+      ],
+      "summary": "세션별 역할과 PII 마스킹된 대화 내용, 탐지 건수만 저장한다.",
+      "tags": [
+        "database",
+        "chatbot",
+        "pii-masking",
+        "logging"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:supabase/schema.sql:login_attempt_limits",
+      "type": "table",
+      "name": "login_attempt_limits",
+      "filePath": "supabase/schema.sql",
+      "lineRange": [
+        134,
+        141
+      ],
+      "summary": "HMAC 키별 실패·대기 횟수와 잠금 시각을 저장해 로그인 시도 제한을 지원한다.",
+      "tags": [
+        "database",
+        "rate-limit",
+        "authentication",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/admin/AdminNav.js",
+      "type": "file",
+      "name": "AdminNav.js",
+      "filePath": "app/admin/AdminNav.js",
+      "summary": "현재 경로에 맞춘 활성 상태를 표시하는 관리자 보안·감사 대시보드 탭 탐색을 제공한다.",
+      "tags": [
+        "관리자",
+        "탐색",
+        "클라이언트-컴포넌트",
+        "대시보드"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/admin/layout.js",
+      "type": "file",
+      "name": "layout.js",
+      "filePath": "app/admin/layout.js",
+      "summary": "관리자 하위 경로의 staff 권한을 한 곳에서 검사하고 허용·거부 접근을 감사 기록하며 공통 셸을 렌더링한다.",
+      "tags": [
+        "관리자",
+        "권한-검사",
+        "감사-로그",
+        "layout"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/api/courses/[id]/reviews/[reviewId]/like/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/courses/[id]/reviews/[reviewId]/like/route.js",
+      "summary": "인증된 사용자가 리뷰 좋아요를 토글하도록 Supabase RPC를 호출하고 API 요청 로그를 남긴다.",
+      "tags": [
+        "api-handler",
+        "리뷰",
+        "좋아요",
+        "인증"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:app/api/courses/[id]/reviews/[reviewId]/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/courses/[id]/reviews/[reviewId]/route.js",
+      "summary": "로그인 사용자의 리뷰 수정·삭제 요청을 검증하고 결과를 접근 감사 로그에 남기는 API 경로다.",
+      "tags": [
+        "api-handler",
+        "리뷰",
+        "감사-로그",
+        "인증"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/api/courses/[id]/reviews/route.js",
+      "type": "file",
+      "name": "route.js",
+      "filePath": "app/api/courses/[id]/reviews/route.js",
+      "summary": "골프장 리뷰 목록을 페이지네이션해 제공하고 예약 이력이 검증된 사용자의 리뷰 작성을 처리하는 API 경로다.",
+      "tags": [
+        "api-handler",
+        "리뷰",
+        "권한-검사",
+        "감사-로그"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/courses/[id]/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/courses/[id]/page.js",
+      "summary": "골프장 날짜별 슬롯 예약 화면에 리뷰 조회·작성·수정·삭제·좋아요와 페이지네이션 UI를 결합한 클라이언트 페이지다.",
+      "tags": [
+        "클라이언트-페이지",
+        "골프장",
+        "예약-슬롯",
+        "리뷰"
+      ],
+      "complexity": "complex",
+      "languageNotes": "브라우저 시계로 날짜 옵션을 초기화해 KST와 SSR UTC 간 하이드레이션 불일치를 피하고, Effect 정리 함수로 오래된 응답을 무효화한다."
+    },
+    {
+      "id": "file:components/charts/BarList.js",
+      "type": "file",
+      "name": "BarList.js",
+      "filePath": "components/charts/BarList.js",
+      "summary": "상위 항목 값을 최대값 대비 CSS 막대 폭으로 표시하고 비어 있는 목록의 안내 문구를 제공하는 재사용 UI 컴포넌트다.",
+      "tags": [
+        "ui-컴포넌트",
+        "데이터-시각화",
+        "막대-차트"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:components/charts/TimeSeriesChart.js",
+      "type": "file",
+      "name": "TimeSeriesChart.js",
+      "filePath": "components/charts/TimeSeriesChart.js",
+      "summary": "외부 라이브러리 없이 SVG 좌표와 CSS 색상 변수를 이용해 여러 데이터 계열의 선·영역 시계열 차트를 그린다.",
+      "tags": [
+        "ui-컴포넌트",
+        "데이터-시각화",
+        "svg",
+        "시계열-차트"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "importEdges": [
+    {
+      "source": "file:lib/courses.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/reviews.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/reviews.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/reviews.test.js",
+      "target": "file:lib/reviews.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app/admin/page.js",
+      "target": "file:app/admin/DashboardControls.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app/admin/page.js",
+      "target": "file:app/admin/metricsData.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app/admin/page.js",
+      "target": "file:app/admin/useAdminResource.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app/admin/layout.js",
+      "target": "file:app/admin/AdminNav.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app/admin/audit/page.js",
+      "target": "file:app/admin/DashboardControls.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/admin/audit/page.js",
+      "target": "file:app/admin/useAdminResource.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/admin/security/page.js",
+      "target": "file:app/admin/DashboardControls.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/admin/security/page.js",
+      "target": "file:app/admin/useAdminResource.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/ai/chatService.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/ai/deepseek.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/ai/toolDependencies.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/apiLog.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/audit.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/chatLog.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/hash.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/rules.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/layout.js",
+      "target": "file:app/globals.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/layout.js",
+      "target": "file:components/SiteHeader.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/layout.js",
+      "target": "file:components/chat/ChatWidget.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/chatGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/outputGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/deepseek.js",
+      "target": "file:lib/ai/prompt.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/deepseek.js",
+      "target": "file:lib/ai/tools.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/prompt.js",
+      "target": "file:lib/ai/dateContext.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/toolDependencies.js",
+      "target": "file:lib/bookings.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/toolDependencies.js",
+      "target": "file:lib/courses.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/bookings.js",
+      "target": "file:lib/bookingLimits.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/bookings.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/bookings.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/security/hash.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "file:lib/security/injection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/chatLog.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/outputGuard.js",
+      "target": "file:lib/ai/prompt.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/outputGuard.js",
+      "target": "file:lib/security/leak.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/outputGuard.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/slotHandler.js",
+      "target": "file:lib/courses.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/slotHandler.js",
+      "target": "file:lib/slotId.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/chatService.test.js",
+      "target": "file:lib/ai/chatService.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/dateContext.test.js",
+      "target": "file:lib/ai/dateContext.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/dateContext.test.js",
+      "target": "file:lib/ai/prompt.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/deepseek.test.js",
+      "target": "file:lib/ai/deepseek.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/toolDependencies.test.js",
+      "target": "file:lib/ai/toolDependencies.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/tools.test.js",
+      "target": "file:lib/ai/tools.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/authPaths.test.js",
+      "target": "file:lib/security/authPaths.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/bookingLimits.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/bookings.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/courses.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/slotHandler.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/slotId.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:app/admin/[...slug]/page.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:lib/security/authPaths.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:lib/security/authz.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/apiLog.test.js",
+      "target": "file:lib/security/apiResponseGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/apiResponseGuardImageUrl.test.js",
+      "target": "file:lib/security/apiResponseGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/chatLog.test.js",
+      "target": "file:lib/security/chatLog.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/hash.test.js",
+      "target": "file:lib/security/hash.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/injection.test.js",
+      "target": "file:lib/security/chatGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/injection.test.js",
+      "target": "file:lib/security/injection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/loginProtection.test.js",
+      "target": "file:lib/security/loginProtection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/outputGuard.test.js",
+      "target": "file:lib/security/outputGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/pii.test.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/rules.test.js",
+      "target": "file:lib/security/rules.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/rules.test.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/sessionTimeout.test.js",
+      "target": "file:lib/security/sessionTimeout.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    }
+  ],
+  "allEdges": [
+    {
+      "source": "file:lib/ai/deepseek.js",
+      "target": "file:test/ai/deepseek.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/ai/tools.js",
+      "target": "file:test/ai/tools.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/chatLog.js",
+      "target": "file:test/security/chatLog.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/ai/toolDependencies.js",
+      "target": "file:test/ai/toolDependencies.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5,
+      "description": "Direction corrected (was test → production)"
+    },
+    {
+      "source": "file:lib/bookings.js",
+      "target": "file:test/bookingIntegration.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5,
+      "description": "Direction corrected (was test → production)"
+    },
+    {
+      "source": "file:lib/security/authPaths.js",
+      "target": "file:test/authPaths.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:app/admin/[...slug]/page.js",
+      "target": "file:test/security/adminPathDetection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:test/security/adminPathDetection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/authPaths.js",
+      "target": "file:test/security/adminPathDetection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/hash.js",
+      "target": "file:test/security/hash.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/ai/dateContext.js",
+      "target": "file:test/ai/dateContext.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5,
+      "description": "Direction corrected (was test → production)"
+    },
+    {
+      "source": "file:lib/security/outputGuard.js",
+      "target": "file:test/security/outputGuard.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5,
+      "description": "Direction corrected (was test → production)"
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "file:test/security/loginProtection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "file:test/security/rules.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:test/ai/chatService.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "file:test/security/injection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/injection.js",
+      "target": "file:test/security/injection.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "file:test/security/apiLog.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "file:test/security/apiResponseGuardImageUrl.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/pii.js",
+      "target": "file:test/security/pii.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:app/globals.css",
+      "target": "file:app/layout.js",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/security/sessionTimeout.js",
+      "target": "file:test/security/sessionTimeout.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5,
+      "description": "Direction corrected (was test → production)"
+    },
+    {
+      "source": "file:lib/courses.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/reviews.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/reviews.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/reviews.test.js",
+      "target": "file:lib/reviews.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/reviews.js",
+      "target": "file:test/reviews.test.js",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:app/admin/page.js",
+      "target": "file:app/admin/DashboardControls.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app/admin/page.js",
+      "target": "file:app/admin/metricsData.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app/admin/page.js",
+      "target": "file:app/admin/useAdminResource.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/migrations/20260911000000_course_reviews.sql:course-reviews-migration",
+      "target": "table:supabase/migrations/20260911000000_course_reviews.sql:course_reviews",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/migrations/20260911000000_course_reviews.sql:course-reviews-migration",
+      "target": "table:supabase/schema.sql:course_reviews",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/migrations/20260911000001_review_likes.sql:review-likes-migration",
+      "target": "table:supabase/migrations/20260911000001_review_likes.sql:course_review_likes",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/migrations/20260911000001_review_likes.sql:review-likes-migration",
+      "target": "table:supabase/schema.sql:course_reviews",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:courses",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:slots",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:bookings",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:course_reviews",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:profiles",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:api_logs",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:audit_logs",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:security_events",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:chat_logs",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/schema.sql:schema",
+      "target": "table:supabase/schema.sql:login_attempt_limits",
+      "type": "migrates",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:courses",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:slots",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:bookings",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:course_reviews",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:profiles",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:api_logs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:audit_logs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:security_events",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:chat_logs",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "table:supabase/policies.sql:policies",
+      "target": "table:supabase/schema.sql:login_attempt_limits",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:app/admin/layout.js",
+      "target": "file:app/admin/AdminNav.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app/admin/audit/page.js",
+      "target": "file:app/admin/DashboardControls.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/admin/audit/page.js",
+      "target": "file:app/admin/useAdminResource.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/admin/security/page.js",
+      "target": "file:app/admin/DashboardControls.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/admin/security/page.js",
+      "target": "file:app/admin/useAdminResource.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/ai/chatService.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/ai/deepseek.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/ai/toolDependencies.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/apiLog.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/audit.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/chatLog.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/hash.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/api/chat/route.js",
+      "target": "file:lib/security/rules.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/layout.js",
+      "target": "file:app/globals.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/layout.js",
+      "target": "file:components/SiteHeader.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:app/layout.js",
+      "target": "file:components/chat/ChatWidget.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/chatGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/outputGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/chatService.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/deepseek.js",
+      "target": "file:lib/ai/prompt.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/deepseek.js",
+      "target": "file:lib/ai/tools.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/prompt.js",
+      "target": "file:lib/ai/dateContext.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/toolDependencies.js",
+      "target": "file:lib/bookings.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/ai/toolDependencies.js",
+      "target": "file:lib/courses.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/bookings.js",
+      "target": "file:lib/bookingLimits.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/bookings.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/bookings.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/apiResponseGuard.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/security/hash.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/authz.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/chatGuard.js",
+      "target": "file:lib/security/injection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/chatLog.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/loginProtection.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/outputGuard.js",
+      "target": "file:lib/ai/prompt.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/outputGuard.js",
+      "target": "file:lib/security/leak.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/outputGuard.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/security/rules.js",
+      "target": "file:lib/supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/slotHandler.js",
+      "target": "file:lib/courses.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:lib/slotHandler.js",
+      "target": "file:lib/slotId.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/chatService.test.js",
+      "target": "file:lib/ai/chatService.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/dateContext.test.js",
+      "target": "file:lib/ai/dateContext.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/dateContext.test.js",
+      "target": "file:lib/ai/prompt.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/deepseek.test.js",
+      "target": "file:lib/ai/deepseek.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/toolDependencies.test.js",
+      "target": "file:lib/ai/toolDependencies.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/ai/tools.test.js",
+      "target": "file:lib/ai/tools.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/authPaths.test.js",
+      "target": "file:lib/security/authPaths.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/bookingLimits.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/bookings.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/courses.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/slotHandler.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/bookingIntegration.test.js",
+      "target": "file:lib/slotId.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:app/admin/[...slug]/page.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:lib/security/authPaths.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/adminPathDetection.test.js",
+      "target": "file:lib/security/authz.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/apiLog.test.js",
+      "target": "file:lib/security/apiResponseGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/apiResponseGuardImageUrl.test.js",
+      "target": "file:lib/security/apiResponseGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/chatLog.test.js",
+      "target": "file:lib/security/chatLog.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/hash.test.js",
+      "target": "file:lib/security/hash.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/injection.test.js",
+      "target": "file:lib/security/chatGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/injection.test.js",
+      "target": "file:lib/security/injection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/loginProtection.test.js",
+      "target": "file:lib/security/loginProtection.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/outputGuard.test.js",
+      "target": "file:lib/security/outputGuard.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/pii.test.js",
+      "target": "file:lib/security/pii.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/rules.test.js",
+      "target": "file:lib/security/rules.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/rules.test.js",
+      "target": "file:lib/security/securityConfig.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    },
+    {
+      "source": "file:test/security/sessionTimeout.test.js",
+      "target": "file:lib/security/sessionTimeout.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "recoveredFromImportMap": true
+    }
+  ]
+}

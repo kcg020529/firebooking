@@ -1,0 +1,937 @@
+{
+  "version": "1.0.0",
+  "baseCommit": "8db3bfe0467444fa710c660748153abb6cc07722",
+  "headCommit": "e4b51cee32eb93409c593efbae1700f92bf8ebd3",
+  "generatedAt": "2026-09-11T06:38:22.554Z",
+  "files": {
+    "app/admin/AdminNav.js": {
+      "filePath": "app/admin/AdminNav.js",
+      "contentHash": "eeb8b0192874d688963753cdbefd19c7c2c8d49eef3338b51ca1deb9766ac653",
+      "functions": [
+        {
+          "name": "AdminNav",
+          "params": [],
+          "exported": true,
+          "lineCount": 35
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "next/navigation",
+          "specifiers": [
+            "usePathname"
+          ]
+        }
+      ],
+      "exports": [
+        "AdminNav"
+      ],
+      "totalLines": 56,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/layout.js": {
+      "filePath": "app/admin/layout.js",
+      "contentHash": "b446796913c909cdbc37fb57dbacd9f56addcb3935ea62f3a5f527bd68475f48",
+      "functions": [
+        {
+          "name": "AdminLayout",
+          "params": [],
+          "exported": true,
+          "lineCount": 55
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "next/headers",
+          "specifiers": [
+            "headers"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "getCurrentUser",
+            "isStaff"
+          ]
+        },
+        {
+          "source": "@/lib/security/authz",
+          "specifiers": [
+            "recordAdminAccess",
+            "recordUnauthorizedAdminAccess"
+          ]
+        },
+        {
+          "source": "./AdminNav",
+          "specifiers": [
+            "AdminNav"
+          ]
+        }
+      ],
+      "exports": [
+        "dynamic",
+        "AdminLayout"
+      ],
+      "totalLines": 74,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/metricsData.js": {
+      "filePath": "app/admin/metricsData.js",
+      "contentHash": "c4a00317d95773476051381a7eaf599d3a473018581e4571d4ab7400f2e99802",
+      "functions": [
+        {
+          "name": "pad",
+          "params": [
+            "n"
+          ],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "bucketLabel",
+          "params": [
+            "date",
+            "tick"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "percentile",
+          "params": [
+            "sortedAsc",
+            "p"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "fetchMetrics",
+          "params": [
+            "windowKey"
+          ],
+          "exported": true,
+          "lineCount": 123
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@/lib/supabaseAuth",
+          "specifiers": [
+            "createAuthBrowserClient"
+          ]
+        }
+      ],
+      "exports": [
+        "WINDOWS",
+        "fetchMetrics"
+      ],
+      "totalLines": 166,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/page.js": {
+      "filePath": "app/admin/page.js",
+      "contentHash": "bef97b767dd82f5555cac0475aae2a85c12c21f8a8f96ce285e18ec00b82b755",
+      "functions": [
+        {
+          "name": "ms",
+          "params": [
+            "n"
+          ],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "KpiTile",
+          "params": [],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "Panel",
+          "params": [],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "statusTone",
+          "params": [
+            "status"
+          ],
+          "exported": false,
+          "lineCount": 6
+        },
+        {
+          "name": "AdminMetricsHomePage",
+          "params": [],
+          "exported": true,
+          "lineCount": 194
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback",
+            "useMemo",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/adminFormat",
+          "specifiers": [
+            "formatFullTimestamp",
+            "formatTimestamp"
+          ]
+        },
+        {
+          "source": "./useAdminResource",
+          "specifiers": [
+            "useAdminResource"
+          ]
+        },
+        {
+          "source": "./DashboardControls",
+          "specifiers": [
+            "DashboardControls"
+          ]
+        },
+        {
+          "source": "@/components/charts/TimeSeriesChart",
+          "specifiers": [
+            "TimeSeriesChart"
+          ]
+        },
+        {
+          "source": "@/components/charts/BarList",
+          "specifiers": [
+            "BarList"
+          ]
+        },
+        {
+          "source": "./metricsData",
+          "specifiers": [
+            "WINDOWS",
+            "fetchMetrics"
+          ]
+        }
+      ],
+      "exports": [
+        "AdminMetricsHomePage"
+      ],
+      "totalLines": 248,
+      "hasStructuralAnalysis": true
+    },
+    "app/admin/useAdminResource.js": {
+      "filePath": "app/admin/useAdminResource.js",
+      "contentHash": "a843e9b12468dadd2301c87dcefa506d6b03e1a375d25f88d6cbe5cae9cf8821",
+      "functions": [
+        {
+          "name": "useAdminResource",
+          "params": [
+            "source"
+          ],
+          "exported": true,
+          "lineCount": 106
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback",
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        }
+      ],
+      "exports": [
+        "AUTO_REFRESH_MS",
+        "useAdminResource"
+      ],
+      "totalLines": 138,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/courses/[id]/reviews/[reviewId]/like/route.js": {
+      "filePath": "app/api/courses/[id]/reviews/[reviewId]/like/route.js",
+      "contentHash": "643797f7a82b1cc8ed984ba5f2a1146d272363174146943dfb46b2b79a490559",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "getAuthUser"
+          ]
+        },
+        {
+          "source": "@/lib/supabase",
+          "specifiers": [
+            "createServerClient"
+          ]
+        }
+      ],
+      "exports": [
+        "POST"
+      ],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/courses/[id]/reviews/[reviewId]/route.js": {
+      "filePath": "app/api/courses/[id]/reviews/[reviewId]/route.js",
+      "contentHash": "af0f09e1796de3bded1225fe79bb5935c039c20f19d684619b7b34582b7ebe8d",
+      "functions": [
+        {
+          "name": "errorResponse",
+          "params": [
+            "error"
+          ],
+          "exported": false,
+          "lineCount": 1
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "getAuthUser",
+            "getCurrentUser",
+            "isAdmin"
+          ]
+        },
+        {
+          "source": "@/lib/security/audit",
+          "specifiers": [
+            "recordAudit",
+            "AUDIT_ACTIONS"
+          ]
+        },
+        {
+          "source": "@/lib/reviews",
+          "specifiers": [
+            "updateCourseReview",
+            "deleteCourseReview"
+          ]
+        }
+      ],
+      "exports": [
+        "PATCH",
+        "DELETE"
+      ],
+      "totalLines": 32,
+      "hasStructuralAnalysis": true
+    },
+    "app/api/courses/[id]/reviews/route.js": {
+      "filePath": "app/api/courses/[id]/reviews/route.js",
+      "contentHash": "13ae564c8c545894e95bab526b7d9ef0b111b2c9b2d2714ebf93c14e0033edde",
+      "functions": [
+        {
+          "name": "jsonError",
+          "params": [
+            "error",
+            "status"
+          ],
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "NextResponse"
+          ]
+        },
+        {
+          "source": "@/lib/security/apiLog",
+          "specifiers": [
+            "withApiLog"
+          ]
+        },
+        {
+          "source": "@/lib/auth",
+          "specifiers": [
+            "getAuthUser",
+            "getCurrentUser",
+            "isAdmin"
+          ]
+        },
+        {
+          "source": "@/lib/security/audit",
+          "specifiers": [
+            "recordAudit",
+            "AUDIT_ACTIONS"
+          ]
+        },
+        {
+          "source": "@/lib/reviews",
+          "specifiers": [
+            "canReviewCourse",
+            "createCourseReview",
+            "listCourseReviews",
+            "paginateReviews",
+            "hasUserReviewedCourse",
+            "splitFeaturedReviews"
+          ]
+        }
+      ],
+      "exports": [
+        "GET",
+        "POST"
+      ],
+      "totalLines": 84,
+      "hasStructuralAnalysis": true
+    },
+    "app/courses/[id]/page.js": {
+      "filePath": "app/courses/[id]/page.js",
+      "contentHash": "d0da7bf985242b91af95a7ad51377f6cad3b9ab21d20b3be39bf493acdb0b2f4",
+      "functions": [
+        {
+          "name": "toDateValue",
+          "params": [
+            "date"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "buildDateOptions",
+          "params": [],
+          "exported": false,
+          "lineCount": 18
+        },
+        {
+          "name": "ReviewCard",
+          "params": [],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "CourseDetailPage",
+          "params": [],
+          "exported": true,
+          "lineCount": 303
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "next/navigation",
+          "specifiers": [
+            "useParams"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/courseType",
+          "specifiers": [
+            "TYPE_LABEL"
+          ]
+        },
+        {
+          "source": "@/lib/dateLabel",
+          "specifiers": [
+            "WEEKDAY_LABEL"
+          ]
+        }
+      ],
+      "exports": [
+        "CourseDetailPage"
+      ],
+      "totalLines": 350,
+      "hasStructuralAnalysis": true
+    },
+    "app/page.js": {
+      "filePath": "app/page.js",
+      "contentHash": "69860ebe50c5b84ce5acc753558fc4893aec02cc4a200c2959eea443151f3c75",
+      "functions": [
+        {
+          "name": "Home",
+          "params": [],
+          "exported": true,
+          "lineCount": 132
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/link",
+          "specifiers": [
+            "Link"
+          ]
+        },
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        },
+        {
+          "source": "@/lib/courseType",
+          "specifiers": [
+            "TYPE_LABEL"
+          ]
+        }
+      ],
+      "exports": [
+        "Home"
+      ],
+      "totalLines": 139,
+      "hasStructuralAnalysis": true
+    },
+    "components/charts/BarList.js": {
+      "filePath": "components/charts/BarList.js",
+      "contentHash": "9711c5d97e2c539afb1a42547093840c36aa6239e16323b519f9d938d91a6ac8",
+      "functions": [
+        {
+          "name": "BarList",
+          "params": [],
+          "exported": true,
+          "lineCount": 37
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "BarList"
+      ],
+      "totalLines": 48,
+      "hasStructuralAnalysis": true
+    },
+    "components/charts/TimeSeriesChart.js": {
+      "filePath": "components/charts/TimeSeriesChart.js",
+      "contentHash": "8ff1a5d6e73f043d30e064738e0196c6742835f3e30c9f8dc1c3b431bf2d2522",
+      "functions": [
+        {
+          "name": "niceMax",
+          "params": [
+            "v"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "TimeSeriesChart",
+          "params": [],
+          "exported": true,
+          "lineCount": 130
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "TimeSeriesChart"
+      ],
+      "totalLines": 155,
+      "hasStructuralAnalysis": true
+    },
+    "docs/DATA_FLOW.md": {
+      "filePath": "docs/DATA_FLOW.md",
+      "contentHash": "4dd92e680ab70866ffbd0e56610354a40c02a9446cb2aef8e24a92f789a0ed2c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 76,
+      "hasStructuralAnalysis": false
+    },
+    "lib/courses.js": {
+      "filePath": "lib/courses.js",
+      "contentHash": "219d3e2a0869974283dabe29c0a5531fab3ae13a627b17fdda3b58c4fcb380c4",
+      "functions": [
+        {
+          "name": "toCourse",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 22
+        },
+        {
+          "name": "toSlot",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "listCourses",
+          "params": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "getCourse",
+          "params": [
+            "id"
+          ],
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "toCourseSummary",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "getSlot",
+          "params": [
+            "id"
+          ],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./supabase.js",
+          "specifiers": [
+            "createServerClient"
+          ]
+        }
+      ],
+      "exports": [
+        "listCourses",
+        "getCourse",
+        "getSlot"
+      ],
+      "totalLines": 143,
+      "hasStructuralAnalysis": true
+    },
+    "lib/reviews.js": {
+      "filePath": "lib/reviews.js",
+      "contentHash": "1b86499589315487893622dede569a48851886e21feafbbf6788ded766ed8969",
+      "functions": [
+        {
+          "name": "sanitizeReviewContent",
+          "params": [
+            "content"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "getFeaturedReviews",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "splitFeaturedReviews",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "paginateReviews",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "validateReviewInput",
+          "params": [
+            "input"
+          ],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "summarizeReviews",
+          "params": [],
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "toReview",
+          "params": [
+            "row"
+          ],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "listCourseReviews",
+          "params": [
+            "courseId"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "canReviewCourse",
+          "params": [
+            "courseId",
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "hasUserReviewedCourse",
+          "params": [
+            "courseId",
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "createCourseReview",
+          "params": [],
+          "exported": true,
+          "lineCount": 30
+        },
+        {
+          "name": "updateCourseReview",
+          "params": [],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "deleteCourseReview",
+          "params": [
+            "courseId",
+            "reviewId",
+            "userId"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./supabase.js",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "./security/pii.js",
+          "specifiers": [
+            "detectAndMaskPii"
+          ]
+        }
+      ],
+      "exports": [
+        "DIFFICULTY_LEVELS",
+        "REVIEW_CONTENT_MAX_LENGTH",
+        "REVIEW_PAGE_SIZE",
+        "sanitizeReviewContent",
+        "getFeaturedReviews",
+        "splitFeaturedReviews",
+        "paginateReviews",
+        "validateReviewInput",
+        "summarizeReviews",
+        "listCourseReviews",
+        "canReviewCourse",
+        "hasUserReviewedCourse",
+        "createCourseReview",
+        "updateCourseReview",
+        "deleteCourseReview"
+      ],
+      "totalLines": 175,
+      "hasStructuralAnalysis": true
+    },
+    "lib/security/audit.js": {
+      "filePath": "lib/security/audit.js",
+      "contentHash": "ed7602f22346c462dbf1e406761fc2b30bc28fb6d74a486ed0c22617882ade90",
+      "functions": [
+        {
+          "name": "recordAudit",
+          "params": [
+            "request",
+            "entry"
+          ],
+          "exported": true,
+          "lineCount": 43
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "next/server",
+          "specifiers": [
+            "after"
+          ]
+        },
+        {
+          "source": "@/lib/supabase",
+          "specifiers": [
+            "createServerClient"
+          ]
+        },
+        {
+          "source": "@/lib/security/hash",
+          "specifiers": [
+            "getClientIp",
+            "hashIp"
+          ]
+        },
+        {
+          "source": "@/lib/security/pii",
+          "specifiers": [
+            "createMaskedEvidence",
+            "createMaskedPathEvidence"
+          ]
+        }
+      ],
+      "exports": [
+        "AUDIT_ACTIONS",
+        "recordAudit"
+      ],
+      "totalLines": 95,
+      "hasStructuralAnalysis": true
+    },
+    "supabase/migrations/20260911000000_course_reviews.sql": {
+      "filePath": "supabase/migrations/20260911000000_course_reviews.sql",
+      "contentHash": "bc9e3fe5e7ef29710f50be05078de698839a155daff52a320aeaf8eb95c92658",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": false
+    },
+    "supabase/migrations/20260911000001_review_likes.sql": {
+      "filePath": "supabase/migrations/20260911000001_review_likes.sql",
+      "contentHash": "475fe8ed91cfc43f39cba902c377c700a53a452e8dc6e2d5dc4b643811adfe59",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": false
+    },
+    "supabase/policies.sql": {
+      "filePath": "supabase/policies.sql",
+      "contentHash": "8b658626ddfa22e13001cfd5e54ebe47abad7c6a76001b85e003fbc481f0615d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 285,
+      "hasStructuralAnalysis": false
+    },
+    "supabase/schema.sql": {
+      "filePath": "supabase/schema.sql",
+      "contentHash": "84fe662a0f0d7993dda0e3a83e8c0d7a32da222350994cfbb4d6ab5a10a7e45b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 472,
+      "hasStructuralAnalysis": false
+    },
+    "test/reviews.test.js": {
+      "filePath": "test/reviews.test.js",
+      "contentHash": "e86905da755e1d0c3a4f8bcf2c80637b5d1c4f1dfaba058965bffd13e7b87062",
+      "functions": [
+        {
+          "name": "createClient",
+          "params": [],
+          "exported": false,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:test",
+          "specifiers": [
+            "test"
+          ]
+        },
+        {
+          "source": "node:assert/strict",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../lib/reviews.js",
+          "specifiers": [
+            "canReviewCourse",
+            "createCourseReview",
+            "DIFFICULTY_LEVELS",
+            "summarizeReviews",
+            "getFeaturedReviews",
+            "splitFeaturedReviews",
+            "paginateReviews",
+            "sanitizeReviewContent",
+            "validateReviewInput"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 92,
+      "hasStructuralAnalysis": true
+    }
+  },
+  "deletedFiles": [
+    "AGENTS.md"
+  ]
+}

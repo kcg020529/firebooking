@@ -9,6 +9,7 @@ import {
   clearAlertDeduplicationCache,
 } from '../../lib/security/discordAlert.js';
 import { recordSecurityEvent, recordSecurityEvents } from '../../lib/security/events.js';
+import { decryptIncidentIp } from '../../lib/security/hash.js';
 
 test('isDiscordAlertConfigured: 환경변수 설정 여부를 정확히 판별한다', () => {
   assert.equal(isDiscordAlertConfigured({ DISCORD_SECURITY_WEBHOOK_URL: 'https://discord.com/api/webhooks/123/abc' }), true);
@@ -67,7 +68,7 @@ test('sanitizeEvidence: 최대 200자로 안전하게 절단된다', () => {
   assert.ok(sanitized.length <= 200, '200자 이하로 절단되어야 함');
 });
 
-test('buildDiscordPayload: 필수 Embed 필드를 생성하며 IP, actor_id를 절대 포함하지 않는다', () => {
+test('buildDiscordPayload: critical 사고의 IP·국가·IP 해시·요청 정보를 포함한다', () => {
   const event = {
     rule_id: 'AUTHZ_ADMIN',
     category: 'authz',
@@ -78,7 +79,15 @@ test('buildDiscordPayload: 필수 Embed 필드를 생성하며 IP, actor_id를 �
     ts: '2026-09-11T12:00:00.000Z',
   };
 
-  const payload = buildDiscordPayload(event);
+  const payload = buildDiscordPayload(event, {
+    networkContext: {
+      ip: '203.0.113.27',
+      country: 'KR',
+      method: 'GET',
+      path: '/admin/secrets',
+      userAgent: 'Security Test Agent/1.0',
+    },
+  });
 
   assert.equal(payload.username, 'Firebooking Security');
   assert.equal(payload.embeds.length, 1);
@@ -90,7 +99,44 @@ test('buildDiscordPayload: 필수 Embed 필드를 생성하며 IP, actor_id를 �
 
   const payloadString = JSON.stringify(payload);
   assert.equal(payloadString.includes('user-uuid-1234'), false, 'actor_id가 페이로드에 포함되지 않아야 함');
-  assert.equal(payloadString.includes('hash-ip-5678'), false, 'ip_hash가 페이로드에 포함되지 않아야 함');
+  assert.equal(payloadString.includes('203.0.113.27'), true, '원본 IP가 표시되어야 함');
+  assert.equal(payloadString.includes('hash-ip-5678'), true, 'IP 해시가 표시되어야 함');
+  assert.equal(payloadString.includes('KR'), true, '국가가 표시되어야 함');
+  assert.equal(payloadString.includes('GET /admin/secrets'), true, '요청 경로가 표시되어야 함');
+  assert.equal(payloadString.includes('Security Test Agent/1.0'), true, 'User-Agent가 표시되어야 함');
+});
+
+test('sendCriticalSecurityAlert: 네트워크 컨텍스를 Discord 페이로드로 전달한다', async () => {
+  clearAlertDeduplicationCache();
+  let body;
+  const fetchImpl = async (_url, options) => {
+    body = JSON.parse(options.body);
+    return { ok: true, status: 204 };
+  };
+
+  await sendCriticalSecurityAlert(
+    {
+      rule_id: 'ANO_LOGIN_BF',
+      severity: 'critical',
+      ip_hash: 'abc12345deadbeef',
+      evidence: '로그인 실패 5회',
+    },
+    {
+      webhookUrl: 'https://fake-discord.local/webhook',
+      fetchImpl,
+      networkContext: {
+        ip: '198.51.100.10',
+        country: 'JP',
+        method: 'POST',
+        path: '/api/auth/login',
+        userAgent: 'Alert Agent/2.0',
+      },
+    },
+  );
+
+  const payloadText = JSON.stringify(body);
+  assert.equal(payloadText.includes('198.51.100.10'), true);
+  assert.equal(payloadText.includes('abc12345deadbeef'), true);
 });
 
 test('sendCriticalSecurityAlert: 비정상 이벤트 입력 시 invalid_event 반환', async () => {
@@ -215,6 +261,31 @@ test('sendCriticalSecurityAlert: 5분 중복 억제 창 내에서는 동일 이�
   assert.equal(fetchCount, 2);
 });
 
+test('sendCriticalSecurityAlert: 규칙과 증거가 같아도 IP 해시가 다르면 각각 알림한다', async () => {
+  clearAlertDeduplicationCache();
+  let fetchCount = 0;
+  const fetchImpl = async () => {
+    fetchCount += 1;
+    return { ok: true, status: 204 };
+  };
+  const options = {
+    webhookUrl: 'https://fake-discord.local/webhook',
+    fetchImpl,
+    now: () => 1000000,
+  };
+
+  await sendCriticalSecurityAlert(
+    { rule_id: 'ANO_LOGIN_BF', severity: 'critical', ip_hash: 'ip-a', evidence: '로그인 실패 5회' },
+    options,
+  );
+  await sendCriticalSecurityAlert(
+    { rule_id: 'ANO_LOGIN_BF', severity: 'critical', ip_hash: 'ip-b', evidence: '로그인 실패 5회' },
+    options,
+  );
+
+  assert.equal(fetchCount, 2);
+});
+
 test('sendCriticalSecurityAlert: 429(Rate Limit) 발생 시 1회 재시도하여 성공한다', async () => {
   clearAlertDeduplicationCache();
   let attempts = 0;
@@ -325,6 +396,88 @@ test('recordSecurityEvents: critical 이벤트는 DB 저장 후 Discord 알림�
   assert.equal(dbInserts.length, 1);
   assert.equal(dbInserts[0].table, 'security_events');
   assert.equal(discordCalled, true, 'critical 이벤트는 Discord 알림이 호출되어야 함');
+});
+
+test('recordSecurityEvents: critical 이벤트에만 암호화 IP와 30일 만료일을 저장한다', async () => {
+  clearAlertDeduplicationCache();
+  const dbInserts = [];
+  const fakeClient = {
+    from(table) {
+      return {
+        async insert(data) {
+          dbInserts.push({ table, data });
+          return { error: null };
+        },
+      };
+    },
+  };
+  const encryptionEnv = {
+    SECURITY_IP_ENCRYPTION_KEY: Buffer.alloc(32, 13).toString('base64'),
+  };
+
+  await recordSecurityEvent(
+    {
+      rule_id: 'ANO_LOGIN_BF',
+      category: 'anomaly',
+      severity: 'critical',
+      ip_hash: 'hashed-source',
+      evidence: '로그인 실패 5회',
+      ts: '2026-09-14T00:00:00.000Z',
+    },
+    {
+      client: fakeClient,
+      networkContext: {
+        ip: '203.0.113.27',
+        country: 'KR',
+        method: 'POST',
+        path: '/api/auth/login',
+        userAgent: 'Security Test Agent/1.0',
+      },
+      encryptionEnv,
+      alertOptions: {
+        webhookUrl: 'https://fake-discord.local/webhook',
+        fetchImpl: async () => ({ ok: true, status: 204 }),
+      },
+    },
+  );
+
+  const stored = dbInserts[0].data;
+  assert.equal(stored.ip_expires_at, '2026-10-14T00:00:00.000Z');
+  assert.equal(decryptIncidentIp(stored.ip_ciphertext, encryptionEnv), '203.0.113.27');
+  assert.equal(JSON.stringify(stored).includes('203.0.113.27'), false, '원본 IP를 DB 행에 넣지 않아야 함');
+});
+
+test('recordSecurityEvents: warn 이벤트에는 암호화 IP를 저장하지 않는다', async () => {
+  const dbInserts = [];
+  const fakeClient = {
+    from(table) {
+      return {
+        async insert(data) {
+          dbInserts.push({ table, data });
+          return { error: null };
+        },
+      };
+    },
+  };
+
+  await recordSecurityEvent(
+    {
+      rule_id: 'ANO_RATE',
+      category: 'anomaly',
+      severity: 'warn',
+      evidence: '호출량 초과',
+    },
+    {
+      client: fakeClient,
+      networkContext: { ip: '203.0.113.27' },
+      encryptionEnv: {
+        SECURITY_IP_ENCRYPTION_KEY: Buffer.alloc(32, 17).toString('base64'),
+      },
+    },
+  );
+
+  assert.equal('ip_ciphertext' in dbInserts[0].data, false);
+  assert.equal('ip_expires_at' in dbInserts[0].data, false);
 });
 
 test('recordSecurityEvents: Discord 알림이 실패해도 DB 저장 및 정상 실행을 보장한다 (Best-effort)', async () => {

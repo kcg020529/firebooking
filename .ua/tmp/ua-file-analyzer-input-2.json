@@ -1,0 +1,9 @@
+{
+  "projectRoot": "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+  "batchFiles": [
+    {"path": "lib/courses.js", "language": "javascript", "sizeLines": 142, "fileCategory": "code"}
+  ],
+  "batchImportData": {
+    "lib/courses.js": ["lib/supabase.js"]
+  }
+}

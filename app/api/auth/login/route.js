@@ -4,7 +4,7 @@ import { createAuthServerClient } from '@/lib/supabaseAuth';
 import { getUserProfile } from '@/lib/auth';
 import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
-import { getClientIp, hashIp } from '@/lib/security/hash';
+import { hashIp } from '@/lib/security/hash';
 import {
   createLoginLimitKey,
   finishLoginAttempt,
@@ -25,7 +25,7 @@ function jsonError(error, status, headers) {
   return NextResponse.json({ ok: false, error }, { status, headers });
 }
 
-export const POST = withApiLog(async (request) => {
+export const POST = withApiLog(async (request, { networkContext }) => {
   // 이 라우트에서 입력 검증, 시도 제한, 인증, 쿠키 발급, 감사 기록을 모두 처리합니다.
   let body;
   try {
@@ -40,7 +40,7 @@ export const POST = withApiLog(async (request) => {
     return jsonError(INVALID_CREDENTIALS_MESSAGE, 400);
   }
 
-  const ipHash = hashIp(getClientIp(request));
+  const ipHash = hashIp(networkContext.ip);
   // 제한 키는 정규화한 이메일과 해시된 IP의 HMAC이며, 원본 식별 정보는 사용하지 않습니다.
   const keyHash = createLoginLimitKey(email, ipHash);
   const auditTargetId = `login:${keyHash.slice(0, 16)}`;
@@ -96,7 +96,7 @@ export const POST = withApiLog(async (request) => {
     });
 
     if (result.locked) {
-      await recordLoginLock({ ipHash }).catch((error) => {
+      await recordLoginLock({ ipHash, networkContext }).catch((error) => {
         console.error('[auth.login] 로그인 잠금 이벤트 기록 실패:', error);
       });
       return jsonError(LOCKED_MESSAGE, 429, {

@@ -3,7 +3,7 @@ import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { createBooking } from '@/lib/bookings';
 import { detectScalping } from '@/lib/security/rules';
-import { getClientIp, hashIp } from '@/lib/security/hash';
+import { hashIp } from '@/lib/security/hash';
 
 /**
  * POST /api/bookings
@@ -15,7 +15,7 @@ import { getClientIp, hashIp } from '@/lib/security/hash';
  * 검증·정원 확인은 전부 lib/bookings.js 의 createBooking() 이 한다.
  * 챗봇 tool 도 같은 함수를 부르므로 두 경로의 규칙이 절대 갈라지지 않는다.
  */
-export const POST = withApiLog(async (request, { getUser, getUserId }) => {
+export const POST = withApiLog(async (request, { getUser, getUserId, networkContext }) => {
   let body;
   try {
     body = await request.json();
@@ -32,7 +32,7 @@ export const POST = withApiLog(async (request, { getUser, getUserId }) => {
   // 여기서 필요한 건 id 뿐이라 역할까지 조회하지 않는다. 감사 로그의
   // 역할은 응답을 보낸 뒤에 채운다(resolveActorRole).
   const userId = await getUserId();
-  const ipHash = hashIp(getClientIp(request));
+  const ipHash = hashIp(networkContext.ip);
 
   const result = await createBooking({
     slotId: body.slotId,
@@ -66,7 +66,12 @@ export const POST = withApiLog(async (request, { getUser, getUserId }) => {
     // ★ 예약번호만 남긴다. 이름·전화번호는 감사 로그에 넣지 않는다.
     targetId: result.booking.bookingCode,
     onRecorded: ({ client }) => detectScalping(
-      { ipHash, actorId: userId, action: AUDIT_ACTIONS.BOOKING_CREATE },
+      {
+        ipHash,
+        actorId: userId,
+        action: AUDIT_ACTIONS.BOOKING_CREATE,
+        networkContext,
+      },
       { client, schedule: (operation) => operation() },
     ),
   });

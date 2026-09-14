@@ -8,6 +8,7 @@ import {
   detectScalping,
 } from '../../lib/security/rules.js';
 import { ANOMALY_RULES } from '../../lib/security/securityConfig.js';
+import { decryptIncidentIp } from '../../lib/security/hash.js';
 
 function createRateLimitClient({ apiCount, existingEventCount = 0 }) {
   const inserts = [];
@@ -120,13 +121,38 @@ test('같은 시간 창의 ANO_RATE 이벤트는 중복 저장하지 않는다',
 });
 
 test('다섯 번째 실패 예약번호 조회에서 ANO_CODE_ENUM을 기록한다', async () => {
+  const previousKey = process.env.SECURITY_IP_ENCRYPTION_KEY;
+  process.env.SECURITY_IP_ENCRYPTION_KEY = Buffer.alloc(32, 29).toString('base64');
   const client = createAnomalyClient({ auditCount: 5 });
-  await runScheduled((options) => detectCodeEnumeration(
-    { ipHash: 'ip-hash', actorId: null, action: 'booking.lookup' },
-    { ...options, client },
-  ));
+  const networkContext = {
+    ip: '203.0.113.77',
+    country: 'KR',
+    method: 'GET',
+    path: '/api/bookings/lookup',
+    userAgent: 'Enumeration Agent/1.0',
+  };
+
+  try {
+    await runScheduled((options) => detectCodeEnumeration(
+      { ipHash: 'ip-hash', actorId: null, action: 'booking.lookup', networkContext },
+      { ...options, client },
+    ));
+  } finally {
+    if (previousKey === undefined) delete process.env.SECURITY_IP_ENCRYPTION_KEY;
+    else process.env.SECURITY_IP_ENCRYPTION_KEY = previousKey;
+  }
 
   assert.equal(client.inserts[0]?.row.rule_id, 'ANO_CODE_ENUM');
+  process.env.SECURITY_IP_ENCRYPTION_KEY = Buffer.alloc(32, 29).toString('base64');
+  try {
+    assert.equal(
+      decryptIncidentIp(client.inserts[0]?.row.ip_ciphertext),
+      '203.0.113.77',
+    );
+  } finally {
+    if (previousKey === undefined) delete process.env.SECURITY_IP_ENCRYPTION_KEY;
+    else process.env.SECURITY_IP_ENCRYPTION_KEY = previousKey;
+  }
 });
 
 test('세 번째 성공 예약에서 ANO_SCALP을 기록한다', async () => {

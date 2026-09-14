@@ -1,0 +1,19 @@
+{
+  "projectRoot": "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+  "batchFiles": [
+    {"path": "app/admin/AdminNav.js", "language": "javascript", "sizeLines": 55, "fileCategory": "code"},
+    {"path": "app/admin/layout.js", "language": "javascript", "sizeLines": 73, "fileCategory": "code"},
+    {"path": "app/api/courses/[id]/reviews/[reviewId]/like/route.js", "language": "javascript", "sizeLines": 20, "fileCategory": "code"},
+    {"path": "app/api/courses/[id]/reviews/[reviewId]/route.js", "language": "javascript", "sizeLines": 31, "fileCategory": "code"},
+    {"path": "app/api/courses/[id]/reviews/route.js", "language": "javascript", "sizeLines": 83, "fileCategory": "code"},
+    {"path": "app/courses/[id]/page.js", "language": "javascript", "sizeLines": 349, "fileCategory": "code"}
+  ],
+  "batchImportData": {
+    "app/admin/AdminNav.js": [],
+    "app/admin/layout.js": ["app/admin/AdminNav.js"],
+    "app/api/courses/[id]/reviews/[reviewId]/like/route.js": [],
+    "app/api/courses/[id]/reviews/[reviewId]/route.js": [],
+    "app/api/courses/[id]/reviews/route.js": [],
+    "app/courses/[id]/page.js": []
+  }
+}
