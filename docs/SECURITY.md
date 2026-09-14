@@ -121,7 +121,7 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 
 - 모든 요청은 기존처럼 `ip_hash`만 일반 로그에 저장해 동일 공격자 상관분석에 쓴다.
 - `critical` 이벤트만 원본 IP를 `SECURITY_IP_ENCRYPTION_KEY`로 AES-256-GCM 암호화해 `security_events.ip_ciphertext`에 30일 보관한다. 평문 IP는 DB에 저장하지 않는다.
-- Discord에는 `critical`일 때만 **원본 IP · 국가 · IP 해시 · 요청 경로 · User-Agent**를 보낸다. Webhook URL과 증거의 PII·비밀값은 계속 마스킹한다.
+- Discord에는 `critical`일 때만 **원본 IP · 국가 · IP 해시 · 요청 경로**를 보낸다. 길고 식별 가능성이 높은 User-Agent는 Discord에서 제외하며, Webhook URL과 증거의 PII·비밀값은 계속 마스킹한다.
 - 암호문 컬럼은 authenticated 역할의 직접 SELECT 권한에서 제외한다. 복호화 API `POST /api/admin/events/:id/ip`는 admin만 호출할 수 있고, 10~200자의 조사 사유를 받아 성공·거부를 `security.ip.reveal` 감사 로그로 남긴다.
 - Supabase Cron은 매일 만료된 암호문을 NULL로 지운다. Discord에 전달된 원본 IP의 보존 기간은 Discord 채널의 보존·접근 정책을 별도로 따라가므로, 채널은 사고 대응 담당자만 접근하게 한다.
 
