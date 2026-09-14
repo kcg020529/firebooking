@@ -5,6 +5,7 @@ import {
   recordChatLog,
   recordSecurityEvents,
 } from "../../lib/security/chatLog.js";
+import { decryptIncidentIp } from "../../lib/security/hash.js";
 
 async function withSupabaseConfiguration(run) {
   const originalUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -65,5 +66,45 @@ test("security_events 증거를 저장 직전에 다시 마스킹한다", async 
 
     assert.equal(requestBody[0].evidence.includes("010-1234-5678"), false);
     assert.equal(requestBody[0].rule_id, "PII_PHONE");
+  });
+});
+
+test("critical 챗봇 이벤트에 요청 IP를 암호화해 저장한다", async () => {
+  await withSupabaseConfiguration(async () => {
+    const previousEncryptionKey = process.env.SECURITY_IP_ENCRYPTION_KEY;
+    process.env.SECURITY_IP_ENCRYPTION_KEY = Buffer.alloc(32, 23).toString("base64");
+    let requestBody;
+    const fetchImpl = async (_url, options) => {
+      requestBody = JSON.parse(options.body);
+      return { ok: true };
+    };
+
+    try {
+      await recordSecurityEvents(
+        {
+          hits: [{ ruleId: "INJ_SYSPROMPT", severity: "critical", count: 1 }],
+          category: "injection",
+          evidence: "system prompt 요청",
+          ipHash: "chat-ip-hash",
+          networkContext: {
+            ip: "198.51.100.44",
+            country: "US",
+            method: "POST",
+            path: "/api/chat",
+            userAgent: "Chat Attack Agent/1.0",
+          },
+        },
+        fetchImpl,
+      );
+
+      assert.equal(
+        decryptIncidentIp(requestBody[0].ip_ciphertext),
+        "198.51.100.44",
+      );
+      assert.ok(requestBody[0].ip_expires_at);
+    } finally {
+      if (previousEncryptionKey === undefined) delete process.env.SECURITY_IP_ENCRYPTION_KEY;
+      else process.env.SECURITY_IP_ENCRYPTION_KEY = previousEncryptionKey;
+    }
   });
 });

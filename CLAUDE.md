@@ -18,8 +18,8 @@
 
 1. **`createBooking()` 단일 진입점** — 수동 폼과 챗봇이 `lib/bookings.js`의 같은 함수를 쓴다. 예약 생성 로직을 두 벌 만들지 않는다.
 2. **챗봇은 DB를 직접 건드리지 않는다** — 서버가 제공하는 tool만 호출하고, 검증·저장은 전부 서버가 한다.
-3. **키는 서버에만** — `DEEPSEEK_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`에 `NEXT_PUBLIC_` 접두사를 붙이지 않는다.
-4. **로그에 원문 PII 금지** — 원본 PII가 저장되는 곳은 `bookings` 테이블 하나뿐. `chat_logs`·`security_events`에는 마스킹본만.
+3. **키는 서버에만** — `DEEPSEEK_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SECURITY_IP_ENCRYPTION_KEY`에 `NEXT_PUBLIC_` 접두사를 붙이지 않는다.
+4. **로그에 원문 PII 금지** — 예약 PII 원문은 `bookings`에만 저장한다. 예외적으로 critical 사고 IP는 `security_events`에 AES-256-GCM 암호문으로 30일만 보관하며, 제한된 Discord 채널에는 사고 알림 시 원본 IP를 표시한다. 일반 로그와 증거에는 해시·마스킹본만 둔다.
 5. **보안 로직은 `lib/security/`에만** — 라우트에 정규식을 흩뿌리지 않는다.
 6. **DB는 snake_case, JS는 camelCase** — 변환은 `lib/` 안의 DB 접근 함수에서 한 번만.
 
@@ -38,6 +38,7 @@
 | GET | `/api/bookings/lookup` | `?code=` **+** `?phone=` (둘 다 필수) | `{ ok, bookings: [{ bookingCode, courseName, courseType, date, time, partySize, memo }] }` |
 | POST | `/api/chat` | `{ sessionId, messages: [...] }` | `{ reply, quickReplies?, bookingCode? }` |
 | GET | `/api/admin/events` | `?severity=&category=&from=&to=` | `[{ id, ts, ruleId, category, severity, evidence }]` |
+| POST | `/api/admin/events/:id/ip` | `{ reason }` (admin 전용) | `{ ok, ip, expiresAt }` |
 | GET | `/api/admin/audit` | `?actorId=&from=&to=` | `[{ id, ts, actorId, action, result }]` |
 
 `source`는 `'form'` 또는 `'chat'`. 발표용 통계에 쓰이므로 반드시 채운다.
@@ -63,15 +64,18 @@ bookings         id, slot_id, user_id, booking_code, name, phone, party_size, me
 profiles         id(=auth.users), email, display_name, role('guest'|'user'|'staff'|'admin')
 api_logs         id, ts, method, path, status, duration_ms, actor_id, ip_hash, user_agent
 audit_logs       id, ts, actor_id, actor_role, action, target_type, target_id,
-                 result('allow'|'deny'), ip_hash
+                 result('allow'|'deny'), ip_hash, reason
 security_events  id, ts, rule_id, category('pii'|'injection'|'anomaly'|'authz'|'leak'),
-                 severity('info'|'warn'|'critical'), actor_id, ip_hash, evidence, handled
+                 severity('info'|'warn'|'critical'), actor_id, ip_hash, evidence, handled,
+                 ip_ciphertext, ip_expires_at       ★ critical IP만 암호화해 30일 보관
 chat_logs        id, ts, session_id, role, content_masked, pii_hits    ★ 원문 저장 금지
 login_attempt_limits key_hash, failed_attempts, pending_attempts, window_started_at,
                      locked_until, updated_at             ★ 이메일·IP 원문 저장 금지
 ```
 
 **9개 테이블 전부 RLS를 켠다.** 클라이언트는 `courses`·`slots`만 읽기 허용, 나머지는 서버(`SERVICE_ROLE_KEY`) 경유. 보안 테이블 조회 정책은 `role in ('staff','admin')`. `login_attempt_limits`는 정책을 만들지 않아 브라우저 접근을 전부 막는다.
+
+`security_events.ip_ciphertext`는 일반 Data API 조회 권한에서 제외한다. 복호화는 `/api/admin/events/:id/ip` 한 경로에서만 수행하며, admin 역할·10~200자 조회 사유·`security.ip.reveal` 감사 기록을 요구한다. 만료된 암호문은 Supabase Cron이 매일 파기한다.
 
 ---
 

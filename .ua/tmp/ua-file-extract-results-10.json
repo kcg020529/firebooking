@@ -1,0 +1,83 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 2,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 2,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 2
+    }
+  },
+  "results": [
+    {
+      "path": "supabase/migrations/20260911000000_course_reviews.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 28,
+      "nonEmptyLines": 22,
+      "definitions": [
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "id",
+            "course_id",
+            "user_id",
+            "rating",
+            "difficulty",
+            "content",
+            "created_at"
+          ],
+          "startLine": 2,
+          "endLine": 11
+        },
+        {
+          "name": "idx_course_reviews_course_created",
+          "kind": "index",
+          "fields": [],
+          "startLine": 26,
+          "endLine": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 2
+      }
+    },
+    {
+      "path": "supabase/migrations/20260911000001_review_likes.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 32,
+      "nonEmptyLines": 29,
+      "definitions": [
+        {
+          "name": "public",
+          "kind": "table",
+          "fields": [
+            "review_id",
+            "user_id",
+            "created_at"
+          ],
+          "startLine": 4,
+          "endLine": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    }
+  ]
+}

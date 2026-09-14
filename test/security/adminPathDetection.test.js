@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import AdminCatchAllPage from "../../app/admin/[...slug]/page.js";
 import { recordUnauthorizedAdminAccess, recordAdminAccess } from "../../lib/security/authz.js";
 import { isProtectedPagePath } from "../../lib/security/authPaths.js";
+import { decryptIncidentIp } from "../../lib/security/hash.js";
 
 /**
  * 테스트용 가짜 Supabase 클라이언트 팩토리.
@@ -46,13 +47,23 @@ test("2. recordUnauthorizedAdminAccess를 직접 실행하면 security_events와
   const insertedRows = [];
   const fakeSupabase = createFakeSupabase(insertedRows);
 
+  const encryptionEnv = {
+    SECURITY_IP_ENCRYPTION_KEY: Buffer.alloc(32, 19).toString("base64"),
+  };
   const getIpHash = async () => "test-ip-hash-123";
+  const getNetworkContext = async () => ({
+    ip: "203.0.113.27",
+    country: "KR",
+    method: "GET",
+    path: "/admin/xyz123",
+    userAgent: "Security Test Agent/1.0",
+  });
   const runAfter = (fn) => fn(); // after() 지연 콜백을 동기 실행
 
   // 1) 미로그인 사용자 (guest)
   await recordUnauthorizedAdminAccess(
     { path: "/admin/xyz123", user: null },
-    { getIpHash, getSupabase: () => fakeSupabase, runAfter },
+    { getIpHash, getNetworkContext, getSupabase: () => fakeSupabase, runAfter, encryptionEnv },
   );
 
   const secEvent = insertedRows.find((r) => r.table === "security_events" && r.data.target_id === undefined);
@@ -63,6 +74,7 @@ test("2. recordUnauthorizedAdminAccess를 직접 실행하면 security_events와
   assert.equal(secEvent.data.actor_id, null);
   assert.equal(secEvent.data.ip_hash, "test-ip-hash-123");
   assert.equal(secEvent.data.evidence, "guest 역할이 /admin/xyz123 접근 시도");
+  assert.equal(decryptIncidentIp(secEvent.data.ip_ciphertext, encryptionEnv), "203.0.113.27");
 
   const auditDeny = insertedRows.find((r) => r.table === "audit_logs" && r.data.result === "deny");
   assert.ok(auditDeny, "audit_logs deny 행이 추가되어야 합니다.");

@@ -1,0 +1,48 @@
+{
+  "nodes": [
+    {
+      "id": "file:components/charts/BarList.js",
+      "type": "file",
+      "name": "BarList.js",
+      "filePath": "components/charts/BarList.js",
+      "summary": "상위 항목 값을 최대값 대비 CSS 막대 폭으로 표시하고 비어 있는 목록의 안내 문구를 제공하는 재사용 UI 컴포넌트다.",
+      "tags": ["ui-컴포넌트", "데이터-시각화", "막대-차트"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:components/charts/BarList.js:BarList",
+      "type": "function",
+      "name": "BarList",
+      "filePath": "components/charts/BarList.js",
+      "lineRange": [11, 47],
+      "summary": "레이블·값·보조 정보를 받은 목록을 값 비례 수평 막대로 렌더링하고 빈 데이터 상태를 처리한다.",
+      "tags": ["ui-컴포넌트", "데이터-시각화", "막대-차트"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:components/charts/TimeSeriesChart.js",
+      "type": "file",
+      "name": "TimeSeriesChart.js",
+      "filePath": "components/charts/TimeSeriesChart.js",
+      "summary": "외부 라이브러리 없이 SVG 좌표와 CSS 색상 변수를 이용해 여러 데이터 계열의 선·영역 시계열 차트를 그린다.",
+      "tags": ["ui-컴포넌트", "데이터-시각화", "svg", "시계열-차트"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:components/charts/TimeSeriesChart.js:TimeSeriesChart",
+      "type": "function",
+      "name": "TimeSeriesChart",
+      "filePath": "components/charts/TimeSeriesChart.js",
+      "lineRange": [25, 154],
+      "summary": "계열값과 축 레이블을 SVG 선·영역·눈금·범례로 변환하고 데이터가 없을 때의 대체 표시를 제공한다.",
+      "tags": ["ui-컴포넌트", "svg", "시계열-차트", "데이터-시각화"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {"source":"file:components/charts/BarList.js","target":"function:components/charts/BarList.js:BarList","type":"contains","direction":"forward","weight":1.0},
+    {"source":"file:components/charts/BarList.js","target":"function:components/charts/BarList.js:BarList","type":"exports","direction":"forward","weight":0.8},
+    {"source":"file:components/charts/TimeSeriesChart.js","target":"function:components/charts/TimeSeriesChart.js:TimeSeriesChart","type":"contains","direction":"forward","weight":1.0},
+    {"source":"file:components/charts/TimeSeriesChart.js","target":"function:components/charts/TimeSeriesChart.js:TimeSeriesChart","type":"exports","direction":"forward","weight":0.8}
+  ]
+}

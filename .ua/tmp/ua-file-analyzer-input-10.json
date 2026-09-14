@@ -1,0 +1,11 @@
+{
+  "projectRoot": "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
+  "batchFiles": [
+    {"path": "supabase/migrations/20260911000000_course_reviews.sql", "language": "sql", "sizeLines": 28, "fileCategory": "data"},
+    {"path": "supabase/migrations/20260911000001_review_likes.sql", "language": "sql", "sizeLines": 32, "fileCategory": "data"}
+  ],
+  "batchImportData": {
+    "supabase/migrations/20260911000000_course_reviews.sql": [],
+    "supabase/migrations/20260911000001_review_likes.sql": []
+  }
+}

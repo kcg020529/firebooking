@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { detectCodeEnumeration, detectLookupBruteForce } from '@/lib/security/rules';
-import { getClientIp, hashIp, hashSecurityValue } from '@/lib/security/hash';
+import { hashIp, hashSecurityValue } from '@/lib/security/hash';
 import { lookupBookings } from '@/lib/bookings';
 
 /**
@@ -16,7 +16,7 @@ import { lookupBookings } from '@/lib/bookings';
  *
  * 실패는 audit_logs 에 deny 로 남고, 반복되면 ANO_CODE_ENUM 이 뜬다.
  */
-export const GET = withApiLog(async (request, { getUser, getUserId }) => {
+export const GET = withApiLog(async (request, { getUser, getUserId, networkContext }) => {
   const params = new URL(request.url).searchParams;
   const code = params.get('code');
   const phone = params.get('phone');
@@ -24,7 +24,7 @@ export const GET = withApiLog(async (request, { getUser, getUserId }) => {
   // 조회 자체는 로그인과 무관하다(예약번호+전화번호로 대조). 여기서
   // 필요한 건 기록용 id 뿐이라 역할은 응답 뒤에 채운다.
   const userId = await getUserId();
-  const ipHash = hashIp(getClientIp(request));
+  const ipHash = hashIp(networkContext.ip);
   const phoneHash = hashSecurityValue(
     typeof phone === 'string' ? phone.replace(/\D/g, '') : '',
   );
@@ -43,11 +43,22 @@ export const GET = withApiLog(async (request, { getUser, getUserId }) => {
       onRecorded: async ({ client }) => {
         await Promise.all([
           detectCodeEnumeration(
-            { ipHash, actorId: userId, action: AUDIT_ACTIONS.BOOKING_LOOKUP },
+            {
+              ipHash,
+              actorId: userId,
+              action: AUDIT_ACTIONS.BOOKING_LOOKUP,
+              networkContext,
+            },
             { client, schedule: (operation) => operation() },
           ),
           detectLookupBruteForce(
-            { ipHash, actorId: userId, action: AUDIT_ACTIONS.BOOKING_LOOKUP, phoneHash },
+            {
+              ipHash,
+              actorId: userId,
+              action: AUDIT_ACTIONS.BOOKING_LOOKUP,
+              phoneHash,
+              networkContext,
+            },
             { client, schedule: (operation) => operation() },
           ),
         ]);

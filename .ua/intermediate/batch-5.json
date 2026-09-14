@@ -1,0 +1,99 @@
+{
+  "nodes": [
+    {
+      "id": "file:app/admin/metricsData.js",
+      "type": "file",
+      "name": "metricsData.js",
+      "filePath": "app/admin/metricsData.js",
+      "summary": "관리자 대시보드가 브라우저의 인증된 Supabase 세션으로 API 로그와 보안 이벤트를 읽어 기간별 운영 메트릭으로 집계한다.",
+      "tags": ["관리자-대시보드", "운영-메트릭", "supabase", "클라이언트-집계"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app/admin/metricsData.js:fetchMetrics",
+      "type": "function",
+      "name": "fetchMetrics",
+      "filePath": "app/admin/metricsData.js",
+      "lineRange": [43, 165],
+      "summary": "선택 기간의 API 로그와 보안 이벤트를 병렬 조회해 요청·오류·지연시간·심각도 추이, 상위 경로와 KPI를 계산한다.",
+      "tags": ["운영-메트릭", "supabase", "데이터-집계", "대시보드"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:app/admin/page.js",
+      "type": "file",
+      "name": "page.js",
+      "filePath": "app/admin/page.js",
+      "summary": "관리자 홈에서 기간별 API 운영 지표와 보안 이벤트 추이를 KPI, SVG 시계열 차트, 상위 경로 및 최근 로그로 표시한다.",
+      "tags": ["관리자-대시보드", "모니터링", "데이터-시각화", "클라이언트-컴포넌트"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:app/admin/page.js:KpiTile",
+      "type": "function",
+      "name": "KpiTile",
+      "filePath": "app/admin/page.js",
+      "lineRange": [23, 33],
+      "summary": "값·단위·상태 색상을 받아 관리자 KPI를 일관된 카드 형태로 렌더링한다.",
+      "tags": ["ui-컴포넌트", "kpi", "대시보드"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app/admin/page.js:Panel",
+      "type": "function",
+      "name": "Panel",
+      "filePath": "app/admin/page.js",
+      "lineRange": [35, 45],
+      "summary": "제목·힌트·자식 콘텐츠를 공통 스타일의 관리자 대시보드 패널로 감싼다.",
+      "tags": ["ui-컴포넌트", "대시보드", "레이아웃"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app/admin/page.js:AdminMetricsHomePage",
+      "type": "function",
+      "name": "AdminMetricsHomePage",
+      "filePath": "app/admin/page.js",
+      "lineRange": [54, 247],
+      "summary": "조회 기간과 자동 갱신 상태를 관리하고 집계 데이터를 KPI, 시계열 차트, 경로 막대 목록과 API 로그 표로 조합해 렌더링한다.",
+      "tags": ["관리자-대시보드", "모니터링", "react-hook", "데이터-시각화"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:app/admin/useAdminResource.js",
+      "type": "file",
+      "name": "useAdminResource.js",
+      "filePath": "app/admin/useAdminResource.js",
+      "summary": "관리자 리소스의 초기 조회, 가시성 기반 자동 갱신, 요청 경합 방지와 오류 상태를 공통 React hook으로 관리한다.",
+      "tags": ["react-hook", "관리자", "데이터-조회", "자동-갱신"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app/admin/useAdminResource.js:useAdminResource",
+      "type": "function",
+      "name": "useAdminResource",
+      "filePath": "app/admin/useAdminResource.js",
+      "lineRange": [32, 137],
+      "summary": "문자열 URL 또는 비동기 조회 함수를 실행하고 최신 요청만 반영하며 5초 폴링과 수동 갱신 상태를 제공한다.",
+      "tags": ["react-hook", "데이터-조회", "동시성", "자동-갱신"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {"source":"file:app/admin/metricsData.js","target":"function:app/admin/metricsData.js:fetchMetrics","type":"contains","direction":"forward","weight":1.0},
+    {"source":"file:app/admin/metricsData.js","target":"function:app/admin/metricsData.js:fetchMetrics","type":"exports","direction":"forward","weight":0.8},
+    {"source":"file:app/admin/page.js","target":"function:app/admin/page.js:KpiTile","type":"contains","direction":"forward","weight":1.0},
+    {"source":"file:app/admin/page.js","target":"function:app/admin/page.js:Panel","type":"contains","direction":"forward","weight":1.0},
+    {"source":"file:app/admin/page.js","target":"function:app/admin/page.js:AdminMetricsHomePage","type":"contains","direction":"forward","weight":1.0},
+    {"source":"file:app/admin/page.js","target":"function:app/admin/page.js:AdminMetricsHomePage","type":"exports","direction":"forward","weight":0.8},
+    {"source":"file:app/admin/page.js","target":"file:app/admin/DashboardControls.js","type":"imports","direction":"forward","weight":0.7},
+    {"source":"file:app/admin/page.js","target":"file:app/admin/metricsData.js","type":"imports","direction":"forward","weight":0.7},
+    {"source":"file:app/admin/page.js","target":"file:app/admin/useAdminResource.js","type":"imports","direction":"forward","weight":0.7},
+    {"source":"function:app/admin/page.js:AdminMetricsHomePage","target":"function:app/admin/metricsData.js:fetchMetrics","type":"calls","direction":"forward","weight":0.8},
+    {"source":"function:app/admin/page.js:AdminMetricsHomePage","target":"function:app/admin/useAdminResource.js:useAdminResource","type":"calls","direction":"forward","weight":0.8},
+    {"source":"function:app/admin/page.js:AdminMetricsHomePage","target":"function:app/admin/DashboardControls.js:DashboardControls","type":"calls","direction":"forward","weight":0.8},
+    {"source":"function:app/admin/page.js:AdminMetricsHomePage","target":"function:app/admin/page.js:KpiTile","type":"calls","direction":"forward","weight":0.8},
+    {"source":"function:app/admin/page.js:AdminMetricsHomePage","target":"function:app/admin/page.js:Panel","type":"calls","direction":"forward","weight":0.8},
+    {"source":"file:app/admin/useAdminResource.js","target":"function:app/admin/useAdminResource.js:useAdminResource","type":"contains","direction":"forward","weight":1.0},
+    {"source":"file:app/admin/useAdminResource.js","target":"function:app/admin/useAdminResource.js:useAdminResource","type":"exports","direction":"forward","weight":0.8}
+  ]
+}

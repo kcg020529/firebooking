@@ -1,0 +1,816 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "app/admin/metricsData.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 165,
+      "nonEmptyLines": 143,
+      "functions": [
+        {
+          "name": "pad",
+          "startLine": 25,
+          "endLine": 25,
+          "params": [
+            "n"
+          ]
+        },
+        {
+          "name": "bucketLabel",
+          "startLine": 27,
+          "endLine": 31,
+          "params": [
+            "date",
+            "tick"
+          ]
+        },
+        {
+          "name": "percentile",
+          "startLine": 33,
+          "endLine": 37,
+          "params": [
+            "sortedAsc",
+            "p"
+          ]
+        },
+        {
+          "name": "fetchMetrics",
+          "startLine": 43,
+          "endLine": 165,
+          "params": [
+            "windowKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "WINDOWS",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "fetchMetrics",
+          "line": 43,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "pad",
+          "callee": "String(n).padStart",
+          "lineNumber": 25
+        },
+        {
+          "caller": "pad",
+          "callee": "String",
+          "lineNumber": 25
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "pad",
+          "lineNumber": 28
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "date.getMonth",
+          "lineNumber": 28
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "pad",
+          "lineNumber": 28
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "date.getDate",
+          "lineNumber": 28
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "pad",
+          "lineNumber": 29
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "date.getHours",
+          "lineNumber": 29
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "pad",
+          "lineNumber": 30
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "date.getHours",
+          "lineNumber": 30
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "pad",
+          "lineNumber": 30
+        },
+        {
+          "caller": "bucketLabel",
+          "callee": "date.getMinutes",
+          "lineNumber": 30
+        },
+        {
+          "caller": "percentile",
+          "callee": "Math.min",
+          "lineNumber": 35
+        },
+        {
+          "caller": "percentile",
+          "callee": "Math.ceil",
+          "lineNumber": 35
+        },
+        {
+          "caller": "percentile",
+          "callee": "Math.max",
+          "lineNumber": 36
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Date.now",
+          "lineNumber": 45
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "new Date(startMs).toISOString",
+          "lineNumber": 47
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "createAuthBrowserClient",
+          "lineNumber": 50
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Promise.all",
+          "lineNumber": 52
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from(\"api_logs\")\r\n      .select(\"id, ts, status, duration_ms, method, path\")\r\n      .gte(\"ts\", sinceIso)\r\n      .order(\"ts\", { ascending: false })\r\n      .limit",
+          "lineNumber": 53
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from(\"api_logs\")\r\n      .select(\"id, ts, status, duration_ms, method, path\")\r\n      .gte(\"ts\", sinceIso)\r\n      .order",
+          "lineNumber": 53
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from(\"api_logs\")\r\n      .select(\"id, ts, status, duration_ms, method, path\")\r\n      .gte",
+          "lineNumber": 53
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from(\"api_logs\")\r\n      .select",
+          "lineNumber": 53
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from",
+          "lineNumber": 53
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from(\"security_events\")\r\n      .select(\"ts, severity\")\r\n      .gte(\"ts\", sinceIso)\r\n      .order(\"ts\", { ascending: false })\r\n      .limit",
+          "lineNumber": 59
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from(\"security_events\")\r\n      .select(\"ts, severity\")\r\n      .gte(\"ts\", sinceIso)\r\n      .order",
+          "lineNumber": 59
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from(\"security_events\")\r\n      .select(\"ts, severity\")\r\n      .gte",
+          "lineNumber": 59
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from(\"security_events\")\r\n      .select",
+          "lineNumber": 59
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "supabase\r\n      .from",
+          "lineNumber": 59
+        },
+        {
+          "caller": "idxOf",
+          "callee": "Math.floor",
+          "lineNumber": 75
+        },
+        {
+          "caller": "idxOf",
+          "callee": "new Date(ts).getTime",
+          "lineNumber": 75
+        },
+        {
+          "caller": "idxOf",
+          "callee": "Math.max",
+          "lineNumber": 76
+        },
+        {
+          "caller": "idxOf",
+          "callee": "Math.min",
+          "lineNumber": 76
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Array.from",
+          "lineNumber": 80
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "bucketLabel",
+          "lineNumber": 81
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "new Array(B).fill",
+          "lineNumber": 84
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "new Array(B).fill",
+          "lineNumber": 85
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Array.from",
+          "lineNumber": 86
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "new Array(B).fill",
+          "lineNumber": 87
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "new Array(B).fill",
+          "lineNumber": 88
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "new Array(B).fill",
+          "lineNumber": 89
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "idxOf",
+          "lineNumber": 96
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Number",
+          "lineNumber": 98
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Number",
+          "lineNumber": 103
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Number.isFinite",
+          "lineNumber": 104
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "durs[b].push",
+          "lineNumber": 105
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "allDurs.push",
+          "lineNumber": 106
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "pathCount.set",
+          "lineNumber": 108
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "pathCount.get",
+          "lineNumber": 108
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "durs.map",
+          "lineNumber": 111
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Math.round",
+          "lineNumber": 112
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "arr.reduce",
+          "lineNumber": 112
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "durs.map",
+          "lineNumber": 114
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "percentile",
+          "lineNumber": 114
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "[...arr].sort",
+          "lineNumber": 114
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "idxOf",
+          "lineNumber": 117
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "[...pathCount.entries()]\r\n    .map(([label, value]) => ({ label, value }))\r\n    .sort((a, b) => b.value - a.value)\r\n    .slice",
+          "lineNumber": 123
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "[...pathCount.entries()]\r\n    .map(([label, value]) => ({ label, value }))\r\n    .sort",
+          "lineNumber": 123
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "[...pathCount.entries()]\r\n    .map",
+          "lineNumber": 123
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "pathCount.entries",
+          "lineNumber": 123
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "apiRows.slice(0, 12).map",
+          "lineNumber": 128
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "apiRows.slice",
+          "lineNumber": 128
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Math.round",
+          "lineNumber": 156
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "Math.round",
+          "lineNumber": 158
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "allDurs.reduce",
+          "lineNumber": 158
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "percentile",
+          "lineNumber": 160
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "[...allDurs].sort",
+          "lineNumber": 160
+        },
+        {
+          "caller": "fetchMetrics",
+          "callee": "sevCritical.reduce",
+          "lineNumber": 162
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/admin/page.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 247,
+      "nonEmptyLines": 224,
+      "functions": [
+        {
+          "name": "ms",
+          "startLine": 21,
+          "endLine": 21,
+          "params": [
+            "n"
+          ]
+        },
+        {
+          "name": "KpiTile",
+          "startLine": 23,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "Panel",
+          "startLine": 35,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "statusTone",
+          "startLine": 47,
+          "endLine": 52,
+          "params": [
+            "status"
+          ]
+        },
+        {
+          "name": "AdminMetricsHomePage",
+          "startLine": 54,
+          "endLine": 247,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminMetricsHomePage",
+          "line": 54,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "statusTone",
+          "callee": "Number",
+          "lineNumber": 48
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "useState",
+          "lineNumber": 55
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "useState",
+          "lineNumber": 56
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "useCallback",
+          "lineNumber": 59
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "fetchMetrics",
+          "lineNumber": 59
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "useAdminResource",
+          "lineNumber": 62
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "setData",
+          "lineNumber": 64
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "useMemo",
+          "lineNumber": 70
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "useMemo",
+          "lineNumber": 74
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "useMemo",
+          "lineNumber": 78
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "useMemo",
+          "lineNumber": 88
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "setAutoRefresh",
+          "lineNumber": 117
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "WINDOW_KEYS.map",
+          "lineNumber": 124
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "setWindowKey",
+          "lineNumber": 128
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "WINDOWS[windowKey].rowLimit.toLocaleString",
+          "lineNumber": 149
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "(k?.totalReq ?? 0).toLocaleString",
+          "lineNumber": 155
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "n.toLocaleString",
+          "lineNumber": 192
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "(data?.recentLogs ?? []).map",
+          "lineNumber": 208
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "formatFullTimestamp",
+          "lineNumber": 212
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "formatTimestamp",
+          "lineNumber": 214
+        },
+        {
+          "caller": "AdminMetricsHomePage",
+          "callee": "statusTone",
+          "lineNumber": 220
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "app/admin/useAdminResource.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 137,
+      "nonEmptyLines": 121,
+      "functions": [
+        {
+          "name": "useAdminResource",
+          "startLine": 32,
+          "endLine": 137,
+          "params": [
+            "source"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AUTO_REFRESH_MS",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "useAdminResource",
+          "line": 32,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "useAdminResource",
+          "callee": "useRef",
+          "lineNumber": 35
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useRef",
+          "lineNumber": 36
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useRef",
+          "lineNumber": 37
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useRef",
+          "lineNumber": 38
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useEffect",
+          "lineNumber": 41
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useEffect",
+          "lineNumber": 47
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 54
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 55
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 56
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 57
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useState",
+          "lineNumber": 58
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useCallback",
+          "lineNumber": 60
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setIsRefreshing",
+          "lineNumber": 63
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setIsLoading",
+          "lineNumber": 64
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "source",
+          "lineNumber": 69
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "await (await fetch(source)).json",
+          "lineNumber": 70
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "await",
+          "lineNumber": 70
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "fetch",
+          "lineNumber": 70
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setError",
+          "lineNumber": 77
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "onResetRef.current",
+          "lineNumber": 78
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setError",
+          "lineNumber": 83
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "onDataRef.current",
+          "lineNumber": 84
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setLoadedAt",
+          "lineNumber": 85
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setError",
+          "lineNumber": 89
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "onResetRef.current",
+          "lineNumber": 90
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setIsLoading",
+          "lineNumber": 94
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setIsRefreshing",
+          "lineNumber": 95
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useEffect",
+          "lineNumber": 104
+        },
+        {
+          "caller": "runInitialLoad",
+          "callee": "load",
+          "lineNumber": 107
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "runInitialLoad",
+          "lineNumber": 109
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useEffect",
+          "lineNumber": 116
+        },
+        {
+          "caller": "tick",
+          "callee": "load",
+          "lineNumber": 120
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "setInterval",
+          "lineNumber": 122
+        },
+        {
+          "caller": "onVisible",
+          "callee": "load",
+          "lineNumber": 124
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "document.addEventListener",
+          "lineNumber": 126
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "clearInterval",
+          "lineNumber": 129
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "document.removeEventListener",
+          "lineNumber": 130
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "useCallback",
+          "lineNumber": 134
+        },
+        {
+          "caller": "useAdminResource",
+          "callee": "load",
+          "lineNumber": 134
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

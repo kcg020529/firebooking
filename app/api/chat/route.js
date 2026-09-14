@@ -10,14 +10,14 @@ import {
   recordChatLog,
   recordSecurityEvents,
 } from "../../../lib/security/chatLog.js";
-import { getClientIp, hashIp, hashSecurityValue } from "../../../lib/security/hash.js";
+import { hashIp, hashSecurityValue } from "../../../lib/security/hash.js";
 import {
   detectCodeEnumeration,
   detectLookupBruteForce,
   detectScalping,
 } from "../../../lib/security/rules.js";
 
-function recordBookingAudit(request, { input, result }, actor) {
+function recordBookingAudit(request, { input, result }, actor, networkContext) {
   recordAudit(request, {
     action: AUDIT_ACTIONS.BOOKING_CREATE,
     result: result.ok ? "allow" : "deny",
@@ -33,9 +33,10 @@ function recordBookingAudit(request, { input, result }, actor) {
       ? {
           onRecorded: ({ client }) => detectScalping(
             {
-              ipHash: hashIp(getClientIp(request)),
+              ipHash: hashIp(networkContext.ip),
               actorId: actor.userId,
               action: AUDIT_ACTIONS.BOOKING_CREATE,
+              networkContext,
             },
             { client, schedule: (operation) => operation() },
           ),
@@ -44,7 +45,7 @@ function recordBookingAudit(request, { input, result }, actor) {
   });
 }
 
-function recordLookupAudit(request, { input, result }, actor, ipHash) {
+function recordLookupAudit(request, { input, result }, actor, ipHash, networkContext) {
   const phoneHash = hashSecurityValue(
     typeof input?.phone === "string" ? input.phone.replace(/\D/g, "") : "",
   );
@@ -64,7 +65,12 @@ function recordLookupAudit(request, { input, result }, actor, ipHash) {
           onRecorded: async ({ client }) => {
             await Promise.all([
               detectCodeEnumeration(
-                { ipHash, actorId: actor.userId, action: AUDIT_ACTIONS.BOOKING_LOOKUP },
+                {
+                  ipHash,
+                  actorId: actor.userId,
+                  action: AUDIT_ACTIONS.BOOKING_LOOKUP,
+                  networkContext,
+                },
                 { client, schedule: (operation) => operation() },
               ),
               detectLookupBruteForce(
@@ -73,6 +79,7 @@ function recordLookupAudit(request, { input, result }, actor, ipHash) {
                   actorId: actor.userId,
                   action: AUDIT_ACTIONS.BOOKING_LOOKUP,
                   phoneHash,
+                  networkContext,
                 },
                 { client, schedule: (operation) => operation() },
               ),
@@ -83,10 +90,16 @@ function recordLookupAudit(request, { input, result }, actor, ipHash) {
   });
 }
 
-function createRequestChatService(request, actor, ipHash) {
+function createRequestChatService(request, actor, ipHash, networkContext) {
   const toolDependencies = createChatToolDependencies({
-    onBookingResult: (entry) => recordBookingAudit(request, entry, actor),
-    onLookupResult: (entry) => recordLookupAudit(request, entry, actor, ipHash),
+    onBookingResult: (entry) => recordBookingAudit(request, entry, actor, networkContext),
+    onLookupResult: (entry) => recordLookupAudit(
+      request,
+      entry,
+      actor,
+      ipHash,
+      networkContext,
+    ),
   });
 
   return createChatService({
@@ -106,7 +119,7 @@ function recordChatAudit(request, { result, actor = null }) {
   });
 }
 
-async function handlePost(request, { getUser, getUserId }) {
+async function handlePost(request, { getUser, getUserId, networkContext }) {
   let body;
 
   try {
@@ -119,7 +132,7 @@ async function handlePost(request, { getUser, getUserId }) {
     );
   }
 
-  const clientIp = getClientIp(request);
+  const clientIp = networkContext.ip;
   const ipHash = clientIp ? hashIp(clientIp) : null;
 
   // 챗봇은 역할로 갈리는 기능이 없다. 기록용 id 만 응답 전에 확정하고,
@@ -130,12 +143,13 @@ async function handlePost(request, { getUser, getUserId }) {
     resolveRole: async () => (await getUser())?.role,
   };
 
-  const handleChat = createRequestChatService(request, actor, ipHash);
+  const handleChat = createRequestChatService(request, actor, ipHash, networkContext);
   const result = await handleChat({
     sessionId: body?.sessionId,
     messages: body?.messages,
     actorId: actor.userId,
     ipHash,
+    networkContext,
   });
 
   recordChatAudit(request, {
