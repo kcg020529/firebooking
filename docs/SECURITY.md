@@ -122,6 +122,18 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 - 응답 본문에 키·JWT·`service_role`·내부 URL이 섞이면 `LEAK_SECRET` critical
 - Rate limit은 Tier 1
 
+### 클라이언트 IP 신뢰 경계
+
+서비스는 Cloudflare 프록시 뒤에 있다. Vercel이 보는 접속자는 Cloudflare 엣지이므로 실제 사용자 IP는 Cloudflare가 붙이는 `cf-connecting-ip`에서 읽는다.
+
+- 이 헤더는 요청자도 직접 넣을 수 있으므로, **Cloudflare를 거쳐 온 요청일 때만** 믿는다.
+- Cloudflare Request Header Transform Rule이 모든 요청에 비밀 헤더 `x-firebooking-origin`을 붙이고, 서버는 그 값이 `CLOUDFLARE_ORIGIN_SECRET`과 일치할 때만 `cf-connecting-ip`·`cf-ipcountry`를 사용한다.
+- 일치하지 않으면 Vercel이 직접 본 접속 IP(`x-vercel-forwarded-for` → `x-forwarded-for` → `x-real-ip`)와 `x-vercel-ip-country`를 쓴다.
+- 서버에 비밀값이 없으면 Cloudflare 헤더를 전혀 믿지 않는다.
+- 비밀값은 Vercel 환경변수와 Cloudflare 대시보드에만 둔다. 저장소가 공개이므로 `vercel.json`에 넣지 않는다.
+
+IP 기반 요청 제한·로그인 잠금·이상 탐지가 모두 이 값에 의존하므로, IP를 읽는 코드는 `lib/security/hash.js`의 `getClientIp()`·`getClientNetworkContext()`만 사용한다.
+
 ### critical 사고 IP 이중 구조
 
 - 모든 요청은 기존처럼 `ip_hash`만 일반 로그에 저장해 동일 공격자 상관분석에 쓴다.
