@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { createBooking } from '@/lib/bookings';
-import { detectScalping } from '@/lib/security/rules';
+import { checkBookingScalp } from '@/lib/security/rules';
 import { hashIp } from '@/lib/security/hash';
 
 /**
@@ -33,6 +33,25 @@ export const POST = withApiLog(async (request, { getUser, getUserId, networkCont
   // 역할은 응답을 보낸 뒤에 채운다(resolveActorRole).
   const userId = await getUserId();
   const ipHash = hashIp(networkContext.ip);
+
+  // 슬롯 선점 차단: 같은 IP 가 짧은 시간에 예약을 쓸어담으면 여기서 막는다.
+  // createBooking 에 닿기 전에 끊어야 슬롯이 실제로 잡히지 않는다.
+  const scalp = await checkBookingScalp({ ipHash, actorId: userId, networkContext });
+  if (scalp.limited) {
+    recordAudit(request, {
+      action: AUDIT_ACTIONS.BOOKING_CREATE,
+      result: 'deny',
+      actorId: userId,
+      resolveActorRole: async () => (await getUser())?.role,
+      targetType: 'slot',
+      targetId: typeof body.slotId === 'string' ? body.slotId : null,
+    });
+
+    return NextResponse.json(
+      { ok: false, error: '짧은 시간에 예약이 너무 많습니다. 잠시 후 다시 시도해주세요.' },
+      { status: 429, headers: { 'Retry-After': String(scalp.retryAfterSeconds ?? 300) } }
+    );
+  }
 
   const result = await createBooking({
     slotId: body.slotId,
@@ -65,15 +84,6 @@ export const POST = withApiLog(async (request, { getUser, getUserId, networkCont
     targetType: 'booking',
     // ★ 예약번호만 남긴다. 이름·전화번호는 감사 로그에 넣지 않는다.
     targetId: result.booking.bookingCode,
-    onRecorded: ({ client }) => detectScalping(
-      {
-        ipHash,
-        actorId: userId,
-        action: AUDIT_ACTIONS.BOOKING_CREATE,
-        networkContext,
-      },
-      { client, schedule: (operation) => operation() },
-    ),
   });
 
   // 응답에도 PII 를 되돌려주지 않는다. 예약번호만 있으면 조회가 된다.

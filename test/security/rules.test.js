@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import {
   checkApiRateLimit,
+  checkBookingScalp,
   detectCodeEnumeration,
   detectLookupBruteForce,
   detectScalping,
@@ -163,6 +164,29 @@ test('세 번째 성공 예약에서 ANO_SCALP을 기록한다', async () => {
   ));
 
   assert.equal(client.inserts[0]?.row.rule_id, 'ANO_SCALP');
+});
+
+test('checkBookingScalp: 임계값 전에는 예약을 허용하고 이벤트를 남기지 않는다', async () => {
+  const client = createAnomalyClient({ auditCount: ANOMALY_RULES.ANO_SCALP.threshold - 1 });
+
+  const result = await checkBookingScalp({ ipHash: 'ip-hash', client });
+  assert.deepEqual(result, { limited: false });
+  assert.equal(client.inserts.length, 0);
+});
+
+test('checkBookingScalp: 임계값부터 예약을 차단하고 ANO_SCALP을 기록한다', async () => {
+  const client = createAnomalyClient({ auditCount: ANOMALY_RULES.ANO_SCALP.threshold });
+
+  const result = await checkBookingScalp({ ipHash: 'ip-hash', client });
+  assert.equal(result.limited, true);
+  assert.equal(result.retryAfterSeconds, ANOMALY_RULES.ANO_SCALP.windowMinutes * 60);
+  assert.equal(client.inserts.length, 1);
+  assert.equal(client.inserts[0].row.rule_id, 'ANO_SCALP');
+});
+
+test('checkBookingScalp: ipHash가 없으면 검사 없이 허용한다', async () => {
+  const result = await checkBookingScalp({ ipHash: null });
+  assert.deepEqual(result, { limited: false });
 });
 
 test('열 번째 서로 다른 전화번호 지문에서 ANO_LOOKUP_BF를 기록한다', async () => {
