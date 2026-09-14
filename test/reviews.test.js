@@ -80,7 +80,30 @@ test('리뷰 전용 마스킹은 PII만 가리고 일반 문장은 유지한다'
   const result = sanitizeReviewContent('코스가 정말 좋았고 연락처는 010-1234-5678입니다.');
   assert.equal(result.maskedText.includes('010-1234-5678'), false);
   assert.equal(result.maskedText.includes('코스가 정말 좋았고'), true);
-  assert.equal(sanitizeReviewContent('어려워요').maskedText, '어려워요');
+
+  for (const content of ['좋아요', '재밌어요', '최고예요', '어려워요', '경치좋음']) {
+    const ordinaryReview = sanitizeReviewContent(content);
+    assert.equal(ordinaryReview.maskedText, content, content);
+    assert.equal(
+      ordinaryReview.hits.some(({ ruleId }) => ruleId === 'PII_NAME'),
+      false,
+      content,
+    );
+  }
+});
+
+test('리뷰에서도 문맥이 명확한 이름과 다른 개인정보는 계속 마스킹한다', () => {
+  const result = sanitizeReviewContent(
+    '이름은 김철수입니다. 연락처는 010-1234-5678이고 chulsoo@example.com으로 연락주세요.',
+  );
+
+  assert.equal(result.maskedText.includes('김철수'), false);
+  assert.equal(result.maskedText.includes('010-1234-5678'), false);
+  assert.equal(result.maskedText.includes('chulsoo@example.com'), false);
+  assert.deepEqual(
+    result.hits.map(({ ruleId }) => ruleId),
+    ['PII_PHONE', 'PII_EMAIL', 'PII_NAME'],
+  );
 });
 
 test('좋아요 순으로 상위 3개와 나머지 페이지를 나눈다', () => {
