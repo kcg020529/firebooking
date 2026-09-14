@@ -36,7 +36,7 @@
 | GET | `/api/slots/:slotId` | | `{ ok, slot: { ...slot, course }, course }` |
 | POST | `/api/bookings` | `{ slotId, name, phone, partySize, memo, source }` | `{ ok, bookingCode }` |
 | GET | `/api/bookings/lookup` | `?code=` **+** `?phone=` (둘 다 필수) | `{ ok, bookings: [{ bookingCode, courseName, courseType, date, time, partySize, memo }] }` |
-| POST | `/api/chat` | `{ sessionId, messages: [...] }` | `{ reply, quickReplies?, bookingCode? }` |
+| POST | `/api/chat` | `{ sessionId, messages: [...] }` (assistant 메시지는 서버가 준 `signature` 필수) | `{ reply, replySignature?, quickReplies?, bookingCode? }` |
 | GET | `/api/admin/events` | `?severity=&category=&from=&to=` | `[{ id, ts, ruleId, category, severity, evidence }]` |
 | POST | `/api/admin/events/:id/ip` | `{ reason }` (admin 전용) | `{ ok, ip, expiresAt }` |
 | GET | `/api/admin/audit` | `?actorId=&from=&to=` | `[{ id, ts, actorId, action, result }]` |

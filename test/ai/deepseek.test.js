@@ -216,6 +216,70 @@ test("DeepSeek 요청 시 주입된 시계 기준 KST 시스템 프롬프트가 
   }
 });
 
+test("모델이 검색 없이 지어낸 slotId로 create_booking을 부르면 예약하지 않는다", async () => {
+  const originalKey = process.env.DEEPSEEK_API_KEY;
+  process.env.DEEPSEEK_API_KEY = TEST_KEY;
+  const requests = [];
+  const responses = [
+    {
+      choices: [
+        {
+          message: {
+            role: "assistant",
+            content: null,
+            tool_calls: [
+              {
+                id: "tool-guess",
+                type: "function",
+                function: {
+                  name: "create_booking",
+                  arguments: JSON.stringify({
+                    slotId: "slot_greenhill_0916_1000",
+                    name: "홍길동",
+                    phone: "010-1234-5678",
+                    partySize: 4,
+                  }),
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+    { choices: [{ message: { role: "assistant", content: "시간을 다시 확인할게요." } }] },
+  ];
+  let createCalls = 0;
+  const generate = createDeepSeekGenerator(
+    {
+      createBooking: async () => {
+        createCalls += 1;
+        return { ok: true, booking: { bookingCode: "GB-TEST1" } };
+      },
+    },
+    async (_url, options) => {
+      requests.push(JSON.parse(options.body));
+      return { ok: true, json: async () => responses.shift() };
+    },
+  );
+
+  try {
+    const result = await generate({
+      sessionId: "session-1234",
+      messages: [{ role: "user", content: "네 예약해 주세요" }],
+    });
+
+    assert.equal(createCalls, 0);
+    assert.equal(result.bookingCode, undefined);
+    assert.equal(JSON.parse(requests[1].messages.at(-1).content).ok, false);
+  } finally {
+    if (originalKey === undefined) {
+      delete process.env.DEEPSEEK_API_KEY;
+    } else {
+      process.env.DEEPSEEK_API_KEY = originalKey;
+    }
+  }
+});
+
 test("generateReply 호출 시 전달된 clock이 generator 옵션 clock보다 우선한다", async () => {
   const originalKey = process.env.DEEPSEEK_API_KEY;
   process.env.DEEPSEEK_API_KEY = TEST_KEY;

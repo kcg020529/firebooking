@@ -46,7 +46,12 @@ export default function ChatWidget() {
 
     const userMessage = { role: "user", content: trimmedContent };
     const displayedMessages = [...messages, userMessage].slice(-20);
-    const requestMessages = displayedMessages.filter(({ role }) => role === "user");
+    // 서버 서명이 붙은 챗봇 응답만 이력으로 보낸다. 인사말·오류 문구는 서버가 서명한 응답이 아니다.
+    const requestMessages = displayedMessages
+      .filter(({ role, signature }) => role === "user" || Boolean(signature))
+      .map(({ role, content, signature }) =>
+        signature ? { role, content, signature } : { role, content },
+      );
     setMessages(displayedMessages);
     setInput("");
     setIsSending(true);
