@@ -20,10 +20,10 @@ export const PII_RULES = [
   { id:'PII_PHONE', re:/01[016789][-. ]?\d{3,4}[-. ]?\d{4}/g,
     mask: m => m.slice(0,3) + '-****-' + m.slice(-4) },
 
-  { id:'PII_RRN', severity:'critical', re:/\d{6}[-. ]?[1-4]\d{6}/g,
+  { id:'PII_RRN', severity:'warn', re:/\d{6}[-. ]?[1-4]\d{6}/g,
     mask: () => '******-*******' },
 
-  { id:'PII_CARD', severity:'critical', re:/\d{4}[-. ]?\d{4}[-. ]?\d{4}[-. ]?\d{4}/g,
+  { id:'PII_CARD', severity:'warn', re:/\d{4}[-. ]?\d{4}[-. ]?\d{4}[-. ]?\d{4}/g,
     mask: m => '****-****-****-' + m.slice(-4) },
 
   { id:'PII_EMAIL', re:/[\w.+-]+@[\w-]+\.[\w.]+/g,
