@@ -503,7 +503,7 @@ test("createBooking: 전화번호당 활성 예약 수 상한을 넘으면 RPC �
   );
 
   assert.equal(result.ok, false);
-  assert.match(result.error, /최대 5건/);
+  assert.match(result.error, new RegExp(`최대 ${MAX_ACTIVE_BOOKINGS_PER_PHONE}건`));
   assert.equal(client._rpcCalls.length, 0);
 
   // 활성 예약을 미래 슬롯 기준으로 셌는지 확인 (phone eq + slots.date gte)
