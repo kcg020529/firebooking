@@ -90,6 +90,39 @@ test("createBooking 실패를 tool 성공으로 포장하지 않는다", async (
   });
 });
 
+test("같은 응답에서 search_slots로 받지 않은 slotId로는 예약하지 않는다", async () => {
+  const knownSlotIds = new Set();
+  let createCalls = 0;
+  const dependencies = {
+    searchSlots: async () => ({
+      courses: [],
+      slots: [{ id: "slot-real", date: "2026-09-16", time: "10:00" }],
+    }),
+    createBooking: async () => {
+      createCalls += 1;
+      return { ok: true, booking: { bookingCode: "GB-TEST1" } };
+    },
+  };
+  const booking = (slotId) => ({
+    name: "create_booking",
+    input: { slotId, name: "홍길동", phone: "010-1234-5678", partySize: 4 },
+  });
+
+  const guessed = await executeToolCall(booking("slot_guessed_1000"), dependencies, { knownSlotIds });
+  assert.equal(guessed.ok, false);
+  assert.equal(createCalls, 0);
+
+  await executeToolCall(
+    { name: "search_slots", input: { date: "2026-09-16", partySize: 4 } },
+    dependencies,
+    { knownSlotIds },
+  );
+  const result = await executeToolCall(booking("slot-real"), dependencies, { knownSlotIds });
+
+  assert.deepEqual(result, { ok: true, bookingCode: "GB-TEST1" });
+  assert.equal(createCalls, 1);
+});
+
 test("예약 조회에는 예약번호와 전화번호가 모두 필요하다", async () => {
   const invalidToolCall = { name: "lookup_booking", input: { code: "BK-1234" } };
   const toolCall = {
