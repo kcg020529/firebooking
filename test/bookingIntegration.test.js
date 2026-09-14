@@ -704,6 +704,34 @@ test("createBooking: 예약번호 충돌(23505) 발생 시 재시도하고, 한�
   );
 });
 
+test("createBooking: 같은 슬롯·전화번호 예약이 이미 있으면 RPC 없이 거절하고 예약번호를 노출하지 않는다", async () => {
+  const slotId = "e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d";
+  const client = createFakeBookingSupabase({
+    bookingsData: [{ id: "booking-existing" }],
+    rpcHandler: () => {
+      throw new Error("중복 예약이면 create_booking RPC 를 부르면 안 된다");
+    },
+  });
+
+  const result = await createBooking(
+    {
+      slotId,
+      name: "홍길동",
+      phone: "01012345678",
+      partySize: 2,
+      source: "chat",
+    },
+    { client }
+  );
+
+  assert.equal(result.ok, false);
+  assert.match(result.error, /이미 같은 시간/);
+  assert.equal("booking" in result, false);
+  assert.equal(client._rpcCalls.length, 0);
+  assert.ok(client._eqCalls.some((c) => c.field === "slot_id" && c.value === slotId));
+  assert.ok(client._eqCalls.some((c) => c.field === "phone" && c.value === "010-1234-5678"));
+});
+
 test("isValidSlotId: 올바른 UUID를 통과시키고 비정상 입력을 거절한다", () => {
   assert.equal(isValidSlotId("e9f0d14b-2f3a-4a5c-9c7d-8e9f0a1b2c3d"), true);
   assert.equal(isValidSlotId("E9F0D14B-2F3A-4A5C-9C7D-8E9F0A1B2C3D"), true);
