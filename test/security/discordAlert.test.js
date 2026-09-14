@@ -68,7 +68,7 @@ test('sanitizeEvidence: 최대 200자로 안전하게 절단된다', () => {
   assert.ok(sanitized.length <= 200, '200자 이하로 절단되어야 함');
 });
 
-test('buildDiscordPayload: critical 사고의 IP·국가·IP 해시·요청 정보를 포함한다', () => {
+test('buildDiscordPayload: critical 사고 정보를 포함하되 User-Agent는 제외한다', () => {
   const event = {
     rule_id: 'AUTHZ_ADMIN',
     category: 'authz',
@@ -103,7 +103,8 @@ test('buildDiscordPayload: critical 사고의 IP·국가·IP 해시·요청 정�
   assert.equal(payloadString.includes('hash-ip-5678'), true, 'IP 해시가 표시되어야 함');
   assert.equal(payloadString.includes('KR'), true, '국가가 표시되어야 함');
   assert.equal(payloadString.includes('GET /admin/secrets'), true, '요청 경로가 표시되어야 함');
-  assert.equal(payloadString.includes('Security Test Agent/1.0'), true, 'User-Agent가 표시되어야 함');
+  assert.equal(payloadString.includes('Security Test Agent/1.0'), false, 'User-Agent가 표시되지 않아야 함');
+  assert.equal(embed.fields.some((f) => f.name === 'User-Agent'), false);
 });
 
 test('sendCriticalSecurityAlert: 네트워크 컨텍스를 Discord 페이로드로 전달한다', async () => {
