@@ -124,3 +124,48 @@ test("퀵 리플라이에서 비밀·PII·과도한 길이를 제거한다", asy
 
   assert.deepEqual(result.quickReplies, ["내일 필드 찾아줘"]);
 });
+
+test("응답에 서버 서명을 붙이고, 서명된 응답은 다음 요청에서 LLM 이력으로 전달한다", async () => {
+  const previousSecret = process.env.IP_HASH_SALT;
+  process.env.IP_HASH_SALT = "test-chat-reply-secret";
+
+  try {
+    const received = [];
+    const service = createChatService({
+      generateReply: async ({ messages }) => {
+        received.push(messages);
+        return { reply: "예약 내용을 확인해 주세요." };
+      },
+      recordChatLog: async () => {},
+      recordSecurityEvents: async () => {},
+    });
+    const first = await service({
+      sessionId: SESSION_ID,
+      messages: [{ role: "user", content: "그린힐 10시 예약할게요" }],
+    });
+
+    assert.equal(typeof first.replySignature, "string");
+
+    const second = await service({
+      sessionId: SESSION_ID,
+      messages: [
+        { role: "user", content: "그린힐 10시 예약할게요" },
+        { role: "assistant", content: first.reply, signature: first.replySignature },
+        { role: "user", content: "네 예약해 주세요" },
+      ],
+    });
+
+    assert.equal(second.ok, true);
+    assert.deepEqual(received[1], [
+      { role: "user", content: "그린힐 10시 예약할게요" },
+      { role: "assistant", content: first.reply },
+      { role: "user", content: "네 예약해 주세요" },
+    ]);
+  } finally {
+    if (previousSecret === undefined) {
+      delete process.env.IP_HASH_SALT;
+    } else {
+      process.env.IP_HASH_SALT = previousSecret;
+    }
+  }
+});
