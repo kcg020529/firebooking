@@ -9,10 +9,21 @@ import { decryptIncidentIp } from "../../lib/security/hash.js";
  * 테스트용 가짜 Supabase 클라이언트 팩토리.
  * 테이블별 insert 호출 인자를 캡처한다.
  */
-function createFakeSupabase(insertedRows) {
+function createFakeSupabase(insertedRows, { recentAuthzCount = 0 } = {}) {
   return {
     from(tableName) {
       return {
+        // AUTHZ_ADMIN 중복 억제용 조회(head+count). 기본 0 → 기록을 진행한다.
+        select() {
+          const query = {
+            eq() { return query; },
+            gte() { return query; },
+            then(resolve, reject) {
+              return Promise.resolve({ count: recentAuthzCount, error: null }).then(resolve, reject);
+            },
+          };
+          return query;
+        },
         async insert(payload) {
           insertedRows.push({ table: tableName, data: payload });
           return { error: null };
@@ -170,6 +181,32 @@ test("5. 2000자 초과 무제한 길이 경로 요청 시 최대 200자로 안�
 
   assert.ok(secEvent.data.evidence.length <= 200, "evidence 길이는 200자 이하여야 합니다.");
   assert.ok(auditLog.data.target_id.length <= 200, "target_id 길이는 200자 이하여야 합니다.");
+});
+
+test("7. 같은 IP의 AUTHZ_ADMIN이 최근에 이미 기록됐으면 이벤트·감사 기록을 건너뛴다 (H3 도배 방지)", async () => {
+  const insertedRows = [];
+  const fakeSupabase = createFakeSupabase(insertedRows, { recentAuthzCount: 1 });
+
+  const getIpHash = async () => "flood-ip-hash";
+  const getNetworkContext = async () => ({
+    ip: "203.0.113.99",
+    country: "KR",
+    method: "GET",
+    path: "/admin/xyz",
+    userAgent: "Flood Agent/1.0",
+  });
+  const runAfter = (fn) => fn();
+
+  await recordUnauthorizedAdminAccess(
+    { path: "/admin/xyz", user: null },
+    { getIpHash, getNetworkContext, getSupabase: () => fakeSupabase, runAfter },
+  );
+
+  assert.equal(
+    insertedRows.length,
+    0,
+    "최근에 이미 기록된 IP의 반복 접근은 어떤 행도 추가하지 않아야 합니다.",
+  );
 });
 
 test("6. 미존재 관리자 경로를 보호 경로로 판별한다", () => {
