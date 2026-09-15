@@ -90,6 +90,20 @@ test("사용자 로그에는 원문 PII를 전달하지 않는다", async () => 
   assert.equal(calls.events[0].evidence.includes("1234"), false);
 });
 
+test("잘못된 012 휴대전화 번호는 LLM 호출 전에 차단하고 로그에서도 마스킹한다", async () => {
+  const { service, calls } = createHarness();
+  const result = await service({
+    sessionId: SESSION_ID,
+    messages: [{ role: "user", content: "김치볶음밥입니다 01200002321" }],
+  });
+
+  assert.equal(calls.generate, 0);
+  assert.equal(result.ok, true);
+  assert.match(result.reply, /010으로 시작/);
+  assert.equal(calls.chats[0].content.includes("01200002321"), false);
+  assert.ok(calls.chats[0].content.includes("012-****-2321"));
+});
+
 test("LLM 출력의 비밀을 차단하고 LEAK_SECRET 이벤트를 기록한다", async () => {
   const { service, calls } = createHarness("내부 키 sk-ant-secret-value");
   const result = await service({

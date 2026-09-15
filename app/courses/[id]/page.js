@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import { TYPE_LABEL } from "@/lib/courseType";
 import { WEEKDAY_LABEL } from "@/lib/dateLabel";
 
-// 시드 슬롯은 오늘+1 ~ 오늘+14 에만 있다.
+// 현재 데모 슬롯 범위에 맞춰 오늘+1 ~ 오늘+15까지만 선택할 수 있다.
 // 그 밖의 날짜는 무조건 빈 목록이라, 고를 수 있는 날짜 자체를 이 범위로 막는다.
 const FIRST_BOOKABLE_DAY = 1;
-const LAST_BOOKABLE_DAY = 14;
+const LAST_BOOKABLE_DAY = 15;
 
 /**
  * Date → 'YYYY-MM-DD'.
