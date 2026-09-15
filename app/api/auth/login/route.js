@@ -24,6 +24,7 @@ import {
   getSessionTimeoutCookieOptions,
   SESSION_TIMEOUT_COOKIE,
 } from '@/lib/security/sessionTimeout';
+import { checkIpBlock } from '@/lib/security/ipBlocklist';
 
 const INVALID_CREDENTIALS_MESSAGE = '이메일 또는 비밀번호가 올바르지 않습니다.';
 
@@ -47,6 +48,21 @@ export const POST = withApiLog(async (request, { networkContext }) => {
   }
 
   const ipHash = hashIp(networkContext.ip);
+  try {
+    const ipBlock = await checkIpBlock({ ipHash });
+    if (ipBlock.blocked) {
+      recordAudit(request, {
+        action: AUDIT_ACTIONS.AUTH_LOGIN,
+        result: 'deny',
+        targetType: 'ip_block',
+        targetId: `block:${ipBlock.block.id}`,
+      });
+      return jsonError('운영자에 의해 차단되었습니다.', 403);
+    }
+  } catch (error) {
+    console.error('[auth.login] IP 차단 확인 실패:', error);
+    return jsonError('로그인 보안 확인에 실패했습니다. 잠시 후 다시 시도해 주세요.', 503);
+  }
   // 제한 키는 정규화한 이메일과 해시된 IP의 HMAC이며, 원본 식별 정보는 사용하지 않습니다.
   const keyHash = createLoginLimitKey(email, ipHash);
   const auditTargetId = `login:${keyHash.slice(0, 16)}`;
@@ -107,7 +123,7 @@ export const POST = withApiLog(async (request, { networkContext }) => {
     });
 
     if (result.locked) {
-      await recordLoginLock({ ipHash, networkContext }).catch((error) => {
+      await recordLoginLock({ ipHash, keyHash, networkContext }).catch((error) => {
         console.error('[auth.login] 로그인 잠금 이벤트 기록 실패:', error);
       });
       const lockSeconds = result.retryAfterSeconds ?? LOGIN_LOCK_SECONDS;

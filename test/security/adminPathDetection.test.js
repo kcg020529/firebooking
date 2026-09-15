@@ -13,17 +13,26 @@ test("예약 작성 화면은 인증 보호 경로다", () => {
  * 테스트용 가짜 Supabase 클라이언트 팩토리.
  * 테이블별 insert 호출 인자를 캡처한다.
  */
-function createFakeSupabase(insertedRows, { recentAuthzCount = 0 } = {}) {
+function createFakeSupabase(insertedRows, { recentAuthzCount = 0, recentAdminBfCount = 0, auditDenyCount = 0 } = {}) {
   return {
     from(tableName) {
       return {
         // AUTHZ_ADMIN 중복 억제용 조회(head+count). 기본 0 → 기록을 진행한다.
         select() {
+          let ruleId = null;
           const query = {
-            eq() { return query; },
+            eq(field, value) {
+              if (field === 'rule_id') ruleId = value;
+              return query;
+            },
             gte() { return query; },
             then(resolve, reject) {
-              return Promise.resolve({ count: recentAuthzCount, error: null }).then(resolve, reject);
+              const count = tableName === 'audit_logs'
+                ? auditDenyCount
+                : ruleId === 'ANO_ADMIN_BF'
+                  ? recentAdminBfCount
+                  : recentAuthzCount;
+              return Promise.resolve({ count, error: null }).then(resolve, reject);
             },
           };
           return query;
@@ -187,7 +196,7 @@ test("5. 2000자 초과 무제한 길이 경로 요청 시 최대 200자로 안�
   assert.ok(auditLog.data.target_id.length <= 200, "target_id 길이는 200자 이하여야 합니다.");
 });
 
-test("7. 같은 IP의 AUTHZ_ADMIN이 최근에 이미 기록됐으면 이벤트·감사 기록을 건너뛴다 (H3 도배 방지)", async () => {
+test("7. 같은 IP의 AUTHZ_ADMIN 이벤트는 중복 억제하되 감사 기록은 매번 남긴다", async () => {
   const insertedRows = [];
   const fakeSupabase = createFakeSupabase(insertedRows, { recentAuthzCount: 1 });
 
@@ -206,11 +215,29 @@ test("7. 같은 IP의 AUTHZ_ADMIN이 최근에 이미 기록됐으면 이벤트�
     { getIpHash, getNetworkContext, getSupabase: () => fakeSupabase, runAfter },
   );
 
-  assert.equal(
-    insertedRows.length,
-    0,
-    "최근에 이미 기록된 IP의 반복 접근은 어떤 행도 추가하지 않아야 합니다.",
+  assert.equal(insertedRows.some((row) => row.table === 'security_events'), false);
+  assert.equal(insertedRows.filter((row) => row.table === 'audit_logs').length, 1);
+});
+
+test("8. 동일 IP가 10분 안에 세 번 관리자 영역을 침범하면 자동 방화벽 차단한다", async () => {
+  const insertedRows = [];
+  const fakeSupabase = createFakeSupabase(insertedRows, { recentAuthzCount: 1, auditDenyCount: 3 });
+  const blocks = [];
+  await recordUnauthorizedAdminAccess(
+    { path: '/admin/security', user: null },
+    {
+      getIpHash: async () => 'repeat-ip-hash',
+      getNetworkContext: async () => ({ ip: '203.0.113.88', country: 'KR', path: '/admin/security' }),
+      getSupabase: () => fakeSupabase,
+      runAfter: (fn) => fn(),
+      blockIpFn: async (input) => blocks.push(input),
+    },
   );
+
+  assert.equal(insertedRows.some((row) => row.table === 'security_events' && row.data.rule_id === 'ANO_ADMIN_BF'), true);
+  assert.equal(blocks.length, 1);
+  assert.equal(blocks[0].blockType, 'automatic');
+  assert.equal(blocks[0].ip, '203.0.113.88');
 });
 
 test("6. 미존재 관리자 경로를 보호 경로로 판별한다", () => {

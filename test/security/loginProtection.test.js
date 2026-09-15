@@ -7,6 +7,7 @@ import {
   finishLoginAttempt,
   isCredentialFailure,
   LOGIN_MAX_ATTEMPTS,
+  clearLoginLock,
   recordLoginLock,
   reserveLoginAttempt,
 } from '../../lib/security/loginProtection.js';
@@ -34,6 +35,40 @@ test('로그인 제한 키는 이메일을 정규화하고 IP별로 분리한다
     assert.notEqual(first, anotherIp);
     assert.equal(first.includes('user@example.com'), false);
   });
+});
+
+test('관리자는 보안 이벤트에 연결된 HMAC 제한 키로 로그인 잠금을 해제한다', async () => {
+  const calls = [];
+  const client = {
+    from(table) {
+      return {
+        select() {
+          const query = {
+            eq() { return query; },
+            async maybeSingle() {
+              return table === 'security_events'
+                ? { data: { rule_id: 'ANO_LOGIN_BF', response_target_hash: 'a'.repeat(64) }, error: null }
+                : { data: null, error: null };
+            },
+          };
+          return query;
+        },
+        delete() {
+          const query = {
+            eq(field, value) {
+              calls.push({ table, field, value });
+              return Promise.resolve({ error: null });
+            },
+          };
+          return query;
+        },
+      };
+    },
+  };
+
+  const result = await clearLoginLock({ eventId: 12, client });
+  assert.deepEqual(result, { ok: true });
+  assert.deepEqual(calls, [{ table: 'login_attempt_limits', field: 'key_hash', value: 'a'.repeat(64) }]);
 });
 
 test('로그인 시도 예약과 확정은 고정된 보안 임계값으로 RPC를 호출한다', async () => {

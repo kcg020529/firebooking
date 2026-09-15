@@ -3,12 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import TurnstileWidget, { TURNSTILE_SITE_KEY } from "@/components/TurnstileWidget";
-import {
-  CAPTCHA_FAILED_MESSAGE,
-  CAPTCHA_REQUIRED_MESSAGE,
-  isCaptchaFailure,
-} from "@/lib/security/captcha";
-import { createAuthBrowserClient } from "@/lib/supabaseAuth";
+import { CAPTCHA_REQUIRED_MESSAGE } from "@/lib/security/captcha";
+import { isValidSignupEmail } from "@/lib/security/emailValidation";
 
 /** Supabase Auth 기본 최소 길이와 맞춘다. */
 const PASSWORD_MIN_LENGTH = 6;
@@ -33,6 +29,11 @@ export default function SignupPage() {
       return;
     }
 
+    if (!isValidSignupEmail(email)) {
+      setError("올바른 이메일 주소를 입력해 주세요.");
+      return;
+    }
+
     if (TURNSTILE_SITE_KEY && !captchaToken) {
       setError(CAPTCHA_REQUIRED_MESSAGE);
       return;
@@ -40,26 +41,21 @@ export default function SignupPage() {
 
     setIsSubmitting(true);
 
-    const supabase = createAuthBrowserClient();
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        // profiles 트리거가 이 값을 읽어 display_name 을 채운다.
-        data: { display_name: displayName.trim() || null },
-        // Supabase 에서 CAPTCHA 를 켜면 이 토큰이 없는 가입 요청을 거절한다.
-        captchaToken: captchaToken || undefined,
-      },
-    });
-
-    if (signUpError) {
-      setError(
-        isCaptchaFailure(signUpError)
-          ? CAPTCHA_FAILED_MESSAGE
-          : signUpError.message.includes("already registered")
-            ? "이미 가입된 이메일입니다."
-            : "회원가입에 실패했습니다. 잠시 후 다시 시도해주세요."
-      );
+    let response;
+    try {
+      response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, displayName, captchaToken }),
+      });
+    } catch {
+      setError("회원가입 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.");
+      setIsSubmitting(false);
+      return;
+    }
+    const data = await response.json().catch(() => null);
+    if (!response.ok || !data?.ok) {
+      setError(data?.error ?? "회원가입에 실패했습니다. 잠시 후 다시 시도해주세요.");
       // CAPTCHA 토큰은 1회용이라 실패한 뒤에는 새로 받아야 한다.
       setCaptchaResetKey((key) => key + 1);
       setIsSubmitting(false);
@@ -67,7 +63,7 @@ export default function SignupPage() {
     }
 
     // 이메일 인증이 켜져 있으면 session 이 없다. 그때는 안내만 하고 끝낸다.
-    if (!data.session) {
+    if (!data.hasSession) {
       setNotice("가입 확인 메일을 보냈습니다. 메일함을 확인해주세요.");
       setCaptchaResetKey((key) => key + 1);
       setIsSubmitting(false);

@@ -119,6 +119,7 @@ create table if not exists public.security_events (
   handled  boolean not null default false,
   ip_ciphertext text,       -- critical 사고 IP의 AES-256-GCM 암호문. 평문 저장 금지
   ip_expires_at timestamptz,
+  response_target_hash text check (response_target_hash is null or response_target_hash ~ '^[0-9a-f]{64}$'),
   constraint security_events_ip_forensics_consistency check (
     (ip_ciphertext is null and ip_expires_at is null)
     or (
@@ -152,6 +153,24 @@ create table if not exists public.login_attempt_limits (
   updated_at        timestamptz not null default now()
 );
 
+-- 악성 IP 차단 상태. 원본 IP는 저장하지 않고 해시와 Cloudflare 규칙 ID만 둔다.
+create table if not exists public.ip_blocklist (
+  id bigint generated always as identity primary key,
+  ip_hash text not null check (ip_hash ~ '^[0-9a-f]{32}$'),
+  source_event_id bigint references public.security_events(id) on delete set null,
+  status text not null default 'applying' check (status in ('applying', 'active', 'sync_error', 'released')),
+  is_active boolean not null default true,
+  block_type text not null check (block_type in ('manual', 'automatic')),
+  reason text not null check (char_length(reason) between 1 and 200),
+  cloudflare_rule_id text,
+  blocked_requests bigint not null default 0 check (blocked_requests >= 0),
+  blocked_by uuid references auth.users(id) on delete set null,
+  released_by uuid references auth.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  released_at timestamptz,
+  sync_error text
+);
+
 -- ────────────────────────────────────────────────────────────
 --  3. 인덱스
 --  대시보드는 "최신순 + 필터"가 기본 질의라 ts DESC 를 깔아둔다.
@@ -174,6 +193,8 @@ create index if not exists idx_sec_events_severity   on public.security_events (
 create index if not exists idx_sec_events_rule       on public.security_events (rule_id);
 create index if not exists idx_chat_logs_session     on public.chat_logs (session_id, ts);
 create index if not exists idx_login_limits_updated  on public.login_attempt_limits (updated_at);
+create unique index if not exists idx_ip_blocklist_one_active on public.ip_blocklist (ip_hash) where is_active;
+create index if not exists idx_ip_blocklist_created on public.ip_blocklist (created_at desc);
 
 -- ────────────────────────────────────────────────────────────
 --  4. 역할 조회 헬퍼
@@ -244,6 +265,17 @@ begin
   on conflict (id) do nothing;
   return new;
 end;
+$$;
+
+create or replace function public.increment_ip_block_count(p_block_id bigint)
+returns void
+language sql
+security definer
+set search_path = public
+as $$
+  update public.ip_blocklist
+  set blocked_requests = blocked_requests + 1
+  where id = p_block_id and is_active;
 $$;
 
 -- critical 사고 IP 암호문 자동 파기. DB에는 복호화 키가 없다.

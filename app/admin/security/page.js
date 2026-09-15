@@ -11,6 +11,8 @@ import {
 } from "@/lib/adminFormat";
 import { useAdminResource } from "../useAdminResource";
 import DashboardControls from "../DashboardControls";
+import TimeSeriesChart from "@/components/charts/TimeSeriesChart";
+import SecurityOperationsPanel from "./SecurityOperationsPanel";
 
 /**
  * 보안 대시보드 — 탐지 이벤트 타임라인 · 심각도별 건수 · 규칙별 히트.
@@ -212,6 +214,7 @@ function IpRevealDialog({ event, onClose, onRevealed }) {
 export default function SecurityDashboardPage() {
   const [severity, setSeverity] = useState("");
   const [category, setCategory] = useState("");
+  const [eventType, setEventType] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
@@ -230,11 +233,12 @@ export default function SecurityDashboardPage() {
     const query = buildQuery({
       severity,
       category,
+      eventType,
       from: startOfDayIso(from),
       to: endOfDayIso(to),
     });
     return `/api/admin/events?${query}`;
-  }, [severity, category, from, to]);
+  }, [severity, category, eventType, from, to]);
 
   const { isLoading, isRefreshing, error, loadedAt, autoRefresh, setAutoRefresh, refresh } =
     useAdminResource(url, {
@@ -254,8 +258,48 @@ export default function SecurityDashboardPage() {
 
   const byRule = summary?.byRule ?? [];
   const maxRuleCount = byRule[0]?.count ?? 0;
-  const hasFilter = Boolean(severity || category || from || to);
+  const hasFilter = Boolean(severity || category || eventType || from || to);
   const isAdmin = viewerRole === "admin";
+  const attackChart = useMemo(() => {
+    const now = new Date();
+    now.setMinutes(0, 0, 0);
+    const buckets = Array.from({ length: 12 }, (_, index) => new Date(now.getTime() - (11 - index) * 3600000));
+    const values = { critical: new Array(12).fill(0), warn: new Array(12).fill(0), info: new Array(12).fill(0) };
+    for (const event of events) {
+      if (event.eventType !== "attack") continue;
+      const index = Math.floor((new Date(event.ts).getTime() - buckets[0].getTime()) / 3600000);
+      if (index >= 0 && index < 12 && values[event.severity]) values[event.severity][index] += 1;
+    }
+    return {
+      labels: buckets.map((date) => `${String(date.getHours()).padStart(2, "0")}시`),
+      series: [
+        { name: "상", color: "var(--critical)", values: values.critical, area: true },
+        { name: "중", color: "var(--warn)", values: values.warn },
+        { name: "하", color: "var(--info)", values: values.info },
+      ],
+    };
+  }, [events]);
+
+  async function handleEventResponse(event, action) {
+    setActionError(null);
+    let body;
+    if (action === "block-ip") {
+      const reason = window.prompt("IP 차단 사유를 10~200자로 입력해 주세요.");
+      if (!reason) return;
+      body = JSON.stringify({ reason });
+    }
+    const response = await fetch(`/api/admin/events/${event.id}/${action}`, {
+      method: "POST",
+      headers: body ? { "Content-Type": "application/json" } : undefined,
+      body,
+    });
+    const data = await response.json().catch(() => null);
+    if (!response.ok || !data?.ok) {
+      setActionError(data?.error ?? "보안 대응을 적용하지 못했습니다.");
+      return;
+    }
+    refresh();
+  }
 
   async function handleToggleHandled(event) {
     const nextHandled = !event.handled;
@@ -335,6 +379,15 @@ export default function SecurityDashboardPage() {
         {/* 필터 */}
         <section className="mt-6 flex flex-wrap items-end gap-3 rounded-xl border border-border bg-card p-4">
           <label className="flex flex-col gap-1.5">
+            <span className="text-xs text-muted-foreground">공격 여부</span>
+            <select value={eventType} onChange={(e) => setEventType(e.target.value)} className="rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-brand">
+              <option value="">전체</option>
+              <option value="attack">공격</option>
+              <option value="non_attack">비공격</option>
+            </select>
+          </label>
+
+          <label className="flex flex-col gap-1.5">
             <span className="text-xs text-muted-foreground">심각도</span>
             <select
               value={severity}
@@ -392,6 +445,7 @@ export default function SecurityDashboardPage() {
               onClick={() => {
                 setSeverity("");
                 setCategory("");
+                setEventType("");
                 setFrom("");
                 setTo("");
               }}
@@ -408,6 +462,8 @@ export default function SecurityDashboardPage() {
           </p>
         )}
 
+        <SecurityOperationsPanel isAdmin={isAdmin} />
+
         {/* 심각도별 건수 */}
         <section className="mt-6">
           <div className="flex items-baseline justify-between gap-3">
@@ -418,12 +474,14 @@ export default function SecurityDashboardPage() {
             */}
             <p className="text-xs text-muted-foreground">
               최근 500건 기준
-              {(severity || category) && " · 심각도·분류 필터는 아래 목록에만 적용됩니다"}
+              {(severity || category || eventType) && " · 화면 필터는 아래 목록에만 적용됩니다"}
             </p>
           </div>
 
-          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7">
             <StatTile label="전체" value={summary?.total ?? "-"} />
+            <StatTile label="공격" value={summary?.byEventType?.attack ?? "-"} tone="text-critical" accent="border-l-critical" />
+            <StatTile label="비공격" value={summary?.byEventType?.non_attack ?? "-"} />
             {SEVERITY_ORDER.map((value) => (
               <StatTile
                 key={value}
@@ -441,6 +499,14 @@ export default function SecurityDashboardPage() {
           </div>
         </section>
 
+        <section className="mt-8 rounded-xl border border-border bg-card p-4">
+          <div className="flex items-baseline justify-between gap-3">
+            <h2 className="text-lg font-semibold">최근 12시간 공격 추이</h2>
+            <p className="text-xs text-muted-foreground">현재 목록에 포함된 공격 이벤트 기준</p>
+          </div>
+          <div className="mt-3"><TimeSeriesChart series={attackChart.series} labels={attackChart.labels} height={190} /></div>
+        </section>
+
         {/* 규칙별 히트 */}
         <section className="mt-8">
           <h2 className="text-lg font-semibold">규칙별 히트</h2>
@@ -452,24 +518,22 @@ export default function SecurityDashboardPage() {
               </p>
             ) : (
               <ul className="flex flex-col gap-3">
-                {byRule.map(({ ruleId, count }) => {
+                {byRule.map(({ ruleId, ruleName, severity: ruleSeverity, count }) => {
                   const width = maxRuleCount > 0 ? (count / maxRuleCount) * 100 : 0;
 
                   return (
                     <li key={ruleId} className="flex items-center gap-3">
-                      <span className="w-40 shrink-0 truncate font-mono text-xs" title={ruleId}>
-                        {ruleId}
+                      <span className={`w-52 shrink-0 truncate text-xs ${SEVERITY_META[ruleSeverity]?.text ?? "text-muted-foreground"}`} title={`${ruleName} (${ruleId})`}>
+                        <span className="font-medium">{ruleName}</span> <span className="font-mono opacity-70">{ruleId}</span>
                       </span>
 
                       {/*
-                        막대는 건수만 나타낸다. 규칙별 심각도는 summary 에 없어서
-                        이벤트 목록에서 끌어와야 하는데, 그 목록은 필터·100건 상한이
-                        걸려 있어 색이 규칙 전체를 대표하지 못한다.
-                        심각도는 아래 타임라인에서 이벤트별로 정확히 보여준다.
+                        막대 길이는 건수, 색은 단일 규칙 사전에 정의한 심각도다.
+                        이름·색·판정 기준이 서로 다른 파일에서 어긋나지 않게 한다.
                       */}
                       <span className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
                         <span
-                          className="block h-full rounded-full bg-brand/70"
+                          className={`block h-full rounded-full ${SEVERITY_META[ruleSeverity]?.bar ?? "bg-brand/70"}`}
                           style={{ width: `${width}%` }}
                         />
                       </span>
@@ -500,6 +564,7 @@ export default function SecurityDashboardPage() {
                   <th className="px-4 py-3 font-medium">시각</th>
                   <th className="px-4 py-3 font-medium">심각도</th>
                   <th className="px-4 py-3 font-medium">규칙</th>
+                  <th className="px-4 py-3 font-medium">공격 여부</th>
                   <th className="px-4 py-3 font-medium">분류</th>
                   <th className="px-4 py-3 font-medium">근거</th>
                   <th className="px-4 py-3 font-medium">IP</th>
@@ -511,7 +576,7 @@ export default function SecurityDashboardPage() {
                 {isLoading &&
                   Array.from({ length: 6 }).map((_, i) => (
                     <tr key={i} className="border-b border-border last:border-0">
-                      <td className="px-4 py-3" colSpan={7}>
+                      <td className="px-4 py-3" colSpan={8}>
                         <div className="h-4 w-full animate-pulse rounded bg-muted" />
                       </td>
                     </tr>
@@ -536,8 +601,15 @@ export default function SecurityDashboardPage() {
                         <td className="whitespace-nowrap px-4 py-3">
                           <SeverityBadge severity={event.severity} />
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">
-                          {event.ruleId}
+                        <td className={`whitespace-nowrap px-4 py-3 text-xs ${SEVERITY_META[event.severity]?.text ?? ""}`} title={`${event.criteria} / 대응: ${event.response}`}>
+                          <div className="font-medium">{event.ruleName}</div>
+                          <div className="font-mono opacity-70">{event.ruleId}</div>
+                          <div className="mt-1 max-w-56 whitespace-normal text-[11px] text-muted-foreground">{event.criteria}</div>
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3">
+                          <span className={`rounded-full px-2 py-0.5 text-xs ${event.eventType === "attack" ? "bg-critical/10 text-critical" : "bg-muted text-muted-foreground"}`}>
+                            {event.eventType === "attack" ? "공격" : "비공격"}
+                          </span>
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">
                           {CATEGORY_LABEL[event.category] ?? event.category}
@@ -585,6 +657,16 @@ export default function SecurityDashboardPage() {
                             >
                               {isPending ? "저장 중…" : event.handled ? "미처리로" : "처리 완료"}
                             </button>
+                            {event.canUnlockLogin && (
+                              <button type="button" onClick={() => handleEventResponse(event, "unlock-login")} className="rounded-md border border-brand/50 px-2 py-0.5 text-brand">
+                                로그인 잠금 해제
+                              </button>
+                            )}
+                            {isAdmin && hasIncidentIp(event) && (
+                              <button type="button" onClick={() => handleEventResponse(event, "block-ip")} className="rounded-md border border-critical/50 px-2 py-0.5 text-critical">
+                                IP 차단
+                              </button>
+                            )}
                           </div>
                         </td>
                       </tr>
@@ -593,7 +675,7 @@ export default function SecurityDashboardPage() {
 
                 {!isLoading && events.length === 0 && (
                   <tr>
-                    <td className="px-4 py-8 text-center text-sm text-muted-foreground" colSpan={7}>
+                    <td className="px-4 py-8 text-center text-sm text-muted-foreground" colSpan={8}>
                       조건에 맞는 이벤트가 없습니다.
                     </td>
                   </tr>
