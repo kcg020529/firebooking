@@ -30,6 +30,38 @@ function createGetCourse() {
   };
 }
 
+test("골프장 이름으로 슬롯을 조회한다", async () => {
+  const dependencies = createChatToolDependencies({
+    listCoursesFn: async () => COURSES,
+    getCourseFn: createGetCourse(),
+  });
+  const result = await dependencies.searchSlots({
+    courseName: COURSES[0].name,
+    date: "2026-09-16",
+    partySize: 2,
+  });
+  assert.deepEqual(result.slots.map(({ id }) => id), ["course-1-slot-1"]);
+});
+
+test("UUID가 아닌 courseId는 골프장 이름으로 안전하게 보정한다", async () => {
+  let invalidIdLookups = 0;
+  const baseGetCourse = createGetCourse();
+  const dependencies = createChatToolDependencies({
+    listCoursesFn: async () => COURSES,
+    getCourseFn: async (id, options) => {
+      if (id === COURSES[0].name) invalidIdLookups += 1;
+      return baseGetCourse(id, options);
+    },
+  });
+  const result = await dependencies.searchSlots({
+    courseId: COURSES[0].name,
+    date: "2026-09-16",
+    partySize: 2,
+  });
+  assert.equal(invalidIdLookups, 0);
+  assert.deepEqual(result.slots.map(({ id }) => id), ["course-1-slot-1"]);
+});
+
 test("날짜가 없으면 골프장 후보만 반환한다", async () => {
   const dependencies = createChatToolDependencies({
     listCoursesFn: async () => COURSES,

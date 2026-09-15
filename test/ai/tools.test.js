@@ -6,6 +6,24 @@ import {
   validateToolCall,
 } from "../../lib/ai/tools.js";
 
+test("search_slots는 골프장 이름 입력을 허용한다", () => {
+  assert.equal(validateToolCall("search_slots", {
+    courseName: "그린힐 컨트리클럽", date: "2026-09-16", partySize: 2,
+  }).ok, true);
+});
+
+test("명시적 동의가 없으면 예약 생성 함수를 호출하지 않는다", async () => {
+  let createCalls = 0;
+  const result = await executeToolCall(
+    { name: "create_booking", input: { slotId: "slot-1", name: "테스터", phone: "010-1111-1111", partySize: 2 } },
+    { createBooking: async () => { createCalls += 1; return { ok: true }; } },
+    { allowBookingCreation: false, knownSlotIds: new Set(["slot-1"]) },
+  );
+  assert.equal(result.ok, false);
+  assert.match(result.error, /명시적인 진행 동의/);
+  assert.equal(createCalls, 0);
+});
+
 test("알 수 없는 tool과 추가 인자를 거절한다", () => {
   assert.equal(validateToolCall("drop_database", {}).ok, false);
   assert.equal(

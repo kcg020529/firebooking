@@ -1,9 +1,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { createDeepSeekGenerator } from "../../lib/ai/deepseek.js";
+import { createDeepSeekGenerator, isExplicitBookingConfirmation } from "../../lib/ai/deepseek.js";
 
 const TEST_KEY = "sk-test-deepseek-key-123456789";
+
+test("다양한 짧은 진행 표현을 예약 동의로 인식한다", () => {
+  for (const value of ["네", "응", "ㅇㅇ", "오케이", "OK", "ㄱㄱ", "고고", "진행해줘", "해줘", "예약해줘", "그대로 해줘", "네 진행해주세요"]) {
+    assert.equal(isExplicitBookingConfirmation(value), true, value);
+  }
+  for (const value of ["ㅋㅋ", "안 해", "예약 취소", "2명으로 하면 7시 가능해?", "그린힐 0916 07:00 2명"]) {
+    assert.equal(isExplicitBookingConfirmation(value), false, value);
+  }
+});
 
 test("DeepSeek tool call을 서버에서 검증·실행하고 후속 응답을 받는다", async () => {
   const originalKey = process.env.DEEPSEEK_API_KEY;
