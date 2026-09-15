@@ -8,7 +8,7 @@ import {
   MEMO_MAX_LENGTH,
   MAX_ACTIVE_BOOKINGS_PER_PHONE,
 } from "../lib/bookingLimits.js";
-import { createBooking, lookupBookings, listMyBookings } from "../lib/bookings.js";
+import { cancelBooking, createBooking, lookupBookings, listMyBookings } from "../lib/bookings.js";
 import { isValidSlotId } from "../lib/slotId.js";
 import { getSlot } from "../lib/courses.js";
 import { createGetSlotHandler } from "../lib/slotHandler.js";
@@ -967,3 +967,33 @@ test(
     assert.equal(result, null);
   }
 );
+test("cancelBooking: authenticated owner cancellation uses the atomic RPC", async () => {
+  const client = createFakeBookingSupabase({
+    rpcHandler: (fnName, params) => {
+      assert.equal(fnName, "cancel_booking");
+      assert.deepEqual(params, {
+        p_booking_code: "GB-ABCDE",
+        p_user_id: "user-123",
+      });
+      return { data: "GB-ABCDE", error: null };
+    },
+  });
+
+  const result = await cancelBooking(" gb-abcde ", "user-123", { client });
+  assert.deepEqual(result, { ok: true, bookingCode: "GB-ABCDE" });
+});
+
+test("cancelBooking: unknown or unowned booking returns a generic failure", async () => {
+  assert.deepEqual(await cancelBooking("GB-ABCDE", null), {
+    ok: false,
+    error: "취소할 예약을 찾을 수 없습니다.",
+  });
+
+  const client = createFakeBookingSupabase({
+    rpcHandler: () => ({ data: null, error: null }),
+  });
+  assert.deepEqual(await cancelBooking("GB-ABCDE", "other-user", { client }), {
+    ok: false,
+    error: "취소할 예약을 찾을 수 없습니다.",
+  });
+});

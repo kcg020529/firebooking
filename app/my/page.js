@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAuthUser, getUserProfile } from "@/lib/auth";
 import { listMyBookings } from "@/lib/bookings";
 import { TYPE_LABEL } from "@/lib/courseType";
+import CancelBookingButton from "@/components/CancelBookingButton";
 
 /** 로그인 상태에 따라 내용이 달라지므로 캐시하지 않는다. */
 export const dynamic = "force-dynamic";
@@ -72,6 +73,7 @@ export default async function MyPage() {
                 {b.memo && (
                   <p className="mt-2 text-xs text-muted-foreground">메모: {b.memo}</p>
                 )}
+                <CancelBookingButton bookingCode={b.bookingCode} />
               </li>
             ))}
           </ul>
