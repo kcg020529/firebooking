@@ -7,8 +7,10 @@ import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { hashIp } from '@/lib/security/hash';
 import {
   createLoginLimitKey,
+  createLoginLockedMessage,
   finishLoginAttempt,
   isCredentialFailure,
+  LOGIN_LOCK_SECONDS,
   recordLoginLock,
   reserveLoginAttempt,
 } from '@/lib/security/loginProtection';
@@ -19,7 +21,6 @@ import {
 } from '@/lib/security/sessionTimeout';
 
 const INVALID_CREDENTIALS_MESSAGE = '이메일 또는 비밀번호가 올바르지 않습니다.';
-const LOCKED_MESSAGE = '로그인 시도가 너무 많습니다. 15분 후 다시 시도해 주세요.';
 
 function jsonError(error, status, headers) {
   return NextResponse.json({ ok: false, error }, { status, headers });
@@ -64,7 +65,9 @@ export const POST = withApiLog(async (request, { networkContext }) => {
 
     const retryAfter = Math.max(1, Number(reservation.retryAfterSeconds) || 1);
     return jsonError(
-      reservation.reason === 'locked' ? LOCKED_MESSAGE : '로그인 처리 중입니다. 잠시 후 다시 시도해 주세요.',
+      reservation.reason === 'locked'
+        ? createLoginLockedMessage(retryAfter)
+        : '로그인 처리 중입니다. 잠시 후 다시 시도해 주세요.',
       429,
       { 'Retry-After': String(retryAfter) }
     );
@@ -99,8 +102,9 @@ export const POST = withApiLog(async (request, { networkContext }) => {
       await recordLoginLock({ ipHash, networkContext }).catch((error) => {
         console.error('[auth.login] 로그인 잠금 이벤트 기록 실패:', error);
       });
-      return jsonError(LOCKED_MESSAGE, 429, {
-        'Retry-After': String(result.retryAfterSeconds ?? 900),
+      const lockSeconds = result.retryAfterSeconds ?? LOGIN_LOCK_SECONDS;
+      return jsonError(createLoginLockedMessage(lockSeconds), 429, {
+        'Retry-After': String(lockSeconds),
       });
     }
 

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import {
   createLoginLimitKey,
+  createLoginLockedMessage,
   finishLoginAttempt,
   isCredentialFailure,
   LOGIN_MAX_ATTEMPTS,
@@ -53,6 +54,14 @@ test('로그인 시도 예약과 확정은 고정된 보안 임계값으로 RPC�
   assert.equal(result.locked, true);
   assert.equal(calls[0].params.p_max_attempts, LOGIN_MAX_ATTEMPTS);
   assert.equal(calls[1].params.p_outcome, 'failure');
+});
+
+test('잠금 안내 문구는 실제 남은 시간을 분 단위로 올림해 보여준다', () => {
+  assert.equal(createLoginLockedMessage(900), '로그인 시도가 너무 많습니다. 15분 후 다시 시도해 주세요.');
+  assert.equal(createLoginLockedMessage(541), '로그인 시도가 너무 많습니다. 10분 후 다시 시도해 주세요.');
+  assert.equal(createLoginLockedMessage(1), '로그인 시도가 너무 많습니다. 1분 후 다시 시도해 주세요.');
+  // 남은 시간을 알 수 없으면 기본 잠금 시간으로 안내한다.
+  assert.equal(createLoginLockedMessage(undefined), '로그인 시도가 너무 많습니다. 15분 후 다시 시도해 주세요.');
 });
 
 test('잘못된 비밀번호만 실패 횟수로 세고 공급자 장애는 제외한다', () => {
