@@ -69,6 +69,9 @@ export default function ChatWidget() {
         content: data.ok
           ? data.reply
           : data.error || "응답을 받지 못했어요. 잠시 후 다시 시도해 주세요.",
+        ...(data.ok && data.replySignature
+          ? { signature: data.replySignature }
+          : {}),
       };
       setMessages((current) => [...current, assistantMessage].slice(-20));
       setQuickReplies(

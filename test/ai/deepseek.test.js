@@ -196,7 +196,7 @@ test("DeepSeek 요청 시 주입된 시계 기준 KST 시스템 프롬프트가 
     assert.ok(systemMessage, "시스템 메시지가 존재해야 합니다");
     assert.ok(systemMessage.content.includes("오늘은 2026-09-04 (Asia/Seoul/KST)입니다."));
     assert.ok(systemMessage.content.includes("9월 5일처럼 연도가 없는 날짜는 이 기준으로 해석합니다."));
-    assert.ok(systemMessage.content.includes("예약 가능 범위는 2026-09-05 ~ 2026-09-18입니다."));
+    assert.ok(systemMessage.content.includes("예약 가능 범위는 2026-09-05 ~ 2026-09-19입니다."));
     assert.ok(
       systemMessage.content.includes(
         "사용자가 날짜를 명시했으면 search_slots tool에는 반드시 YYYY-MM-DD 형식의 date를 넣으세요.",
