@@ -73,7 +73,11 @@ export default function ChatWidget() {
           ? { signature: data.replySignature }
           : {}),
       };
-      setMessages((current) => [...current, assistantMessage].slice(-20));
+      setMessages((current) =>
+        data.ok && data.resetContext
+          ? [assistantMessage]
+          : [...current, assistantMessage].slice(-20),
+      );
       setQuickReplies(
         data.ok && Array.isArray(data.quickReplies)
           ? data.quickReplies.slice(0, 4)
