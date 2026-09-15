@@ -196,9 +196,13 @@ IP 기반 요청 제한·로그인 잠금·이상 탐지가 모두 이 값에 �
 - 같은 이메일·IP 조합에서 15분 동안 비밀번호가 5회 틀리면 15분 잠근다. 이메일과 IP 원문은 저장하지 않고 HMAC 키만 저장한다.
 - 정상 로그인은 실패 횟수를 초기화한다. 공급자 장애나 429는 비밀번호 실패로 세지 않아 장애가 계정 잠금으로 번지지 않게 한다.
 - `/my`, `/admin`과 서버 권한 검사는 서명된 HttpOnly 쿠키로 30분 비활성 타임아웃을 강제한다. 보호 화면을 사용할 때만 활동 시간이 갱신된다.
-- CAPTCHA는 Supabase Auth의 hCaptcha 또는 Cloudflare Turnstile 보호를 켜고 로그인 요청에 `captchaToken`을 전달해야 한다. 공급자 설정 전에는 UI만 추가하지 않는다.
+- CAPTCHA는 Cloudflare Turnstile을 Supabase Auth 내장 보호로 쓴다. 가입 화면은 `signUp`에, 로그인 화면은 `/api/auth/login`을 거쳐 `signInWithPassword`에 `captchaToken`을 넘긴다. 토큰 검증은 Supabase가 한다.
+- 사이트키(`NEXT_PUBLIC_TURNSTILE_SITE_KEY`)가 없으면 위젯을 그리지 않는다. 시크릿키는 Supabase Dashboard에만 둔다.
+- CAPTCHA 실패(`captcha_failed`)는 비밀번호 실패로 세지 않는다. 토큰은 1회용이라 제출이 실패하면 위젯을 초기화한다.
 
-> 한계: 앱의 5회 제한은 우리 `/api/auth/login` 경로를 보호한다. 공개 Supabase Auth URL을 직접 호출하는 자동화까지 막으려면 Supabase Dashboard의 CAPTCHA와 Auth rate limit을 함께 켜야 한다.
+> 한계: 앱의 5회 제한은 우리 `/api/auth/login` 경로만 보호한다. 가입은 브라우저가 Supabase Auth를 직접 호출하므로 우리 요청 제한·감사 기록을 거치지 않는다. 공개 Supabase Auth URL을 직접 호출하는 자동화는 Supabase Dashboard의 CAPTCHA와 Auth rate limit이 막는다.
+>
+> 배포 순서: 코드와 사이트키를 먼저 배포하고, 그다음 Supabase에서 CAPTCHA를 켠다. 반대로 하면 켜는 순간 가입·로그인이 전부 실패한다.
 
 ---
 
