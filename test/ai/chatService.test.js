@@ -104,6 +104,29 @@ test("잘못된 012 휴대전화 번호는 LLM 호출 전에 차단하고 로그
   assert.ok(calls.chats[0].content.includes("012-****-2321"));
 });
 
+test("예약 확인 뒤 웃음은 동의로 처리하거나 확인 내용을 반복하지 않는다", async () => {
+  const previousSecret = process.env.IP_HASH_SALT;
+  process.env.IP_HASH_SALT = "test-chat-reply-secret";
+  try {
+    const { service, calls } = createHarness();
+    const confirmation = "그린힐 08:30 2명으로 예약할까요?";
+    const result = await service({
+      sessionId: SESSION_ID,
+      messages: [
+        { role: "assistant", content: confirmation, signature: (await import("../../lib/security/chatGuard.js")).signAssistantReply(SESSION_ID, confirmation) },
+        { role: "user", content: "ㅋㅋ" },
+      ],
+    });
+    assert.equal(calls.generate, 0);
+    assert.equal(result.bookingCode, undefined);
+    assert.doesNotMatch(result.reply, /이대로 예약할까요/);
+    assert.deepEqual(result.quickReplies, ["예약 진행", "예약 취소"]);
+  } finally {
+    if (previousSecret === undefined) delete process.env.IP_HASH_SALT;
+    else process.env.IP_HASH_SALT = previousSecret;
+  }
+});
+
 test("LLM 출력의 비밀을 차단하고 LEAK_SECRET 이벤트를 기록한다", async () => {
   const { service, calls } = createHarness("내부 키 sk-ant-secret-value");
   const result = await service({
