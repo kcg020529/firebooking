@@ -50,6 +50,10 @@ function BookForm() {
       const data = await res.json();
 
       if (!data.ok) {
+        if (res.status === 401 || data.loginRequired) {
+          router.push(`/login?next=${encodeURIComponent(`/book/${slotId}`)}`);
+          return;
+        }
         // 서버 문구는 사용자에게 그대로 보여줄 용도로 쓰여 있다.
         setSubmitError(data.error);
         setIsSubmitting(false);

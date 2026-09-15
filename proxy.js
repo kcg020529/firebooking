@@ -70,6 +70,7 @@ export default async function proxy(request) {
 
         const loginUrl = new URL('/login', request.url);
         loginUrl.searchParams.set('reason', 'session_expired');
+        loginUrl.searchParams.set('next', path);
         response = NextResponse.redirect(loginUrl);
         cookiesToSet.forEach(({ name, value, options }) =>
           response.cookies.set(name, value, options)
@@ -87,8 +88,10 @@ export default async function proxy(request) {
         createSessionTimeoutToken(user.id),
         getSessionTimeoutCookieOptions()
       );
-    } else if (cookiesToSet.length > 0) {
-      response = NextResponse.next({ request: { headers: requestHeaders } });
+    } else {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('next', path);
+      response = NextResponse.redirect(loginUrl);
       cookiesToSet.forEach(({ name, value, options }) =>
         response.cookies.set(name, value, options)
       );

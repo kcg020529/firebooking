@@ -34,6 +34,13 @@ export const POST = withApiLog(async (request, { getUser, getUserId, networkCont
   const userId = await getUserId();
   const ipHash = hashIp(networkContext.ip);
 
+  if (!userId) {
+    return NextResponse.json(
+      { ok: false, error: '예약하려면 로그인이 필요합니다.', loginRequired: true },
+      { status: 401 }
+    );
+  }
+
   // 슬롯 선점 차단: 같은 IP 가 짧은 시간에 예약을 쓸어담으면 여기서 막는다.
   // createBooking 에 닿기 전에 끊어야 슬롯이 실제로 잡히지 않는다.
   const scalp = await checkBookingScalp({ ipHash, actorId: userId, networkContext });
