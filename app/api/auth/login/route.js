@@ -6,6 +6,11 @@ import { withApiLog } from '@/lib/security/apiLog';
 import { recordAudit, AUDIT_ACTIONS } from '@/lib/security/audit';
 import { hashIp } from '@/lib/security/hash';
 import {
+  CAPTCHA_FAILED_MESSAGE,
+  isCaptchaFailure,
+  normalizeCaptchaToken,
+} from '@/lib/security/captcha';
+import {
   createLoginLimitKey,
   finishLoginAttempt,
   isCredentialFailure,
@@ -72,9 +77,12 @@ export const POST = withApiLog(async (request, { networkContext }) => {
 
   const cookieStore = await cookies();
   const supabase = createAuthServerClient(cookieStore);
+  // Supabase 에서 CAPTCHA 를 켜면 토큰 검증은 Supabase 가 한다. 토큰이 없거나 틀리면 captcha_failed.
+  const captchaToken = normalizeCaptchaToken(body?.captchaToken);
   const { data, error: signInError } = await supabase.auth.signInWithPassword({
     email,
     password,
+    ...(captchaToken ? { options: { captchaToken } } : {}),
   });
 
   if (signInError || !data.user) {
@@ -102,6 +110,11 @@ export const POST = withApiLog(async (request, { networkContext }) => {
       return jsonError(LOCKED_MESSAGE, 429, {
         'Retry-After': String(result.retryAfterSeconds ?? 900),
       });
+    }
+
+    // CAPTCHA 실패는 비밀번호를 확인하기 전 단계라 실패 횟수로 세지 않는다(outcome = cancelled).
+    if (isCaptchaFailure(signInError)) {
+      return jsonError(CAPTCHA_FAILED_MESSAGE, 400);
     }
 
     if (!isCredentialFailure(signInError)) {

@@ -3,6 +3,8 @@
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import TurnstileWidget, { TURNSTILE_SITE_KEY } from "@/components/TurnstileWidget";
+import { CAPTCHA_REQUIRED_MESSAGE } from "@/lib/security/captcha";
 
 function LoginForm() {
   const searchParams = useSearchParams();
@@ -10,6 +12,8 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaResetKey, setCaptchaResetKey] = useState(0);
 
   const sessionExpired = searchParams.get("reason") === "session_expired";
   const requestedNext = searchParams.get("next");
@@ -20,6 +24,12 @@ function LoginForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
+
+    if (TURNSTILE_SITE_KEY && !captchaToken) {
+      setError(CAPTCHA_REQUIRED_MESSAGE);
+      return;
+    }
+
     setIsSubmitting(true);
 
     let response;
@@ -27,7 +37,7 @@ function LoginForm() {
       response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, captchaToken }),
       });
     } catch {
       setError("로그인 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.");
@@ -41,6 +51,8 @@ function LoginForm() {
         ? ` (남은 시도 ${data.remainingAttempts}회)`
         : "";
       setError(`${data?.error ?? "로그인에 실패했습니다."}${remaining}`);
+      // CAPTCHA 토큰은 1회용이라 실패한 뒤에는 새로 받아야 한다.
+      setCaptchaResetKey((key) => key + 1);
       setIsSubmitting(false);
       return;
     }
@@ -81,6 +93,8 @@ function LoginForm() {
               className="rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-brand"
             />
           </label>
+
+          <TurnstileWidget resetKey={captchaResetKey} onToken={setCaptchaToken} />
 
           {(error || sessionExpired) && (
             <p role="alert" className="text-sm text-critical">
