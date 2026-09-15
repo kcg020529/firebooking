@@ -5,6 +5,10 @@ import { recordUnauthorizedAdminAccess, recordAdminAccess } from "../../lib/secu
 import { isProtectedPagePath } from "../../lib/security/authPaths.js";
 import { decryptIncidentIp } from "../../lib/security/hash.js";
 
+test("예약 작성 화면은 인증 보호 경로다", () => {
+  assert.equal(isProtectedPagePath("/book/slot-id"), true);
+});
+
 /**
  * 테스트용 가짜 Supabase 클라이언트 팩토리.
  * 테이블별 insert 호출 인자를 캡처한다.

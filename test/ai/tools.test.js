@@ -24,6 +24,19 @@ test("명시적 동의가 없으면 예약 생성 함수를 호출하지 않는�
   assert.equal(createCalls, 0);
 });
 
+test("비로그인 사용자의 예약 생성은 서버에서 차단한다", async () => {
+  let createCalls = 0;
+  const result = await executeToolCall(
+    { name: "create_booking", input: { slotId: "slot-1", name: "테스터", phone: "010-1111-1111", partySize: 2 } },
+    { createBooking: async () => { createCalls += 1; return { ok: true }; } },
+    { actorId: null, allowBookingCreation: true, knownSlotIds: new Set(["slot-1"]) },
+  );
+  assert.equal(result.ok, false);
+  assert.equal(result.loginRequired, true);
+  assert.match(result.error, /로그인/);
+  assert.equal(createCalls, 0);
+});
+
 test("알 수 없는 tool과 추가 인자를 거절한다", () => {
   assert.equal(validateToolCall("drop_database", {}).ok, false);
   assert.equal(

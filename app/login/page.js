@@ -12,6 +12,10 @@ function LoginForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sessionExpired = searchParams.get("reason") === "session_expired";
+  const requestedNext = searchParams.get("next");
+  const nextPath = requestedNext?.startsWith("/") && !requestedNext.startsWith("//")
+    ? requestedNext
+    : "/my";
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -42,7 +46,7 @@ function LoginForm() {
     }
 
     // 새 문서 요청으로 이동해야 보호 페이지와 헤더가 같은 최신 쿠키를 읽는다.
-    window.location.replace("/my");
+    window.location.replace(nextPath);
   }
 
   return (
