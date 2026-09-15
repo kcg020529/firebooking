@@ -26,14 +26,12 @@ test('sanitizeEvidence: 빈 값이거나 비문자열이면 기본 안내 문구
   assert.equal(sanitizeEvidence(123), '(상세 증거 없음)');
 });
 
-test('sanitizeEvidence: PII(전화번호, 주민번호, 카드번호, 이메일, 이름)를 철저히 마스킹한다', () => {
-  const raw = '이름은 홍길동, 연락처 010-1234-5678 chulsoo@example.com 900101-1234567 1234-5678-9012-3456';
+test('sanitizeEvidence: 서비스가 수집하는 PII(전화번호, 이메일, 이름)를 철저히 마스킹한다', () => {
+  const raw = '이름은 홍길동, 연락처 010-1234-5678 chulsoo@example.com';
   const sanitized = sanitizeEvidence(raw);
 
   assert.equal(sanitized.includes('010-1234-5678'), false, '전화번호 노출 금지');
   assert.equal(sanitized.includes('chulsoo@example.com'), false, '이메일 노출 금지');
-  assert.equal(sanitized.includes('900101-1234567'), false, '주민번호 노출 금지');
-  assert.equal(sanitized.includes('1234-5678-9012-3456'), false, '카드번호 노출 금지');
   assert.equal(sanitized.includes('홍길동'), false, '이름 노출 금지');
   assert.ok(sanitized.includes('홍*동'), '이름 마스킹 확인');
 });

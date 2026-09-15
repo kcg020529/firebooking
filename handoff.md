@@ -7,7 +7,7 @@
 - **보안 및 비밀 격리**:
   - Discord Webhook URL은 소스 코드, 테스트 코드, 커밋 로그, 문서에 절대 직접 하드코딩하거나 출력하지 않습니다.
   - 서버 전용 환경변수 DISCORD_SECURITY_WEBHOOK_URL에서만 읽으며, NEXT_PUBLIC_ 접두사를 절대 사용하지 않습니다.
-  - 전송 증거(Evidence)에서 PII(이름, 전화번호, 이메일, 주민번호, 카드번호) 및 비밀값(JWT, DeepSeek 키, API 키, Webhook URL, Bearer 토큰)을 자동 마스킹([REDACTED_*]) 처리합니다.
+  - 전송 증거(Evidence)에서 서비스 PII(이름, 전화번호, 이메일) 및 비밀값(JWT, DeepSeek 키, API 키, Webhook URL, Bearer 토큰)을 자동 마스킹([REDACTED_*]) 처리합니다.
   - IP 주소(ip_hash 포함), ctor_id, 사용자 인증 토큰, 쿠키, 요청 본문 원문은 Discord 페이로드에 절대 포함하지 않습니다.
   - 증거 문자열은 최대 200자로 안전하게 절단됩니다.
 - **중복 전송 억제 (Deduplication)**:

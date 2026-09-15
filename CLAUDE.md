@@ -18,7 +18,7 @@
 
 1. **`createBooking()` 단일 진입점** — 수동 폼과 챗봇이 `lib/bookings.js`의 같은 함수를 쓴다. 예약 생성 로직을 두 벌 만들지 않는다.
 2. **챗봇은 DB를 직접 건드리지 않는다** — 서버가 제공하는 tool만 호출하고, 검증·저장은 전부 서버가 한다.
-3. **키는 서버에만** — `DEEPSEEK_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SECURITY_IP_ENCRYPTION_KEY`, `CLOUDFLARE_ORIGIN_SECRET`에 `NEXT_PUBLIC_` 접두사를 붙이지 않는다.
+3. **키는 서버에만** — `DEEPSEEK_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SECURITY_IP_ENCRYPTION_KEY`, `CLOUDFLARE_ORIGIN_SECRET`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ZONE_ID`에 `NEXT_PUBLIC_` 접두사를 붙이지 않는다.
 4. **로그에 원문 PII 금지** — 예약 PII 원문은 `bookings`에만 저장한다. 예외적으로 critical 사고 IP는 `security_events`에 AES-256-GCM 암호문으로 30일만 보관하며, 제한된 Discord 채널에는 사고 알림 시 원본 IP를 표시한다. 일반 로그와 증거에는 해시·마스킹본만 둔다.
 5. **보안 로직은 `lib/security/`에만** — 라우트에 정규식을 흩뿌리지 않는다.
 6. **DB는 snake_case, JS는 camelCase** — 변환은 `lib/` 안의 DB 접근 함수에서 한 번만.
@@ -37,9 +37,14 @@
 | POST | `/api/bookings` | `{ slotId, name, phone, partySize, memo, source }` | `{ ok, bookingCode }` |
 | GET | `/api/bookings/lookup` | `?code=` **+** `?phone=` (둘 다 필수) | `{ ok, bookings: [{ bookingCode, courseName, courseType, date, time, partySize, memo }] }` |
 | POST | `/api/chat` | `{ sessionId, messages: [...] }` (assistant 메시지는 서버가 준 `signature` 필수) | `{ reply, replySignature?, quickReplies?, bookingCode? }` |
+| POST | `/api/auth/signup` | `{ email, password, displayName, captchaToken }` | `{ ok, hasSession }` |
 | GET | `/api/admin/events` | `?severity=&category=&from=&to=` | `[{ id, ts, ruleId, category, severity, evidence }]` |
 | PATCH | `/api/admin/events/:id` | `{ handled }` (staff·admin) | `{ ok, event: { id, handled } }` |
 | POST | `/api/admin/events/:id/ip` | `{ reason }` (admin 전용) | `{ ok, ip, expiresAt }` |
+| POST | `/api/admin/events/:id/block-ip` | `{ reason }` (admin 전용) | `{ ok, block }` |
+| POST | `/api/admin/events/:id/unlock-login` | | `{ ok }` |
+| GET | `/api/admin/blocks` | | `{ ok, blocks, cloudflareConfigured }` |
+| DELETE | `/api/admin/blocks/:id` | | `{ ok, block }` |
 | GET | `/api/admin/audit` | `?actorId=&from=&to=` | `[{ id, ts, actorId, action, result }]` |
 
 `source`는 `'form'` 또는 `'chat'`. 발표용 통계에 쓰이므로 반드시 채운다.
@@ -54,7 +59,7 @@
 
 ## DB 스키마
 
-서비스 3 + 보안 6 = 9 테이블. 전문은 `supabase/schema.sql`.
+모든 서비스·보안 테이블의 전문은 `supabase/schema.sql`과 `supabase/migrations/`에 둔다.
 
 ```
 courses          id, name, type('field'|'screen'), region, address, phone, image_url, description
@@ -68,13 +73,17 @@ audit_logs       id, ts, actor_id, actor_role, action, target_type, target_id,
                  result('allow'|'deny'), ip_hash, reason
 security_events  id, ts, rule_id, category('pii'|'injection'|'anomaly'|'authz'|'leak'),
                  severity('info'|'warn'|'critical'), actor_id, ip_hash, evidence, handled,
-                 ip_ciphertext, ip_expires_at       ★ critical IP만 암호화해 30일 보관
+                 ip_ciphertext, ip_expires_at, response_target_hash
+                 ★ critical IP만 암호화해 30일 보관, 대응 대상은 HMAC만 저장
 chat_logs        id, ts, session_id, role, content_masked, pii_hits    ★ 원문 저장 금지
 login_attempt_limits key_hash, failed_attempts, pending_attempts, window_started_at,
                      locked_until, updated_at             ★ 이메일·IP 원문 저장 금지
+ip_blocklist     id, ip_hash, source_event_id, status, is_active, block_type, reason,
+                 cloudflare_rule_id, blocked_requests, blocked_by, released_by
+                 ★ 원본 IP 저장 금지, 브라우저 직접 접근 금지
 ```
 
-**9개 테이블 전부 RLS를 켠다.** 클라이언트는 `courses`·`slots`만 읽기 허용, 나머지는 서버(`SERVICE_ROLE_KEY`) 경유. 보안 테이블 조회 정책은 `role in ('staff','admin')`. `login_attempt_limits`는 정책을 만들지 않아 브라우저 접근을 전부 막는다.
+**모든 테이블에 RLS를 켠다.** 클라이언트는 `courses`·`slots`만 읽기 허용, 나머지는 서버(`SERVICE_ROLE_KEY`) 경유. 보안 테이블 조회 정책은 `role in ('staff','admin')`. `login_attempt_limits`와 `ip_blocklist`는 정책을 만들지 않아 브라우저 접근을 전부 막는다.
 
 `security_events.ip_ciphertext`는 일반 Data API 조회 권한에서 제외한다. 복호화는 `/api/admin/events/:id/ip` 한 경로에서만 수행하며, admin 역할·10~200자 조회 사유·`security.ip.reveal` 감사 기록을 요구한다. 만료된 암호문은 Supabase Cron이 매일 파기한다.
 
@@ -85,10 +94,10 @@ login_attempt_limits key_hash, failed_attempts, pending_attempts, window_started
 새 규칙을 만들면 이 목록에 추가한다. `severity`는 `info` / `warn` / `critical` 셋뿐.
 
 ```
-PII_PHONE      PII_RRN       PII_CARD      PII_EMAIL     PII_NAME
+PII_PHONE      PII_EMAIL     PII_NAME
 INJ_IGNORE     INJ_IGNORE_EN INJ_SYSPROMPT INJ_ROLE      INJ_TOOL   INJ_SQL   INJ_XSS
 ANO_SCALP      ANO_LOOKUP_BF ANO_CODE_ENUM ANO_RATE     ANO_LOGIN_BF
-ANO_ADMIN_PROBE
+ANO_ADMIN_PROBE ANO_ADMIN_BF
 AUTHZ_ADMIN
 LEAK_SECRET
 ```

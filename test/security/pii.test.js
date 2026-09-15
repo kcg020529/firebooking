@@ -17,19 +17,14 @@ test("전화번호를 정규화된 마스킹 형태로 바꾼다", () => {
   ]);
 });
 
-test("주민번호와 카드번호 원문을 모두 제거한다", () => {
+test("사용하지 않는 주민번호와 카드번호는 PII 규칙으로 분류하지 않는다", () => {
   const result = detectAndMaskPii(
     "주민번호 900101-1234567, 카드 1234 5678 9012 3456",
   );
 
-  assert.equal(
-    result.maskedText,
-    "주민번호 ******-*******, 카드 ****-****-****-3456",
-  );
-  assert.equal(result.maskedText.includes("900101"), false);
-  assert.equal(result.maskedText.includes("1234 5678"), false);
-  assert.ok(result.hits.some((h) => h.ruleId === "PII_RRN" && h.severity === "warn"));
-  assert.ok(result.hits.some((h) => h.ruleId === "PII_CARD" && h.severity === "warn"));
+  assert.equal(result.maskedText, "주민번호 900101-1234567, 카드 1234 5678 9012 3456");
+  assert.equal(result.hits.some((h) => h.ruleId === "PII_RRN"), false);
+  assert.equal(result.hits.some((h) => h.ruleId === "PII_CARD"), false);
 });
 
 test("이메일과 문맥으로 확인된 이름을 마스킹한다", () => {
@@ -118,13 +113,11 @@ test("더 긴 숫자와 날짜형 식별자를 전화번호로 부분 탐지하�
   }
 });
 
-test("16자리 카드번호는 주민번호가 아니라 카드로 한 번만 분류한다", () => {
+test("16자리 숫자는 사용하지 않는 카드 규칙으로 분류하지 않는다", () => {
   const result = detectAndMaskPii("4111111111111111");
 
-  assert.equal(result.maskedText, "****-****-****-1111");
-  assert.deepEqual(result.hits, [
-    { ruleId: "PII_CARD", severity: "warn", count: 1 },
-  ]);
+  assert.equal(result.maskedText, "4111111111111111");
+  assert.deepEqual(result.hits, []);
 });
 
 test("문맥 없는 단독 이름과 예약 문맥의 다양한 이름을 탐지한다", () => {

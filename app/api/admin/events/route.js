@@ -7,6 +7,7 @@ import { isDiscordAlertConfigured } from '@/lib/security/discordAlert';
 
 const VALID_SEVERITY = ['info', 'warn', 'critical'];
 const VALID_CATEGORY = ['pii', 'injection', 'anomaly', 'authz', 'leak'];
+const VALID_EVENT_TYPE = ['attack', 'non_attack'];
 
 /**
  * GET /api/admin/events?severity=critical&category=authz&from=&to=&limit=
@@ -24,6 +25,7 @@ export const GET = withApiLog(async (request, { getUser }) => {
   const params = new URL(request.url).searchParams;
   const severity = params.get('severity');
   const category = params.get('category');
+  const eventType = params.get('eventType');
 
   if (severity && !VALID_SEVERITY.includes(severity)) {
     return NextResponse.json(
@@ -37,10 +39,14 @@ export const GET = withApiLog(async (request, { getUser }) => {
       { status: 400 }
     );
   }
+  if (eventType && !VALID_EVENT_TYPE.includes(eventType)) {
+    return NextResponse.json({ ok: false, error: '공격 분류가 올바르지 않습니다.' }, { status: 400 });
+  }
 
   const filters = {
     severity: severity ?? undefined,
     category: category ?? undefined,
+    eventType: eventType ?? undefined,
     from: params.get('from') ?? undefined,
     to: params.get('to') ?? undefined,
     limit: params.get('limit') ?? undefined,

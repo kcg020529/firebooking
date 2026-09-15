@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Firebooking 보안 데이터 흐름</title>
+    <!-- 오프라인이면 Malgun Gothic 으로 대체된다 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#presentation-content">장면 설명으로 건너뛰기</a>
+    <header class="presentation-progress" aria-label="발표 진행 상태">
+      <p id="current-chapter" aria-live="polite">01 — 프로젝트 개요</p>
+      <div class="progress-track" aria-hidden="true"><div id="progress-bar"></div></div>
+      <span class="brand" aria-hidden="true">Firebooking · 보안 데이터 흐름</span>
+    </header>
+    <p class="keyboard-hint" aria-hidden="true"><kbd>↓</kbd> 스크롤 &nbsp;·&nbsp; <kbd>←</kbd><kbd>→</kbd> 단계 이동</p>
+    <main id="presentation-content">
+      <noscript><p class="no-script-note">JavaScript 없이도 아래의 일곱 발표 장면 설명을 모두 읽을 수 있습니다.</p></noscript>
+      <div id="presentation-stage" class="visual-stage" aria-label="Firebooking 보안 데이터 흐름">
+        <section class="browser-panel" aria-label="서비스 화면">
+          <div class="browser-frame">
+            <img id="screen-image" alt="현재 Firebooking 서비스 장면" hidden aria-hidden="true">
+            <div id="screen-fallback" role="img" aria-label="프로젝트 개요 설명 화면" aria-hidden="false">
+              <article class="fallback-screen intro-screen is-active" data-fallback-scene="overview" aria-hidden="false">
+                <p class="intro-kicker">firebooking.online</p>
+                <h2>필드·스크린 골프 예약 서비스와<br>그 위에 얹은 네 가지 보안 장치</h2>
+                <ol class="axis-list">
+                  <li><em>S1</em><b>개인정보 마스킹</b><span>로그에는 이*훈, 010-****-5678만 남는다</span></li>
+                  <li><em>S2</em><b>프롬프트 인젝션 차단</b><span>공격 문장은 LLM 호출 전에 막는다</span></li>
+                  <li><em>S3</em><b>API 모니터링</b><span>요청량·에러율·응답시간과 이상 행위 탐지</span></li>
+                  <li><em>S4</em><b>접근 감사</b><span>누가 무엇을 했고 허용됐는지 기록</span></li>
+                </ol>
+                <p class="intro-stack">Next.js App Router · Supabase(Postgres + RLS) · Vercel · DeepSeek</p>
+              </article>
+              <article class="fallback-screen missing-screen" data-fallback-scene="missing" hidden aria-hidden="true">
+                <p>스크린샷을 불러오지 못했습니다.<br><small>presentation/src 폴더의 파일명을 확인하세요.</small></p>
+              </article>
+            </div>
+          </div>
+          <p id="screen-caption" aria-live="polite"></p>
+          <div class="scene-copy" aria-live="polite">
+            <p id="scene-eyebrow">01 — 프로젝트 개요</p>
+            <h1 id="scene-title">골프 예약 서비스의 모든 요청은 보안 경계를 지난다</h1>
+            <p id="scene-summary">Firebooking은 필드·스크린 골프 예약 서비스입니다. 예약 기능 위에 개인정보 마스킹, 프롬프트 인젝션 차단, API 모니터링, 접근 감사를 겹쳐 두었습니다.</p>
+            <code id="scene-rule">PII 마스킹 · 인젝션 탐지 · API 모니터링 · 접근 감사</code>
+          </div>
+        </section>
+        <section class="flow-panel" aria-label="보안 데이터 흐름도">
+          <div class="flow-canvas">
+          <div class="graph-stage">
+          <svg id="flow-graph" viewBox="0 0 900 720" role="img" aria-labelledby="flow-graph-title flow-graph-description">
+            <title id="flow-graph-title">Firebooking 보안 데이터 흐름</title>
+            <desc id="flow-graph-description">브라우저 요청이 API, 보안 검사, 도메인 서비스와 데이터베이스를 거쳐 네 종류의 로그와 관리자 조사 경계에 연결되는 구조입니다.</desc>
+            <g class="graph-edges" fill="none" stroke="currentColor">
+              <path id="browser-to-api" data-edge="browser-to-api" data-from="browser" data-to="api" d="M115 71H150"></path>
+              <path id="api-to-guard" data-edge="api-to-guard" data-from="api" data-to="guard" d="M250 71H285"></path>
+              <path id="guard-to-llm" data-edge="guard-to-llm" data-from="guard" data-to="llm" d="M385 71H420"></path>
+              <path id="llm-to-tool" data-edge="llm-to-tool" data-from="llm" data-to="tool" d="M520 71H555"></path>
+              <path id="tool-to-booking" data-edge="tool-to-booking" data-from="tool" data-to="booking-service" d="M605 100C605 135 625 140 625 175"></path>
+              <path id="api-to-booking" data-edge="api-to-booking" data-from="api" data-to="booking-service" d="M200 100C200 155 535 135 555 204"></path>
+              <path id="booking-to-db" data-edge="booking-to-db" data-from="booking-service" data-to="database" d="M695 204H745"></path>
+              <path id="api-to-lookup" data-edge="api-to-lookup" data-from="api" data-to="lookup-service" d="M200 100C200 150 345 145 345 175"></path>
+              <path id="lookup-to-db" data-edge="lookup-to-db" data-from="lookup-service" data-to="database" d="M345 233V270H815V233"></path>
+              <path id="api-to-api-log" data-edge="api-to-api-log" data-from="api" data-to="api-log" d="M200 100C200 230 108 230 108 330"></path>
+              <path id="booking-to-audit" data-edge="booking-to-audit" data-from="booking-service" data-to="audit-log" d="M625 233C625 295 298 275 298 330"></path>
+              <path id="guard-to-audit" data-edge="guard-to-audit" data-from="guard" data-to="audit-log" d="M335 100C335 205 298 245 298 330"></path>
+              <path id="guard-to-event" data-edge="guard-to-event" data-from="guard" data-to="security-event" d="M335 100C335 230 495 225 495 330"></path>
+              <path id="guard-to-chat-log" data-edge="guard-to-chat-log" data-from="guard" data-to="chat-log" d="M335 100C335 270 698 245 698 330"></path>
+              <path id="db-to-audit" data-edge="db-to-audit" data-from="database" data-to="audit-log" d="M815 233C815 300 298 280 298 330"></path>
+              <path id="audit-to-event" data-edge="audit-to-event" data-from="audit-log" data-to="security-event" d="M360 360H425"></path>
+              <path id="event-to-discord" data-edge="event-to-discord" data-from="security-event" data-to="discord" d="M565 360C650 360 728 420 728 475"></path>
+              <path id="api-log-to-dashboard" data-edge="api-log-to-dashboard" data-from="api-log" data-to="dashboard" d="M108 390C108 450 470 430 520 475"></path>
+              <path id="audit-to-dashboard" data-edge="audit-to-dashboard" data-from="audit-log" data-to="dashboard" d="M298 390C298 445 470 440 520 475"></path>
+              <path id="event-to-dashboard" data-edge="event-to-dashboard" data-from="security-event" data-to="dashboard" d="M495 390V475"></path>
+              <path id="chat-log-to-dashboard" data-edge="chat-log-to-dashboard" data-from="chat-log" data-to="dashboard" d="M698 390C698 445 565 440 520 475"></path>
+              <path id="authz-to-dashboard" data-edge="authz-to-dashboard" data-from="authz-rls" data-to="dashboard" d="M385 504H445"></path>
+              <path id="api-to-ip-hash" data-edge="api-to-ip-hash" data-from="api" data-to="ip-hash" d="M200 100C200 410 105 500 105 620"></path>
+              <path id="api-to-event-lookup" data-edge="api-to-event-lookup" data-from="api" data-to="security-event" d="M200 100V290H495V330"></path>
+              <path id="event-to-hash" data-edge="event-to-hash" data-from="security-event" data-to="ip-hash" d="M495 390C495 545 105 520 105 620"></path>
+              <path id="event-to-vault" data-edge="event-to-vault" data-from="security-event" data-to="ip-vault" d="M495 390C495 520 320 520 320 620"></path>
+              <path id="vault-to-reveal" data-edge="vault-to-reveal" data-from="ip-vault" data-to="ip-reveal" d="M390 649H475"></path>
+              <path id="vault-to-expiry" data-edge="vault-to-expiry" data-from="ip-vault" data-to="expiry" d="M320 678C320 710 770 710 770 678"></path>
+              <path id="reveal-to-audit" data-edge="reveal-to-audit" data-from="ip-reveal" data-to="audit-log" d="M475 649H410V430H298V390"></path>
+            </g>
+            <g class="graph-nodes" text-anchor="middle">
+              <g id="browser" data-node="browser" data-x="65" data-y="71"><rect x="15" y="42" width="100" height="58"></rect><text x="65" y="75">브라우저</text></g>
+              <g id="api" data-node="api" data-x="200" data-y="71"><rect x="150" y="42" width="100" height="58"></rect><text x="200" y="75">API Route</text></g>
+              <g id="guard" data-node="guard" data-x="335" data-y="71"><rect x="285" y="42" width="100" height="58"></rect><text x="335" y="75">chatGuard</text></g>
+              <g id="llm" data-node="llm" data-x="470" data-y="71"><rect x="420" y="42" width="100" height="58"></rect><text x="470" y="75">DeepSeek</text></g>
+              <g id="tool" data-node="tool" data-x="605" data-y="71"><rect x="555" y="42" width="100" height="58"></rect><text x="605" y="75">서버 tool</text></g>
+              <g id="lookup-service" data-node="lookup-service" data-x="345" data-y="204"><rect x="285" y="175" width="120" height="58"></rect><text x="345" y="199"><tspan x="345">lookupBookings()</tspan><tspan x="345" dy="17" class="sub">번호 + 전화 대조</tspan></text></g>
+              <g id="booking-service" data-node="booking-service" data-x="625" data-y="204"><rect x="555" y="175" width="140" height="58"></rect><text x="625" y="199"><tspan x="625">createBooking()</tspan><tspan x="625" dy="17" class="sub">단일 진입점</tspan></text></g>
+              <g id="database" data-node="database" data-x="815" data-y="204"><rect x="745" y="175" width="140" height="58"></rect><text x="815" y="199"><tspan x="815">Supabase DB</tspan><tspan x="815" dy="17" class="sub">RPC · RLS</tspan></text></g>
+              <g id="api-log" data-node="api-log" data-x="108" data-y="360"><rect x="45" y="330" width="125" height="60"></rect><text x="108" y="364">api_logs</text></g>
+              <g id="audit-log" data-node="audit-log" data-x="298" data-y="360"><rect x="235" y="330" width="125" height="60"></rect><text x="298" y="364">audit_logs</text></g>
+              <g id="security-event" data-node="security-event" data-x="495" data-y="360"><rect x="425" y="330" width="140" height="60"></rect><text x="495" y="354"><tspan x="495">security_events</tspan><tspan x="495" dy="17" class="sub">마스킹 증거</tspan></text></g>
+              <g id="chat-log" data-node="chat-log" data-x="698" data-y="360"><rect x="635" y="330" width="125" height="60"></rect><text x="698" y="354"><tspan x="698">chat_logs</tspan><tspan x="698" dy="17" class="sub">마스킹본만</tspan></text></g>
+              <g id="authz-rls" data-node="authz-rls" data-x="310" data-y="504"><rect x="235" y="475" width="150" height="58"></rect><text x="310" y="499"><tspan x="310">AUTHZ_ADMIN</tspan><tspan x="310" dy="17" class="sub">+ Postgres RLS</tspan></text></g>
+              <g id="dashboard" data-node="dashboard" data-x="520" data-y="504"><rect x="445" y="475" width="150" height="58"></rect><text x="520" y="508">관리자 대시보드</text></g>
+              <g id="discord" data-node="discord" data-x="728" data-y="504"><rect x="665" y="475" width="125" height="58"></rect><text x="728" y="508">Discord 알림</text></g>
+              <g id="ip-hash" data-node="ip-hash" data-x="105" data-y="649"><rect x="40" y="620" width="130" height="58"></rect><text x="105" y="644"><tspan x="105">모든 로그</tspan><tspan x="105" dy="17" class="sub">IP 해시만</tspan></text></g>
+              <g id="ip-vault" data-node="ip-vault" data-x="320" data-y="649"><rect x="250" y="620" width="140" height="58"></rect><text x="320" y="644"><tspan x="320">critical만</tspan><tspan x="320" dy="17" class="sub">AES-256-GCM</tspan></text></g>
+              <g id="ip-reveal" data-node="ip-reveal" data-x="545" data-y="649"><rect x="475" y="620" width="140" height="58"></rect><text x="545" y="644"><tspan x="545">admin 복호화</tspan><tspan x="545" dy="17" class="sub">사유 필수</tspan></text></g>
+              <g id="expiry" data-node="expiry" data-x="770" data-y="649"><rect x="700" y="620" width="140" height="58"></rect><text x="770" y="644"><tspan x="770">30일 후 파기</tspan><tspan x="770" dy="17" class="sub">Cron → NULL</tspan></text></g>
+            </g>
+          </svg>
+          <div id="packet-marker" aria-hidden="true"><span>DATA</span></div>
+          </div>
+          <aside id="data-packet" aria-live="polite" aria-label="현재 이동 데이터">
+            <header><strong id="packet-label">POST /api/chat</strong><span id="packet-count">1 / 3 단계</span></header>
+            <div class="packet-field packet-raw"><b>입력</b><pre id="packet-raw">{ "content": "그린힐 9/16 10:00에 4명 예약 잡아줘" }</pre></div>
+            <div class="packet-field"><b>처리</b><p id="packet-process">브라우저 요청이 서버 API 경계로 들어온다</p></div>
+            <div class="packet-field packet-output"><b>결과</b><p id="packet-output">요청 컨텍스트 생성</p></div>
+          </aside>
+          </div>
+        </section>
+      </div>
+      <div class="scene-steps">
+        <section data-scene-step="overview"><h2>프로젝트 개요</h2><p>예약 기능 위에 개인정보 마스킹, 인젝션 차단, API 모니터링, 접근 감사를 겹쳐 둡니다.</p></section>
+        <section data-scene-step="chat-booking"><h2>챗봇 예약</h2><p>DeepSeek는 DB에 직접 접근하지 않고, 서버가 다시 검증한 tool을 통해 createBooking()으로 합류합니다.</p></section>
+        <section data-scene-step="manual-booking"><h2>수동 예약</h2><p>POST /api/bookings는 createBooking() 단일 진입점과 잠금 기반 DB 함수를 사용합니다.</p></section>
+        <section data-scene-step="injection-block"><h2>인젝션 차단</h2><p>chatGuard가 LLM 호출 전에 차단하고, 보안 이벤트·Discord 알림·거부 감사를 각각 남깁니다.</p></section>
+        <section data-scene-step="code-enumeration"><h2>예약번호 열거 탐지</h2><p>예약번호와 전화번호를 함께 대조하고, 실패가 쌓이면 ANO_CODE_ENUM을 만듭니다.</p></section>
+        <section data-scene-step="security-dashboard"><h2>운영 메트릭</h2><p>api_logs와 security_events를 같은 시간축으로 집계하고, 세 겹의 권한 검사로 접근을 제한합니다.</p></section>
+        <section data-scene-step="incident-ip"><h2>Critical IP 조사</h2><p>일반 로그는 IP 해시만, critical 이벤트는 30일 암호문을 보관하고 admin 사유와 감사 기록 뒤에만 복호화합니다.</p></section>
+      </div>
+    </main>
+    <dialog id="lightbox" aria-label="스크린샷 확대 보기">
+      <header class="lightbox-bar">
+        <p id="lightbox-title">스크린샷</p>
+        <span class="lightbox-hint">사진을 누르면 원본 크기 · Esc 닫기</span>
+        <button type="button" id="lightbox-close">닫기</button>
+      </header>
+      <div class="lightbox-body">
+        <img id="lightbox-image" alt="">
+      </div>
+    </dialog>
+    <script src="./scenes.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

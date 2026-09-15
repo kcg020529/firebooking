@@ -254,7 +254,7 @@ bookingCode, partySize, createdAt, ipHash
 ### 탐지 규칙 ID 네이밍
 
 ```
-PII_*     개인정보        PII_PHONE, PII_RRN, PII_CARD, PII_EMAIL, PII_NAME
+PII_*     개인정보        PII_PHONE, PII_EMAIL, PII_NAME
 INJ_*     프롬프트 인젝션  INJ_IGNORE, INJ_SYSPROMPT, INJ_ROLE, INJ_TOOL
 ANO_*     이상 행위        ANO_SCALP, ANO_LOOKUP_BF, ANO_CODE_ENUM, ANO_RATE
 AUTHZ_*   권한            AUTHZ_ADMIN

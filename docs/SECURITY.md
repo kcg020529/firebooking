@@ -20,12 +20,6 @@ export const PII_RULES = [
   { id:'PII_PHONE', re:/01[016789][-. ]?\d{3,4}[-. ]?\d{4}/g,
     mask: m => m.slice(0,3) + '-****-' + m.slice(-4) },
 
-  { id:'PII_RRN', severity:'warn', re:/\d{6}[-. ]?[1-4]\d{6}/g,
-    mask: () => '******-*******' },
-
-  { id:'PII_CARD', severity:'warn', re:/\d{4}[-. ]?\d{4}[-. ]?\d{4}[-. ]?\d{4}/g,
-    mask: m => '****-****-****-' + m.slice(-4) },
-
   { id:'PII_EMAIL', re:/[\w.+-]+@[\w-]+\.[\w.]+/g,
     mask: m => m[0] + '***@' + m.split('@')[1] },
 
@@ -51,7 +45,7 @@ export const PII_RULES = [
 
 리뷰는 자유 문장이므로 `좋아요`·`재밌어요` 같은 2~4글자 문장을 이름으로 처리하지 않는다.
 리뷰에서는 단독 이름 규칙만 끄고, `이름은 김철수입니다`처럼 문맥이 명확한 이름과
-전화번호·이메일·주민번호·카드번호 탐지는 그대로 적용한다. 문맥 없는 `김철수` 한 단어는
+전화번호·이메일 탐지는 그대로 적용한다. 문맥 없는 `김철수` 한 단어는
 일반 단어와 정규식만으로 안전하게 구분할 수 없으므로 리뷰에서는 자동 마스킹하지 않는다.
 
 탐지 규칙 설계에서 실제로 어려운 부분이 이것이므로, **오탐 사례와 튜닝 과정을 그대로 발표 자료로 만든다.** 숨길 게 아니라 보여줄 것이다.
@@ -90,6 +84,7 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 | `ANO_CODE_ENUM` | 존재하지 않는 예약번호 조회 5회 이상 (IDOR 순회) | 10분 | critical | **T0** |
 | `ANO_RATE` | 동일 IP API 호출 60회 이상 | 1분 | warn | T1 |
 | `ANO_ADMIN_PROBE` | 존재하지 않는 관리자 경로 접근 | 즉시 | warn | T1 |
+| `ANO_ADMIN_BF` | 동일 IP 관리자 영역 비인가 접근 3회 이상 | 10분 | critical + 앱·Cloudflare 차단 | **T0** |
 | `ANO_LOGIN_BF` | 동일 로그인 식별자·IP 조합의 비밀번호 실패 5회 | 15분 | critical | **T0** |
 | `AUTHZ_ADMIN` | `user` 역할이 `/admin` 접근 | 즉시 | critical | **T0** |
 | `LEAK_SECRET` | API 응답 본문에 `sk-ant`·`eyJ`·`service_role` 포함 | 즉시 | critical | **T0** |
@@ -131,6 +126,14 @@ LLM을 부르지 않는 게 중요하다. 부르고 나서 거르면 이미 토�
 - 응답 본문에 키·JWT·`service_role`·내부 URL이 섞이면 `LEAK_SECRET` critical
 - Rate limit은 Tier 1
 
+### 공격 IP 대응
+
+- 보안 규칙 메타데이터가 이벤트를 `공격`과 `비공격`으로 분류한다.
+- 동일 IP의 관리자 영역 비인가 접근이 10분 내 3회이면 `ip_blocklist`에 해시를 등록하고 Cloudflare Zone IP Access Rule을 생성한다.
+- 원본 IP는 블랙리스트에 저장하지 않는다. 현재 요청 또는 critical 사고 암호문을 복호화한 순간에만 Cloudflare API로 전달한다.
+- 로그인은 활성 블랙리스트를 먼저 검사하고 `운영자에 의해 차단되었습니다.`로 거절한다.
+- 관리자가 해제하면 Cloudflare 규칙 삭제 성공 후에만 DB 차단 상태를 비활성화한다.
+
 ### 클라이언트 IP 신뢰 경계
 
 서비스는 Cloudflare 프록시 뒤에 있다. Vercel이 보는 접속자는 Cloudflare 엣지이므로 실제 사용자 IP는 Cloudflare가 붙이는 `cf-connecting-ip`에서 읽는다.
@@ -158,6 +161,8 @@ IP 기반 요청 제한·로그인 잠금·이상 탐지가 모두 이 값에 �
 - 이벤트 타임라인 (최신순)
 - 심각도별 건수 — `info` / `warn` / `critical` 색 구분
 - 규칙별 히트 수
+- 최근 12시간 공격 추이와 공격/비공격 필터
+- 앱·DB 서버 상태와 Cloudflare 차단 동기화 상태
 - critical 발생 시 상단 배너 (Tier 1)
 
 **심각도 색은 강조색(브랜드 그린)과 별개**로 쓴다. 상태를 나타내는 색과 장식용 색이 섞이면 대시보드가 안 읽힌다.
@@ -177,7 +182,7 @@ IP 기반 요청 제한·로그인 잠금·이상 탐지가 모두 이 값에 �
 
 ### RLS — 이 과제에서 가장 중요한 설정
 
-- **9개 테이블 전부 RLS를 켠다.** 켜지 않으면 anon 키로 로그 테이블이 통째로 읽힌다. 보안 과제에서 이건 그 자체로 감점 사유다
+- **모든 테이블에 RLS를 켠다.** 켜지 않으면 anon 키로 로그 테이블이 통째로 읽힌다. 보안 과제에서 이건 그 자체로 감점 사유다
 - 클라이언트 직접 읽기 허용: `courses` · `slots`만
 - 보안 테이블 조회 정책: `role in ('staff','admin')`
 - **앱에서 화면만 가리는 게 아니라 DB가 거절하는 것**을 발표에서 보여준다
@@ -196,11 +201,13 @@ IP 기반 요청 제한·로그인 잠금·이상 탐지가 모두 이 값에 �
 - 같은 이메일·IP 조합에서 15분 동안 비밀번호가 5회 틀리면 15분 잠근다. 이메일과 IP 원문은 저장하지 않고 HMAC 키만 저장한다.
 - 정상 로그인은 실패 횟수를 초기화한다. 공급자 장애나 429는 비밀번호 실패로 세지 않아 장애가 계정 잠금으로 번지지 않게 한다.
 - `/my`, `/admin`과 서버 권한 검사는 서명된 HttpOnly 쿠키로 30분 비활성 타임아웃을 강제한다. 보호 화면을 사용할 때만 활동 시간이 갱신된다.
-- CAPTCHA는 Cloudflare Turnstile을 Supabase Auth 내장 보호로 쓴다. 가입 화면은 `signUp`에, 로그인 화면은 `/api/auth/login`을 거쳐 `signInWithPassword`에 `captchaToken`을 넘긴다. 토큰 검증은 Supabase가 한다.
+- CAPTCHA는 Cloudflare Turnstile을 Supabase Auth 내장 보호로 쓴다. 가입은 `/api/auth/signup`, 로그인은 `/api/auth/login`을 거쳐 Supabase Auth에 `captchaToken`을 넘긴다. 토큰 검증은 Supabase가 한다.
+- 회원가입 이메일은 클라이언트와 서버가 함께 검사하며 `@` 뒤 도메인에 점이 없는 주소를 거부한다.
+- `ANO_LOGIN_BF` 이벤트는 HMAC 제한 키만 대응 대상으로 연결하고, staff/admin은 대시보드에서 15분 잠금을 즉시 해제할 수 있다.
 - 사이트키(`NEXT_PUBLIC_TURNSTILE_SITE_KEY`)가 없으면 위젯을 그리지 않는다. 시크릿키는 Supabase Dashboard에만 둔다.
 - CAPTCHA 실패(`captcha_failed`)는 비밀번호 실패로 세지 않는다. 토큰은 1회용이라 제출이 실패하면 위젯을 초기화한다.
 
-> 한계: 앱의 5회 제한은 우리 `/api/auth/login` 경로만 보호한다. 가입은 브라우저가 Supabase Auth를 직접 호출하므로 우리 요청 제한·감사 기록을 거치지 않는다. 공개 Supabase Auth URL을 직접 호출하는 자동화는 Supabase Dashboard의 CAPTCHA와 Auth rate limit이 막는다.
+> 한계: 앱의 5회 제한은 우리 `/api/auth/login` 경로만 보호한다. 공개 Supabase Auth URL을 직접 호출하는 자동화는 Supabase Dashboard의 CAPTCHA와 Auth rate limit도 함께 막는다.
 >
 > 배포 순서: 코드와 사이트키를 먼저 배포하고, 그다음 Supabase에서 CAPTCHA를 켠다. 반대로 하면 켜는 순간 가입·로그인이 전부 실패한다.
 

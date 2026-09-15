@@ -26,7 +26,7 @@
 |---|---|---|
 | LLM | DeepSeek API (`lib/ai/deepseek.js`) | 챗봇 응답과 예약 tool call |
 | 입력 보안 | `lib/security/chatGuard.js`, `injection.js` | 역할 위조·프롬프트 인젝션 차단 |
-| 개인정보 보호 | `lib/security/pii.js` | 전화번호·주민번호·카드·이메일·이름 탐지·마스킹 |
+| 개인정보 보호 | `lib/security/pii.js` | 서비스가 수집하는 전화번호·이메일·이름 탐지·마스킹 |
 | 출력 보안 | `outputGuard.js`, `apiResponseGuard.js` | LLM 및 API 응답의 비밀·PII 차단 |
 | 관찰성 | `apiLog.js`, `audit.js`, `rules.js` | API 로그, 감사 로그, 이상 이벤트 |
 | 배포 | Vercel | Next.js 애플리케이션 배포 |
@@ -36,4 +36,3 @@
 - `NEXT_PUBLIC_*` 값은 브라우저에 노출될 수 있으므로 공개 가능한 Supabase URL·anon key만 둔다.
 - `SUPABASE_SERVICE_ROLE_KEY`, `DEEPSEEK_API_KEY`, `IP_HASH_SALT`는 서버 전용이며 `.env.local`과 Vercel 환경변수에만 둔다.
 - 의존성 버전과 `package-lock.json`을 함께 관리한다.
-
