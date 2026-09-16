@@ -2,13 +2,11 @@
 
 골프장 검색·예약 기능과 로그 기반 보안 탐지·대응 기능을 결합한 3인 팀 프로젝트입니다.
 
-- 배포: [https://firebooking-chi.vercel.app](https://firebooking-chi.vercel.app)
+- 배포: https://firebooking.online/
 - 프레임워크: Next.js App Router
 - 데이터베이스·인증: Supabase PostgreSQL, Auth, RLS
 - 챗봇: DeepSeek API tool calling
 - 배포: Vercel
-
-> 이 저장소는 공개 저장소입니다. `.env.local`, Supabase `service_role` 키, DeepSeek API 키, Webhook URL 등 비밀값은 절대 커밋하지 않습니다.
 
 ## 프로젝트 개요
 
