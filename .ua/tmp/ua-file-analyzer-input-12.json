@@ -1,7 +1,0 @@
-{
-  "projectRoot": "C:\\Users\\shapd\\Documents\\prism\\sp1_project",
-  "batchFiles": [
-    {"path":"docs/DATA_FLOW.md","language":"markdown","sizeLines":75,"fileCategory":"docs"}
-  ],
-  "batchImportData": {"docs/DATA_FLOW.md": []}
-}
