@@ -49,3 +49,6 @@ PROCESS.md
 docs2/
 AGENTS.md
 .ua/
+# ── 작업용 임시 파일 ──────────────────────
+tmp/
+handoff.md
